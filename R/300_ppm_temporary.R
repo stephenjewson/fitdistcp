@@ -1,0 +1,36 @@
+#' Temporary dummy for one of the cp models
+#' @inheritParams man
+qgamma_k1_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qgamma_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+gev_k12_ppm_minusloglik=function(x){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qntt_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qgev_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qgpd_k1_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qgev_k12_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qgev_mpd_ppm=function(x,p){
+}
+#' Temporary dummy for one of the ppm models
+#' @inheritParams man
+qgev_p1_ppm=function(x,t,n0,p){
+}

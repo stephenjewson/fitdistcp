@@ -1,0 +1,36 @@
+exportPattern("^[[:alpha:]]+")
+
+importFrom("stats","optim","sd", "var","lm","runif","optimize","quantile")
+importFrom("stats","dexp","pexp","qexp","rexp")
+importFrom("stats","dunif","punif","qunif","runif")
+importFrom("stats","dnorm","pnorm","qnorm","rnorm")
+importFrom("stats","dgamma","pgamma","qgamma","rgamma")
+importFrom("stats","dt","pt","qt","rt")
+importFrom("stats","dlnorm","plnorm","qlnorm","rlnorm")
+importFrom("stats","dweibull","pweibull","qweibull","rweibull")
+importFrom("stats","dlogis","plogis","qlogis","rlogis")
+importFrom("stats","dcauchy","pcauchy","qcauchy","rcauchy")
+
+importFrom("extraDistr","dgumbel","pgumbel","qgumbel","rgumbel")
+importFrom("extraDistr","dfrechet","pfrechet","qfrechet","rfrechet")
+importFrom("extraDistr","dpareto","ppareto","qpareto","rpareto")
+importFrom("extraDistr","dgev","pgev","qgev","rgev")
+importFrom("extraDistr","dgpd","pgpd","qgpd","rgpd")
+importFrom("extraDistr","dlst","plst","qlst","rlst")
+
+importFrom("actuar","dinvgamma","pinvgamma","qinvgamma","rinvgamma")
+importFrom("actuar","dinvgauss","pinvgauss","qinvgauss","rinvgauss")
+
+importFrom("gnorm","dgnorm","pgnorm","qgnorm","rgnorm")
+
+importFrom("pracma", "quad")
+
+importFrom("fdrtool","dhalfnorm","phalfnorm","qhalfnorm","rhalfnorm")
+
+importFrom("graphics","par","lines","legend","rect","points","text")
+
+importFrom("mev","gev.infomat","gpd.infomat")
+
+importFrom("rust","ru")
+
+importFrom("fExtremes","gevFit")
