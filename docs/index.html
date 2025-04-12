@@ -4,12 +4,12 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
 
-		<title>Stephen Jewson</title>
+		<title>Fitdistcp</title>
 
 		<link rel="canonical" href="https://fitdistcp.info/">
 
 		<meta name="author" content="Stephen Jewson">
-		<meta name="description" content="Stephen Jewson Home Page">
+		<meta name="description" content="Fitdistcp">
 		<meta name="keywords" content="statistics, fitting distributions, parameter uncertainty, Bayesian">
 		<meta name="theme-color" content="darkslategrey">
 		<meta name="color-scheme" content="normal">
@@ -137,10 +137,506 @@ footer {
 }
 </style>
 	<body>
+		<nav>
+			<a href="#fitdistcp">Fitdistcp</a>
+			<a href="#examples">Examples</a>
+			<a href="#models">Models</a>
+			<a href="#theory">Theory</a>
+			<a href="#Other">Other</a>
+			<a href="#python">Python</a>
+			<a href="#citation">Citation</a>
+			<a href="#notes">Notes</a>
+		</nav>
+
 		<main>
-			<section>
-				<p style="color:red;">Coming soon. </p>
+
+			<section id="fitdistcp">
+				<h2>Fitdistcp: fitting statistical models with calibrating priors</h2>
+				<p>
+					<code>fitdistcp</code> is a free R package for fitting statistical models with calibrating priors, with the goal of making good predictions.
+				</p>
+				<p>
+					<code>fitdistcp</code> can be called from R or Python (details below), and we plan to release a pure Python version in summer 2025.
+				</p>
+				<p>
+					Maximum likelihood and other point estimate methods underestimate predictive tail probabilities. 
+					For instance, with maximum likelihood prediction, the GEVD with one predictor and shape parameter of -0.2 fitted to 100 data points underestimates the 1 in 100 probability by a factor of around 2. 
+					This is called a reliability bias. 
+				</p>
+				<p>
+					Calibrating prior prediction provides an objective way to reduce this reliability bias by including parameter uncertainty.
+					It reduces the reliability bias, and eliminates it completely in many cases.
+					The benefit of calibrating prior prediction, relative to maximum likelihood, is largest for small samples, models with more parameters, and in the tails. 
+				</p>
+				<p>
+					<code>fitdistcp</code> uses objective Bayesian methods. The prior is chosen to maximize the reliability of the predictions,
+					i.e., to give predictive probabilities that are as close as possible to the frequencies of future outcomes.
+					The integration is performed analytically if possible, or using DMGS asymptotics otherwise.
+					Posterior sampling is also available as an option (but is slower).
+				</p>
+				<p>
+					For many cases, charts are provided below that quantify the size of the maximum likelihood reliability bias, and the reduced
+					bias from calibrated prior prediction.
+				</p>
 			</section>
+
+			<section id="examples">
+				<h2>Examples</h2>
+				<p>
+					First install <code>fitdistcp</code> from CRAN, and then load using <code>library(fitdistcp)</code>.
+				</p>
+
+				<h3>Example 1: Fitting a normal distribution and calculating the fitted probability density function</h3>
+
+					<pre>
+> x=rnorm(20)		# make some example training data 
+> y=seq(-5,5,0.01)	# define the points at which we wish to calculate the density
+> d=dnorm_cp(x,y)	# this command calculates two sets of predictive densities for the normal, one based on maxlik, 
+			# and one that includes parameter uncertainty based on a calibrating prior
+> print(d$ml_pdf)	# have a look at the maxlik densities
+> print(d$cp_pdf)	# have a look at the densities that include parameter uncertainty, which will have fatter tails
+
+					</pre>
+
+					<h3>Example 2: Fitting a GEV distribution and calculating the fitted quantiles</h3>
+
+					<pre>
+> set.seed(1)
+> x=rlogis(20)				# make some example training data 
+> p=seq(0.001,0.999,0.001)		# define the probabilities at which we wish to calculate the quantiles
+> q=qgev_cp(x,p)			# this command calculates two sets of predictive quantiles for the GEV, 
+					# one based on maxlik, and one that includes parameter uncertainty based on a calibrating prior
+> q$ml_params 				# have a look at the maxlik parameters
+> plot(q$ml_quantiles,p)		# plot the maxlik quantiles
+> points(q$cp_quantiles,p,col="red")	# overplot the quantiles that include parameter uncertainty, which will have fatter tails
+
+					</pre>
+
+					<h3>Example 3: Fitting a GPD and calculating the fitted cumulative distribution function</h3>
+
+					<pre>
+> set.seed(1)
+> x=rlnorm(20,sdlog=2)		# make some example training data (all positive values)
+> y=seq(0.1,5,0.1)		# define the points at which we wish to calculate the probabilities
+> p=pgpd_k1_cp(x,y)		# this command calculates two sets of predictive probabilities for the GPD (with known location parameter, hence <code>k1</code>), 
+				# one based on maxlik, and one that includes parameter uncertainty based on a calibrating prior
+> plot(y,p$ml_cdf)		# have a look at the maxlik probabilities
+> point(y,p$cp_pdf,col="red")	# have a look at the probabilities that include parameter uncertainty, 
+				# which will have fatter tails
+
+					</pre>
+
+					<h3>Example 4: Fitting a Gumbel distribution and generating random numbers</h3>
+
+					<pre>
+> x=rnorm(10)					# make some example training data 
+> r=rgumbel_cp(10000,x)				# this command calculates two sets of 10,000 predictive random numbers, 
+						# based on maxlik, and then with parameter uncertainty based on a calibrating prior
+> plot(density(r$ml_deviates))			# plot the density of the maxlik random numbers
+> lines(density(r$cp_deviates),col="red")	# overplot the density of the random numbers including parameter uncertainty,
+						# which will have fatter tails
+
+					</pre>
+
+			<h3>Example 5: Generating posterior samples from a Weibull distribution</h3>
+
+			<pre>
+> x=rlnorm(20)						# make some example training data (all positive values)
+> t=tweibull_cp(1000,x)$theta_samples			# this command generates 1000 posterior samples
+			</pre>
+
+			<h3>Example 6: Fitting a GEV distribution with a predictor on the location parameter</h3>
+
+			<pre>
+> set.seed(1)
+> n=30
+> t=0.1*c(1:n)/n			# make an example predictor
+> x=t+rlogis(n)				# make training data based on the predictor
+> t0=t[n]				# set the value of the predictor at which to make the prediction
+> p=seq(0.001,0.999,0.001)		# specify the probabilities at which to generate quantiles
+> q=qgev_p1_cp(x,t,t0=t0,n0=NA,p) 	# specify either t0, or n0, and make the other one NA
+			</pre>
+
+			<h3>Example 7: Fitting a GEV distribution with predictors on location and scale parameters</h3>
+
+			<pre>
+> set.seed(1)
+> n=50
+> t1=0.1*c(1:n)/n					# make the first predictor
+> t2=0.2*c(1:n)/n					# make the second predictor
+> x=(t1+rlogis(n))*t2					# make training data based on the predictors
+> n0=n							# set the values of the predictors at which to make the prediction
+> p=seq(0.001,0.999,0.001)		
+> q=qgev_p12_cp(x,t1,t2,t01=NA,t02=NA,n01=n0,n02=n0,p)	# specify either t0, or n0, and make the other one NA
+			</pre>
+
+			More examples are given in the help pages accessible from within R (for example, in R, type <code>>?norm_cp</code>).
+		</section>
+
+<section id="models">
+				<h2>Models</h2>
+				<p>This is a list of the models that are currently supported, in alphabetical order. This list is motivated by various climate and actuarial applications. 
+					Let me know if you have any suggestions for other models to include.</p>
+					<ul>
+						<li>The R command needs to be prefixed with one of <code>d,p,q,r,t</code>
+						<li><code>H/I</code> indicates whether the model is homogenenous or inhomogeneous
+						<li><code>A/D</code> indicates whether the default integration method is analytic or DMGS</li>
+						<li>In some cases, reliability bias charts are provided for maximum likelihood and calibrating prior predictions.</li>
+						<li>For EVT models, the reliability bias charts are given as a function of the true shape parameter</li>
+					</ul>
+
+					<table style='font-family:"Courier New", Courier, monospace; font-size:80%' border="1">
+						<tr>
+							<th>Model</td>
+							<th>R Command</td>
+							<th>H/I</td>
+							<th>A/D</td>
+							<th>Maxlik bias</td>
+							<th>CP bias</td>
+						</tr>
+						<tr><td> Cauchy	</td><td><code>cauchy_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Cauchy with single predictor on the location </td><td><code>cauchy_p1_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Exponential </td><td><code>exp_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d01.png">all parameters</a></td><td><a href="./cp/h01.png">all parameters</a></td></tr>
+						<tr><td> Exponential with single predictor on the rate </td><td><code>exp_p1_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d02.png">all parameters</a></td><td><a href="./cp/h02.png">all parameters</a></td></tr>
+						<tr><td> Frechet with known location </td><td><code>frechet_k1_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d09.png">all parameters</a></td><td><a href="./cp/h09.png">all parameters</a></td></tr>
+						<tr><td> Frechet with known location, and single predictor on the scale </td><td><code>frechet_k1p3_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Gamma </td><td><code>gamma_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Inverse gamma </td><td><code>invgamma_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Inverse Gaussian </td><td><code>invgauss_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Generalized normal with known shape </td><td><code>gnorm_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+
+						<tr><td> GEV </td><td><code>gev_cp</code></td><td>I</td><td>D</td>
+							<td><a href="./ml/d20.png">xi=-0.4,</a>
+							<a href="./ml/d21.png">-0.3,</a>
+							<a href="./ml/d22.png">-0.2,</a>
+							<a href="./ml/d23.png">-0.1,</a>
+							<a href="./ml/d24.png">0,</a>
+							<a href="./ml/d25.png">0.1,</a>
+							<a href="./ml/d26.png">0.2,</a>
+							<a href="./ml/d27.png">0.3,</a>
+							<a href="./ml/d28.png">0.4 </a></p>
+							<a href="./ml/t2_20.png">n=30,</a>
+							<a href="./ml/t2_21.png">40,</a>
+							<a href="./ml/t2_22.png">50,</a>
+							<a href="./ml/t2_23.png">60,</a>
+							<a href="./ml/t2_24.png">70,</a>
+							<a href="./ml/t2_25.png">80,</a>
+							<a href="./ml/t2_26.png">100,</a>
+							<a href="./ml/t2_27.png">120</a></td>
+							<td><a href="./cp/h20.png">xi=-0.4,</a>
+								<a href="./cp/h21.png">-0.3,</a>
+								<a href="./cp/h22.png">-0.2,</a>
+								<a href="./cp/h23.png">-0.1,</a>
+								<a href="./cp/h24.png">0,</a>
+								<a href="./cp/h25.png">0.1,</a>
+								<a href="./cp/h26.png">0.2,</a>
+								<a href="./cp/h27.png">0.3,</a>
+								<a href="./cp/h28.png">0.4</a></p>							
+								<a href="./cp/t2_20.png">n=30,</a>
+								<a href="./cp/t2_21.png">40,</a>
+								<a href="./cp/t2_22.png">50,</a>
+								<a href="./cp/t2_23.png">60,</a>
+								<a href="./cp/t2_24.png">70,</a>
+								<a href="./cp/t2_25.png">80,</a>
+								<a href="./cp/t2_26.png">100,</a>
+								<a href="./cp/t2_27.png">120</a></td></tr>
+
+						<tr><td> GEV with 1 predictor, on the location </td><td><code>gev_p1_cp</code></td><td>I</td><td>D</td>
+							<td><a href="./ml/d40.png">xi=-0.4,</a>
+							<a href="./ml/d41.png">-0.3,</a>
+							<a href="./ml/d42.png">-0.2,</a>
+							<a href="./ml/d43.png">-0.1,</a>
+							<a href="./ml/d44.png">0,</a>
+							<a href="./ml/d45.png">0.1,</a>
+							<a href="./ml/d46.png">0.2,</a>
+							<a href="./ml/d47.png">0.3,</a>
+							<a href="./ml/d48.png">0.4</a></p>
+							<a href="./ml/t2_40.png">n=30,</a>
+							<a href="./ml/t2_41.png">40,</a>
+							<a href="./ml/t2_42.png">50,</a>
+							<a href="./ml/t2_43.png">60,</a>
+							<a href="./ml/t2_44.png">70,</a>
+							<a href="./ml/t2_45.png">80,</a>
+							<a href="./ml/t2_46.png">100,</a>
+							<a href="./ml/t2_47.png">120</a></td>
+							<td><a href="./cp/h40.png">xi=-0.4,</a>
+								<a href="./cp/h41.png">-0.3,</a>
+								<a href="./cp/h42.png">-0.2,</a>
+								<a href="./cp/h43.png">-0.1,</a>
+								<a href="./cp/h44.png">0,</a>
+								<a href="./cp/h45.png">0.1,</a>
+								<a href="./cp/h46.png">0.2,</a>
+								<a href="./cp/h47.png">0.3,</a>
+								<a href="./cp/h48.png">0.4</a></p>
+								<a href="./cp/t2_40.png">n=30,</a>
+								<a href="./cp/t2_41.png">40,</a>
+								<a href="./cp/t2_42.png">50,</a>
+								<a href="./cp/t2_43.png">60,</a>
+								<a href="./cp/t2_44.png">70,</a>
+								<a href="./cp/t2_45.png">80,</a>
+								<a href="./cp/t2_46.png">100,</a>
+								<a href="./cp/t2_47.png">120</a></td></tr>
+
+						<tr><td> GEV with 2 predictors, one each on the location and scale </td><td><code>gev_p12_cp</code></td><td>I</td><td>D</td>
+							<td><a href="./ml/d50.png">xi=-0.4,</a>
+							<a href="./ml/d51.png">-0.3,</a>
+							<a href="./ml/d52.png">-0.2,</a>
+							<a href="./ml/d53.png">-0.1,</a>
+							<a href="./ml/d54.png">0,</a>
+							<a href="./ml/d55.png">0.1,</a>
+							<a href="./ml/d56.png">0.2,</a>
+							<a href="./ml/d57.png">0.3,</a>
+							<a href="./ml/d58.png">0.4</a></p>
+							<a href="./ml/t2_50.png">n=30,</a>
+							<a href="./ml/t2_51.png">40,</a>
+							<a href="./ml/t2_52.png">50,</a>
+							<a href="./ml/t2_53.png">60,</a>
+							<a href="./ml/t2_54.png">70,</a>
+							<a href="./ml/t2_55.png">80,</a>
+							<a href="./ml/t2_56.png">100,</a>
+							<a href="./ml/t2_57.png">120</a></td>
+							<td><a href="./cp/h50.png">xi=-0.4,</a>
+								<a href="./cp/h51.png">-0.3,</a>
+								<a href="./cp/h52.png">-0.2,</a>
+								<a href="./cp/h53.png">-0.1,</a>
+								<a href="./cp/h54.png">0,</a>
+								<a href="./cp/h55.png">0.1,</a>
+								<a href="./cp/h56.png">0.2,</a>
+								<a href="./cp/h57.png">0.3,</a>
+								<a href="./cp/h58.png">0.4</a></p>
+								<a href="./cp/t2_50.png">n=30,</a>
+								<a href="./cp/t2_51.png">40,</a>
+								<a href="./cp/t2_52.png">50,</a>
+								<a href="./cp/t2_53.png">60,</a>
+								<a href="./cp/t2_54.png">70,</a>
+								<a href="./cp/t2_55.png">80,</a>
+								<a href="./cp/t2_56.png">100,</a>
+								<a href="./cp/t2_57.png">120</a></td></tr>
+						<tr><td> GEV with 3 predictors, one each on the location, scale and shape </td><td><code>gev_p123_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> GEV with known shape </td><td><code>gev_k3_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> GEV with known shape with a single predictor on the location </td><td><code>gev_k3p1_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> GPD with known location </td><td><code>gpd_k1_cp</code></td><td>I</td><td>D</td>
+							<td><a href="./ml/d60.png">xi=-0.4,</a>
+							<a href="./ml/d61.png">-0.3,</a>
+							<a href="./ml/d62.png">-0.2,</a>
+							<a href="./ml/d63.png">-0.1,</a>
+							<a href="./ml/d64.png">0,</a>
+							<a href="./ml/d65.png">0.1,</a>
+							<a href="./ml/d66.png">0.2</a>
+							<a href="./ml/d67.png">0.3</a>
+							<a href="./ml/d68.png">0.4</a></p>
+							<a href="./ml/t2_60.png">n=30,</a>
+							<a href="./ml/t2_61.png">40,</a>
+							<a href="./ml/t2_62.png">50,</a>
+							<a href="./ml/t2_63.png">60,</a>
+							<a href="./ml/t2_64.png">70,</a>
+							<a href="./ml/t2_65.png">80,</a>
+							<a href="./ml/t2_66.png">100,</a>
+							<a href="./ml/t2_67.png">120</a></td>
+							<td><a href="./cp/h60.png">xi=-0.4,</a>
+								<a href="./cp/h61.png">-0.3,</a>
+								<a href="./cp/h62.png">-0.2,</a>
+								<a href="./cp/h63.png">-0.1,</a>
+								<a href="./cp/h64.png">0,</a>
+								<a href="./cp/h65.png">0.1,</a>
+								<a href="./cp/h66.png">0.2</a>
+								<a href="./cp/h67.png">0.3</a>
+								<a href="./cp/h68.png">0.4</a></p>
+								<a href="./cp/t2_60.png">n=30,</a>
+								<a href="./cp/t2_61.png">40,</a>
+								<a href="./cp/t2_62.png">50,</a>
+								<a href="./cp/t2_63.png">60,</a>
+								<a href="./cp/t2_64.png">70,</a>
+								<a href="./cp/t2_65.png">80,</a>
+								<a href="./cp/t2_66.png">100,</a>
+								<a href="./cp/t2_67.png">120</a></td></tr>
+						<tr><td> GPD with known location and shape </td><td><code>gpd_k13_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Gumbel </td><td><code>gumbel_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d07.png">all parameters</a></td><td><a href="./cp/h07.png">all parameters</a></td></tr>
+						<tr><td> Gumbel with single predictor on the location </td><td><code>gumbel_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d08.png">all parameters</a></td><td><a href="./cp/h08.png">all parameters</a></td></tr>
+						<tr><td> Half-normal </td><td><code>halfnorm_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Logistic </td><td><code>logis_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d06.png">all parameters</a></td><td><a href="./cp/h06.png">all parameters</a></td></tr>
+						<tr><td> Logistic with single predictor on the location </td><td><code>logis_p1_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Log-normal </td><td><code>lnorm_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d03.png">same as <code>norm</code></a></td><td><a href="./cp/h03.png">same as <code>norm</code></a></td></tr>
+						<tr><td> Log-normal with a single predictor on the log-mean </td><td><code>lnorm_p1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d05.png">same as <code>norm_p1</code></a></td><td><a href="./cp/h05.png">same as <code>norm_p1</code></a></td></tr>
+						<tr><td> Normal </td><td><code>norm_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d03.png">all parameters</a></td><td><a href="./cp/h03.png">all parameters</a></td></tr>
+						<tr><td> Normal with 1 predictor, on the mean i.e., simple linear regression </td><td><code>norm_p1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d05.png">all parameters</a></td><td><a href="./cp/h05.png">all parameters</a></td></tr>
+						<tr><td> Pareto with known scale </td><td><code>pareto_k1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d01.png">same as <code>exp</code></a></td><td><a href="./cp/h01.png">same as <code>exp</code></a></td></tr>
+						<tr><td> Pareto with known scale and a single predictor on the shape parameter </td><td><code>pareto_p1k3_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d02.png">same as <code>exp_p1</code></a></td><td><a href="./cp/h02.png">same as <code>exp_p1</code></a></td></tr>
+						<tr><td> t distribution with known degrees of freedom </td><td><code>lst_k3_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> t distribution with known degrees of freedom with a single predictor on the location parameter </td><td><code>lst_p1k5_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Uniform </td><td><code>unif_cp</code></td><td>H</td><td>A</td><td>N/A</td><td>N/A</td></tr>
+						<tr><td> Weibull </td><td><code>weibull_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d10.png">all parameters</a></td><td><a href="./cp/h10.png">all parameters</a></td></tr>
+						<tr><td> Weibull with single predictor on the scale </td><td><code>weibull_p2_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
+					</table>
+
+				</p>
+			</section>
+
+				<section id="theory">
+					<h2>Theory</h2>
+
+					The theory is discussed in detail in the citation given below. Here are some brief notes.
+
+						<ul>
+							<li>The goal is to make predictions that are as reliable as possible.	
+							Reliable means that events that are predicted to occur with a probability of 1% will indeed occur 1% of the time.
+							Predictions from point estimate methods such as maximum likelihood are not reliable, and underestimate the tails.
+							<li>The predictions with parameter uncertainty are generated using the Bayesian prediction equation.</li>
+							<li>Bayesian prediction requires a prior. 
+								For homogeneous models (i.e., models with sharply transitive transformation groups), we use the right Haar prior, which gives predictions that are in principle exactly reliable 
+								(if the model assumptions are correct, and depending on the integration scheme used).
+								This applies to our Cauchy, exponential, Frechet, generalized normal, GEV with known shape, Gumbel, halfnormal, logistic, log-normal, normal, Pareto, t and Weibull models.
+								It also applies to all these models with predictors.</li>
+							<li>For inhomogeneous models (i.e., models without sharply transitive transformation groups) there is no solution that gives exact reliability, so we use simple priors that 
+								we have found will give close to exact reliability.
+								They are in all cases more reliable than maxlik, but may not be very reliable for small sample size (e.g., n<50).
+								This applies to GEV, GPD, gamma, inverse gamma and inverse Gaussian, and these models with predictors.
+							<li>Simulations can be used to test whether a certain prior gives reliable predictions, as a function of the true parameters. 
+								Simulation results are given in the reference paper cited below, and can be reproduced using the command <code>reltest</code>. </li>
+							<li>Where possible, we integrate the Bayesian prediction equation analytically.
+								This applies to the exponential, normal, log-normal, uniform and Pareto.</li>
+							<li>Otherwise, by default we integrate the Bayesian prediction equation using the DMGS asymptotic expansion, which works well except for very small samples (n<10) (although
+								even for very small sample sizes calibrating priors with DMGS still give more reliable predictions than maximum likelihood). DMGS is very fast, especially for quantiles (~1000x faster than MCMC).</li>
+							<li>DMGS requires the calculation of various derivatives. Where possible, we use analytic expressions.
+								Otherwise, we use simple numerical derivatives.</li>
+							<li>There is also an option to integrate using posterior sampling, which then uses Paul Northrop's <code>rust</code> library (ratio of uniforms with transformation). 
+								Posterior sampling is slower than DMGS for the same level of accuracy (and for quantiles, much slower), but is ultimately more accurate if enough posterior samples are used. </li>
+						</ul>
+				</section>
+
+				<section id="Other">
+					<h2>Other</h2>
+
+					There are various other outputs, various additional options, and various related software tools are included in the package.
+
+						<ul>
+							<li>All calculations return the maxlik parameter estimates</li>
+							<li>All calculations with the <code>q***_cp</code> routines calculate the AIC and standard errors. AIC is presented as MAIC, which is -0.5 times the standard AIC, for better comparison with log scores, and so that higher is better.</li>
+							<li>Optionally, WAIC and out-of-sample log-score can be calculated too (although oos log-score can't be calculated for EVT routines, for mathematical reasons)</li>
+							<li>Model selection can be illustrated using the <code>ms_flat_1tail, ms_flat_2tail, ms_predictors_1tail</code> and <code>ms_predictors_2tail</code> routines.</li>
+						</ul>
+
+						More details are given in the help pages accessible from within R (e.g, for the GEV, type <code>>?gev_cp</code>).
+
+				</section>
+
+				<section id="python">
+					<h2>Python</h2>
+
+					We plan to release a pure Python version in summer 2025. In the mean time, here's an example that shows how to run the R routines from Python,
+					which is straightforward. It involves converting the input and output data between R and Python formats.
+
+					<pre>
+> import numpy as np 					# regular Python imports
+> import os			
+> os.environ["R_HOME"] = "C:/PROGRA~1/R/R-43~1.1"	# point to your R installation
+> import rpy2.robjects as robjects			# import the routines that make R work in Python
+> from rpy2.robjects.packages import importr
+> cp=importr('fitdistcp')				# define the R library we want to use
+> x = np.arange(1, 11) ** 4				# define the input data, as Python variables
+> p = np.arange(1, 4) / 4				# noting that Python counts from 0 not 1
+> rx=robjects.FloatVector(x)				# convert the input data to r variables
+> rp=robjects.FloatVector(p)
+> q=cp.qexp_cp(rx,rp)					# call the R function by prefixing with the library name we defined above
+> ml=q.rx2("ml_quantiles")				# extract the parts of the output that we want, into Python variables
+> cp=q.rx2("cp_quantiles")
+> print("ml quantiles:")				# have a look at the results
+> print(ml)
+> print("cp quantiles:")
+> print(cp)
+> # robjects.r.source("script.R", encoding="utf-8")	# how to run the whole thing as a script
+					</pre>
+
+				</section>
+
+				<section id="citation">
+					<h2>Citation</h2>
+
+					Please cite the following paper:
+					<ul id='papers_list'>
+						<li class="pr cm cl hu">S. Jewson, T. Sweeting and L. Jewson (2024): <cite>Reducing Reliability Bias in Assessments of Extreme Weather Risk using Calibrating Priors:
+							</cite><a href="https://doi.org/10.5194/ascmo-11-1-2025" target="_blank">ASCMO (Advances in Statistical Climatology, Meteorology and Oceanography)</a>
+						<li> Bibtex:
+							<pre>
+@article{jewsonet2024,
+	author = {Jewson, Stephen and Sweeting, Trevor and Jewson, Lynne},
+	title = {Reducing reliability bias in assessments of extreme weather risk using calibrating priors},
+	journal = {ASCMO},
+	volume = {11},
+	number = {1},
+	pages = {1-22},
+	doi = {10.5194/ascmo-11-1-2025},
+	url = {https://doi.org/10.5194/ascmo-11-1-2025},
+	year = {2025}
+}
+							</pre>
+						</li>
+					</ul>
+				</section>
+
+
+			<section id="notes">
+				<h2>Notes</h2>
+
+				<font size="2">
+				<h3>Tips and Tricks</h3>
+				<ul>
+						<li>The EVT routines (GEV and GPD) do not produce predictive densities and probabilities using DMGS, only quantiles.
+							For the GEV, this is because when the maxlik shape is negative (positive), the DMGS p and d calculations don't handle the maxlik upper (lower) bound very well,
+							because they can't give values beyond the bound, even though parameter uncertainty does lead to values beyond the bound. 
+							The DMGS q routines work fine, and can give values beyond the maxlik bound (isn't that interesting).
+							To make up for the lack of DMGS densities, the q routine calculates a density derived from the quantiles, as a function of the probabilities, which does go beyond the maxlik bound. 
+							Posterior sampling for densities using RUST works fine for all routines.
+						<li>For the GEV, it is sometimes necessary to specify initial parameter values for the maxlik parameter search</li></l>
+						<li>GEV with 3 predictors is included because it appears in some papers, but it's likely to be overfitted in almost all cases, and should probably 
+							be replaced by the GEV with 1 or 2 predictors. Check the AIC scores. </li>
+				</ul>
+
+				<h3>Work in Progress</h3>
+				<ul>
+					<li>The code-base is new, and is currently undergoing refactoring and improvements.</li>
+					<li>Where possible, numerical derivatives are being switched to analytical derivatives. Most have now been switched.</li>
+					<li>More models are gradually being added.
+					<li>Ultimately the guts could be written in a compiled language, and would presumably run much faster (although it's already pretty fast, so maybe that doesn't matter).</li>
+				</ul>
+
+				<h3>Known Issues</h3>
+				<ul>
+					<li>None right now.</li>
+				</ul>
+
+				<h3>Bugs</h3>
+				<ul>
+					<li>There are undoubtedly bugs in the code and in the documentation. Please let me know.</li>
+					<li>Bugs and issues can be reported on the <a href="https://github.com/stephenjewson/fitdistcp/issues" target="_blank">github page</a> . </li>
+				</ul>
+
+				<h3>Acknowledgements</h3>
+				<ul>
+					<li>Many thanks to Trevor Sweeting for help with the statistical theory, and Lynne Jewson for help with the group theory.</li>
+					<li>Also, many thanks to the anonymous insurance companies that fund this research project. </li>
+					<li>And in addition, many thanks to the people I've discussed this whole topic with over the last couple of years, including Clare Barnes, Chris Paciorek and Stephen Dupon.</li>
+				</ul>
+
+				<h3>Applications</h3>
+				<ul>
+					<li>I'm working with various people on various projects to apply these routines to, e.g., sea level, temperature, wind-speed, rainfall, weather forecasts and hurricane damages. 
+						Let me know if you want to talk about an application.
+				</ul>
+
+				<h3>Research</h3>
+				<ul>
+					<li>There are various extensions and improvements in the pipeline. I post news about my research on Linkedin.
+				</ul>
+
+				<h3>Contact</h3>
+				<ul>
+					<li>I can be contacted at stephen.jewson-at-gmail.com</li>
+				</ul>
+			</font>
+			</section>
+			
+			<footer>© 2025 S Jewson, <a href="https://www.stephenjewson.com" target="_blank">www.stephenjewson.com</a></footer>
 		</main>
 	</body>
 </html> 
