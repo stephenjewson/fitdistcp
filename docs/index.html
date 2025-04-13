@@ -176,7 +176,7 @@ footer {
 				</p>
 				<p>
 					For many cases, charts are provided below that quantify the size of the maximum likelihood reliability bias, and the reduced
-					bias from calibrating prior prediction.
+					bias from calibrating prior prediction integrated with DMGS.
 				</p>
 			</section>
 
@@ -299,9 +299,9 @@ footer {
 						</tr>
 						<tr><td> Cauchy	</td><td><code>cauchy_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> Cauchy with single predictor on the location </td><td><code>cauchy_p1_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
-						<tr><td> Exponential </td><td><code>exp_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d01.png">all parameters</a></td><td><a href="./cp/h01.png">all parameters</a></td></tr>
-						<tr><td> Exponential with single predictor on the rate </td><td><code>exp_p1_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d02.png">all parameters</a></td><td><a href="./cp/h02.png">all parameters</a></td></tr>
-						<tr><td> Frechet with known location </td><td><code>frechet_k1_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d09.png">all parameters</a></td><td><a href="./cp/h09.png">all parameters</a></td></tr>
+						<tr><td> Exponential </td><td><code>exp_cp</code></td><td>H</td><td>A</td><td><a href="./ml/t1/MRB_t1_01_exp.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_01_exp.png">all parameters</a></td></tr>
+						<tr><td> Exponential with single predictor on the rate </td><td><code>exp_p1_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_02_exp_p1.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_02_exp_p1.png">all parameters</a></td></tr>
+						<tr><td> Frechet with known location </td><td><code>frechet_k1_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_09_frechet.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_09_frechet.png">all parameters</a></td></tr>
 						<tr><td> Frechet with known location, and single predictor on the scale </td><td><code>frechet_k1p3_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> Gamma </td><td><code>gamma_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> Inverse gamma </td><td><code>invgamma_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
@@ -309,166 +309,170 @@ footer {
 						<tr><td> Generalized normal with known shape </td><td><code>gnorm_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 
 						<tr><td> GEV </td><td><code>gev_cp</code></td><td>I</td><td>D</td>
-							<td><a href="./ml/d20.png">xi=-0.4,</a>
-							<a href="./ml/d21.png">-0.3,</a>
-							<a href="./ml/d22.png">-0.2,</a>
-							<a href="./ml/d23.png">-0.1,</a>
-							<a href="./ml/d24.png">0,</a>
-							<a href="./ml/d25.png">0.1,</a>
-							<a href="./ml/d26.png">0.2,</a>
-							<a href="./ml/d27.png">0.3,</a>
-							<a href="./ml/d28.png">0.4 </a></p>
-							<a href="./ml/t2_20.png">n=30,</a>
-							<a href="./ml/t2_21.png">40,</a>
-							<a href="./ml/t2_22.png">50,</a>
-							<a href="./ml/t2_23.png">60,</a>
-							<a href="./ml/t2_24.png">70,</a>
-							<a href="./ml/t2_25.png">80,</a>
-							<a href="./ml/t2_26.png">100,</a>
-							<a href="./ml/t2_27.png">120</a></td>
-							<td><a href="./cp/h20.png">xi=-0.4,</a>
-								<a href="./cp/h21.png">-0.3,</a>
-								<a href="./cp/h22.png">-0.2,</a>
-								<a href="./cp/h23.png">-0.1,</a>
-								<a href="./cp/h24.png">0,</a>
-								<a href="./cp/h25.png">0.1,</a>
-								<a href="./cp/h26.png">0.2,</a>
-								<a href="./cp/h27.png">0.3,</a>
-								<a href="./cp/h28.png">0.4</a></p>							
-								<a href="./cp/t2_20.png">n=30,</a>
-								<a href="./cp/t2_21.png">40,</a>
-								<a href="./cp/t2_22.png">50,</a>
-								<a href="./cp/t2_23.png">60,</a>
-								<a href="./cp/t2_24.png">70,</a>
-								<a href="./cp/t2_25.png">80,</a>
-								<a href="./cp/t2_26.png">100,</a>
-								<a href="./cp/t2_27.png">120</a></td></tr>
+							<td>
+							<a href="./ml/t1/MRB_t1_20_gev_m0p4.png">xi=-0.4,</a>
+							<a href="./ml/t1/MRB_t1_21_gev_m0p3.png">-0.3,</a>
+							<a href="./ml/t1/MRB_t1_22_gev_m0p2.png">-0.2,</a>
+							<a href="./ml/t1/MRB_t1_23_gev_m0p1.png">-0.1,</a>
+							<a href="./ml/t1/MRB_t1_24_gev_00p0.png">0,</a>
+							<a href="./ml/t1/MRB_t1_25_gev_p0p1.png">0.1,</a>
+							<a href="./ml/t1/MRB_t1_26_gev_p0p2.png">0.2,</a>
+							<a href="./ml/t1/MRB_t1_27_gev_p0p3.png">0.3,</a>
+							<a href="./ml/t1/MRB_t1_28_gev_p0p4.png">0.4 </a></p>
+							<a href="./ml/t2/MRB_t2_20_gev_n030.png">n=30,</a>
+							<a href="./ml/t2/MRB_t2_21_gev_n040.png">40,</a>
+							<a href="./ml/t2/MRB_t2_22_gev_n050.png">50,</a>
+							<a href="./ml/t2/MRB_t2_23_gev_n060.png">60,</a>
+							<a href="./ml/t2/MRB_t2_24_gev_n070.png">70,</a>
+							<a href="./ml/t2/MRB_t2_25_gev_n080.png">80,</a>
+							<a href="./ml/t2/MRB_t2_26_gev_n100.png">100,</a>
+							<a href="./ml/t2/MRB_t2_27_gev_n120.png">120</a></td>
+							<td><a href="./cp/t1/DRB_t1_20_gev_m0p4.png">xi=-0.4,</a>
+								<a href="./cp/t1/DRB_t1_21_gev_m0p3.png">-0.3,</a>
+								<a href="./cp/t1/DRB_t1_22_gev_m0p2.png">-0.2,</a>
+								<a href="./cp/t1/DRB_t1_23_gev_m0p1.png">-0.1,</a>
+								<a href="./cp/t1/DRB_t1_24_gev_00p0.png">0,</a>
+								<a href="./cp/t1/DRB_t1_25_gev_p0p1.png">0.1,</a>
+								<a href="./cp/t1/DRB_t1_26_gev_p0p2.png">0.2,</a>
+								<a href="./cp/t1/DRB_t1_27_gev_p0p3.png">0.3,</a>
+								<a href="./cp/t1/DRB_t1_28_gev_p0p4.png">0.4</a></p>							
+								<a href="./cp/t2/DRB_t2_20_gev_n030.png">n=30,</a>
+								<a href="./cp/t2/DRB_t2_21_gev_n040.png">40,</a>
+								<a href="./cp/t2/DRB_t2_22_gev_n050.png">50,</a>
+								<a href="./cp/t2/DRB_t2_23_gev_n060.png">60,</a>
+								<a href="./cp/t2/DRB_t2_24_gev_n070.png">70,</a>
+								<a href="./cp/t2/DRB_t2_25_gev_n080.png">80,</a>
+								<a href="./cp/t2/DRB_t2_26_gev_n100.png">100,</a>
+								<a href="./cp/t2/DRB_t2_27_gev_n120.png">120</a></td></tr>
 
 						<tr><td> GEV with 1 predictor, on the location </td><td><code>gev_p1_cp</code></td><td>I</td><td>D</td>
-							<td><a href="./ml/d40.png">xi=-0.4,</a>
-							<a href="./ml/d41.png">-0.3,</a>
-							<a href="./ml/d42.png">-0.2,</a>
-							<a href="./ml/d43.png">-0.1,</a>
-							<a href="./ml/d44.png">0,</a>
-							<a href="./ml/d45.png">0.1,</a>
-							<a href="./ml/d46.png">0.2,</a>
-							<a href="./ml/d47.png">0.3,</a>
-							<a href="./ml/d48.png">0.4</a></p>
-							<a href="./ml/t2_40.png">n=30,</a>
-							<a href="./ml/t2_41.png">40,</a>
-							<a href="./ml/t2_42.png">50,</a>
-							<a href="./ml/t2_43.png">60,</a>
-							<a href="./ml/t2_44.png">70,</a>
-							<a href="./ml/t2_45.png">80,</a>
-							<a href="./ml/t2_46.png">100,</a>
-							<a href="./ml/t2_47.png">120</a></td>
-							<td><a href="./cp/h40.png">xi=-0.4,</a>
-								<a href="./cp/h41.png">-0.3,</a>
-								<a href="./cp/h42.png">-0.2,</a>
-								<a href="./cp/h43.png">-0.1,</a>
-								<a href="./cp/h44.png">0,</a>
-								<a href="./cp/h45.png">0.1,</a>
-								<a href="./cp/h46.png">0.2,</a>
-								<a href="./cp/h47.png">0.3,</a>
-								<a href="./cp/h48.png">0.4</a></p>
-								<a href="./cp/t2_40.png">n=30,</a>
-								<a href="./cp/t2_41.png">40,</a>
-								<a href="./cp/t2_42.png">50,</a>
-								<a href="./cp/t2_43.png">60,</a>
-								<a href="./cp/t2_44.png">70,</a>
-								<a href="./cp/t2_45.png">80,</a>
-								<a href="./cp/t2_46.png">100,</a>
-								<a href="./cp/t2_47.png">120</a></td></tr>
+							<td>
+							<a href="./ml/t1/MRB_t1_40_gev_p1_m0p4.png">xi=-0.4,</a>
+							<a href="./ml/t1/MRB_t1_41_gev_p1_m0p3.png">-0.3,</a>
+							<a href="./ml/t1/MRB_t1_42_gev_p1_m0p2.png">-0.2,</a>
+							<a href="./ml/t1/MRB_t1_43_gev_p1_m0p1.png">-0.1,</a>
+							<a href="./ml/t1/MRB_t1_44_gev_p1_00p0.png">0,</a>
+							<a href="./ml/t1/MRB_t1_45_gev_p1_p0p1.png">0.1,</a>
+							<a href="./ml/t1/MRB_t1_46_gev_p1_p0p2.png">0.2,</a>
+							<a href="./ml/t1/MRB_t1_47_gev_p1_p0p3.png">0.3,</a>
+							<a href="./ml/t1/MRB_t1_48_gev_p1_p0p4.png">0.4</a></p>
+							<a href="./ml/t2/MRB_t2_40_gev_p1_n030.png">n=30,</a>
+							<a href="./ml/t2/MRB_t2_41_gev_p1_n040.png">40,</a>
+							<a href="./ml/t2/MRB_t2_42_gev_p1_n050.png">50,</a>
+							<a href="./ml/t2/MRB_t2_43_gev_p1_n060.png">60,</a>
+							<a href="./ml/t2/MRB_t2_44_gev_p1_n070.png">70,</a>
+							<a href="./ml/t2/MRB_t2_45_gev_p1_n080.png">80,</a>
+							<a href="./ml/t2/MRB_t2_46_gev_p1_n100.png">100,</a>
+							<a href="./ml/t2/MRB_t2_47_gev_p1_n120.png">120</a></td>
+							<td><a href="./cp/t1/DRB_t1_40_gev_p1_m0p4.png">xi=-0.4,</a>
+								<a href="./cp/t1/DRB_t1_41_gev_p1_m0p3.png">-0.3,</a>
+								<a href="./cp/t1/DRB_t1_42_gev_p1_m0p2.png">-0.2,</a>
+								<a href="./cp/t1/DRB_t1_43_gev_p1_m0p1.png">-0.1,</a>
+								<a href="./cp/t1/DRB_t1_44_gev_p1_00p0.png">0,</a>
+								<a href="./cp/t1/DRB_t1_45_gev_p1_p0p1.png">0.1,</a>
+								<a href="./cp/t1/DRB_t1_46_gev_p1_p0p2.png">0.2,</a>
+								<a href="./cp/t1/DRB_t1_47_gev_p1_p0p3.png">0.3,</a>
+								<a href="./cp/t1/DRB_t1_48_gev_p1_p0p4.png">0.4</a></p>
+								<a href="./cp/t2/DRB_t2_40_gev_p1_n030.png">n=30,</a>
+								<a href="./cp/t2/DRB_t2_41_gev_p1_n040.png">40,</a>
+								<a href="./cp/t2/DRB_t2_42_gev_p1_n050.png">50,</a>
+								<a href="./cp/t2/DRB_t2_43_gev_p1_n060.png">60,</a>
+								<a href="./cp/t2/DRB_t2_44_gev_p1_n070.png">70,</a>
+								<a href="./cp/t2/DRB_t2_45_gev_p1_n080.png">80,</a>
+								<a href="./cp/t2/DRB_t2_46_gev_p1_n100.png">100,</a>
+								<a href="./cp/t2/DRB_t2_47_gev_p1_n120.png">120</a></td></tr>
 
 						<tr><td> GEV with 2 predictors, one each on the location and scale </td><td><code>gev_p12_cp</code></td><td>I</td><td>D</td>
-							<td><a href="./ml/d50.png">xi=-0.4,</a>
-							<a href="./ml/d51.png">-0.3,</a>
-							<a href="./ml/d52.png">-0.2,</a>
-							<a href="./ml/d53.png">-0.1,</a>
-							<a href="./ml/d54.png">0,</a>
-							<a href="./ml/d55.png">0.1,</a>
-							<a href="./ml/d56.png">0.2,</a>
-							<a href="./ml/d57.png">0.3,</a>
-							<a href="./ml/d58.png">0.4</a></p>
-							<a href="./ml/t2_50.png">n=30,</a>
-							<a href="./ml/t2_51.png">40,</a>
-							<a href="./ml/t2_52.png">50,</a>
-							<a href="./ml/t2_53.png">60,</a>
-							<a href="./ml/t2_54.png">70,</a>
-							<a href="./ml/t2_55.png">80,</a>
-							<a href="./ml/t2_56.png">100,</a>
-							<a href="./ml/t2_57.png">120</a></td>
-							<td><a href="./cp/h50.png">xi=-0.4,</a>
-								<a href="./cp/h51.png">-0.3,</a>
-								<a href="./cp/h52.png">-0.2,</a>
-								<a href="./cp/h53.png">-0.1,</a>
-								<a href="./cp/h54.png">0,</a>
-								<a href="./cp/h55.png">0.1,</a>
-								<a href="./cp/h56.png">0.2,</a>
-								<a href="./cp/h57.png">0.3,</a>
-								<a href="./cp/h58.png">0.4</a></p>
-								<a href="./cp/t2_50.png">n=30,</a>
-								<a href="./cp/t2_51.png">40,</a>
-								<a href="./cp/t2_52.png">50,</a>
-								<a href="./cp/t2_53.png">60,</a>
-								<a href="./cp/t2_54.png">70,</a>
-								<a href="./cp/t2_55.png">80,</a>
-								<a href="./cp/t2_56.png">100,</a>
-								<a href="./cp/t2_57.png">120</a></td></tr>
+							<td>
+							<a href="./ml/t1/MRB_t1_50_gev_p2_m0p4.png">xi=-0.4,</a>
+							<a href="./ml/t1/MRB_t1_51_gev_p2_m0p3.png">-0.3,</a>
+							<a href="./ml/t1/MRB_t1_52_gev_p2_m0p2.png">-0.2,</a>
+							<a href="./ml/t1/MRB_t1_53_gev_p2_m0p1.png">-0.1,</a>
+							<a href="./ml/t1/MRB_t1_54_gev_p2_00p0.png">0,</a>
+							<a href="./ml/t1/MRB_t1_55_gev_p2_p0p1.png">0.1,</a>
+							<a href="./ml/t1/MRB_t1_56_gev_p2_p0p2.png">0.2,</a>
+							<a href="./ml/t1/MRB_t1_57_gev_p2_p0p3.png">0.3,</a>
+							<a href="./ml/t1/MRB_t1_58_gev_p2_p0p4.png">0.4</a></p>
+							<a href="./ml/t2/MRB_t2_50_gev_p2_n030.png">n=30,</a>
+							<a href="./ml/t2/MRB_t2_51_gev_p2_n040.png">40,</a>
+							<a href="./ml/t2/MRB_t2_52_gev_p2_n050.png">50,</a>
+							<a href="./ml/t2/MRB_t2_53_gev_p2_n060.png">60,</a>
+							<a href="./ml/t2/MRB_t2_54_gev_p2_n070.png">70,</a>
+							<a href="./ml/t2/MRB_t2_55_gev_p2_n080.png">80,</a>
+							<a href="./ml/t2/MRB_t2_56_gev_p2_n100.png">100,</a>
+							<a href="./ml/t2/MRB_t2_57_gev_p2_n120.png">120</a></td>
+							<td><a href="./cp/t1/DRB_t1_50_gev_p2_m0p4.png">xi=-0.4,</a>
+								<a href="./cp/t1/DRB_t1_51_gev_p2_m0p3.png">-0.3,</a>
+								<a href="./cp/t1/DRB_t1_52_gev_p2_m0p2.png">-0.2,</a>
+								<a href="./cp/t1/DRB_t1_53_gev_p2_m0p1.png">-0.1,</a>
+								<a href="./cp/t1/DRB_t1_54_gev_p2_00p0.png">0,</a>
+								<a href="./cp/t1/DRB_t1_55_gev_p2_p0p1.png">0.1,</a>
+								<a href="./cp/t1/DRB_t1_56_gev_p2_p0p2.png">0.2,</a>
+								<a href="./cp/t1/DRB_t1_57_gev_p2_p0p3.png">0.3,</a>
+								<a href="./cp/t1/DRB_t1_58_gev_p2_p0p4.png">0.4</a></p>
+								<a href="./cp/t2/DRB_t2_50_gev_p2_n030.png">n=30,</a>
+								<a href="./cp/t2/DRB_t2_51_gev_p2_n040.png">40,</a>
+								<a href="./cp/t2/DRB_t2_52_gev_p2_n050.png">50,</a>
+								<a href="./cp/t2/DRB_t2_53_gev_p2_n060.png">60,</a>
+								<a href="./cp/t2/DRB_t2_54_gev_p2_n070.png">70,</a>
+								<a href="./cp/t2/DRB_t2_55_gev_p2_n080.png">80,</a>
+								<a href="./cp/t2/DRB_t2_56_gev_p2_n100.png">100,</a>
+								<a href="./cp/t2/DRB_t2_57_gev_p2_n120.png">120</a></td></tr>
 						<tr><td> GEV with 3 predictors, one each on the location, scale and shape </td><td><code>gev_p123_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> GEV with known shape </td><td><code>gev_k3_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> GEV with known shape with a single predictor on the location </td><td><code>gev_k3p1_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> GPD with known location </td><td><code>gpd_k1_cp</code></td><td>I</td><td>D</td>
-							<td><a href="./ml/d60.png">xi=-0.4,</a>
-							<a href="./ml/d61.png">-0.3,</a>
-							<a href="./ml/d62.png">-0.2,</a>
-							<a href="./ml/d63.png">-0.1,</a>
-							<a href="./ml/d64.png">0,</a>
-							<a href="./ml/d65.png">0.1,</a>
-							<a href="./ml/d66.png">0.2</a>
-							<a href="./ml/d67.png">0.3</a>
-							<a href="./ml/d68.png">0.4</a></p>
-							<a href="./ml/t2_60.png">n=30,</a>
-							<a href="./ml/t2_61.png">40,</a>
-							<a href="./ml/t2_62.png">50,</a>
-							<a href="./ml/t2_63.png">60,</a>
-							<a href="./ml/t2_64.png">70,</a>
-							<a href="./ml/t2_65.png">80,</a>
-							<a href="./ml/t2_66.png">100,</a>
-							<a href="./ml/t2_67.png">120</a></td>
-							<td><a href="./cp/h60.png">xi=-0.4,</a>
-								<a href="./cp/h61.png">-0.3,</a>
-								<a href="./cp/h62.png">-0.2,</a>
-								<a href="./cp/h63.png">-0.1,</a>
-								<a href="./cp/h64.png">0,</a>
-								<a href="./cp/h65.png">0.1,</a>
-								<a href="./cp/h66.png">0.2</a>
-								<a href="./cp/h67.png">0.3</a>
-								<a href="./cp/h68.png">0.4</a></p>
-								<a href="./cp/t2_60.png">n=30,</a>
-								<a href="./cp/t2_61.png">40,</a>
-								<a href="./cp/t2_62.png">50,</a>
-								<a href="./cp/t2_63.png">60,</a>
-								<a href="./cp/t2_64.png">70,</a>
-								<a href="./cp/t2_65.png">80,</a>
-								<a href="./cp/t2_66.png">100,</a>
-								<a href="./cp/t2_67.png">120</a></td></tr>
+							<td>
+							<a href="./ml/t1/MRB_t1_60_gpd_m0p4.png">xi=-0.4,</a>
+							<a href="./ml/t1/MRB_t1_61_gpd_m0p3.png">-0.3,</a>
+							<a href="./ml/t1/MRB_t1_62_gpd_m0p2.png">-0.2,</a>
+							<a href="./ml/t1/MRB_t1_63_gpd_m0p1.png">-0.1,</a>
+							<a href="./ml/t1/MRB_t1_64_gpd_00p0.png">0,</a>
+							<a href="./ml/t1/MRB_t1_65_gpd_p0p1.png">0.1,</a>
+							<a href="./ml/t1/MRB_t1_66_gpd_p0p2.png">0.2</a>
+							<a href="./ml/t1/MRB_t1_67_gpd_p0p3.png">0.3</a>
+							<a href="./ml/t1/MRB_t1_68_gpd_p0p4.png">0.4</a></p>
+							<a href="./ml/t2/MRB_t2_60_gpd_n030.png">n=30,</a>
+							<a href="./ml/t2/MRB_t2_61_gpd_n040.png">40,</a>
+							<a href="./ml/t2/MRB_t2_62_gpd_n050.png">50,</a>
+							<a href="./ml/t2/MRB_t2_63_gpd_n060.png">60,</a>
+							<a href="./ml/t2/MRB_t2_64_gpd_n070.png">70,</a>
+							<a href="./ml/t2/MRB_t2_65_gpd_n080.png">80,</a>
+							<a href="./ml/t2/MRB_t2_66_gpd_n100.png">100,</a>
+							<a href="./ml/t2/MRB_t2_67_gpd_n120.png">120</a></td>
+							<td><a href="./cp/t1/DRB_t1_60_gpd_m0p4.png">xi=-0.4,</a>
+								<a href="./cp/t1/DRB_t1_61_gpd_m0p3.png">-0.3,</a>
+								<a href="./cp/t1/DRB_t1_62_gpd_m0p2.png">-0.2,</a>
+								<a href="./cp/t1/DRB_t1_63_gpd_m0p1.png">-0.1,</a>
+								<a href="./cp/t1/DRB_t1_64_gpd_m0p0.png">0,</a>
+								<a href="./cp/t1/DRB_t1_65_gpd_p0p1.png">0.1,</a>
+								<a href="./cp/t1/DRB_t1_66_gpd_p0p2.png">0.2</a>
+								<a href="./cp/t1/DRB_t1_67_gpd_p0p3.png">0.3</a>
+								<a href="./cp/t1/DRB_t1_68_gpd_mp0p4.png">0.4</a></p>
+								<a href="./cp/t2/DRB_t2_60_gpd_n030.png">n=30,</a>
+								<a href="./cp/t2/DRB_t2_61_gpd_n040.png">40,</a>
+								<a href="./cp/t2/DRB_t2_62_gpd_n050.png">50,</a>
+								<a href="./cp/t2/DRB_t2_63_gpd_n060.png">60,</a>
+								<a href="./cp/t2/DRB_t2_64_gpd_n070.png">70,</a>
+								<a href="./cp/t2/DRB_t2_65_gpd_n080.png">80,</a>
+								<a href="./cp/t2/DRB_t2_66_gpd_n100.png">100,</a>
+								<a href="./cp/t2/DRB_t2_67_gpd_n120.png">120</a></td></tr>
 						<tr><td> GPD with known location and shape </td><td><code>gpd_k13_cp</code></td><td>I</td><td>D</td><td>N/A</td><td>N/A</td></tr>
-						<tr><td> Gumbel </td><td><code>gumbel_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d07.png">all parameters</a></td><td><a href="./cp/h07.png">all parameters</a></td></tr>
-						<tr><td> Gumbel with single predictor on the location </td><td><code>gumbel_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d08.png">all parameters</a></td><td><a href="./cp/h08.png">all parameters</a></td></tr>
+						<tr><td> Gumbel </td><td><code>gumbel_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_07_gumbel.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_07_gumbel.png">all parameters</a></td></tr>
+						<tr><td> Gumbel with single predictor on the location </td><td><code>gumbel_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_08_gumbel_p1.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_08_gumbel_p1.png">all parameters</a></td></tr>
 						<tr><td> Half-normal </td><td><code>halfnorm_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
-						<tr><td> Logistic </td><td><code>logis_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d06.png">all parameters</a></td><td><a href="./cp/h06.png">all parameters</a></td></tr>
+						<tr><td> Logistic </td><td><code>logis_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_06_logis.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_06_logis.png">all parameters</a></td></tr>
 						<tr><td> Logistic with single predictor on the location </td><td><code>logis_p1_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
-						<tr><td> Log-normal </td><td><code>lnorm_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d03.png">same as <code>norm</code></a></td><td><a href="./cp/h03.png">same as <code>norm</code></a></td></tr>
-						<tr><td> Log-normal with a single predictor on the log-mean </td><td><code>lnorm_p1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d05.png">same as <code>norm_p1</code></a></td><td><a href="./cp/h05.png">same as <code>norm_p1</code></a></td></tr>
-						<tr><td> Normal </td><td><code>norm_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d03.png">all parameters</a></td><td><a href="./cp/h03.png">all parameters</a></td></tr>
-						<tr><td> Normal with 1 predictor, on the mean i.e., simple linear regression </td><td><code>norm_p1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d05.png">all parameters</a></td><td><a href="./cp/h05.png">all parameters</a></td></tr>
-						<tr><td> Pareto with known scale </td><td><code>pareto_k1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/d01.png">same as <code>exp</code></a></td><td><a href="./cp/h01.png">same as <code>exp</code></a></td></tr>
-						<tr><td> Pareto with known scale and a single predictor on the shape parameter </td><td><code>pareto_p1k3_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d02.png">same as <code>exp_p1</code></a></td><td><a href="./cp/h02.png">same as <code>exp_p1</code></a></td></tr>
+						<tr><td> Log-normal </td><td><code>lnorm_cp</code></td><td>H</td><td>A</td><td><a href="./ml/t1/MRB_t1_03_norm.png">same as <code>norm</code></a></td><td><a href="./cp/t1/DRB_t1_03_norm.png">same as <code>norm</code></a></td></tr>
+						<tr><td> Log-normal with a single predictor on the log-mean </td><td><code>lnorm_p1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/t1/MRB_t1_05_norm_p1.png">same as <code>norm_p1</code></a></td><td><a href="./cp/t1/DRB_t1_05_norm_p1.png">same as <code>norm_p1</code></a></td></tr>
+						<tr><td> Normal </td><td><code>norm_cp</code></td><td>H</td><td>A</td><td><a href="./ml/t1/MRB_t1_03_norm.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_03_norm.png">all parameters</a></td></tr>
+						<tr><td> Normal with 1 predictor, on the mean i.e., simple linear regression </td><td><code>norm_p1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/t1/MRB_t1_05_norm_p1.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_05_norm_p1.png">all parameters</a></td></tr>
+						<tr><td> Pareto with known scale </td><td><code>pareto_k1_cp</code></td><td>H</td><td>A</td><td><a href="./ml/t1/MRB_t1_01_exp.png">same as <code>exp</code></a></td><td><a href="./cp/t1/DRB_t1_01_exp.png">same as <code>exp</code></a></td></tr>
+						<tr><td> Pareto with known scale and a single predictor on the shape parameter </td><td><code>pareto_p1k3_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_02_exp_p1.png">same as <code>exp_p1</code></a></td><td><a href="./cp/t1/DRB_t1_02_exp_p1.png">same as <code>exp_p1</code></a></td></tr>
 						<tr><td> t distribution with known degrees of freedom </td><td><code>lst_k3_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> t distribution with known degrees of freedom with a single predictor on the location parameter </td><td><code>lst_p1k5_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 						<tr><td> Uniform </td><td><code>unif_cp</code></td><td>H</td><td>A</td><td>N/A</td><td>N/A</td></tr>
-						<tr><td> Weibull </td><td><code>weibull_cp</code></td><td>H</td><td>D</td><td><a href="./ml/d10.png">all parameters</a></td><td><a href="./cp/h10.png">all parameters</a></td></tr>
+						<tr><td> Weibull </td><td><code>weibull_cp</code></td><td>H</td><td>D</td><td><a href="./ml/t1/MRB_t1_10_weibull.png">all parameters</a></td><td><a href="./cp/t1/DRB_t1_10_weibull.png">all parameters</a></td></tr>
 						<tr><td> Weibull with single predictor on the scale </td><td><code>weibull_p2_cp</code></td><td>H</td><td>D</td><td>N/A</td><td>N/A</td></tr>
 					</table>
 
