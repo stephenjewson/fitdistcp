@@ -153,14 +153,14 @@ footer {
 			<section id="fitdistcp">
 				<h2>Fitdistcp: fitting statistical models with calibrating priors</h2>
 				<p>
-					<code>fitdistcp</code> is a free R package for fitting statistical models with calibrating priors, with the goal of making good predictions.
+					<code>fitdistcp</code> is a free R package for fitting statistical models with calibrating priors, with the goal of making reliable predictions.
 				</p>
 				<p>
-					<code>fitdistcp</code> can be called from R or Python (details below), and we plan to release a pure Python version in summer 2025.
+					<code>fitdistcp</code> can be called from R or Python (details below), and we hope to release a pure Python version in summer 2025.
 				</p>
 				<p>
 					Maximum likelihood and other point estimate methods underestimate predictive tail probabilities. 
-					For instance, with maximum likelihood prediction, the GEVD with one predictor and shape parameter of -0.2 fitted to 100 data points underestimates the 1 in 100 probability by a factor of around 2. 
+					For instance, with maximum likelihood prediction, the GEVD with one predictor and shape parameter of -0.3 fitted to 50 data points underestimates the 1 in 50 probability by a factor of 4. 
 					This is called a reliability bias. 
 				</p>
 				<p>
@@ -176,14 +176,17 @@ footer {
 				</p>
 				<p>
 					For many cases, charts are provided below that quantify the size of the maximum likelihood reliability bias, and the reduced
-					bias from calibrated prior prediction.
+					bias from calibrating prior prediction.
 				</p>
 			</section>
 
 			<section id="examples">
 				<h2>Examples</h2>
 				<p>
-					First install <code>fitdistcp</code> from CRAN, and then load using <code>library(fitdistcp)</code>.
+					<ul>
+						<li>Install <code>fitdistcp</code> from CRAN using <code>install.packages("fitdistcp")</code>.</li>
+						<li>Load <code>fitdistcp</code> using <code>library(fitdistcp)</code>.</li>
+					</ul>
 				</p>
 
 				<h3>Example 1: Fitting a normal distribution and calculating the fitted probability density function</h3>
@@ -278,7 +281,7 @@ footer {
 				<p>This is a list of the models that are currently supported, in alphabetical order. This list is motivated by various climate and actuarial applications. 
 					Let me know if you have any suggestions for other models to include.</p>
 					<ul>
-						<li>The R command needs to be prefixed with one of <code>d,p,q,r,t</code>
+						<li>The R command needs to be prefixed with one of <code>d,p,q,r,t</code></li>
 						<li><code>H/I</code> indicates whether the model is homogenenous or inhomogeneous
 						<li><code>A/D</code> indicates whether the default integration method is analytic or DMGS</li>
 						<li>In some cases, reliability bias charts are provided for maximum likelihood and calibrating prior predictions.</li>
@@ -584,7 +587,7 @@ footer {
 						<li>The EVT routines (GEV and GPD) do not produce predictive densities and probabilities using DMGS, only quantiles.
 							For the GEV, this is because when the maxlik shape is negative (positive), the DMGS p and d calculations don't handle the maxlik upper (lower) bound very well,
 							because they can't give values beyond the bound, even though parameter uncertainty does lead to values beyond the bound. 
-							The DMGS q routines work fine, and can give values beyond the maxlik bound (isn't that interesting).
+							The DMGS q routines work fine, and can give values beyond the maxlik bound.
 							To make up for the lack of DMGS densities, the q routine calculates a density derived from the quantiles, as a function of the probabilities, which does go beyond the maxlik bound. 
 							Posterior sampling for densities using RUST works fine for all routines.
 						<li>For the GEV, it is sometimes necessary to specify initial parameter values for the maxlik parameter search</li></l>
