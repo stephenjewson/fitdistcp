@@ -139,8 +139,8 @@ footer {
 	<body>
 		<nav>
 			<a href="#fitdistcp">Fitdistcp</a>
-			<a href="#examples">Examples</a>
 			<a href="#models">Models</a>
+			<a href="#examples">Examples</a>
 			<a href="#theory">Theory</a>
 			<a href="#Other">Other</a>
 			<a href="#python">Python</a>
@@ -151,9 +151,9 @@ footer {
 		<main>
 
 			<section id="fitdistcp">
-				<h2>Fitdistcp: fitting statistical models with calibrating priors</h2>
+				<h2>Fitdistcp: fitting statistical models using calibrating priors</h2>
 				<p>
-					<code>fitdistcp</code> is a free R package for fitting statistical models with calibrating priors, with the goal of making reliable predictions.
+					<code>fitdistcp</code> is a free R package for fitting statistical models using calibrating priors, with the goal of making reliable predictions.
 				</p>
 				<p>
 					<code>fitdistcp</code> can be called from R or Python (details below), and we hope to release a pure Python version in summer 2025.
@@ -165,7 +165,7 @@ footer {
 				</p>
 				<p>
 					Calibrating prior prediction provides an objective way to reduce this reliability bias by including parameter uncertainty.
-					It reduces the reliability bias, and eliminates it completely in many cases.
+					It eliminate the bias completely in many cases.
 					The benefit of calibrating prior prediction, relative to maximum likelihood, is largest for small samples, models with more parameters, and in the tails. 
 				</p>
 				<p>
@@ -180,103 +180,7 @@ footer {
 				</p>
 			</section>
 
-			<section id="examples">
-				<h2>Examples</h2>
-				<p>
-					<ul>
-						<li>Install <code>fitdistcp</code> from CRAN using <code>install.packages("fitdistcp")</code>.</li>
-						<li>Load <code>fitdistcp</code> using <code>library(fitdistcp)</code>.</li>
-					</ul>
-				</p>
-
-				<h3>Example 1: Fitting a normal distribution and calculating the fitted probability density function</h3>
-
-					<pre>
-> x=rnorm(20)		# make some example training data 
-> y=seq(-5,5,0.01)	# define the points at which we wish to calculate the density
-> d=dnorm_cp(x,y)	# this command calculates two sets of predictive densities for the normal, one based on maxlik, 
-			# and one that includes parameter uncertainty based on a calibrating prior
-> print(d$ml_pdf)	# have a look at the maxlik densities
-> print(d$cp_pdf)	# have a look at the densities that include parameter uncertainty, which will have fatter tails
-
-					</pre>
-
-					<h3>Example 2: Fitting a GEV distribution and calculating the fitted quantiles</h3>
-
-					<pre>
-> set.seed(1)
-> x=rlogis(20)				# make some example training data 
-> p=seq(0.001,0.999,0.001)		# define the probabilities at which we wish to calculate the quantiles
-> q=qgev_cp(x,p)			# this command calculates two sets of predictive quantiles for the GEV, 
-					# one based on maxlik, and one that includes parameter uncertainty based on a calibrating prior
-> q$ml_params 				# have a look at the maxlik parameters
-> plot(q$ml_quantiles,p)		# plot the maxlik quantiles
-> points(q$cp_quantiles,p,col="red")	# overplot the quantiles that include parameter uncertainty, which will have fatter tails
-
-					</pre>
-
-					<h3>Example 3: Fitting a GPD and calculating the fitted cumulative distribution function</h3>
-
-					<pre>
-> set.seed(1)
-> x=rlnorm(20,sdlog=2)		# make some example training data (all positive values)
-> y=seq(0.1,5,0.1)		# define the points at which we wish to calculate the probabilities
-> p=pgpd_k1_cp(x,y)		# this command calculates two sets of predictive probabilities for the GPD (with known location parameter, hence <code>k1</code>), 
-				# one based on maxlik, and one that includes parameter uncertainty based on a calibrating prior
-> plot(y,p$ml_cdf)		# have a look at the maxlik probabilities
-> point(y,p$cp_pdf,col="red")	# have a look at the probabilities that include parameter uncertainty, 
-				# which will have fatter tails
-
-					</pre>
-
-					<h3>Example 4: Fitting a Gumbel distribution and generating random numbers</h3>
-
-					<pre>
-> x=rnorm(10)					# make some example training data 
-> r=rgumbel_cp(10000,x)				# this command calculates two sets of 10,000 predictive random numbers, 
-						# based on maxlik, and then with parameter uncertainty based on a calibrating prior
-> plot(density(r$ml_deviates))			# plot the density of the maxlik random numbers
-> lines(density(r$cp_deviates),col="red")	# overplot the density of the random numbers including parameter uncertainty,
-						# which will have fatter tails
-
-					</pre>
-
-			<h3>Example 5: Generating posterior samples from a Weibull distribution</h3>
-
-			<pre>
-> x=rlnorm(20)						# make some example training data (all positive values)
-> t=tweibull_cp(1000,x)$theta_samples			# this command generates 1000 posterior samples
-			</pre>
-
-			<h3>Example 6: Fitting a GEV distribution with a predictor on the location parameter</h3>
-
-			<pre>
-> set.seed(1)
-> n=30
-> t=0.1*c(1:n)/n			# make an example predictor
-> x=t+rlogis(n)				# make training data based on the predictor
-> t0=t[n]				# set the value of the predictor at which to make the prediction
-> p=seq(0.001,0.999,0.001)		# specify the probabilities at which to generate quantiles
-> q=qgev_p1_cp(x,t,t0=t0,n0=NA,p) 	# specify either t0, or n0, and make the other one NA
-			</pre>
-
-			<h3>Example 7: Fitting a GEV distribution with predictors on location and scale parameters</h3>
-
-			<pre>
-> set.seed(1)
-> n=50
-> t1=0.1*c(1:n)/n					# make the first predictor
-> t2=0.2*c(1:n)/n					# make the second predictor
-> x=(t1+rlogis(n))*t2					# make training data based on the predictors
-> n0=n							# set the values of the predictors at which to make the prediction
-> p=seq(0.001,0.999,0.001)		
-> q=qgev_p12_cp(x,t1,t2,t01=NA,t02=NA,n01=n0,n02=n0,p)	# specify either t0, or n0, and make the other one NA
-			</pre>
-
-			More examples are given in the help pages accessible from within R (for example, in R, type <code>>?norm_cp</code>).
-		</section>
-
-<section id="models">
+			<section id="models">
 				<h2>Models</h2>
 				<p>This is a list of the models that are currently supported, in alphabetical order. This list is motivated by various climate and actuarial applications. 
 					Let me know if you have any suggestions for other models to include.</p>
@@ -478,6 +382,220 @@ footer {
 
 				</p>
 			</section>
+
+			<section id="examples">
+				<h2>Examples</h2>
+				<p>
+					<ul>
+						<li>Install <code>fitdistcp</code> from CRAN using <code>install.packages("fitdistcp")</code>.</li>
+						<li>Load <code>fitdistcp</code> using <code>library(fitdistcp)</code>.</li>
+					</ul>
+				</p>
+
+				<h3>Example 1: Fitting a normal distribution and calculating the fitted probability density function</h3>
+
+					<pre>
+> x=rnorm(20)		# make some example training data 
+> y=seq(-5,5,0.01)	# define the points at which we wish to calculate the density
+> d=dnorm_cp(x,y)	# this command calculates two sets of predictive densities for the normal, one based on maxlik, 
+			# and one that includes parameter uncertainty based on a calibrating prior
+> print(d$ml_pdf)	# have a look at the maxlik densities
+> print(d$cp_pdf)	# have a look at the densities that include parameter uncertainty, which will have fatter tails
+
+					</pre>
+
+					<h3>Example 2: Fitting a GEV distribution and calculating the fitted quantiles</h3>
+
+					<pre>
+> set.seed(1)
+> x=rlogis(20)				# make some example training data 
+> p=seq(0.001,0.999,0.001)		# define the probabilities at which we wish to calculate the quantiles
+> q=qgev_cp(x,p)			# this command calculates two sets of predictive quantiles for the GEV, 
+					# one based on maxlik, and one that includes parameter uncertainty based on a calibrating prior
+> q$ml_params 				# have a look at the maxlik parameters
+> plot(q$ml_quantiles,p)		# plot the maxlik quantiles
+> points(q$cp_quantiles,p,col="red")	# overplot the quantiles that include parameter uncertainty, which will have fatter tails
+
+					</pre>
+
+					<h3>Example 3: Fitting a GPD and calculating the fitted cumulative distribution function</h3>
+
+					<pre>
+> set.seed(1)
+> x=rlnorm(20,sdlog=2)		# make some example training data (all positive values)
+> y=seq(0.1,5,0.1)		# define the points at which we wish to calculate the probabilities
+> p=pgpd_k1_cp(x,y)		# this command calculates two sets of predictive probabilities for the GPD (with known location parameter, hence <code>k1</code>), 
+				# one based on maxlik, and one that includes parameter uncertainty based on a calibrating prior
+> plot(y,p$ml_cdf)		# have a look at the maxlik probabilities
+> point(y,p$cp_pdf,col="red")	# have a look at the probabilities that include parameter uncertainty, 
+				# which will have fatter tails
+
+					</pre>
+
+					<h3>Example 4: Fitting a Gumbel distribution and generating random numbers</h3>
+
+					<pre>
+> x=rnorm(10)					# make some example training data 
+> r=rgumbel_cp(10000,x)				# this command calculates two sets of 10,000 predictive random numbers, 
+						# based on maxlik, and then with parameter uncertainty based on a calibrating prior
+> plot(density(r$ml_deviates))			# plot the density of the maxlik random numbers
+> lines(density(r$cp_deviates),col="red")	# overplot the density of the random numbers including parameter uncertainty,
+						# which will have fatter tails
+
+					</pre>
+
+			<h3>Example 5: Generating posterior samples from a Weibull distribution</h3>
+
+			<pre>
+> x=rlnorm(20)						# make some example training data (all positive values)
+> t=tweibull_cp(1000,x)$theta_samples			# this command generates 1000 posterior samples
+			</pre>
+
+			<h3>Example 6: Fitting a GEV distribution with a predictor on the location parameter</h3>
+
+			<pre>
+> set.seed(1)
+> n=30
+> t=0.1*c(1:n)/n			# make an example predictor
+> x=t+rlogis(n)				# make training data based on the predictor
+> t0=t[n]				# set the value of the predictor at which to make the prediction
+> p=seq(0.001,0.999,0.001)		# specify the probabilities at which to generate quantiles
+> q=qgev_p1_cp(x,t,t0=t0,n0=NA,p) 	# specify either t0, or n0, and make the other one NA
+			</pre>
+
+			<h3>Example 7: Fitting a GEV distribution with predictors on location and scale parameters</h3>
+
+			<pre>
+> set.seed(1)
+> n=50
+> t1=0.1*c(1:n)/n					# make the first predictor
+> t2=0.2*c(1:n)/n					# make the second predictor
+> x=(t1+rlogis(n))*t2					# make training data based on the predictors
+> n0=n							# set the values of the predictors at which to make the prediction
+> p=seq(0.001,0.999,0.001)		
+> q=qgev_p12_cp(x,t1,t2,t01=NA,t02=NA,n01=n0,n02=n0,p)	# specify either t0, or n0, and make the other one NA
+			</pre>
+
+			<h3>Detailed Examples by model</h3>
+
+			The short examples are given in the help pages accessible from within R (for example, in R, type <code>>?norm_cp</code>).
+
+			<br>
+			<br>
+
+			<table style='font-family:"Courier New", Courier, monospace; font-size:80%' border="1">
+				<tr>
+					<th>Model</td>
+					<th>Short example</td>
+					<th>Long example</td>
+				</tr>
+				<tr><td> Cauchy	</td>
+					<td><a href="./ex/example_42_cauchy.R">R code</a></td>
+					<td><a href="./ex/example_42_cauchy_long.R">R code</a></td></tr>
+				<tr><td> Cauchy with single predictor on the location </td>
+					<td><a href="./ex/example_64_cauchy_p1.R">R code</a></td>
+					<td><a href="./ex/example_64_cauchy_p1_long.R">R code</a></td></tr>
+				<tr><td> Exponential </td>
+					<td><a href="./ex/example_10_exp.R">R code</a></td>
+					<td><a href="./ex/example_10_exp_long.R">R code</a></td></tr>
+				<tr><td> Exponential with single predictor on the rate </td>
+					<td><a href="./ex/example_55_exp_p1.R">R code</a></td>
+					<td><a href="./ex/example_55_exp_p1_long.R">R code</a></td>
+				<tr><td> Frechet with known location </td>
+					<td><a href="./ex/example_51_frechet_k1.R">R code</a></td>
+					<td><a href="./ex/example_51_frechet_k1_long.R">R code</a></td></tr>
+				<tr><td> Frechet with known location, and single predictor on the scale </td>
+					<td><a href="./ex/example_71_frechet_p2k1.R">R code</a></td>
+					<td><a href="./ex/example_71_frechet_p2k1_long.R">R code</a></td></tr>
+				<tr><td> Gamma </td>
+					<td><a href="./ex/example_100_gamma.R">R code</a></td>
+					<td><a href="./ex/example_100_gamma_long.R">R code</a></td></tr>
+				<tr><td> Inverse gamma </td>
+					<td><a href="./ex/example_101_invgamma.R">R code</a></td>
+					<td><a href="./ex/example_101_invgamma_long.R">R code</a></td></tr>
+				<tr><td> Inverse Gaussian </td>
+					<td><a href="./ex/example_102_invgauss.R">R code</a></td>
+					<td><a href="./ex/example_102_invgauss_long.R">R code</a></td></tr>
+				<tr><td> Generalized normal with known shape </td>
+					<td><a href="./ex/example_32_gnorm_k3.R">R code</a></td>
+					<td><a href="./ex/example_32_gnorm_k3_long.R">R code</a></td></tr>
+
+				<tr><td> GEV </td>
+					<td><a href="./ex/example_110_gev.R">R code</a></td>
+					<td><a href="./ex/example_110_gev_long.R">R code</a></td></tr>
+				<tr><td> GEV with 1 predictor, on the location </td>
+					<td><a href="./ex/example_150_gev_p1.R">R code</a></code></td>
+					<td><a href="./ex/example_150_gev_p1_long.R">R code</a></td></tr>
+				<tr><td> GEV with 2 predictors, one each on the location and scale </td>
+					<td><a href="./ex/example_151_gev_p2.R">R code</a></td>
+					<td><a href="./ex/example_151_gev_p2_long.R">R code</a></td></tr>
+				<tr><td> GEV with 3 predictors, one each on the location, scale and shape </td>
+					<td><a href="./ex/example_152_gev_p3.R">R code</a></td>
+					<td><a href="./ex/example_152_gev_p3_long.R">R code</a></td></tr>
+				<tr><td> GEV with known shape </td>
+					<td><a href="./ex/example_53_gev_k3.R">R code</a></td>
+					<td><a href="./ex/example_53_gev_k3_long.R">R code</a></td></tr>
+				<tr><td> GEV with known shape with a single predictor on the location </td>
+					<td><a href="./ex/example_74_gev_p1k3.R">R code</a></td>
+					<td><a href="./ex/example_74_gev_p1k3_long.R">R code</a></td></tr>
+				<tr><td> GPD with known location </td>
+					<td><a href="./ex/example_120_gpd_k1.R">R code</a></td>
+					<td><a href="./ex/example_120_gpd_k1_long.R">R code</a></td></tr>
+				<tr><td> GPD with known location and shape </td>
+					<td><a href="./ex/example_120_gpd_k13.R">R code</a></td>
+					<td><a href="./ex/example_120_gpd_k13_long.R">R code</a></td></tr>
+
+				<tr><td> Gumbel </td>
+					<td><a href="./ex/example_50_gumbel.R">R code</a></td>
+					<td><a href="./ex/example_50_gumbel_long.R">R code</a></td></tr>
+				<tr><td> Gumbel with single predictor on the location </td>
+					<td><a href="./ex/example_70_gumbel_p1.R">R code</a></td>
+					<td><a href="./ex/example_70_gumbel_p1_long.R">R code</a></td></tr>
+				<tr><td> Half-normal </td>
+					<td><a href="./ex/example_20_halfnorm.R">R code</a></td>
+					<td><a href="./ex/example_20_halfnorm_long.R">R code</a></td></tr>
+				<tr><td> Logistic </td>
+					<td><a href="./ex/example_40_logis.R">R code</a></td>
+					<td><a href="./ex/example_40_logis_long.R">R code</a></td></tr>
+				<tr><td> Logistic with single predictor on the location </td>
+					<td><a href="./ex/example_62_logis_p1.R">R code</a></td>
+					<td><a href="./ex/example_62_logis_p1_long.R">R code</a></td></tr>
+				<tr><td> Log-normal </td>
+					<td><a href="./ex/example_35_lnorm.R">R code</a></td>
+					<td><a href="./ex/example_35_lnorm_long.R">R code</a></td></tr>
+				<tr><td> Log-normal with a single predictor on the log-mean </td>
+					<td><a href="./ex/example_61_lnorm.R">R code</a></td>
+					<td><a href="./ex/example_61_lnorm_long.R">R code</a></td></tr>
+				<tr><td> Normal </td>
+					<td><a href="./ex/example_30_norm.R">R code</a></td>
+					<td><a href="./ex/example_30_norm_long.R">R code</a></td></tr>
+				<tr><td> Normal with 1 predictor, on the mean i.e., simple linear regression </td>
+					<td><a href="./ex/example_60_norm_p1.R">R code</a></td>
+					<td><a href="./ex/example_60_norm_p1_long.R">R code</a></td></tr>
+				<tr><td> Pareto with known scale </td>
+					<td><a href="./ex/example_pareto_k2.R">R code</a></td>
+					<td><a href="./ex/example_pareto_k2_long.R">R code</a></td></tr>
+				<tr><td> Pareto with known scale and a single predictor on the shape parameter </td>
+					<td><a href="./ex/example_pareto_p1k2.R">R code</a></td>
+					<td><a href="./ex/example_pareto_p1k2_long.R">R code</a></td></tr>
+				<tr><td> t distribution with known degrees of freedom </td>
+					<td><a href="./ex/example_lst_k3.R">R code</a></td>
+					<td><a href="./ex/example_lst_k3_long.R">R code</a></td></tr>
+				<tr><td> t distribution with known degrees of freedom with a single predictor on the location parameter </td>
+					<td><a href="./ex/example_lst_p1k3.R">R code</a></td>
+					<td><a href="./ex/example_lst_p1k3_long.R">R code</a></td></tr>
+				<tr><td> Uniform </td>
+					<td><a href="./ex/example_25_unif.R">R code</a></td>
+					<td><a href="./ex/example_25_unif_long.R">R code</a></td></tr>
+				<tr><td> Weibull </td>
+					<td><a href="./ex/example_52_weibull.R">R code</a></td>
+					<td><a href="./ex/example_52_weibull_long.R">R code</a></td></tr>
+				<tr><td> Weibull with single predictor on the scale </td>
+					<td><a href="./ex/example_73_weibull_p2.R">R code</a></td>
+					<td><a href="./ex/example_73_weibull_p2_long.R">R code</a></tr>
+			</table>
+
+		</section>
 
 				<section id="theory">
 					<h2>Theory</h2>
