@@ -19,7 +19,10 @@ dexp_p1sub(x, t, y, t0, d1, d2, aderivs = TRUE)
 
 \item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

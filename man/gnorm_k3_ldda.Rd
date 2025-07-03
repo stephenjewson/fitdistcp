@@ -15,6 +15,9 @@ gnorm_k3_ldda(x, v1, v2, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

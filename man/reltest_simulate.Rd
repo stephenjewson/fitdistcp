@@ -4,7 +4,17 @@
 \alias{reltest_simulate}
 \title{Random training data from one model}
 \usage{
-reltest_simulate(model = "exp", nx = 20, tt, tt1, tt2, tt3, params)
+reltest_simulate(
+  model = "exp",
+  nx = 20,
+  tt,
+  tt1,
+  tt2,
+  tt3,
+  params,
+  minxi = -10,
+  maxxi = -10
+)
 }
 \arguments{
 \item{model}{which distribution to test. Possibles values are
@@ -57,6 +67,13 @@ reltest_simulate(model = "exp", nx = 20, tt, tt1, tt2, tt3, params)
 \item{tt3}{predictor vector 2}
 
 \item{params}{values for the parameters for the specified distribution}
+
+\item{minxi}{minimum value for EVT shape parameter}
+
+\item{maxxi}{maximum value for EVT shape parameter}
+}
+\value{
+Vector
 }
 \description{
 Random training data from one model

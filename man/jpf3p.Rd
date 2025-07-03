@@ -13,6 +13,9 @@ jpf3p(ggd, detg, ggi)
 
 \item{ggi}{inverse of the expected information matrix}
 }
+\value{
+Vector of 3 values
+}
 \description{
 Jeffreys' Prior with three parameters
 }

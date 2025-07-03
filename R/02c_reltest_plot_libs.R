@@ -11,6 +11,9 @@
 #' @param nmethods			the number of methods being tested
 #' @param alpha					the values of alpha being tested
 #' @param freqexceeded	the exceedance counts
+#'
+#' @return
+#' Plots the results of reliability testing
 testppm_plot=function(model,ntrials,nrepeats,nx,params,nmethods,alpha,freqexceeded){
 #
 nalpha=length(alpha)
@@ -30,6 +33,8 @@ for (ip in 1:nmethods){
 #
 legcex=0.8
 textcex=0.9
+oldpar=par(no.readonly = TRUE)
+on.exit(par(oldpar))
 par(mfrow=c(3,3))
 names=c(	"ML","CP")
 cols=c("blue","red")

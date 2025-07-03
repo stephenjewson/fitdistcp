@@ -39,6 +39,9 @@ gev_p123_f2f(y, t01, t02, t03, v1, d1, v2, d2, v3, d3, v4, d4, v5, d5, v6, d6)
 
 \item{d6}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+3d array
+}
 \description{
 GEVD-with-p1: DMGS equation 1.2 f2 term
 }

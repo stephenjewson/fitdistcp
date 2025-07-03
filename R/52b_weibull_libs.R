@@ -1,4 +1,5 @@
 #' Waic for RUST
+#' @inherit manwaic return
 #' @inheritParams manf
 weibull_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,13 +21,16 @@ weibull_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderivs
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 weibull_logf=function(params,x){
 	sh=pmax(min(20,params[1]),sqrt(.Machine$double.eps))
 	sc=pmax(params[2],sqrt(.Machine$double.eps))
 	logf=sum(dweibull(x,shape=sh,scale=sc,log=TRUE))-log(sh)-log(sc)
 	return(logf)
-}#'  log-likelihood function
+}
+#'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 weibull_loglik=function(vv,x){
 	n=length(x)
@@ -34,6 +38,7 @@ weibull_loglik=function(vv,x){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 weibull_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 	d1=fd1*v1
@@ -70,6 +75,7 @@ weibull_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 weibull_ldd=function(x,v1,fd1,v2,fd2){
 	nx=length(x)
@@ -86,7 +92,8 @@ weibull_ldd=function(x,v1,fd1,v2,fd2){
 	}
 	return(ldd)
 }
-#' One component of the second derivative of the normalized log-likelihood
+#' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 weibull_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	d1=fd1*v1
@@ -148,6 +155,7 @@ weibull_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 weibull_lddd=function(x,v1,fd1,v2,fd2){
 # calculate the unique values
@@ -172,6 +180,7 @@ weibull_lddd=function(x,v1,fd1,v2,fd2){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 weibull_f1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -196,6 +205,7 @@ weibull_f1f=function(y,v1,fd1,v2,fd2){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 weibull_p1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -220,6 +230,7 @@ weibull_p1f=function(y,v1,fd1,v2,fd2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 weibull_mu1f=function(alpha,v1,fd1,v2,fd2){
 	q00=qweibull((1-alpha),shape=v1,scale=v2)
@@ -245,6 +256,7 @@ weibull_mu1f=function(alpha,v1,fd1,v2,fd2){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 weibull_f2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -286,6 +298,7 @@ weibull_f2f=function(y,v1,fd1,v2,fd2){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 weibull_p2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -327,6 +340,7 @@ weibull_p2f=function(y,v1,fd1,v2,fd2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 weibull_mu2f=function(alpha,v1,fd1,v2,fd2){
 	q00=qweibull((1-alpha),shape=v1,scale=v2)
@@ -369,6 +383,7 @@ weibull_mu2f=function(alpha,v1,fd1,v2,fd2){
 	return(mu2)
 }
 #' MLE and RHP predictive means
+#' @inherit manmeans return
 #' @inheritParams manf
 weibull_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 # v1 is shape
@@ -406,6 +421,7 @@ weibull_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 weibull_logscores=function(logscores,x,fd1=0.01,fd2=0.01,aderivs=TRUE){
 
@@ -433,6 +449,7 @@ weibull_logscores=function(logscores,x,fd1=0.01,fd2=0.01,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dweibullsub=function(x,y,fd1=0.01,fd2=0.01,aderivs=TRUE){
 

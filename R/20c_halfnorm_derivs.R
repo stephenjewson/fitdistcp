@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 halfnorm_fd=function (x, v1) 
 {
@@ -12,6 +13,7 @@ halfnorm_fd=function (x, v1)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 halfnorm_fdd=function (x, v1) 
 {
@@ -23,6 +25,7 @@ halfnorm_fdd=function (x, v1)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 halfnorm_logfdd=function (x, v1) 
 -(1/v1^2 + 2 * (x^2/pi))
@@ -30,11 +33,13 @@ halfnorm_logfdd=function (x, v1)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 halfnorm_logfddd=function (x, v1) 
 2/v1^3
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 halfnorm_f1fa=function(x,v1){
 	nx=length(x)
@@ -45,6 +50,7 @@ halfnorm_f1fa=function(x,v1){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 halfnorm_f2fa=function(x,v1){
 	nx=length(x)
@@ -57,6 +63,7 @@ halfnorm_f2fa=function(x,v1){
 ############################################################
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 halfnorm_ldda=function(x,v1){
 	nx=length(x)
@@ -67,6 +74,7 @@ halfnorm_ldda=function(x,v1){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 halfnorm_lddda=function(x,v1){
 	nx=length(x)

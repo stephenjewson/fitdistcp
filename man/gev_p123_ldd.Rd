@@ -39,6 +39,9 @@ gev_p123_ldd(x, t1, t2, t3, v1, d1, v2, d2, v3, d3, v4, d4, v5, d5, v6, d6)
 
 \item{d6}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

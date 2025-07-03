@@ -1,9 +1,8 @@
 #' Cauchy Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -23,7 +22,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\sigma) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_42_cauchy.R
 #'
@@ -52,7 +51,7 @@ qcauchy_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 	v1hat=opt$par[1]
 	v2hat=opt$par[2]
 	ml_params=c(v1hat,v2hat)
-	if(debug)cat("  v1hat,v2hat=",v1hat,v2hat,"\n")
+	if(debug)message("  v1hat,v2hat=",v1hat,v2hat)
 #
 # 3 aic
 #
@@ -89,36 +88,36 @@ qcauchy_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # 6 lddd
 #
-		if(debug)cat("  calculate lddd\n")
+		if(debug)message("  calculate lddd")
 		if(aderivs)	lddd=cauchy_lddda(x,v1hat,v2hat)
 		if(!aderivs)lddd=cauchy_lddd(x,v1hat,d1,v2hat,fd2)
 #
 # 7 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		mu1=cauchy_mu1f(alpha,v1hat,d1,v2hat,fd2)
 #
 # 8 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		mu2=cauchy_mu2f(alpha,v1hat,d1,v2hat,fd2)
 #
 # 9 q rhp
 #
-		if(debug)cat("  rhp\n")
+		if(debug)message("  rhp")
 		lambdad_rhp=c(0,-1/v2hat)
 #
 # 10 derive the bayesian dq based on v2hat
 #
-		if(debug)cat("  fhat, dq and rhp quantiles\n")
+		if(debug)message("  fhat, dq and rhp quantiles")
 		fhat=dcauchy(ml_quantiles,location=v1hat,scale=v2hat)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=2)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)
 #
 # 11 means (might as well always calculate)
 #
-		ml_mean=ml_params[1]
-		rh_mean=ml_params[1]
+		ml_mean=Inf
+		rh_mean=Inf
 #
 # 12 waicscores
 #

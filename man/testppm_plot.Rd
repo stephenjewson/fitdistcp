@@ -32,6 +32,9 @@ testppm_plot(
 
 \item{freqexceeded}{the exceedance counts}
 }
+\value{
+Plots the results of reliability testing
+}
 \description{
 Plots 9 diagnostics related to predictive probability matching.
 }

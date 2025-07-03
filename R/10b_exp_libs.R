@@ -1,4 +1,5 @@
 #' Waicscores
+#' @inherit manwaic return
 #' @inheritParams manf
 exp_waic=function(waicscores,x,v1hat,fd1,aderivs){
 	if(waicscores){
@@ -25,6 +26,7 @@ exp_waic=function(waicscores,x,v1hat,fd1,aderivs){
 	return(list(waic1=waic1,waic2=waic2))
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 exp_logf=function(params,x){
 	l=pmax(params[1],.Machine$double.eps)
@@ -32,6 +34,7 @@ exp_logf=function(params,x){
 	return(logf)
 }
 #' The second derivative of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 exp_ldd=function(x,v1,fd1){
 	nx=length(x)
@@ -47,6 +50,7 @@ exp_ldd=function(x,v1,fd1){
 	return(ldd)
 }
 #' Third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 exp_l111=function(x,v1,fd1){
 	nx=length(x)
@@ -63,6 +67,7 @@ exp_l111=function(x,v1,fd1){
 	return(dld111)
 }
 #' Third derivative tensor of the log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 exp_lddd=function(x,v1,fd1){
 	nx=length(x)
@@ -71,6 +76,7 @@ exp_lddd=function(x,v1,fd1){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 exp_f1f=function(y,v1,fd1){
 	d1=fd1*v1
@@ -86,6 +92,7 @@ exp_f1f=function(y,v1,fd1){
 	return(f1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 exp_f2f=function(y,v1,fd1){
 	d1=fd1*v1
@@ -105,6 +112,7 @@ exp_f2f=function(y,v1,fd1){
 	return(f2)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 exp_logscores=function(logscores,x){
 
@@ -133,6 +141,7 @@ exp_logscores=function(logscores,x){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dexpsub=function(x,y,aderivs=TRUE){
 

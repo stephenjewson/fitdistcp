@@ -11,6 +11,9 @@ halfnorm_ldda(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

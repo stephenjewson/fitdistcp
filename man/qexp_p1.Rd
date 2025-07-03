@@ -15,6 +15,9 @@ qexp_p1(p, t0, ymn, slope)
 
 \item{slope}{the slope of the function of the predictor}
 }
+\value{
+Vector
+}
 \description{
 -with-p1 quantile function
 }

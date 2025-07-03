@@ -15,6 +15,9 @@ fixgevrange(y, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 Deal with situations in which the user wants d or p outside the GEV range
 }

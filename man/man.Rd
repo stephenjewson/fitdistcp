@@ -182,92 +182,59 @@ with respect to probability, for calculating the pdf as a function of quantiles}
 
 \item{dlogpi}{gradient of the log prior}
 
-\item{means}{a logical that indicates whether to run additional
+\item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
 
-\item{waicscores}{a logical that indicates whether to run additional
+\item{waicscores}{logical that indicates whether to run additional
 calculations and return estimates for the WAIC1 and WAIC2 scores (longer runtime)}
 
-\item{logscores}{a logical that indicates whether to run additional
+\item{logscores}{logical that indicates whether to run additional
 calculations and return leave-one-out estimates of the log-score
 (much longer runtime, non-EVT models only)}
 
-\item{extramodels}{a logical that indicates whether to run additional
+\item{extramodels}{logical that indicates whether to run additional
 calculations and add three additional prediction models (longer runtime)}
 
-\item{pdf}{a logical that indicates whether to run additional
+\item{pdf}{logical that indicates whether to run additional
 calculations and return density functions evaluated at quantiles specified by
 the input probabilities (longer runtime)}
 
 \item{customprior}{a custom value for the slope of the log prior at the
 maxlik estimate}
 
-\item{dmgs}{a logical that indicates whether DMGS calculations
+\item{dmgs}{logical that indicates whether DMGS calculations
 should be run or not (longer run time)}
 
-\item{mlcp}{a logical that indicates whether maxlik and parameter
+\item{mlcp}{logical that indicates whether maxlik and parameter
 uncertainty calculations should be performed (turn off to speed up RUST)}
 
-\item{predictordata}{a logical that indicates whether predictordata should be calculated}
+\item{predictordata}{logical that indicates whether predictordata should be calculated}
 
-\item{centering}{a logical that indicates whether the predictor should be centered}
+\item{centering}{logical that indicates whether the predictor should be centered}
 
-\item{nonnegslopesonly}{a logical that indicates whether to disallow non-negative slopes}
+\item{nonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
 
-\item{rnonnegslopesonly}{a logical that indicates whether to disallow non-negative slopes}
+\item{rnonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
 
-\item{prior}{a logical indicating which prior to use}
+\item{prior}{logical indicating which prior to use}
 
-\item{debug}{a logical for turning on debug messages}
+\item{debug}{logical for turning on debug messages}
 
-\item{rust}{a logical that indicates whether RUST-based posterior
+\item{rust}{logical that indicates whether RUST-based posterior
 sampling calculations should be run or not (longer run time)}
 
 \item{nrust}{the number of posterior samples used in the RUST calculations}
 
-\item{pwm}{a logical for whether to include PWM results (longer runtime)}
+\item{pwm}{logical for whether to include PWM results (longer runtime)}
 
-\item{unbiasedv}{a logical for whether to include unbiased variance results in norm}
+\item{unbiasedv}{logical for whether to include unbiased variance results in norm}
 
-\item{aderivs}{(for code testing only) a logical for whether to use
+\item{aderivs}{(for code testing only) logical for whether to use
 analytic derivatives (instead of numerical). By default almost all models now
 use analytical derivatives.}
 }
-\description{
-The \code{fitdistcp} package contains functions that generate predictive distributions
-for various statistical models,
-with and without parameter uncertainty.
-Parameter uncertainty is included by using Bayesian prediction with a type of objective
-prior known as a calibrating prior.
-
-There are five functions for each model,
-each of which uses training data \code{x}.
-For model \code{****} the five functions are as follows:
-
-\itemize{
-\item \code{q****_cp} returns predictive quantiles at the specified probabilities \code{p},
-and various other diagnostics.
-\item \code{r****_cp} returns \code{n} random deviates from the predictive distribution.
-\item \code{d****_cp} returns the predictive density function at the specified values \code{y}
-\item \code{p****_cp} returns the predictive distribution function at the specified values \code{y}
-\item \code{t****_cp} returns \code{n} random deviates from the posterior distribution
-of the model parameters.
-}
-The \code{q, r, d, p} routines return two sets of results,
-one based on maximum likelihood, and the other based on a calibrating prior.
-The prior used depends on the model, and
-is given under Details below.
-
-Where possible, the Bayesian prediction integral is solved analytically.
-Otherwise, the DMGS asymptotic expansions are used.
-Optionally, a third set of results is returned that integrates the prediction
-integral by sampling the parameter posterior
-distribution using the RUST rejection sampling algorithm.
-}
-\section{Default Return Values}{
-
-
-\code{q****} returns a list containing the following:
+\value{
+\code{q****} returns a list containing at least the following:
 
 \itemize{
 \item \code{ml_params:} maximum likelihood estimates for the parameters.
@@ -302,7 +269,7 @@ as a function of the predictor.
 \item \code{ml_params:} maximum likelihood estimates for the parameters.
 \item \code{ml_pdf:} density function from maximum likelihood.
 \item \code{cp_pdf:} predictive density function calculated using a calibrating prior
-(not available in EVT routines, for mathematical reasons, but available using RUST).
+(not available in EVT routines, for mathematical reasons, unless using RUST).
 \item \code{cp_method:} a comment about the method used to generate the \code{cp} prediction.
 }
 
@@ -312,7 +279,7 @@ as a function of the predictor.
 \item \code{ml_params:} maximum likelihood estimates for the parameters.
 \item \code{ml_cdf:} distribution function from maximum likelihood.
 \item \code{cp_cdf:} predictive distribution function  calculated using a calibrating prior
-(not available in EVT routines, for mathematical reasons, but available using RUST).
+(not available in EVT routines, for mathematical reasons, unless using RUST).
 \item \code{cp_method:} a comment about the method used to generate the \code{cp} prediction.
 }
 
@@ -322,7 +289,40 @@ as a function of the predictor.
 \item \code{theta_samples:} random samples from the parameter posterior.
 }
 }
+\description{
+The \code{fitdistcp} package contains functions that generate predictive distributions
+for various statistical models,
+with and without parameter uncertainty.
+Parameter uncertainty is included by using Bayesian prediction with a type of objective
+prior known as a calibrating prior.
+Calibrating priors are chosen to give predictions that give good reliability
+(i.e., are well calibrated), for any
+underlying true parameter values.
 
+There are five functions for each model,
+each of which uses training data \code{x}.
+For model \code{****} the five functions are as follows:
+
+\itemize{
+\item \code{q****_cp} returns predictive quantiles at the specified probabilities \code{p},
+and various other diagnostics.
+\item \code{r****_cp} returns \code{n} random deviates from the predictive distribution.
+\item \code{d****_cp} returns the predictive density function at the specified values \code{y}
+\item \code{p****_cp} returns the predictive distribution function at the specified values \code{y}
+\item \code{t****_cp} returns \code{n} random deviates from the posterior distribution
+of the model parameters.
+}
+The \code{q, r, d, p} routines return two sets of results,
+one based on maximum likelihood, and the other based on a calibrating prior.
+The prior used depends on the model, and
+is given under Details below.
+
+Where possible, the Bayesian prediction integral is solved analytically.
+Otherwise, DMGS asymptotic expansions are used.
+Optionally, a third set of results is returned that integrates the prediction
+integral by sampling the parameter posterior
+distribution using the RUST rejection sampling algorithm.
+}
 \section{Optional Return Values}{
 
 
@@ -464,11 +464,10 @@ They generally give less good reliability than the calibrating prior.
 This model is a homogeneous model, and the \code{cp} results are based on the
 right Haar prior.
 For homogeneous models
-(models with sharply transitive transformations),
+(models with sharply transitive transformation groups),
 a Bayesian prediction based on the right Haar prior
-gives exact predictive probability matching,
-as shown by Severini et al. (2002).
-Exact predictive probability matching then implies exact reliability,
+gives exact reliability,
+as shown by Severini et al. (2002),
 even when the true parameters are unknown.
 This means that probabilities in the prediction will correspond to frequencies
 of future outcomes in repeated trials (if the model is correct).
@@ -531,7 +530,9 @@ it may be better to use RUST.
 For medium sample sizes (30+), DMGS is reasonably accurate, except for the very far tail.
 
 It is advisable to check the RUST results for convergence versus the number
-of RUST samples. It may also be interesting to compare the DMGS and RUST results.
+of RUST samples.
+
+It may be interesting to compare the DMGS and RUST results.
 }
 
 \references{
@@ -541,27 +542,12 @@ which gives the various calibrating priors, and tests them for reliability:
 \itemize{
 \item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
 Assessments of Extreme Weather Risk using Calibrating Priors;
-ASCMO (Advances in Statistical Climatology, Meteorology and Oceanography)
-}
-
-The proof that using the right Haar prior gives exact probability
-matching for homogeneous models is given in:
-\itemize{
-\item Severini, T., Mukerjee, R. and Ghosh, M. (2002); Biometrika
-}
-
-The DMGS asymptotic expansions come from:
-\itemize{
-\item Datta, G., Mukerjee, R., Ghosh, M. and Sweeting, T. (2000); Annals of Statistics
-}
-
-The RUST library is described here:
-\itemize{
-\item Northrop, P. (2023); Ratio-of-uniforms simulation with transformation, R package.
+ASCMO Advances in Statistical Climatology, Meteorology and Oceanography),
+\url{https://ascmo.copernicus.org/articles/11/1/2025/}.
 }
 }
 \seealso{
-An introduction to \code{fitdistcp}
+An introduction to \code{fitdistcp}, with more examples,
 is given \href{http://www.fitdistcp.info/index.html}{on this webpage}.
 
 The \code{fitdistcp} package currently includes the following models (in alphabetical order):
@@ -610,8 +596,11 @@ by the maximum likelihood and calibrating prior quantiles, for any model,
 sample size and true parameter values, can be demonstrated using the
 routine \code{reltest}.
 
-Model selection among models can be demonstrated using the routines \code{modelselection_flat}
-and \code{modelselection_predictors}.
+Model selection among models can be demonstrated using the routines
+\code{ms_flat_1tail},
+\code{ms_flat_2tail},
+\code{ms_predictors_1tail},
+and \code{ms_predictors_2tail},
 }
 \author{
 Stephen Jewson \email{stephen.jewson@gmail.com}

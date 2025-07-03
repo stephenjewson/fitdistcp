@@ -7,11 +7,14 @@
 pareto_k2_logscores(logscores, x, kscale)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
 \item{kscale}{the known scale parameter}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

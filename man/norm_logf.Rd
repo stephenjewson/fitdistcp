@@ -11,6 +11,9 @@ norm_logf(params, x)
 
 \item{x}{a vector of training data values}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

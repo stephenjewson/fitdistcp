@@ -18,6 +18,9 @@ reltest2_simulate(model = "gev", nx = 50, tt, params)
 
 \item{params}{values for the parameters for the specified distribution}
 }
+\value{
+Vector
+}
 \description{
 Random training data from one model
 }

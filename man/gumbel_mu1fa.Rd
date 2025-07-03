@@ -13,6 +13,9 @@ gumbel_mu1fa(alpha, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

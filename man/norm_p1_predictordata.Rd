@@ -15,6 +15,9 @@ norm_p1_predictordata(x, t, t0, params)
 
 \item{params}{model parameters for calculating logf}
 }
+\value{
+Two vectors
+}
 \description{
 Predicted Parameter and Generalized Residuals
 }

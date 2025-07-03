@@ -21,7 +21,9 @@ reltest_predict(
   debug = FALSE,
   aderivs = TRUE,
   unbiasedv = FALSE,
-  pwm = FALSE
+  pwm = FALSE,
+  minxi = -10,
+  maxxi = 10
 )
 }
 \arguments{
@@ -95,6 +97,13 @@ reltest_predict(
 \item{unbiasedv}{a logical for whether to use the unbiased variance instead of maxlik (for the normal)}
 
 \item{pwm}{a logical for whether to use PWM instead of maxlik (for the GEV)}
+
+\item{minxi}{minimum value for EVT shape parameter}
+
+\item{maxxi}{maximum value for EVT shape parameter}
+}
+\value{
+Two vectors
 }
 \description{
 Make prediction from one model

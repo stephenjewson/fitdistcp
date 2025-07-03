@@ -19,6 +19,9 @@ lst_k3_ldd(x, v1, d1, v2, fd2, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

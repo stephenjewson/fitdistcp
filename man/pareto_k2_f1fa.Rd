@@ -13,6 +13,9 @@ pareto_k2_f1fa(x, v1, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

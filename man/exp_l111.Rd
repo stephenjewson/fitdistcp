@@ -13,6 +13,9 @@ exp_l111(x, v1, fd1)
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Scalar value
+}
 \description{
 Third derivative of the normalized log-likelihood
 }

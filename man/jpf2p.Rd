@@ -13,6 +13,9 @@ jpf2p(ggd, detg, ggi)
 
 \item{ggi}{inverse of the expected information matrix}
 }
+\value{
+Vector of 2 values
+}
 \description{
 Jeffreys' Prior with two parameters
 }

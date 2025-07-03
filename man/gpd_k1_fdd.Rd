@@ -17,6 +17,9 @@ gpd_k1_fdd(x, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the density
 Created by Stephen Jewson

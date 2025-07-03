@@ -8,7 +8,7 @@ RHP mean based on the expectation of DMGS equation 2.1}
 gev_p1k3_means(means, t0, ml_params, kshape, nx)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
@@ -17,6 +17,9 @@ gev_p1k3_means(means, t0, ml_params, kshape, nx)
 \item{kshape}{the known shape parameter}
 
 \item{nx}{length of training data}
+}
+\value{
+Two scalars
 }
 \description{
 Analytical expressions for Predictive Means

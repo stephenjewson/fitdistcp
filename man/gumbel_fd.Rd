@@ -15,6 +15,9 @@ gumbel_fd(x, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the density
 Created by Stephen Jewson

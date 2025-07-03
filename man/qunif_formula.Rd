@@ -11,6 +11,9 @@ qunif_formula(x, p)
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
 }
+\value{
+Two vectors
+}
 \description{
 Predictive Quantiles
 }

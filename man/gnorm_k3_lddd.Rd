@@ -19,6 +19,9 @@ gnorm_k3_lddd(x, v1, d1, v2, fd2, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

@@ -18,6 +18,9 @@ reltest2_makeep(model, pred1, tt0, params)
 
 \item{params}{model parameters}
 }
+\value{
+Vector
+}
 \description{
 Cases
 }

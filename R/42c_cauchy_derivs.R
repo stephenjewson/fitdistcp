@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 cauchy_fd=function (x, v1, v2) 
 {
@@ -15,6 +16,7 @@ cauchy_fd=function (x, v1, v2)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_fdd=function (x, v1, v2) 
 {
@@ -41,6 +43,7 @@ cauchy_fdd=function (x, v1, v2)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_logfdd=function (x, v1, v2) 
 {
@@ -59,6 +62,7 @@ cauchy_logfdd=function (x, v1, v2)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 cauchy_logfddd=function (x, v1, v2) 
 {
@@ -87,6 +91,7 @@ cauchy_logfddd=function (x, v1, v2)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 cauchy_f1fa=function(x,v1,v2){
 	vf=Vectorize(cauchy_fd)
@@ -95,6 +100,7 @@ cauchy_f1fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_f2fa=function(x,v1,v2){
 	nx=length(x)
@@ -105,6 +111,7 @@ cauchy_f2fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_ldda=function(x,v1,v2){
 	nx=length(x)
@@ -115,6 +122,7 @@ cauchy_ldda=function(x,v1,v2){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 cauchy_lddda=function(x,v1,v2){
 	nx=length(x)

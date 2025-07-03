@@ -19,6 +19,9 @@ gpd_k1_ldd(x, v1, fd1, v2, d2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

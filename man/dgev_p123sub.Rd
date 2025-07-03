@@ -56,11 +56,14 @@ dgev_p123sub(
 
 \item{d6}{the delta used in the numerical derivatives with respect to the parameter}
 
-\item{extramodels}{a logical that indicates whether to add three additional prediction models}
+\item{extramodels}{logical that indicates whether to add three additional prediction models}
 
 \item{debug}{debug flag}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities for 5 predictions

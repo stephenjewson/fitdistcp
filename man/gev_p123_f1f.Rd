@@ -40,6 +40,9 @@ gev_p123_f1f(y, t01, t02, t03, v1, d1, v2, d2, v3, d3, v4, d4, v5, d5, v6, d6)
 
 \item{d6}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 2.1, f1 term, fixed shape parameter
 DMGS equation 2.1, f1 term

@@ -25,6 +25,9 @@ frechet_p2k1_p2f(y, t0, v1, d1, v2, d2, v3, fd3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 2.1, p2 term
 }

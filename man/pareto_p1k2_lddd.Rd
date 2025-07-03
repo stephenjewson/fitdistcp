@@ -21,6 +21,9 @@ pareto_p1k2_lddd(x, t, v1, d1, v2, d2, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

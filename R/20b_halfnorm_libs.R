@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 halfnorm_waic=function(waicscores,x,v1hat,fd1,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,6 +21,7 @@ halfnorm_waic=function(waicscores,x,v1hat,fd1,lddi,lddd,lambdad,aderivs){
 	list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 halfnorm_logf=function(params,x){
 	sc=pmax(params[1],.Machine$double.eps)
@@ -27,12 +29,14 @@ halfnorm_logf=function(params,x){
 	return(logf)
 }
 #' Log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 halfnorm_loglik=function(vv,x){
 	loglik=sum(dhalfnorm(x,theta=max(vv[1],.Machine$double.eps),log=TRUE))
 	return(loglik)
 }
 #' The second derivative of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 halfnorm_ldd=function(x,v1,fd1){
 	nx=length(x)
@@ -48,6 +52,7 @@ halfnorm_ldd=function(x,v1,fd1){
 	return(ldd)
 }
 #' Second derivative of the expected log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 halfnorm_gg11=function(alpha,v1,fd1){
   x=qhalfnorm((1-alpha),theta=v1)
@@ -59,6 +64,7 @@ halfnorm_gg11=function(alpha,v1,fd1){
 	return(gg)
 }
 #' Expected information matrix
+#' @inherit manldd return
 #' @inheritParams manf
 halfnorm_gg=function(v1,fd1){
 	expinfmat=matrix(0,1,1)
@@ -66,6 +72,7 @@ halfnorm_gg=function(v1,fd1){
  return(expinfmat)
 }
 #' Third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 halfnorm_l111=function(x,v1,fd1){
 	nx=length(x)
@@ -82,6 +89,7 @@ halfnorm_l111=function(x,v1,fd1){
 	return(dld111)
 }
 #' Third derivative tensor of the log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 halfnorm_lddd=function(x,v1,fd1){
 	nx=length(x)
@@ -90,6 +98,7 @@ halfnorm_lddd=function(x,v1,fd1){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 halfnorm_f1f=function(y,v1,fd1){
 	d1=fd1*v1
@@ -105,6 +114,7 @@ halfnorm_f1f=function(y,v1,fd1){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 halfnorm_p1f=function(y,v1,fd1){
 	d1=fd1*v1
@@ -120,6 +130,7 @@ halfnorm_p1f=function(y,v1,fd1){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 halfnorm_mu1f=function(alpha,v1,fd1){
 	q00=qhalfnorm((1-alpha),theta=v1)
@@ -136,6 +147,7 @@ halfnorm_mu1f=function(alpha,v1,fd1){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 halfnorm_f2f=function(y,v1,fd1){
 	d1=fd1*v1
@@ -155,6 +167,7 @@ halfnorm_f2f=function(y,v1,fd1){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 halfnorm_p2f=function(y,v1,fd1){
 	d1=fd1*v1
@@ -174,6 +187,7 @@ halfnorm_p2f=function(y,v1,fd1){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 halfnorm_mu2f=function(alpha,v1,fd1){
 	q00=qhalfnorm((1-alpha),theta=v1)
@@ -195,6 +209,7 @@ halfnorm_mu2f=function(alpha,v1,fd1){
 }
 #' MLE and RHP predictive means
 #' RHP mean based on the expectation of DMGS equation 2.1
+#' @inherit manmeans return
 #' @inheritParams manf
 halfnorm_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=1){
 
@@ -222,6 +237,7 @@ halfnorm_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=1){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 halfnorm_logscores=function(logscores,x,fd1=0.01,aderivs=TRUE){
 
@@ -247,6 +263,7 @@ halfnorm_logscores=function(logscores,x,fd1=0.01,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dhalfnormsub=function(x,y,fd1=0.01,aderivs=TRUE){
 

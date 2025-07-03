@@ -15,6 +15,9 @@ frechet_p2k1_loglik(vv, x, t, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 observed log-likelihood function
 }

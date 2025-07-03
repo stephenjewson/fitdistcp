@@ -19,6 +19,9 @@ frechet_p2k1_lddda(x, t, v1, v2, v3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

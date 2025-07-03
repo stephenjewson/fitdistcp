@@ -15,6 +15,9 @@ gev_p12_logf(params, x, t1, t2)
 
 \item{t2}{a vector of predictors for the sd}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

@@ -9,6 +9,9 @@ norm_unbiasedv_params(x)
 \arguments{
 \item{x}{a vector of training data values}
 }
+\value{
+Vector
+}
 \description{
 Method of moments estimator
 }

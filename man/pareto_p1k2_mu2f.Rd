@@ -21,6 +21,9 @@ pareto_p1k2_mu2f(alpha, t0, v1, d1, v2, d2, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 3.3, mu2 term
 }

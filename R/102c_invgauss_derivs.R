@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 invgauss_fd=function (x, v1, v2) 
 {
@@ -20,6 +21,7 @@ invgauss_fd=function (x, v1, v2)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 invgauss_fdd=function (x, v1, v2) 
 {
@@ -51,6 +53,7 @@ invgauss_fdd=function (x, v1, v2)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 invgauss_logfdd=function (x, v1, v2) 
 {
@@ -67,6 +70,7 @@ invgauss_logfdd=function (x, v1, v2)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 invgauss_logfddd=function (x, v1, v2) 
 {
@@ -92,6 +96,7 @@ invgauss_logfddd=function (x, v1, v2)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 invgauss_f1fa=function(x,v1,v2){
 	vf=Vectorize(invgauss_fd)
@@ -100,6 +105,7 @@ invgauss_f1fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 invgauss_f2fa=function(x,v1,v2){
 	nx=length(x)
@@ -112,6 +118,7 @@ invgauss_f2fa=function(x,v1,v2){
 ############################################################
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 invgauss_ldda=function(x,v1,v2){
 	nx=length(x)
@@ -122,6 +129,7 @@ invgauss_ldda=function(x,v1,v2){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 invgauss_lddda=function(x,v1,v2){
 	nx=length(x)

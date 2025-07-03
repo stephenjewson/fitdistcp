@@ -13,6 +13,9 @@ jpf4p(ggd, detg, ggi)
 
 \item{ggi}{inverse of the expected information matrix}
 }
+\value{
+Vector of 4 values
+}
 \description{
 Jeffreys' Prior with four parameters
 }

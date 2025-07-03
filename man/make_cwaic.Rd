@@ -23,6 +23,9 @@ make_cwaic(x, fhatx, lddi, lddd, f1f, lambdad, f2f, dim)
 
 \item{dim}{number of free parameters}
 }
+\value{
+Two scalars
+}
 \description{
 Make WAIC
 }

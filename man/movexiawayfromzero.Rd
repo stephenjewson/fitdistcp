@@ -9,6 +9,9 @@ movexiawayfromzero(xi)
 \arguments{
 \item{xi}{xi}
 }
+\value{
+Scalar
+}
 \description{
 Move xi away from zero a bit
 }

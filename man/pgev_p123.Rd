@@ -27,6 +27,9 @@ pgev_p123(y, t1, t2, t3, ymn, slope, sigma1, sigma2, xi1, xi2)
 
 \item{xi2}{second coefficient for the shape parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 GEVD-with-p1: Distribution function
 }

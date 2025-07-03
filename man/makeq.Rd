@@ -11,6 +11,9 @@ makeq(yy, pp)
 
 \item{pp}{vector of probabilities}
 }
+\value{
+Vector
+}
 \description{
 Calculates quantiles from simulations by inverting the Hazen CDF
 }

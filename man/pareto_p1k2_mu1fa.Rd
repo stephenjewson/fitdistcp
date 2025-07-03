@@ -17,6 +17,9 @@ pareto_p1k2_mu1fa(alpha, t, v1, v2, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

@@ -19,6 +19,9 @@ frechet_p2k1_ldda(x, t, v1, v2, v3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

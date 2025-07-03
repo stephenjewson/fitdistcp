@@ -23,6 +23,9 @@ gev_p12_f1fa(x, t01, t02, v1, v2, v3, v4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

@@ -17,7 +17,7 @@ pareto_p1k2_means(
 )
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
@@ -34,6 +34,9 @@ pareto_p1k2_means(
 \item{dim}{number of parameters}
 
 \item{kscale}{the known scale parameter}
+}
+\value{
+Two scalars
 }
 \description{
 pareto_k1 distribution: RHP mean

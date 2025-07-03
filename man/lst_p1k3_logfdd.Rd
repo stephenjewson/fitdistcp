@@ -21,6 +21,9 @@ lst_p1k3_logfdd(x, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the log density
 Created by Stephen Jewson

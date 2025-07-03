@@ -15,6 +15,9 @@ exp_p1_f1fa(x, t, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

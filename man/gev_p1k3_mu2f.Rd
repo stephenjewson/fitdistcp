@@ -27,6 +27,9 @@ gev_p1k3_mu2f(alpha, t0, v1, d1, v2, d2, v3, fd3, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+3d array
+}
 \description{
 GEVD-with-p1: DMGS equation 3.3 mu2 term, fixed shape parameter
 

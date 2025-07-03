@@ -17,9 +17,12 @@ dfrechet_p2k1(x, t0, ymn, slope, lambda, log = FALSE, kloc)
 
 \item{lambda}{the lambda parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
 
 \item{kloc}{the known location parameter}
+}
+\value{
+Vector
 }
 \description{
 Frechet_k1-with-p2 density function

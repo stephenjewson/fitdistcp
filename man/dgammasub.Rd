@@ -15,7 +15,10 @@ dgammasub(x, y, fd1 = 0.01, fd2 = 0.01, aderivs = TRUE)
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

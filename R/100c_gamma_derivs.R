@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gamma_fd=function (x, v1, v2) 
 {
@@ -17,6 +18,7 @@ gamma_fd=function (x, v1, v2)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gamma_fdd=function (x, v1, v2) 
 {
@@ -56,6 +58,7 @@ gamma_fdd=function (x, v1, v2)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gamma_logfdd=function (x, v1, v2) 
 {
@@ -67,6 +70,7 @@ gamma_logfdd=function (x, v1, v2)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 gamma_logfddd=function (x, v1, v2) 
 {
@@ -79,6 +83,7 @@ gamma_logfddd=function (x, v1, v2)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 gamma_f1fa=function(x,v1,v2){
 	vf=Vectorize(gamma_fd)
@@ -87,6 +92,7 @@ gamma_f1fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 gamma_f2fa=function(x,v1,v2){
 	nx=length(x)
@@ -97,6 +103,7 @@ gamma_f2fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 gamma_ldda=function(x,v1,v2){
 	nx=length(x)
@@ -107,6 +114,7 @@ gamma_ldda=function(x,v1,v2){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gamma_lddda=function(x,v1,v2){
 	nx=length(x)

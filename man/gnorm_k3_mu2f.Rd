@@ -19,6 +19,9 @@ gnorm_k3_mu2f(alpha, v1, d1, v2, fd2, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 3.3, mu2 term
 }

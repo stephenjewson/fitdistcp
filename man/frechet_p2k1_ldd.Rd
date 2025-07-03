@@ -25,6 +25,9 @@ frechet_p2k1_ldd(x, t, v1, d1, v2, d2, v3, fd3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

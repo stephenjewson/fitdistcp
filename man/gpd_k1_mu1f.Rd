@@ -19,6 +19,9 @@ gpd_k1_mu1f(alpha, v1, fd1, v2, d2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, mu1 term
 }

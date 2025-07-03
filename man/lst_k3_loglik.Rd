@@ -13,6 +13,9 @@ lst_k3_loglik(vv, x, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 log-likelihood function
 }

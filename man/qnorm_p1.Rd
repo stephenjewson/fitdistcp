@@ -17,6 +17,9 @@ qnorm_p1(p, t0, ymn, slope, sigma)
 
 \item{sigma}{the sigma parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 Normal-with-p1 quantile function
 }

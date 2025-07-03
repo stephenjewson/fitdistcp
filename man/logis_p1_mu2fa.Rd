@@ -17,6 +17,9 @@ logis_p1_mu2fa(alpha, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

@@ -25,6 +25,9 @@ lst_p1k3_p1f(y, t0, v1, d1, v2, d2, v3, fd3, kdf)
 
 \item{kdf}{the known number of degrees of freedom}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 2.1, p1 term
 }

@@ -4,7 +4,7 @@
 \alias{rgev_minmax}
 \title{rgev but with maxlik xi guaranteed within bounds}
 \usage{
-rgev_minmax(nx, mu, sigma, xi, ximin = -0.45, ximax = 0.45)
+rgev_minmax(nx, mu, sigma, xi, minxi = -0.45, maxxi = 0.45)
 }
 \arguments{
 \item{nx}{length of training data}
@@ -15,9 +15,12 @@ rgev_minmax(nx, mu, sigma, xi, ximin = -0.45, ximax = 0.45)
 
 \item{xi}{the shape parameter of the distribution}
 
-\item{ximin}{minimum value of shape parameter xi}
+\item{minxi}{minimum value of shape parameter xi}
 
-\item{ximax}{maximum value of shape parameter xi}
+\item{maxxi}{maximum value of shape parameter xi}
+}
+\value{
+Vector
 }
 \description{
 rgev but with maxlik xi guaranteed within bounds

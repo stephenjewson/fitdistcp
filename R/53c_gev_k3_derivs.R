@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gev_k3_fd=function (x, v1, v2, v3) 
 {
@@ -19,6 +20,7 @@ gev_k3_fd=function (x, v1, v2, v3)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gev_k3_fdd=function (x, v1, v2, v3) 
 {
@@ -48,6 +50,7 @@ gev_k3_fdd=function (x, v1, v2, v3)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gev_k3_pd=function (x, v1, v2, v3) 
 {
@@ -62,6 +65,7 @@ gev_k3_pd=function (x, v1, v2, v3)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gev_k3_pdd=function (x, v1, v2, v3) 
 {
@@ -90,6 +94,7 @@ gev_k3_pdd=function (x, v1, v2, v3)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gev_k3_logfdd=function (x, v1, v2, v3) 
 {
@@ -113,6 +118,7 @@ gev_k3_logfdd=function (x, v1, v2, v3)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 gev_k3_logfddd=function (x, v1, v2, v3) 
 {
@@ -160,6 +166,7 @@ gev_k3_logfddd=function (x, v1, v2, v3)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 gev_k3_f1fa=function(x,v1,v2,kshape){
 	kshape=movexiawayfromzero(kshape)
@@ -169,6 +176,7 @@ gev_k3_f1fa=function(x,v1,v2,kshape){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 gev_k3_f2fa=function(x,v1,v2,kshape){
 	nx=length(x)
@@ -182,6 +190,7 @@ gev_k3_f2fa=function(x,v1,v2,kshape){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 gev_k3_mu1fa=function(alpha,v1,v2,kshape){
 	x=extraDistr::qgev((1-alpha),mu=v1,sigma=v2,xi=kshape)
@@ -192,6 +201,7 @@ gev_k3_mu1fa=function(alpha,v1,v2,kshape){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 gev_k3_mu2fa=function(alpha,v1,v2,kshape){
 	x=extraDistr::qgev((1-alpha),mu=v1,sigma=v2,xi=kshape)
@@ -206,6 +216,7 @@ gev_k3_mu2fa=function(alpha,v1,v2,kshape){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 gev_k3_ldda=function(x,v1,v2,kshape){
 	nx=length(x)
@@ -219,6 +230,7 @@ gev_k3_ldda=function(x,v1,v2,kshape){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gev_k3_lddda=function(x,v1,v2,kshape){
 	nx=length(x)

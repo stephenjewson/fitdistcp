@@ -19,6 +19,9 @@ gev_p1_lddda(x, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

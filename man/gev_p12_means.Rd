@@ -8,7 +8,7 @@ RHP mean based on the expectation of DMGS equation 2.1}
 gev_p12_means(means, t01, t02, ml_params, nx)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{t01}{a single value of the predictor (specify either \code{t01} or \code{n01} but not both)}
 
@@ -17,6 +17,9 @@ gev_p12_means(means, t01, t02, ml_params, nx)
 \item{ml_params}{parameters}
 
 \item{nx}{length of training data}
+}
+\value{
+Two scalars
 }
 \description{
 Analytical expressions for Predictive Means

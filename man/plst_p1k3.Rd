@@ -19,6 +19,9 @@ plst_p1k3(x, t0, ymn, slope, sigma, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Vector
+}
 \description{
 LST-with-p1 distribution function
 }

@@ -23,6 +23,9 @@ norm_lmn(x, v1, d1, v2, fd2, mm, nn)
 
 \item{nn}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the second derivative of the normalized log-likelihood
 

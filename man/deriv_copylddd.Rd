@@ -13,6 +13,9 @@ deriv_copylddd(temp1, nx, dim)
 
 \item{dim}{number of parameters}
 }
+\value{
+3d array
+}
 \description{
 Extract the results from derivatives and put them into lddd
 }

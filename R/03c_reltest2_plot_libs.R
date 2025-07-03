@@ -1,4 +1,4 @@
-#' Plotting routine for ppm_testppm
+#' Plotting routine for reltest2
 #'
 #' @description
 #' Plots 9 diagnostics related to predictive probability matching.
@@ -15,6 +15,9 @@
 #' @param alpha					the values of alpha being tested
 #' @param freqexceeded	the exceedance counts
 #' @param case				  there are 3 cases (must be set to case=1 except for my testing)
+#'
+#' @return
+#' Plots the results of reliability testing
 reltest2_plot=function(model,ntrials,nrepeats,nx,params,
 	nmethods,alpha,freqexceeded,case){
 #
@@ -35,6 +38,8 @@ for (ip in 1:nmethods){
 #
 legcex=0.6;
 textcex=0.9;
+oldpar=par(no.readonly = TRUE)
+on.exit(par(oldpar))
 par(mfrow=c(3,3))
 if(case==1)names=c("Flat","JP","ML","RHP-ML","RHP-Flat")
 if(case==2)names=c("Flat","JP","ML","MPD")

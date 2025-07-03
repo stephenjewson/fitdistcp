@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 exp_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,6 +21,7 @@ exp_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,lddi,lddd,lambdad,aderivs)
 		list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 exp_p1_predictordata=function(predictordata,x,t,t0,params){
 	if(predictordata){
@@ -43,6 +45,7 @@ exp_p1_predictordata=function(predictordata,x,t,t0,params){
 	list(predictedparameter=rr,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 exp_p1_logf=function(params,x,t){
 #	a=params[1]
@@ -56,6 +59,7 @@ exp_p1_logf=function(params,x,t){
 	return(logf)
 }
 #'  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams	manf
 exp_p1_loglik=function(vv,x,t){
 	mu=vv[1]+vv[2]*t
@@ -69,6 +73,7 @@ exp_p1_loglik=function(vv,x,t){
 	return(loglik)
 }
 #' -with-p1 quantile function
+#' @inherit manvector return
 #' @inheritParams	manf
 qexp_p1=function(p,t0,ymn,slope){
 
@@ -78,6 +83,7 @@ qexp_p1=function(p,t0,ymn,slope){
 
 }
 #' Exponential-with-p1 density function
+#' @inherit manvector return
 #' @inheritParams	manf
 dexp_p1=function(x,t0,ymn,slope,log=FALSE){
 
@@ -87,6 +93,7 @@ dexp_p1=function(x,t0,ymn,slope,log=FALSE){
 
 }
 #' Exponential-with-p1 distribution function
+#' @inherit manvector return
 #' @inheritParams	manf
 pexp_p1=function(x,t0,ymn,slope){
 
@@ -96,6 +103,7 @@ pexp_p1=function(x,t0,ymn,slope){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 exp_p1_lmn=function(x,t,v1,d1,v2,d2,mm,nn){
 	net3=matrix(0,3,2)
@@ -130,6 +138,7 @@ exp_p1_lmn=function(x,t,v1,d1,v2,d2,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams	manf
 exp_p1_ldd=function(x,t,v1,d1,v2,d2){
 	ldd=matrix(0,2,2)
@@ -145,7 +154,8 @@ exp_p1_ldd=function(x,t,v1,d1,v2,d2){
 	}
 	return(ldd)
 }
-#' One component of the second derivative of the normalized log-likelihood
+#' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 exp_p1_lmnp=function(x,t,v1,d1,v2,d2,mm,nn,rr){
 	net4=matrix(0,4,2)
@@ -205,6 +215,7 @@ exp_p1_lmnp=function(x,t,v1,d1,v2,d2,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams	manf
 exp_p1_lddd=function(x,t,v1,d1,v2,d2){
 # calculate the unique values
@@ -229,6 +240,7 @@ exp_p1_lddd=function(x,t,v1,d1,v2,d2){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 exp_p1_f1f=function(y,t0,v1,d1,v2,d2){
 # v1 stuff
@@ -251,6 +263,7 @@ exp_p1_f1f=function(y,t0,v1,d1,v2,d2){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 exp_p1_p1f=function(y,t0,v1,d1,v2,d2){
 # v1 stuff
@@ -273,6 +286,7 @@ exp_p1_p1f=function(y,t0,v1,d1,v2,d2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 exp_p1_mu1f=function(alpha,t0,v1,d1,v2,d2){
 	q00=qexp_p1((1-alpha),t0,ymn=v1,slope=v2)
@@ -296,6 +310,7 @@ exp_p1_mu1f=function(alpha,t0,v1,d1,v2,d2){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 exp_p1_f2f=function(y,t0,v1,d1,v2,d2){
 # v1 stuff
@@ -335,6 +350,7 @@ exp_p1_f2f=function(y,t0,v1,d1,v2,d2){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 exp_p1_p2f=function(y,t0,v1,d1,v2,d2){
 # v1 stuff
@@ -374,6 +390,7 @@ exp_p1_p2f=function(y,t0,v1,d1,v2,d2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 exp_p1_mu2f=function(alpha,t0,v1,d1,v2,d2){
 	q00=qexp_p1((1-alpha),t0,ymn=v1,slope=v2)
@@ -413,7 +430,8 @@ exp_p1_mu2f=function(alpha,t0,v1,d1,v2,d2){
 	mu2[2,1,]=mu2[1,2,]
 	return(mu2)
 }
-#' exp distribution: RHP mean
+#' exp distribution: RHP means
+#' @inherit manmeans return
 #' @inheritParams	manf
 exp_p1_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
@@ -446,6 +464,7 @@ exp_p1_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams	manf
 exp_p1_logscores=function(logscores,x,t,d1,d2,aderivs){
 
@@ -465,7 +484,6 @@ exp_p1_logscores=function(logscores,x,t,d1,d2,aderivs){
 
 			rh_pdf=dd$rh_pdf
 			rh_oos_logscore=rh_oos_logscore+log(rh_pdf)
-#			cat("i,ml_pdf,rh_pdf=",i,ml_pdf,rh_pdf,"\n")
 		}
 	}else{
 		ml_oos_logscore="extras not selected"
@@ -474,6 +492,7 @@ exp_p1_logscores=function(logscores,x,t,d1,d2,aderivs){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dexp_p1sub=function(x,t,y,t0,d1,d2,aderivs=TRUE){
 

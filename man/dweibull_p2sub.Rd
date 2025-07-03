@@ -21,7 +21,10 @@ dweibull_p2sub(x, t, y, t0, fd1, d2, d3, aderivs = TRUE)
 
 \item{d3}{the delta used in the numerical derivatives with respect to the parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

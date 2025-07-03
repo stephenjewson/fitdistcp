@@ -17,6 +17,9 @@ exp_p1_logfddd(x, t, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+3d array
+}
 \description{
 Third derivative of the log density
 Created by Stephen Jewson

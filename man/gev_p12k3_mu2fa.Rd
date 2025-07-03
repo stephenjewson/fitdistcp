@@ -21,6 +21,9 @@ gev_p12k3_mu2fa(alpha, t, v1, v2, v3, v4, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

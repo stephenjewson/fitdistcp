@@ -25,6 +25,9 @@ frechet_p2k1_lddd(x, t, v1, d1, v2, d2, v3, fd3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

@@ -7,7 +7,7 @@
 gev_p1k3_predictordata(predictordata, x, t, t0, params, kshape)
 }
 \arguments{
-\item{predictordata}{a logical that indicates whether to calculate and return predictordata}
+\item{predictordata}{logical that indicates whether to calculate and return predictordata}
 
 \item{x}{a vector of training data values}
 
@@ -18,6 +18,9 @@ gev_p1k3_predictordata(predictordata, x, t, t0, params, kshape)
 \item{params}{model parameters for calculating logf}
 
 \item{kshape}{the known shape parameter}
+}
+\value{
+Two vectors
 }
 \description{
 Predicted Parameter and Generalized Residuals

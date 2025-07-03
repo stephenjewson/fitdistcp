@@ -23,6 +23,9 @@ gev_p12_ldda(x, t1, t2, v1, v2, v3, v4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

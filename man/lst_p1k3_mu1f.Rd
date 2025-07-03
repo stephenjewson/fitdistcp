@@ -25,6 +25,9 @@ lst_p1k3_mu1f(alpha, t0, v1, d1, v2, d2, v3, fd3, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, mu1 term
 }

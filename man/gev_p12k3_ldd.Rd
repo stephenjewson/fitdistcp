@@ -31,6 +31,9 @@ gev_p12k3_ldd(x, t1, t2, v1, d1, v2, d2, v3, d3, v4, d4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood, with fixed shape parameter
 }

@@ -29,6 +29,9 @@ gev_p123_logfddd(x, t1, t2, t3, v1, v2, v3, v4, v5, v6)
 
 \item{v6}{sixth parameter}
 }
+\value{
+3d array
+}
 \description{
 Third derivative of the log density
 Created by Stephen Jewson

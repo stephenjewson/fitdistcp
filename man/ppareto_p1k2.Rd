@@ -17,6 +17,9 @@ ppareto_p1k2(x, t0, ymn, slope, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Vector
+}
 \description{
 pareto_k1-with-p2 distribution function
 }

@@ -19,6 +19,9 @@ pgev_p1(y, t0, ymn, slope, sigma, xi)
 
 \item{xi}{the shape parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 GEVD-with-p1: Distribution function
 }

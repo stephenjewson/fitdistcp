@@ -9,6 +9,9 @@ gev_pwm_params(x)
 \arguments{
 \item{x}{a vector of training data values}
 }
+\value{
+Vector
+}
 \description{
 PWM parameter estimation
 }

@@ -6,6 +6,8 @@
 #'	"gev_pred1".
 #' @param nx				length of training data
 #' @param params		model parameters
+#'
+#' @return Two integers
 reltest2_cases=function(model="gev",nx=50,params){
 
 	nmethods=5
@@ -38,10 +40,12 @@ reltest2_cases=function(model="gev",nx=50,params){
 #' @param nx				the length of the training data.
 #' @param tt				the predictor
 #' @param params		values for the parameters for the specified distribution
+#'
+#' @return Vector
 reltest2_simulate=function(model="gev",nx=50,tt,params){
 
 # cp models have 5 outputs
-# but some of the ppm models lack rh_ml and cp
+# but some of the models lack rh_ml and cp
 # so I need to notice that and set those results to zero
 # which i do using flags, which are by default TRUE
 	rh_ml_flag=TRUE
@@ -91,16 +95,7 @@ reltest2_simulate=function(model="gev",nx=50,tt,params){
 		xihat=-10
 		while(xihat<(-0.45)||(xihat>0.45)){ #0.46 also works...0.47 doesn't
 			xx=rgev(nx,mu=params[1],sigma=params[2],xi=params[3])
-#					ics=matrix(0,1)
-#					ics=gev_setics(xx,ics)
-#					opt1=optim(ics,gev_k12_loglik,x=xx,method="Brent",lower=-0.5,upper=0.5)
-#					cat("xx=",xx,"\n")
-			options(warn=-1) #suppress warnings that arise from optimization
-###			opt1=optimize(gev_k12_ppm_loglik,interval=c(-1,1),x=xx)
-			options(warn=0)
-#					xihat=opt1$par[1]
 			xihat=opt1$minimum
-#					if(abs(xihat)>0.99)cat("xihat=",xihat,"\n")
 # optimize gives lots of warnings about replacing Inf with max value
 # I think it's because the gev has a limited range
 # and so sometimes, during the optimisation, the log density gets -Inf value
@@ -158,6 +153,7 @@ reltest2_simulate=function(model="gev",nx=50,tt,params){
 #' @param params		model parameters
 #' @param case			the case number: different models have different lists of methods
 #' @param nmethods	the number of methods: different models have different numbers of methods
+#' @return Vector
 reltest2_predict=function(model="gev",xx,tt,n0,pp,params,case,nmethods){
 
 ###			if(model=="ntt_ppm")				pred0=qntt_ppm(xx,pp)
@@ -183,7 +179,7 @@ reltest2_predict=function(model="gev",xx,tt,n0,pp,params,case,nmethods){
 
 # note that for some of the ppm models, pred[2,] and pred[5,] end up zero
 # because those models don't support those kinds of predictions
-#			cat("flags=",rh_ml_flag,cp_flag,"\n")
+#			message("flags=",rh_ml_flag,cp_flag)
 			nalpha=length(pp)
 			pred=matrix(0,nmethods,nalpha)
 			if(case==1){
@@ -226,6 +222,8 @@ reltest2_predict=function(model="gev",xx,tt,n0,pp,params,case,nmethods){
 #' @param pred1			quantile predictions
 #' @param tt0				value of predictor vector
 #' @param	params		model parameters
+#'
+#' @return Vector
 reltest2_makeep=function(model,pred1,tt0,params){
 
 ###			if(model=="ntt_ppm")				ep11=1-pnorm(pred1,mean=params[1],sd=sqrt(params[1]))

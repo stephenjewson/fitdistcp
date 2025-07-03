@@ -15,6 +15,9 @@ lst_k3_f1fa(x, v1, v2, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

@@ -3,6 +3,7 @@
 # b = scale parameter (they call location), that I'm calling kscale
 #
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 pareto_k2_waic=function(waicscores,x,v1hat,fd1,kscale,aderivs){
 	if(waicscores){
@@ -28,6 +29,7 @@ pareto_k2_waic=function(waicscores,x,v1hat,fd1,kscale,aderivs){
 	list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 pareto_k2_logf=function(params,x,kscale){
 	sh=pmax(params[1],.Machine$double.eps)
@@ -35,6 +37,7 @@ pareto_k2_logf=function(params,x,kscale){
 	return(logf)
 }
 #' Maximum likelihood estimator
+#' @inherit manloglik return
 #' @inheritParams manf
 pareto_k2_ml_params=function(x,kscale){
 	nx=length(x)
@@ -45,6 +48,7 @@ pareto_k2_ml_params=function(x,kscale){
 	return(mlparams)
 }
 #' The second derivative of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 pareto_k2_ldd=function(x,v1,fd1,kscale){
 	nx=length(x)
@@ -60,6 +64,7 @@ pareto_k2_ldd=function(x,v1,fd1,kscale){
 	return(ldd)
 }
 #' Third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 pareto_k2_l111=function(x,v1,fd1,kscale){
 	nx=length(x)
@@ -76,6 +81,7 @@ pareto_k2_l111=function(x,v1,fd1,kscale){
 	return(dld111)
 }
 #' Third derivative tensor of the log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 pareto_k2_lddd=function(x,v1,fd1,kscale){
 	nx=length(x)
@@ -84,6 +90,7 @@ pareto_k2_lddd=function(x,v1,fd1,kscale){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 pareto_k2_f1f=function(y,v1,fd1,kscale){
 	d1=fd1*v1
@@ -99,6 +106,7 @@ pareto_k2_f1f=function(y,v1,fd1,kscale){
 	return(f1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 pareto_k2_f2f=function(y,v1,fd1,kscale){
 	d1=fd1*v1
@@ -118,6 +126,7 @@ pareto_k2_f2f=function(y,v1,fd1,kscale){
 	return(f2)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 pareto_k2_logscores=function(logscores,x,kscale){
 
@@ -143,6 +152,7 @@ pareto_k2_logscores=function(logscores,x,kscale){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dpareto_k2_sub=function(x,y,kscale,aderivs=TRUE){
 

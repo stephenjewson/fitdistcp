@@ -6,6 +6,7 @@
 # so I label the routine _k1_
 # and I say sigma=v1, lambda=v2
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 frechet_k1_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,kloc,lddi,lddd,
 	lambdad,aderivs){
@@ -28,13 +29,16 @@ frechet_k1_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,kloc,lddi,lddd,
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 frechet_k1_logf=function(params,x,kloc){
 	s=pmax(params[1],.Machine$double.eps)
 	l=pmax(params[2],.Machine$double.eps)
 	logf=sum(dfrechet(x,mu=kloc,sigma=s,lambda=l,log=TRUE))-log(s)-log(l)
 	return(logf)
-}#'  log-likelihood function
+}
+#'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 frechet_loglik=function(vv,x,kloc){
 
@@ -43,6 +47,7 @@ frechet_loglik=function(vv,x,kloc){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 frechet_k1_lmn=function(x,v1,fd1,v2,fd2,kloc,mm,nn){
 	d1=fd1*v1
@@ -79,6 +84,7 @@ frechet_k1_lmn=function(x,v1,fd1,v2,fd2,kloc,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 frechet_k1_ldd=function(x,v1,fd1,v2,fd2,kloc){
 	nx=length(x)
@@ -95,7 +101,8 @@ frechet_k1_ldd=function(x,v1,fd1,v2,fd2,kloc){
 	}
 	return(ldd)
 }
-#' One component of the second derivative of the normalized log-likelihood
+#' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 frechet_k1_lmnp=function(x,v1,fd1,v2,fd2,kloc,mm,nn,rr){
 	d1=fd1*v1
@@ -157,6 +164,7 @@ frechet_k1_lmnp=function(x,v1,fd1,v2,fd2,kloc,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 frechet_k1_lddd=function(x,v1,fd1,v2,fd2,kloc){
 # calculate the unique values
@@ -181,6 +189,7 @@ frechet_k1_lddd=function(x,v1,fd1,v2,fd2,kloc){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 frechet_k1_f1f=function(y,v1,fd1,v2,fd2,kloc){
 	d1=fd1*v1
@@ -205,6 +214,7 @@ frechet_k1_f1f=function(y,v1,fd1,v2,fd2,kloc){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 frechet_k1_p1f=function(y,v1,fd1,v2,fd2,kloc){
 	d1=fd1*v1
@@ -229,6 +239,7 @@ frechet_k1_p1f=function(y,v1,fd1,v2,fd2,kloc){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 frechet_k1_mu1f=function(alpha,v1,fd1,v2,fd2,kloc){
 	q00=qfrechet((1-alpha),mu=kloc,sigma=v1,lambda=v2)
@@ -254,6 +265,7 @@ frechet_k1_mu1f=function(alpha,v1,fd1,v2,fd2,kloc){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 frechet_k1_f2f=function(y,v1,fd1,v2,fd2,kloc){
 	d1=fd1*v1
@@ -295,6 +307,7 @@ frechet_k1_f2f=function(y,v1,fd1,v2,fd2,kloc){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 frechet_k1_p2f=function(y,v1,fd1,v2,fd2,kloc){
 	d1=fd1*v1
@@ -336,6 +349,7 @@ frechet_k1_p2f=function(y,v1,fd1,v2,fd2,kloc){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 frechet_k1_mu2f=function(alpha,v1,fd1,v2,fd2,kloc){
 	q00=qfrechet((1-alpha),mu=kloc,sigma=v1,lambda=v2)
@@ -379,6 +393,7 @@ frechet_k1_mu2f=function(alpha,v1,fd1,v2,fd2,kloc){
 }
 
 #' MLE and RHP predictive means
+#' @inherit manmeans return
 #' @inheritParams manf
 frechet_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,kloc){
 
@@ -415,6 +430,7 @@ frechet_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,kloc){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 frechet_logscores=function(logscores,x,fd1=0.01,fd2=0.01,kloc,aderivs){
 
@@ -441,6 +457,7 @@ frechet_logscores=function(logscores,x,fd1=0.01,fd2=0.01,kloc,aderivs){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dfrechetsub=function(x,y,kloc,fd1=0.01,fd2=0.01,aderivs=TRUE){
 

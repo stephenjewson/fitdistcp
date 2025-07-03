@@ -13,6 +13,9 @@ halfnorm_mu1f(alpha, v1, fd1)
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, mu1 term
 }

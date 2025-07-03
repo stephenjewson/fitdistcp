@@ -19,6 +19,9 @@ gpd_k1_lddd(x, v1, fd1, v2, d2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

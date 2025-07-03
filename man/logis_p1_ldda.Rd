@@ -17,6 +17,9 @@ logis_p1_ldda(x, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

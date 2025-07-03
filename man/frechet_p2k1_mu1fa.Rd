@@ -19,6 +19,9 @@ frechet_p2k1_mu1fa(alpha, t, v1, v2, v3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

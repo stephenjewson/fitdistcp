@@ -1,9 +1,8 @@
 #' Frechet Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -23,7 +22,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\sigma,\lambda) \propto \frac{1}{\sigma \lambda}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_51_frechet_k1.R
 #'
@@ -52,7 +51,7 @@ qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
 	v1hat=opt$par[1]
 	v2hat=opt$par[2]
 	ml_params=c(v1hat,v2hat)
-#	if(debug)cat("  v1hat,v2hat=",v1hat,v2hat,"\n")
+	if(debug)message("  v1hat,v2hat=",v1hat,v2hat)
 #
 # 3 aic
 #
@@ -88,19 +87,19 @@ qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
 #
 # 6 lddd
 #
-	  if(debug)cat("  calculate lddd\n")
+	  if(debug)message("  calculate lddd")
 		if(aderivs) lddd=frechet_k1_lddda(x,v1hat,v2hat,kloc)
 		if(!aderivs)lddd=frechet_k1_lddd(x,v1hat,fd1,v2hat,fd2,kloc)
 #
 # 7 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		if(aderivs) mu1=frechet_k1_mu1fa(alpha,v1hat,v2hat,kloc)
 		if(!aderivs)mu1=frechet_k1_mu1f(alpha,v1hat,fd1,v2hat,fd2,kloc)
 #
 # 8 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		if(aderivs) mu2=frechet_k1_mu2fa(alpha,v1hat,v2hat,kloc)
 		if(!aderivs)mu2=frechet_k1_mu2f(alpha,v1hat,fd1,v2hat,fd2,kloc)
 #
@@ -110,7 +109,7 @@ qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
 #
 # 10 bayesian dq
 #
-		if(debug)cat("  fhat, dq and rhp quantiles\n")
+		if(debug)message("  fhat, dq and rhp quantiles")
 		fhat=dfrechet(ml_quantiles,mu=kloc,sigma=v1hat,lambda=v2hat)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=2)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)

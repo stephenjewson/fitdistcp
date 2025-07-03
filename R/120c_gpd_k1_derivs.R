@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gpd_k1_fd=function (x, v1, v2, v3) 
 {
@@ -19,6 +20,7 @@ gpd_k1_fd=function (x, v1, v2, v3)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gpd_k1_fdd=function (x, v1, v2, v3) 
 {
@@ -55,6 +57,7 @@ gpd_k1_fdd=function (x, v1, v2, v3)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gpd_k1_pd=function (x, v1, v2, v3) 
 {
@@ -70,6 +73,7 @@ gpd_k1_pd=function (x, v1, v2, v3)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gpd_k1_pdd=function (x, v1, v2, v3) 
 {
@@ -100,6 +104,7 @@ gpd_k1_pdd=function (x, v1, v2, v3)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gpd_k1_logfdd=function (x, v1, v2, v3) 
 {
@@ -124,6 +129,7 @@ gpd_k1_logfdd=function (x, v1, v2, v3)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 gpd_k1_logfddd=function (x, v1, v2, v3) 
 {
@@ -166,9 +172,10 @@ gpd_k1_logfddd=function (x, v1, v2, v3)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 gpd_k1_f1fa=function(x,v1,v2,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	vf=Vectorize(gpd_k1_fd)
 
 	v2=movexiawayfromzero(v2)
@@ -178,9 +185,10 @@ gpd_k1_f1fa=function(x,v1,v2,kloc){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 gpd_k1_f2fa=function(x,v1,v2,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	nx=length(x)
 	vf=Vectorize(gpd_k1_fdd)
 
@@ -192,9 +200,10 @@ gpd_k1_f2fa=function(x,v1,v2,kloc){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 gpd_k1_mu1fa=function(alpha,v1,v2,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	x=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
 	vf=Vectorize(gpd_k1_pd)
 
@@ -205,9 +214,10 @@ gpd_k1_mu1fa=function(alpha,v1,v2,kloc){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 gpd_k1_mu2fa=function(alpha,v1,v2,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	x=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
 	nx=length(x)
 	vf=Vectorize(gpd_k1_pdd)
@@ -220,9 +230,10 @@ gpd_k1_mu2fa=function(alpha,v1,v2,kloc){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 gpd_k1_ldda=function(x,v1,v2,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	nx=length(x)
 	vf=Vectorize(gpd_k1_logfdd)
 
@@ -234,10 +245,11 @@ gpd_k1_ldda=function(x,v1,v2,kloc){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gpd_k1_lddda=function(x,v1,v2,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
-# I have to switch because my pu code orders sigma and lambda differently
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
+# I have to switch because my cp code orders sigma and lambda differently
 	nx=length(x)
 	vf=Vectorize(gpd_k1_logfddd)
 

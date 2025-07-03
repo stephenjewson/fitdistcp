@@ -19,6 +19,9 @@ pnorm_p1_formula(y, ta, ta0, nx, muhat0, v3hat)
 
 \item{v3hat}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 Linear regression formula, densities
 }

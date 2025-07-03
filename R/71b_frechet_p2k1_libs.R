@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 frechet_p2k1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc,
 	lddi,lddd,lambdad,aderivs){
@@ -21,6 +22,7 @@ frechet_p2k1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc,
 	list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 frechet_p2k1_predictordata=function(predictordata,x,t,t0,params,kloc){
 	if(predictordata){
@@ -45,6 +47,7 @@ frechet_p2k1_predictordata=function(predictordata,x,t,t0,params,kloc){
 	list(predictedparameter=sg,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 frechet_p2k1_logf=function(params,x,t,kloc){
 #	a=params[1]
@@ -64,6 +67,7 @@ frechet_p2k1_logf=function(params,x,t,kloc){
 	return(logf)
 }
 #'  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams	manf
 frechet_p2k1_loglik=function(vv,x,t,kloc){
 	mu=vv[1]+vv[2]*t
@@ -71,6 +75,7 @@ frechet_p2k1_loglik=function(vv,x,t,kloc){
 	return(loglik)
 }
 #' Frechet_k1-with-p2 quantile function
+#' @inherit manvector return
 #' @inheritParams	manf
 qfrechet_p2k1=function(p,t0,ymn,slope,lambda,kloc){
 
@@ -79,6 +84,7 @@ qfrechet_p2k1=function(p,t0,ymn,slope,lambda,kloc){
 
 }
 #' Frechet_k1-with-p2 density function
+#' @inherit manvector return
 #' @inheritParams	manf
 dfrechet_p2k1=function(x,t0,ymn,slope,lambda,log=FALSE,kloc){
 
@@ -87,6 +93,7 @@ dfrechet_p2k1=function(x,t0,ymn,slope,lambda,log=FALSE,kloc){
 
 }
 #' Frechet_k1-with-p2 distribution function
+#' @inherit manvector return
 #' @inheritParams	manf
 pfrechet_p2k1=function(x,t0,ymn,slope,lambda,kloc){
 
@@ -95,6 +102,7 @@ pfrechet_p2k1=function(x,t0,ymn,slope,lambda,kloc){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 frechet_p2k1_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,kloc,mm,nn){
 	d3=fd3*v3
@@ -130,6 +138,7 @@ frechet_p2k1_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,kloc,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams	manf
 frechet_p2k1_ldd=function(x,t,v1,d1,v2,d2,v3,fd3,kloc){
 	ldd=matrix(0,3,3)
@@ -146,6 +155,7 @@ frechet_p2k1_ldd=function(x,t,v1,d1,v2,d2,v3,fd3,kloc){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 frechet_p2k1_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,kloc,mm,nn,rr){
 	d3=fd3*v3
@@ -206,6 +216,7 @@ frechet_p2k1_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,kloc,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams	manf
 frechet_p2k1_lddd=function(x,t,v1,d1,v2,d2,v3,fd3,kloc){
 	lddd=array(0,c(3,3,3))
@@ -229,6 +240,7 @@ frechet_p2k1_lddd=function(x,t,v1,d1,v2,d2,v3,fd3,kloc){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 frechet_p2k1_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	d3=fd3*v3
@@ -260,6 +272,7 @@ frechet_p2k1_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 frechet_p2k1_p1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	d3=fd3*v3
@@ -291,6 +304,7 @@ frechet_p2k1_p1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 frechet_p2k1_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	q00=qfrechet_p2k1((1-alpha),t0,ymn=v1,slope=v2,lambda=v3,kloc=kloc)
@@ -323,6 +337,7 @@ frechet_p2k1_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 frechet_p2k1_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	d3=fd3*v3
@@ -363,6 +378,7 @@ frechet_p2k1_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 frechet_p2k1_p2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	d3=fd3*v3
@@ -403,6 +419,7 @@ frechet_p2k1_p2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 frechet_p2k1_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	q00=qfrechet_p2k1((1-alpha),t0,ymn=v1,slope=v2,lambda=v3,kloc=kloc)
@@ -444,6 +461,7 @@ frechet_p2k1_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kloc){
 	return(mu2)
 }
 #' frechet_k1 distribution: RHP mean
+#' @inherit manmeans return
 #' @inheritParams	manf
 frechet_p2k1_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim,kloc){
 
@@ -473,6 +491,7 @@ frechet_p2k1_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim,kloc
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams	manf
 frechet_p2k1_logscores=function(logscores,x,t,d1,d2,fd3,kloc,aderivs=TRUE){
 
@@ -492,7 +511,6 @@ frechet_p2k1_logscores=function(logscores,x,t,d1,d2,fd3,kloc,aderivs=TRUE){
 
 			rh_pdf=dd$rh_pdf
 			rh_oos_logscore=rh_oos_logscore+log(rh_pdf)
-#			cat("i,ml_pdf,rh_pdf=",i,ml_pdf,rh_pdf,"\n")
 		}
 	}else{
 		ml_oos_logscore="extras not selected"
@@ -501,6 +519,7 @@ frechet_p2k1_logscores=function(logscores,x,t,d1,d2,fd3,kloc,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dfrechet_p2k1sub=function(x,t,y,t0,d1,d2,fd3,kloc,aderivs=TRUE){
 

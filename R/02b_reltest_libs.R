@@ -43,6 +43,10 @@
 #' @param tt2				predictor vector 2
 #' @param tt3				predictor vector 2
 #' @param params		values for the parameters for the specified distribution
+#' @param minxi			minimum value for EVT shape parameter
+#' @param maxxi			maximum value for EVT shape parameter
+#'
+#' @return Vector
 reltest_simulate=function(model="exp",nx=20,tt,tt1,tt2,tt3,params,minxi=-10,maxxi=-10){
 
 	if(model=="exp")						xx=rexp			(nx,rate=params[1])
@@ -88,9 +92,7 @@ reltest_simulate=function(model="exp",nx=20,tt,tt1,tt2,tt3,params,minxi=-10,maxx
 	if(model=="gev_p1")				xx=rgev_p1_minmax(nx,mu=params[1]+params[2]*tt1,sigma=params[3],xi=params[4],tt1,minxi=minxi,maxxi=maxxi)
 
 	if(model=="gev_p12"){
-#		cat("params=",params,"\n")
 		xx=rgev_p12_minmax(nx,mu=params[1]+params[2]*tt1,sigma=exp(params[3]+params[4]*tt2),xi=params[5],tt1,tt2,minxi=minxi,maxxi=maxxi)
-#		cat("mean(xx)=",mean(xx),"\n")
 	}
 
 	if(model=="gev_p123")			xx=rgev_p123_minmax(nx,mu=params[1]+params[2]*tt1,sigma=exp(params[3]+params[4]*tt2),xi=params[5]+params[6]*tt3,tt1,tt2,tt3,minxi=minxi,maxxi=maxxi)
@@ -152,11 +154,16 @@ reltest_simulate=function(model="exp",nx=20,tt,tt1,tt2,tt3,params,minxi=-10,maxx
 #' @param aderivs		a logical for whether to use analytic derivatives (instead of numerical)
 #' @param unbiasedv a logical for whether to use the unbiased variance instead of maxlik (for the normal)
 #' @param pwm				a logical for whether to use PWM instead of maxlik (for the GEV)
+#' @param minxi			minimum value for EVT shape parameter
+#' @param maxxi			maximum value for EVT shape parameter
+#'
+#' @return Two vectors
 reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=TRUE,
 	debug=FALSE,aderivs=TRUE,unbiasedv=FALSE,pwm=FALSE,minxi=-10,maxxi=10){
 
 	nalpha=length(pp)
 	nmethods=2
+#	revert2ml=FALSE
 #
 # make predictions
 #
@@ -209,9 +216,7 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 	if(model=="gamma")					pred0=qgamma_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="invgamma")				pred0=qinvgamma_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="invgauss")				pred0=qinvgauss_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
-
 	if(model=="gev")						pred0=qgev_cp(xx,pp,dmgs=dmgs,debug=debug,aderivs=aderivs,pwm=pwm,minxi=minxi,maxxi=maxxi)
-
 	if(model=="gpd_k1")					pred0=qgpd_k1_cp(xx,pp,kloc=params[1],dmgs=dmgs,debug=debug,aderivs=aderivs,minxi=minxi,maxxi=maxxi)
 
 	if(model=="gev_p1")					pred0=qgev_p1_cp(x=xx,t=tt1,n0=n10,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs,minxi=minxi,maxxi=maxxi)
@@ -232,6 +237,14 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 	if(pwm)				pred[1,]=pred0$pw_quantiles
 
 	if(dmgs)pred[2,]=pred0$cp_quantiles
+
+# some more revert2ml stuff that I don't need any more
+#### do the revert2ml thing if the flag says so
+###	if(dmgs&&revert2ml){
+###		pred[2,]=pred0$ml_quantiles
+###	} else {
+###		pred[2,]=pred0$cp_quantiles
+###	}
 
 # for evt, add the max
 	ml_max="Only available for some EVT models"
@@ -287,7 +300,8 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 #' @param	tt20			value of predictor 2
 #' @param	tt30			value of predictor 3
 #' @param	params		the model parameters
-#
+#'
+#' @return Vector
 reltest_makeep=function(model,pred1,tt0,tt10,tt20,tt30,params){
 
 	if(model=="exp")						ep11=1-pexp(pred1,rate=params[1])
@@ -308,7 +322,7 @@ reltest_makeep=function(model,pred1,tt0,tt10,tt20,tt30,params){
 	if(model=="gumbel")					ep11=1-pgumbel(pred1,mu=params[1],sigma=params[2])
 	if(model=="frechet_k1")			ep11=1-pfrechet(pred1,lambda=params[3],sigma=params[2],mu=params[1])
 	if(model=="weibull")				ep11=1-pweibull(pred1,shape=params[1],scale=params[2])
-	if(model=="gev_k3")					ep11=1-pgev(pred1,mu=params[1],sigma=params[2],xi=params[3])
+	if(model=="gev_k3")					ep11=1-extraDistr::pgev(pred1,mu=params[1],sigma=params[2],xi=params[3])
 
 	if(model=="exp_p1")					ep11=1-pexp(pred1,rate=1/exp(params[1]+params[2]*tt0))
 	if(model=="pareto_p1k2")		ep11=1-ppareto(pred1,a=1/exp(params[2]+params[3]*tt0),b=params[1])
@@ -323,7 +337,7 @@ reltest_makeep=function(model,pred1,tt0,tt10,tt20,tt30,params){
 	if(model=="gumbel_p1")			ep11=1-pgumbel(pred1,mu=params[1]+params[2]*tt0,sigma=params[3])
 	if(model=="frechet_p2k1")		ep11=1-pfrechet(pred1,mu=params[1],sigma=exp(params[2]+params[3]*tt0),lambda=params[4])
 	if(model=="weibull_p2")			ep11=1-pweibull(pred1,shape=params[1],scale=exp(params[2]+params[3]*tt0))
-	if(model=="gev_p1k3")				ep11=1-pgev(pred1,mu=params[1]+params[2]*tt0,sigma=params[3],xi=params[4])
+	if(model=="gev_p1k3")				ep11=1-extraDistr::pgev(pred1,mu=params[1]+params[2]*tt0,sigma=params[3],xi=params[4])
 
 #	if(model=="norm_p12")				ep11=1-pnorm(pred1,mean=params[1]+params[2]*tt10,sd=exp(params[3]+params[4]*tt20))
 #	if(model=="lst_p12k3")			ep11=1-plst(pred1,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),df=params[5])
@@ -331,12 +345,13 @@ reltest_makeep=function(model,pred1,tt0,tt10,tt20,tt30,params){
 	if(model=="gamma")					ep11=1-pgamma(pred1,shape=params[1],scale=params[2])
 	if(model=="invgamma")				ep11=1-pinvgamma(pred1,shape=params[1],scale=params[2])
 	if(model=="invgauss")				ep11=1-pinvgauss(pred1,mean=params[1],shape=params[2])
-	if(model=="gev")						ep11=1-pgev(pred1,mu=params[1],sigma=params[2],xi=params[3])
-	if(model=="gpd_k1")					ep11=1-pgpd(pred1,mu=params[1],sigma=params[2],xi=params[3])
+	if(model=="gev")						ep11=1-extraDistr::pgev(pred1,
+		mu=params[1],sigma=params[2],xi=params[3])
+	if(model=="gpd_k1")					ep11=1-extraDistr::pgpd(pred1,mu=params[1],sigma=params[2],xi=params[3])
 
-	if(model=="gev_p1")					ep11=1-pgev(pred1,mu=params[1]+params[2]*tt0,sigma=params[3],xi=params[4])
-	if(model=="gev_p12")				ep11=1-pgev(pred1,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5])
-	if(model=="gev_p123")				ep11=1-pgev(pred1,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5]+params[6]*tt30)
+	if(model=="gev_p1")					ep11=1-extraDistr::pgev(pred1,mu=params[1]+params[2]*tt0,sigma=params[3],xi=params[4])
+	if(model=="gev_p12")				ep11=1-extraDistr::pgev(pred1,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5])
+	if(model=="gev_p123")				ep11=1-extraDistr::pgev(pred1,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5]+params[6]*tt30)
 
 	return(ep11)
 }
@@ -353,15 +368,16 @@ reltest_makeep=function(model,pred1,tt0,tt10,tt20,tt30,params){
 #' @param	tt20			value of predictor 2
 #' @param	tt30			value of predictor 3
 #' @param	params		the model parameters
-#
+#'
+#' @return Vector
 reltest_makemaxep=function(model,ml_max,tt0,tt10,tt20,tt30,params){
 
-	if(model=="gev")						maxep=1-pgev(ml_max,mu=params[1],sigma=params[2],xi=params[3])
-	if(model=="gpd_k1")					maxep=1-pgpd(ml_max,mu=params[1],sigma=params[2],xi=params[3])
+	if(model=="gev")						maxep=1-extraDistr::pgev(ml_max,mu=params[1],sigma=params[2],xi=params[3])
+	if(model=="gpd_k1")					maxep=1-extraDistr::pgpd(ml_max,mu=params[1],sigma=params[2],xi=params[3])
 
-	if(model=="gev_p1")					maxep=1-pgev(ml_max,mu=params[1]+params[2]*tt0,sigma=params[3],xi=params[4])
-	if(model=="gev_p12")				maxep=1-pgev(ml_max,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5])
-	if(model=="gev_p123")				maxep=1-pgev(ml_max,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5]+params[6]*tt30)
+	if(model=="gev_p1")					maxep=1-extraDistr::pgev(ml_max,mu=params[1]+params[2]*tt0,sigma=params[3],xi=params[4])
+	if(model=="gev_p12")				maxep=1-extraDistr::pgev(ml_max,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5])
+	if(model=="gev_p123")				maxep=1-extraDistr::pgev(ml_max,mu=params[1]+params[2]*tt10,sigma=exp(params[3]+params[4]*tt20),xi=params[5]+params[6]*tt30)
 
 	return(maxep)
 }

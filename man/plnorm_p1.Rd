@@ -17,6 +17,9 @@ plnorm_p1(x, t0, ymn, slope, sigma)
 
 \item{sigma}{the sigma parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 Normal-with-p1 distribution function
 }

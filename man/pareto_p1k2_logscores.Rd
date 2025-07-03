@@ -7,7 +7,7 @@
 pareto_p1k2_logscores(logscores, x, t, d1, d2, kscale, aderivs, debug)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
@@ -19,9 +19,12 @@ pareto_p1k2_logscores(logscores, x, t, d1, d2, kscale, aderivs, debug)
 
 \item{kscale}{the known scale parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 
 \item{debug}{debug flag}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

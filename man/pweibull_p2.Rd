@@ -17,6 +17,9 @@ pweibull_p2(x, t0, shape, ymn, slope)
 
 \item{slope}{the slope of the function of the predictor}
 }
+\value{
+Vector
+}
 \description{
 Weibull-with-p1 distribution function
 }

@@ -25,6 +25,9 @@ gnorm_lmnp(x, v1, d1, v2, fd2, kbeta, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the second derivative of the normalized log-likelihood
 }

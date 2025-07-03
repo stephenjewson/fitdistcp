@@ -17,9 +17,12 @@ dgev_p1k3(x, t0, ymn, slope, sigma, log = FALSE, kshape)
 
 \item{sigma}{the sigma parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
 
 \item{kshape}{the known shape parameter}
+}
+\value{
+Vector
 }
 \description{
 GEV-with-known-shape-with-p1 density function

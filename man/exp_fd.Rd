@@ -13,6 +13,9 @@ exp_fd(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the density
 Created by Stephen Jewson

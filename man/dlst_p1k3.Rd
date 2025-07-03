@@ -17,9 +17,12 @@ dlst_p1k3(x, t0, ymn, slope, sigma, log = FALSE, kdf)
 
 \item{sigma}{the sigma parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
 
 \item{kdf}{the known degrees of freedom parameter}
+}
+\value{
+Vector
 }
 \description{
 LST-with-p1 density function

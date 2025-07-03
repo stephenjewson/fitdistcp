@@ -27,6 +27,9 @@ gev_p1_ggd(x, t, v1, d1, v2, d2, v3, fd3, v4, d4)
 
 \item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Derivative of information matrix, based on ldd
 }

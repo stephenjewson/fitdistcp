@@ -21,6 +21,9 @@ gev_p12k3_f1fa(x, t, v1, v2, v3, v4, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

@@ -16,6 +16,9 @@ reltest2_cases(model = "gev", nx = 50, params)
 
 \item{params}{model parameters}
 }
+\value{
+Two integers
+}
 \description{
 Cases
 }

@@ -21,6 +21,9 @@ pareto_p1k2_p1f(y, t0, v1, d1, v2, d2, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 2.1, p1 term
 }

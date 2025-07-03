@@ -19,6 +19,9 @@ pfrechet_p2k1(x, t0, ymn, slope, lambda, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Vector
+}
 \description{
 Frechet_k1-with-p2 distribution function
 }

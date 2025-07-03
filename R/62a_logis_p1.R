@@ -1,9 +1,8 @@
 #' Logistic Distribution with a Predictor, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -23,7 +22,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\sigma) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_62_logis_p1.R
 #'
@@ -42,7 +41,7 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 	debug=TRUE
 	debug=FALSE
-	if(debug)cat("inside qlogis_p1\n")
+	if(debug)message("inside qlogis_p1")
 	stopifnot(	is.finite(x),!is.na(x),is.finite(p),!is.na(p),p>0,p<1)
 	alpha=1-p
 	nx=length(x)
@@ -59,7 +58,7 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 3 ml param estimate
 #
-	if(debug)cat("calc ml param estimate\n")
+	if(debug)message("calc ml param estimate")
 	lm=lm(x~t)
 	v1start=lm$coefficients[1]
 	v2start=lm$coefficients[2]
@@ -74,7 +73,7 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 	muhat=ml_params[1]+ml_params[2]*t
 	muhat0=makemuhat0(t0,n0,t,ml_params)
 	residuals=x-muhat
-	if(debug)cat("  ml_params=",ml_params,"\n")
+	if(debug)message("  ml_params=",ml_params)
 #
 # 4 predictordata
 #
@@ -84,13 +83,13 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 5 aic
 #
-	if(debug)cat("calc aic\n")
+	if(debug)message("calc aic")
  	ml_value=opt$val
 	maic=make_maic(ml_value,nparams=3)
 #
 # 6 mle quantiles
 #
-	if(debug)cat("calc mle quantiles\n")
+	if(debug)message("calc mle quantiles")
 	ml_quantiles=qlogis_p1((1-alpha),t0,ymn=v1hat,slope=v2hat,scale=v3hat)
 #
 # dmgs
@@ -111,7 +110,7 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 7 lddi
 #
-		if(debug)cat("calc ldd\n")
+		if(debug)message("calc ldd")
 		if(aderivs) ldd=logis_p1_ldda(x,t,v1hat,v2hat,v3hat)
 		if(!aderivs)ldd=logis_p1_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
 		lddi=solve(ldd)
@@ -119,30 +118,30 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 8 lddd
 #
-		if(debug)cat("calculate lddd\n")
+		if(debug)message("calculate lddd")
 		if(aderivs) lddd=logis_p1_lddda(x,t,v1hat,v2hat,v3hat)
 		if(!aderivs)lddd=logis_p1_lddd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
 #
 # 9 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		if(aderivs) mu1=logis_p1_mu1fa(alpha,t0,v1hat,v2hat,v3hat)
 		if(!aderivs)mu1=logis_p1_mu1f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3)
 #
 # 10 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		if(aderivs) mu2=logis_p1_mu2fa(alpha,t0,v1hat,v2hat,v3hat)
 		if(!aderivs)mu2=logis_p1_mu2f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3)
 #
 # 11 rhp
 #
-		if(debug)cat("  rhp\n")
+		if(debug)message("  rhp")
 		lambdad_rhp=c(0,0,-1/v3hat)
 #
 # 12 rhp quantiles
 #
-		if(debug)cat("  rhp quantiles\n")
+		if(debug)message("  rhp quantiles")
 		fhat=dlogis_p1(ml_quantiles,t0,ymn=v1hat,slope=v2hat,scale=v3hat,log=FALSE)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=3)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)

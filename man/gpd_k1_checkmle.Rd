@@ -15,6 +15,9 @@ gpd_k1_checkmle(ml_params, kloc, minxi, maxxi)
 
 \item{maxxi}{maximum value of shape parameter xi}
 }
+\value{
+No return value (just a message to the screen).
+}
 \description{
 Check MLE
 }

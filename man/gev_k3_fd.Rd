@@ -17,6 +17,9 @@ gev_k3_fd(x, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the density
 Created by Stephen Jewson

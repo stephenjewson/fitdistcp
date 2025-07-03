@@ -2,6 +2,8 @@
 #' @param ggd 	gradient of the expected information matrix
 #' @param detg	determinant of the expected information matrix
 #' @param ggi 	inverse of the expected information matrix
+#'
+#' @return Vector of 2 values
 jpf2p=function(ggd,detg,ggi){
 	dgd1=ggd[1,,]
 	dgd2=ggd[2,,]
@@ -18,6 +20,8 @@ jpf2p=function(ggd,detg,ggi){
 #' @param ggd 	gradient of the expected information matrix
 #' @param detg	determinant of the expected information matrix
 #' @param ggi 	inverse of the expected information matrix
+#'
+#' @return Vector of 3 values
 jpf3p=function(ggd,detg,ggi){
 	dgd1=ggd[1,,]
 	dgd2=ggd[2,,]
@@ -36,6 +40,7 @@ jpf3p=function(ggd,detg,ggi){
 #' @param ggd 	gradient of the expected information matrix
 #' @param detg	determinant of the expected information matrix
 #' @param ggi 	inverse of the expected information matrix
+#' @return Vector of 4 values
 jpf4p=function(ggd,detg,ggi){
 	dgd1=ggd[1,,]
 	dgd2=ggd[2,,]

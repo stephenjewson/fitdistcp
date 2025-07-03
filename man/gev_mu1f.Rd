@@ -21,6 +21,9 @@ gev_mu1f(alpha, v1, d1, v2, fd2, v3, d3)
 
 \item{d3}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, mu1 term
 }

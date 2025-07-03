@@ -55,9 +55,12 @@ dgev_p12sub(
 
 \item{debug}{debug flag}
 
-\item{extramodels}{a logical that indicates whether to add three additional prediction models}
+\item{extramodels}{logical that indicates whether to add three additional prediction models}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities for 5 predictions

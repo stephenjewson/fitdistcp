@@ -15,6 +15,9 @@ gev_k3_mu1fa(alpha, v1, v2, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

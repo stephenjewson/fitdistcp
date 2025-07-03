@@ -11,8 +11,8 @@ rgev_p12_minmax(
   xi,
   t1,
   t2,
-  ximin = -0.45,
-  ximax = 0.45,
+  minxi = -0.45,
+  maxxi = 0.45,
   centering = TRUE
 )
 }
@@ -29,11 +29,14 @@ rgev_p12_minmax(
 
 \item{t2}{a vector of predictors for the sd}
 
-\item{ximin}{minimum value of shape parameter xi}
+\item{minxi}{minimum value of shape parameter xi}
 
-\item{ximax}{maximum value of shape parameter xi}
+\item{maxxi}{maximum value of shape parameter xi}
 
 \item{centering}{indicates whether the routine should center the data or not}
+}
+\value{
+Vector
 }
 \description{
 rgev for gev_p12 but with maxlik xi within bounds

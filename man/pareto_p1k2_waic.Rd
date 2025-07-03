@@ -19,7 +19,7 @@ pareto_p1k2_waic(
 )
 }
 \arguments{
-\item{waicscores}{a logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
+\item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
 
 \item{x}{a vector of training data values}
 
@@ -40,6 +40,9 @@ pareto_p1k2_waic(
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
+}
+\value{
+Two numeric values.
 }
 \description{
 Waic

@@ -15,7 +15,10 @@ dnorm_p1sub(x, t, y, t0, aderivs = TRUE)
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

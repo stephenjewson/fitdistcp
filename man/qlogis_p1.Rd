@@ -17,6 +17,9 @@ qlogis_p1(p, t0, ymn, slope, scale)
 
 \item{scale}{the scale parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 Logistic-with-p1 quantile function
 }

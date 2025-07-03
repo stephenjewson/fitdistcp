@@ -15,6 +15,9 @@ makemuhat0(t0, n0, t, mle_params)
 
 \item{mle_params}{MLE params}
 }
+\value{
+Scalar
+}
 \description{
 Make muhat0
 }

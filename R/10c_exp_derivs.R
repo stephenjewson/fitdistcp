@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 exp_fd=function (x, v1) 
 {
@@ -13,6 +14,7 @@ exp_fd=function (x, v1)
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
 #' @inheritParams manf
+#' @returns Matrix
 exp_fdd=function (x, v1) 
 {
     .e1 <- v1 * x
@@ -22,6 +24,7 @@ exp_fdd=function (x, v1)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 exp_pd=function (x, v1) 
 x * exp(-(v1 * x))
@@ -29,6 +32,7 @@ x * exp(-(v1 * x))
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 exp_pdd=function (x, v1) 
 -(x^2 * exp(-(v1 * x)))
@@ -36,6 +40,7 @@ exp_pdd=function (x, v1)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 exp_logfdd=function (x, v1) 
 -(1/v1^2)
@@ -43,11 +48,13 @@ exp_logfdd=function (x, v1)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 exp_logfddd=function (x, v1) 
 2/v1^3
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 exp_f1fa=function(x,v1){
 	nx=length(x)
@@ -58,6 +65,7 @@ exp_f1fa=function(x,v1){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 exp_f2fa=function(x,v1){
 	nx=length(x)
@@ -68,6 +76,7 @@ exp_f2fa=function(x,v1){
 }
 ############################################################
 #' The first derivative of the cdf
+#' @returns Vector
 #' @inheritParams manf
 exp_p1fa=function(x,v1){
 	nx=length(x)
@@ -78,6 +87,7 @@ exp_p1fa=function(x,v1){
 }
 ############################################################
 #' The second derivative of the cdf
+#' @returns Matrix
 #' @inheritParams manf
 exp_p2fa=function(x,v1){
 	nx=length(x)
@@ -88,6 +98,7 @@ exp_p2fa=function(x,v1){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 exp_ldda=function(x,v1){
 	nx=length(x)
@@ -98,6 +109,7 @@ exp_ldda=function(x,v1){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 exp_lddda=function(x,v1){
 	nx=length(x)

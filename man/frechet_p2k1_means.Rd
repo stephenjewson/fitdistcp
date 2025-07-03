@@ -17,7 +17,7 @@ frechet_p2k1_means(
 )
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
@@ -34,6 +34,9 @@ frechet_p2k1_means(
 \item{dim}{number of parameters}
 
 \item{kloc}{the known location parameter}
+}
+\value{
+Two scalars
 }
 \description{
 frechet_k1 distribution: RHP mean

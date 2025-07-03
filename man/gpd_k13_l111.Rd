@@ -17,6 +17,9 @@ gpd_k13_l111(x, v1, fd1, v2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the third derivative of the normalized log-likelihood
 }

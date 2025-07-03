@@ -44,6 +44,9 @@ reltest2_predict(model = "gev", xx, tt, n0, pp, params, case, nmethods)
 
 \item{nmethods}{the number of methods: different models have different numbers of methods}
 }
+\value{
+Vector
+}
 \description{
 Make prediction from one model
 }

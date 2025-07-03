@@ -17,6 +17,9 @@ weibull_p2_f1fa(x, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

@@ -1,9 +1,8 @@
 #' Normal Distribution with a Predictor, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -24,7 +23,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(a,b,\sigma) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_60_norm_p1.R
 #'
@@ -65,7 +64,7 @@ qnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01
   v2hat=ml_params[2]
   v3hat=ml_params[3]
 	muhat0=makemuhat0(t0,n0,t,ml_params)
-  if(debug)cat("  v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat,"\n")
+  if(debug)message("  v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat)
 #
 # 4 predictordata
 #

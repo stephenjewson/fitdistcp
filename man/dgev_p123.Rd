@@ -27,7 +27,10 @@ dgev_p123(x, t1, t2, t3, ymn, slope, sigma1, sigma2, xi1, xi2, log = FALSE)
 
 \item{xi2}{second coefficient for the shape parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
+}
+\value{
+Vector
 }
 \description{
 GEVD-with-p1: Density function

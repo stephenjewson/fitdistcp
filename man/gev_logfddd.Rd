@@ -17,6 +17,9 @@ gev_logfddd(x, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+3d array
+}
 \description{
 Third derivative of the log density
 Created by Stephen Jewson

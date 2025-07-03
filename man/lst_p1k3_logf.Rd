@@ -15,6 +15,9 @@ lst_p1k3_logf(params, x, t, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

@@ -13,6 +13,9 @@ lst_p1k3_setics(x, t, ics)
 
 \item{ics}{initial conditions for the maximum likelihood search}
 }
+\value{
+Vector
+}
 \description{
 Set initial conditions
 }

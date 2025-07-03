@@ -25,6 +25,9 @@ gev_p12_pd(x, t1, t2, v1, v2, v3, v4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the cdf
 Created by Stephen Jewson

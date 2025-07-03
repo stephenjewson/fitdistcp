@@ -2,7 +2,7 @@
 % Please edit documentation in R/05_utils.R
 \name{make_se}
 \alias{make_se}
-\title{Make Standad Errors from lddi}
+\title{Make Standard Errors from lddi}
 \usage{
 make_se(nx, lddi)
 }
@@ -11,6 +11,9 @@ make_se(nx, lddi)
 
 \item{lddi}{the inverse log-likelihood matrix}
 }
+\value{
+Vector
+}
 \description{
-Make Standad Errors from lddi
+Make Standard Errors from lddi
 }

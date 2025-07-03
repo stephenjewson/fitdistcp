@@ -1,9 +1,8 @@
 #' Uniform Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -24,7 +23,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\lambda) \propto \frac{1}{max-min}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_25_unif.R
 #'
@@ -113,7 +112,6 @@ dunif_cp=function(x,y=x,debug=FALSE,aderivs=TRUE){
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
 	dd=dunif_formula(x,y)
-#	cat("dd$ml_pdf=",dd$ml_pdf,"\n")
 
 	op=list(	ml_params=dd$ml_params,
 					ml_pdf=dd$ml_pdf,

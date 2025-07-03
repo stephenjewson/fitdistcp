@@ -1,5 +1,6 @@
 # I use v1=shape,v2=scale
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 invgamma_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -21,6 +22,7 @@ invgamma_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderiv
 	list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 invgamma_logf=function(params,x){
 #	sh=params[1]
@@ -34,7 +36,9 @@ invgamma_logf=function(params,x){
 	sc=pmax(params[2],.Machine$double.eps)
 	logf=sum(actuar::dinvgamma(x,shape=sh,scale=sc,log=TRUE))-log(sh)-log(sc)
 	return(logf)
-}#'  log-likelihood function
+}
+#'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 invgamma_loglik=function(vv,x){
 	n=length(x)
@@ -42,6 +46,7 @@ invgamma_loglik=function(vv,x){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 invgamma_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 	d1=fd1*v1
@@ -76,7 +81,9 @@ invgamma_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 		dld=(lmn[1]-2*lmn[2]+lmn[3])/(dd[mm]*dd[mm])
 	}
 	return(dld)
-}#' Second derivative matrix of the normalized log-likelihood
+}
+#' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 invgamma_ldd=function(x,v1,fd1,v2,fd2){
 	ldd=matrix(0,2,2)
@@ -93,6 +100,7 @@ invgamma_ldd=function(x,v1,fd1,v2,fd2){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 invgamma_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	d1=fd1*v1
@@ -153,6 +161,7 @@ invgamma_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	}
 	return(dld)
 }#' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 invgamma_lddd=function(x,v1,fd1,v2,fd2){
 	lddd=array(0,c(2,2,2))
@@ -176,6 +185,7 @@ invgamma_lddd=function(x,v1,fd1,v2,fd2){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 invgamma_f1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -200,6 +210,7 @@ invgamma_f1f=function(y,v1,fd1,v2,fd2){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 invgamma_p1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -224,6 +235,7 @@ invgamma_p1f=function(y,v1,fd1,v2,fd2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 invgamma_mu1f=function(alpha,v1,fd1,v2,fd2){
 	q00=actuar::qinvgamma((1-alpha),shape=v1,scale=v2)
@@ -249,6 +261,7 @@ invgamma_mu1f=function(alpha,v1,fd1,v2,fd2){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 invgamma_f2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -290,6 +303,7 @@ invgamma_f2f=function(y,v1,fd1,v2,fd2){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 invgamma_p2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -331,6 +345,7 @@ invgamma_p2f=function(y,v1,fd1,v2,fd2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 invgamma_mu2f=function(alpha,v1,fd1,v2,fd2){
 	q00=actuar::qinvgamma((1-alpha),shape=v1,scale=v2)
@@ -373,6 +388,7 @@ invgamma_mu2f=function(alpha,v1,fd1,v2,fd2){
 	return(mu2)
 }
 #' Log scores for MLE and cp predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 invgamma_logscores=function(logscores,x,fd1=0.01,fd2=0.01,aderivs=TRUE){
 
@@ -400,6 +416,7 @@ invgamma_logscores=function(logscores,x,fd1=0.01,fd2=0.01,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,cp_oos_logscore=cp_oos_logscore)
 }
 #' Densities from MLE and cp
+#' @inherit mandsub return
 #' @inheritParams manf
 dinvgammasub=function(x,y,fd1=0.01,fd2=0.01,aderivs=TRUE){
 

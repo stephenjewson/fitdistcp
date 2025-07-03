@@ -11,6 +11,9 @@ gamma_loglik(vv, x)
 
 \item{x}{a vector of training data values}
 }
+\value{
+Scalar value.
+}
 \description{
 log-likelihood function
 }

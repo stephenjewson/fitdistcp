@@ -36,12 +36,12 @@ reltest2(
 \item{verbose}{logical to turn loop counting on and off}
 }
 \value{
-A plot showing 9 different diagnostic checks, and a list containing
+A plot showing 9 different reliability checks, and a list containing
 various outputs, including the
 probabilities shown in the plot.
 }
 \description{
-This routine is mainly for reproducing certain results in Jewson et al. (2024),
+This routine is mainly for reproducing certain results in Jewson et al. (2025),
 and not of general interest.
 
 It uses simulations to evaluate the reliability of
@@ -63,7 +63,8 @@ The other predictions generally give poor reliability.
 set.seed(1)
 # example 1
 # -runs the default settings, which test reliability for the GEV distribution
-reltest2()
+reltest2(nrepeats=1)
+
 }
 \references{
 If you use this package, we would be grateful if you would cite the following reference,
@@ -72,19 +73,65 @@ which gives the various calibrating priors, and tests them for reliability:
 \itemize{
 \item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
 Assessments of Extreme Weather Risk using Calibrating Priors;
-ASCMO (Advances in Statistical Climatology, Meteorology and Oceanography)
+ASCMO Advances in Statistical Climatology, Meteorology and Oceanography),
+\url{https://ascmo.copernicus.org/articles/11/1/2025/}.
+}
+}
+\seealso{
+An introduction to \code{fitdistcp}, with more examples,
+is given \href{http://www.fitdistcp.info/index.html}{on this webpage}.
+
+The \code{fitdistcp} package currently includes the following models (in alphabetical order):
+\itemize{
+\item Cauchy (\code{cauchy}),
+\item Cauchy with linear predictor on the mean (\code{cauchy_p1}),
+\item Exponential (\code{exp}),
+\item Exponential with log-linear predictor on the scale (\code{exp_p1}),
+\item Frechet with known location parameter (\code{frechet_k1}),
+\item Frechet with log-linear predictor on the scale and known location parameter
+(\code{frechet_p2k1}),
+\item Gamma (\code{gamma}),
+\item Generalized normal (\code{gnorm}),
+\item GEV (\code{gev}),
+\item GEV with linear predictor on the location (\code{gev_p1}),
+\item GEV with linear predictor on the location and log-linear prediction on the scale
+(\code{gev_p12}),
+\item GEV with linear predictor on the location, log-linear prediction on the scale,
+and linear predictor on the shape (\code{gev_p123}),
+\item GEV with linear predictor on the location and known shape (\code{gev_p1k3}),
+\item GEV with known shape (\code{gev_k3}),
+\item GPD with known location (\code{gpd_k1}),
+\item Gumbel (\code{gumbel}),
+\item Gumbel with linear predictor on the mean(\code{gumbel_p1}),
+\item Half-normal (\code{halfnorm}),
+\item Inverse gamma (\code{invgamma}),
+\item Inverse Gaussian (\code{invgauss}),
+\item t distribution with unknown location and scale and known DoF (\code{lst_k3}),
+\item t distribution with unknown location and scale, linear predictor on the location,
+and known DoF (\code{lst_p1k3}),
+\item Logistic (\code{logis}),
+\item Logistic with linear predictor on the location (\code{logis_p1}),
+\item Log-normal (\code{lnorm}),
+\item Log-normal with linear predictor on the location (\code{lnorm_p1}),
+\item Normal (\code{norm}),
+\item Normal with linear predictor on the mean (\code{norm_p1}),
+\item Pareto with known scale (\code{pareto_k2}),
+\item Pareto with log-linear predictor on the shape and known scale (\code{pareto_p1k2}),
+\item Uniform (\code{unif}),
+\item Weibull (\code{weibull}),
+\item Weibull with linear predictor on the scale (\code{weibull_p2}),
 }
 
-The proof that using the right Haar prior gives exact probability
-matching for homogeneous models is given in:
-\itemize{
-\item Severini, T., Mukerjee, R. and Ghosh, M. (2002); Biometrika
-}
+The level of predictive probability matching achieved
+by the maximum likelihood and calibrating prior quantiles, for any model,
+sample size and true parameter values, can be demonstrated using the
+routine \code{reltest}.
 
-The DMGS asymptotic expansions come from:
-\itemize{
-\item Datta, G., Mukerjee, R., Ghosh, M. and Sweeting, T. (2000); Annals of Statistics
-}
+Model selection among models can be demonstrated using the routines
+\code{ms_flat_1tail},
+\code{ms_flat_2tail},
+\code{ms_predictors_1tail},
+and \code{ms_predictors_2tail},
 }
 \author{
 Stephen Jewson \email{stephen.jewson@gmail.com}

@@ -27,6 +27,9 @@ gev_p123_mu2fa(alpha, t01, t02, t03, v1, v2, v3, v4, v5, v6)
 
 \item{v6}{sixth parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

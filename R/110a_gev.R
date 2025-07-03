@@ -1,9 +1,8 @@
 #' Generalized Extreme Value Distribution, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 #' @inheritSection man Optional Return Values (EVT models only)
 #' @inheritSection man Optional Return Values (some EVT models only)
@@ -28,7 +27,7 @@
 #'
 #' The calibrating prior we use is given by
 #' \deqn{\pi(\mu,\sigma,\xi) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' The code will stop with an error if the
 #' input data gives a maximum likelihood
@@ -47,7 +46,7 @@ NULL
 #'
 qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 	d1=0.01,fd2=0.01,d3=0.01,fdalpha=0.01,
-	minxi=-0.45,maxxi=0.45,
+	minxi=-1,maxxi=999,
 	means=FALSE,waicscores=FALSE,extramodels=FALSE,
 	pdf=FALSE,customprior=0,
 	dmgs=TRUE,rust=FALSE,nrust=100000,
@@ -73,11 +72,11 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 	v2hat=opt1$par[2]
 	v3hat=opt1$par[3]
 	ml_params=c(v1hat,v2hat,v3hat)
-	gev_checkmle(ml_params,minxi,maxxi)
-	if(debug)cat("	v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat,"\n")
+#	gev_checkmle(ml_params,minxi,maxxi)
+	if(debug)message("	v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat,"")
 	pw_params="pwm not selected"
 	if(pwm)pw_params=gev_pwm_params(x)
-#
+	if(abs(v3hat)>=1){revert2ml=TRUE}else{revert2ml=FALSE}
 # 3 aic
 #
 	ml_value=opt1$val
@@ -122,8 +121,8 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #
 # 5 alpha pdf stuff
 #
-	if(dmgs){
-		if(debug)cat("  ml_quantiles=",ml_quantiles,"\n")
+	if((dmgs)&&(!revert2ml)){
+		if(debug)message("  ml_quantiles=",ml_quantiles,"")
 		if(pdf){
 			ml_quantilesm=qgev((1-alpham),mu=v1hat,sigma=v2hat,xi=v3hat)
 			ml_quantilesp=qgev((1-alphap),mu=v1hat,sigma=v2hat,xi=v3hat)
@@ -133,7 +132,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #
 # 6 expected information matrix and related (for Jeffreys prior)
 #
-		if(debug)cat(" call gev.infomat\n")
+		if(debug)message(" call gev.infomat")
 		if(extramodels|means){
 			gg=gev.infomat(c(v1hat,v2hat,v3hat),dat=c(1),method=c("exp")) #faster than num (seems to fail when v3hat=0.4 though)
 			ggi=solve(gg)
@@ -143,7 +142,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #
 # 7 ldd (two versions)
 #
-		if(debug)cat("  calculate ldd\n")
+		if(debug)message("  calculate ldd")
 
 		if(aderivs) ldd=gev_ldda(x,v1hat,v2hat,v3hat)
 		if(!aderivs)ldd=gev_ldd(x,v1hat,d1,v2hat,fd2,v3hat,d3)
@@ -158,7 +157,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #
 # 8 lddd (two versions)
 #
-		if(debug)cat("  calculate lddd\n")
+		if(debug)message("  calculate lddd")
 
 		if(aderivs) lddd=gev_lddda(x,v1hat,v2hat,v3hat)
 		if(!aderivs)lddd=gev_lddd(x,v1hat,d1,v2hat,fd2,v3hat,d3)
@@ -291,7 +290,22 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 			rustsim=rgev_cp(nrust,x,rust=TRUE,mlcp=FALSE)
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
-	} #end of if(dmgs)
+#end of if(dmgs)
+	} else {
+		flat_quantiles=ml_quantiles
+	  rh_ml_quantiles=ml_quantiles
+		rh_flat_quantiles=ml_quantiles
+	  ru_quantiles=ml_quantiles
+	  jp_quantiles=ml_quantiles
+	  pw_quantiles=ml_quantiles
+	  custom_quantiles=ml_quantiles
+	  rh_flat_pdf=ml_pdf
+	  flat_mean=ml_mean
+	  rh_ml_mean=ml_mean
+	  rh_flat_mean=ml_mean
+	  jp_mean=ml_mean
+	  custom_mean=ml_mean
+	}
 
 	list(	ml_params=ml_params,
 				pw_params=pw_params,
@@ -301,6 +315,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 				standard_errors=standard_errors,
 				ml_quantiles=ml_quantiles,
 				ml_max=ml_max,
+				revert2ml=revert2ml,
 				flat_quantiles=flat_quantiles,
 				rh_ml_quantiles=rh_ml_quantiles,
 				cp_quantiles=rh_flat_quantiles,
@@ -385,23 +400,28 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),d1=0.01,fd2=0.01,d3=0.01,
 	v1hat=opt1$par[1]
 	v2hat=opt1$par[2]
 	v3hat=opt1$par[3]
+	if(v3hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat)
-	gev_checkmle(ml_params,minxi,maxxi)
+#	gev_checkmle(ml_params,minxi,maxxi)
 	dd=dgevsub(x=x,y=y,ics=ics,d1=d1,fd2=fd2,d3=d3,customprior=0,
 		minxi=minxi,maxxi=maxxi,extramodels=extramodels,aderivs=aderivs)
 	ru_pdf="rust not selected"
 
-	if(rust){
+	if(rust&&(!revert2ml)){
 		th=tgev_cp(nrust,x)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_pdf=ru_pdf+dgev(y,mu=th[ir,1],sigma=th[ir,2],xi=th[ir,3])
 		}
 		ru_pdf=ru_pdf/nrust
+	} else {
+		ru_pdf=dd$ml_pdf
 	}
+
 	op=list(
 					ml_params=dd$ml_params,
 					ml_pdf=dd$ml_pdf,
+					revert2ml=revert2ml,
 					ru_pdf=ru_pdf,
 					cp_method=nopdfcdfmsg())
 	return(op)
@@ -420,22 +440,28 @@ pgev_cp=function(x,y=x,ics=c(0,0,0),d1=0.01,fd2=0.01,d3=0.01,
 	v1hat=opt1$par[1]
 	v2hat=opt1$par[2]
 	v3hat=opt1$par[3]
+	if(v3hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat)
-	gev_checkmle(ml_params,minxi,maxxi)
+#	gev_checkmle(ml_params,minxi,maxxi)
 	dd=dgevsub(x=x,y=y,ics=ics,d1=d1,fd2=fd2,d3=d3,customprior=0,
 		minxi=minxi,maxxi=maxxi,extramodels=extramodels,aderivs=aderivs)
 	ru_cdf="rust not selected"
-	if(rust){
+
+	if(rust&&(!revert2ml)){
 		th=tgev_cp(nrust,x)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_cdf=ru_cdf+pgev(y,mu=th[ir,1],sigma=th[ir,2],xi=th[ir,3])
 		}
 		ru_cdf=ru_cdf/nrust
+	} else {
+		ru_pdf=dd$ml_pdf
 	}
+
 	op=list(
 					ml_params=dd$ml_params,
 					ml_cdf=dd$ml_cdf,
+					revert2ml=revert2ml,
 					ru_cdf=ru_cdf,
 					cp_method=nopdfcdfmsg())
 	return(op)

@@ -13,6 +13,9 @@ pareto_k2_lddda(x, v1, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

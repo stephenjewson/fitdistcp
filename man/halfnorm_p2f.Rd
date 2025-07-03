@@ -13,6 +13,9 @@ halfnorm_p2f(y, v1, fd1)
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 2.1, p2 term
 }

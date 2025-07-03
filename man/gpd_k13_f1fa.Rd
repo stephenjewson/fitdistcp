@@ -15,6 +15,9 @@ gpd_k13_f1fa(x, v1, v2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

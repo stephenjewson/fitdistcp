@@ -26,6 +26,9 @@ reltest_makemaxep(model, ml_max, tt0, tt10, tt20, tt30, params)
 
 \item{params}{the model parameters}
 }
+\value{
+Vector
+}
 \description{
 Calculate MaxEP from one model
 }

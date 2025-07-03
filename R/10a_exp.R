@@ -1,9 +1,9 @@
 #' Exponential Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
+# #' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVT models only)
 # #' @inheritSection man Optional Return Values (non-homogeneous models only)
@@ -23,7 +23,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\lambda) \propto \frac{1}{\lambda}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_10_exp.R
 #'

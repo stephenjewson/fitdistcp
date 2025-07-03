@@ -17,6 +17,9 @@ plogis_p1(x, t0, ymn, slope, scale)
 
 \item{scale}{the scale parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 Logistic-with-p1 distribution function
 }

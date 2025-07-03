@@ -1,8 +1,9 @@
 #' rgev but with maxlik xi guaranteed within bounds
+#' @return Vector
 #' @inheritParams manf
 rgev_minmax=function(nx,mu,sigma,xi,minxi=-0.45,maxxi=0.45){
-	xihat=-999
-	while((xihat<minxi)||(xihat>maxxi)){ #0.46 also works...0.47 doesn't
+	xihat=-9999
+	while((xihat<minxi)||(xihat>maxxi)){
 		xx=extraDistr::rgev(nx,mu=mu,sigma=sigma,xi=xi)
 		ics=gev_setics(xx,c(0,0,0))
 		opt1=optim(ics,gev_loglik,x=xx,control=list(fnscale=-1))
@@ -11,6 +12,7 @@ rgev_minmax=function(nx,mu,sigma,xi,minxi=-0.45,maxxi=0.45){
 	return(xx)
 }
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gev_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,v3hat,d3,lddi,lddd,
 	lambdad,aderivs){
@@ -33,6 +35,7 @@ gev_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,v3hat,d3,lddi,lddd,
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gev_logf=function(params,x){
 	mu=params[1]
@@ -42,6 +45,7 @@ gev_logf=function(params,x){
 	return(logf)
 }
 #' Set initial conditions
+#' @return Vector
 #' @inheritParams manf
 gev_setics=function(x,ics){
 	if((ics[1]==0)&&(ics[2]==0)&&(ics[3]==0)){
@@ -52,6 +56,7 @@ gev_setics=function(x,ics){
 	return(ics)
 }
 #' PWM parameter estimation
+#' @return Vector
 #' @inheritParams manf
 gev_pwm_params=function(x){
 		pw_params=matrix(0,3)
@@ -64,6 +69,7 @@ gev_pwm_params=function(x){
 return(pw_params)
 }
 #'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gev_loglik=function(vv,x){
 	n=length(x)
@@ -71,6 +77,7 @@ gev_loglik=function(vv,x){
 	return(loglik)
 }
 #' Check MLE
+#' @return No return value (just a message to the screen).
 #' @inheritParams manf
 gev_checkmle=function(ml_params,minxi,maxxi){
 	v1hat=ml_params[1]
@@ -79,10 +86,11 @@ gev_checkmle=function(ml_params,minxi,maxxi){
 	if(is.na(v1hat))stop()
 	if(is.na(v2hat))stop()
 	if(is.na(v3hat))stop()
-	if(v3hat<minxi){cat("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
-	if(v3hat>maxxi){cat("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
+	if(v3hat<minxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
+	if(v3hat>maxxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gev_lmn=function(x,v1,d1,v2,fd2,v3,d3,mm,nn){
 	d2=fd2*v2
@@ -118,6 +126,7 @@ gev_lmn=function(x,v1,d1,v2,fd2,v3,d3,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gev_ldd=function(x,v1,d1,v2,fd2,v3,d3){
 #
@@ -136,6 +145,7 @@ gev_ldd=function(x,v1,d1,v2,fd2,v3,d3){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gev_lmnp=function(x,v1,d1,v2,fd2,v3,d3,mm,nn,rr){
 	d2=fd2*v2
@@ -196,6 +206,7 @@ gev_lmnp=function(x,v1,d1,v2,fd2,v3,d3,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gev_lddd=function(x,v1,d1,v2,fd2,v3,d3){
 	lddd=array(0,c(3,3,3))
@@ -220,14 +231,11 @@ gev_lddd=function(x,v1,d1,v2,fd2,v3,d3){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gev_f1f=function(y,v1,d1,v2,fd2,v3,d3){
   d2=fd2*v2
 	ymax=ifelse(v3<0,v1-2*d1-(v2-2*d2)/(v3-2*d3),Inf)
-#	cat("1=",ifelse(v3<0,v1-2*d1-(v2-2*d2)/(v3-2*d3),Inf),"\n")
-#	cat("2=",ifelse(v3<0,v1+2*d1-(v2-2*d2)/(v3-2*d3),Inf),"\n")
-#	cat("3=",ifelse(v3<0,v1-2*d1-(v2+2*d2)/(v3-2*d3),Inf),"\n")
-#	cat("4=",ifelse(v3<0,v1-2*d1-(v2-2*d2)/(v3+2*d3),Inf),"\n")
 # v1 stuff
 	v1m1=v1-1*d1
 	v100=v1+0*d1
@@ -256,6 +264,7 @@ gev_f1f=function(y,v1,d1,v2,fd2,v3,d3){
 	return(f1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gev_mu1f=function(alpha,v1,d1,v2,fd2,v3,d3){
 	q00=extraDistr::qgev((1-alpha),mu=v1,sigma=v2,xi=v3)
@@ -288,6 +297,7 @@ gev_mu1f=function(alpha,v1,d1,v2,fd2,v3,d3){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_f2f=function(y,v1,d1,v2,fd2,v3,d3){
   d2=fd2*v2
@@ -329,6 +339,7 @@ gev_f2f=function(y,v1,d1,v2,fd2,v3,d3){
 	return(f2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_mu2f=function(alpha,v1,d1,v2,fd2,v3,d3){
 	q00=extraDistr::qgev((1-alpha),mu=v1,sigma=v2,xi=v3)
@@ -370,6 +381,7 @@ gev_mu2f=function(alpha,v1,d1,v2,fd2,v3,d3){
 	return(mu2)
 }
 #' Derivative of expected information matrix, based on MEV routine gev.infomat
+#' @inherit manldd return
 #' @inheritParams manf
 gev_ggd_mev=function(v1,d1,v2,fd2,v3,d3){
 	ggd=array(0,c(3,3,3))
@@ -390,6 +402,7 @@ gev_ggd_mev=function(v1,d1,v2,fd2,v3,d3){
   return(ggd)
 }
 #' Derivative of inverse expected information matrix, based on MEV routine gev.infomat
+#' @inherit manlddd return
 #' @inheritParams manf
 gev_ggid_mev=function(v1,d1,v2,fd2,v3,d3){
 	ggid=array(0,c(3,3,3))
@@ -417,6 +430,7 @@ gev_ggid_mev=function(v1,d1,v2,fd2,v3,d3){
 }
 #' Analytical Expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1
+#' @inherit manmeans return
 #' @inheritParams manf
 gev_means=function(means,ml_params,lddi,lddi_k3,lddd,lddd_k3,
 									lambdad_flat,lambdad_rh_mle,
@@ -499,6 +513,7 @@ gev_means=function(means,ml_params,lddi,lddi_k3,lddd,lddd_k3,
 				rh_flat_mean=rh_flat_mean,jp_mean=jp_mean,custom_mean=custom_mean)
 }
 #' Densities for 5 predictions
+#' @inherit mandsub return
 #' @inheritParams manf
 dgevsub=function(x,y,ics,d1=0.01,fd2=0.01,d3=0.01,customprior,
 	minxi,maxxi,extramodels=FALSE,aderivs=TRUE){
@@ -509,13 +524,13 @@ dgevsub=function(x,y,ics,d1=0.01,fd2=0.01,d3=0.01,customprior,
 		opt=optim(ics,gev_loglik,x=x,control=list(fnscale=-1))
 		v1hat=opt$par[1]
 		v2hat=opt$par[2]
-#		v3hat=opt$par[3]
+		v3hat=opt$par[3]
 #don't want to stop the code here, so just reset the value in this case
-		v3hat=min(maxxi,max(minxi,opt$par[3])) #don't want to stop the code here, so just reset the value in this case
-#
-# this line above seems to cause problems, because it can result in v3 values for
-# which x then lies outside the range, causing errors later
-#
+#		v3hat=min(maxxi,max(minxi,opt$par[3])) #don't want to stop the code here, so just reset the value in this case
+# notes on this:
+# -I've commented this out now because I think it's ok with the aderivs
+# -but I'm not quite sure
+
 		ml_params=c(v1hat,v2hat,v3hat)
 
 # now that I've dropped dmgs, don't think I need this

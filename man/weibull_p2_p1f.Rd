@@ -23,6 +23,9 @@ weibull_p2_p1f(y, t0, v1, fd1, v2, d2, v3, d3)
 
 \item{d3}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 2.1, p1 term
 }

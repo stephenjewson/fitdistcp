@@ -13,6 +13,9 @@ halfnorm_lddd(x, v1, fd1)
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the log-likelihood
 }

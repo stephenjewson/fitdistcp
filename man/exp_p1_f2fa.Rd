@@ -15,6 +15,9 @@ exp_p1_f2fa(x, t, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the density
 }

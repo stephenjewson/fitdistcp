@@ -21,6 +21,9 @@ frechet_p2k1_logfddd(x, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+3d array
+}
 \description{
 Third derivative of the log density
 Created by Stephen Jewson

@@ -11,6 +11,9 @@ exp_p1fa(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the cdf
 }

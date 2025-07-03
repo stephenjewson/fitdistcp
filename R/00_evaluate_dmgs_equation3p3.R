@@ -6,6 +6,8 @@
 #' @param pidopi2 second part of the prior term
 #' @param mu2 DMGS mu2 matrix
 #' @param dim number of parameters
+#'
+#' @return Vector
 bayesian_dq_4terms_v1=function(lddi,lddd,mu1,pidopi1,pidopi2,mu2,dim){
 	nalpha=length(mu1[1,])
 	beps1=rep(0,nalpha)
@@ -50,6 +52,8 @@ bayesian_dq_4terms_v1=function(lddi,lddd,mu1,pidopi1,pidopi2,mu2,dim){
 #' @param pidopi derivative of log prior
 #' @param mu2 DMGS mu2 matrix
 #' @param dim number of parameters
+#'
+#' @return Vector
 dmgs=function(lddi,lddd,mu1,pidopi,mu2,dim){
 	pidopi1=2*pidopi
 	pidopi2=-pidopi

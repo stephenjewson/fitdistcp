@@ -19,6 +19,9 @@ dmgs(lddi, lddd, mu1, pidopi, mu2, dim)
 
 \item{dim}{number of parameters}
 }
+\value{
+Vector
+}
 \description{
 Evaluate DMGS equation 3.3
 }

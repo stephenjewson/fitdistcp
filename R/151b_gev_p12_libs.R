@@ -3,10 +3,10 @@
 # BECAUSE ITS INSIDE AN EXPONENTIAL
 #
 #' rgev for gev_p12 but with maxlik xi within bounds
+#' @return Vector
 #' @inheritParams manf
 rgev_p12_minmax=function(nx,mu,sigma,xi,t1,t2,minxi=-0.45,maxxi=0.45,centering=TRUE){
-#	cat("mean(mu)=",mean(mu),"\n")
-	xihat=-999
+	xihat=-9999
   if(centering){
   	t1=t1-mean(t1)
   	t2=t2-mean(t2)
@@ -20,6 +20,7 @@ rgev_p12_minmax=function(nx,mu,sigma,xi,t1,t2,minxi=-0.45,maxxi=0.45,centering=T
 	return(xx)
 }
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gev_p12_waic=function(waicscores,x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5,
 	lddi,lddd,lambdad,aderivs){
@@ -42,6 +43,7 @@ gev_p12_waic=function(waicscores,x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5h
 		list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 gev_p12_predictordata=function(predictordata,x,t1,t2,t01,t02,params){
 	if(predictordata){
@@ -72,6 +74,7 @@ gev_p12_predictordata=function(predictordata,x,t1,t2,t01,t02,params){
 
 	list(predictedparameter=mu,adjustedx=qx)
 }#' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gev_p12_logf=function(params,x,t1,t2){
 	a=params[1]
@@ -91,6 +94,7 @@ gev_p12_logf=function(params,x,t1,t2){
 	logf=sum(extraDistr::dgev(x,mu=mu,sigma=sigma,xi=sh,log=TRUE))
 	return(logf)
 }#' Set initial conditions
+#' @return Vector
 #' @inheritParams manf
 gev_p12_setics=function(x,t1,t2,ics){
 # t is always a matrix
@@ -107,6 +111,7 @@ gev_p12_setics=function(x,t1,t2,ics){
 	return(ics)
 }
 #'  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gev_p12_loglik=function(vv,x,t1,t2){
 # t is always a matrix
@@ -117,6 +122,7 @@ gev_p12_loglik=function(vv,x,t1,t2){
 	return(loglik)
 }
 #' Check MLE
+#' @return No return value (just a message to the screen).
 #' @inheritParams manf
 gev_p12_checkmle=function(ml_params,minxi,maxxi){
 	v1hat=ml_params[1]
@@ -129,10 +135,11 @@ gev_p12_checkmle=function(ml_params,minxi,maxxi){
 	if(is.na(v3hat))stop()
 	if(is.na(v4hat))stop()
 	if(is.na(v5hat))stop()
-	if(v5hat<minxi){cat("\n***v5hat=",v5hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
-	if(v5hat>maxxi){cat("\n***v5hat=",v5hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
+	if(v5hat<minxi){warning("\n***v5hat=",v5hat,"=> execution halted because maxlik shape parameter <",minxi,"***");stop()}
+	if(v5hat>maxxi){warning("\n***v5hat=",v5hat,"=> execution halted because maxlik shape parameter >",maxxi,"***");stop()}
 }
 #' GEVD-with-p1: Quantile function
+#' @inherit manvector return
 #' @inheritParams manf
 qgev_p12=function(p,t1,t2,ymn,slope,sigma1,sigma2,xi){
 # t is sometimes a vector, sometimes a matrix
@@ -151,6 +158,7 @@ qgev_p12=function(p,t1,t2,ymn,slope,sigma1,sigma2,xi){
 
 }
 #' GEVD-with-p1: Density function
+#' @inherit manvector return
 #' @inheritParams manf
 dgev_p12=function(x,t1,t2,ymn,slope,sigma1,sigma2,xi,log=FALSE){
 # t is sometimes a vector, sometimes a matrix
@@ -169,6 +177,7 @@ dgev_p12=function(x,t1,t2,ymn,slope,sigma1,sigma2,xi,log=FALSE){
 
 }
 #' GEVD-with-p1: Distribution function
+#' @inherit manvector return
 #' @inheritParams manf
 pgev_p12=function(y,t1,t2,ymn,slope,sigma1,sigma2,xi){
 # t is sometimes a vector, sometimes a matrix
@@ -187,6 +196,7 @@ pgev_p12=function(y,t1,t2,ymn,slope,sigma1,sigma2,xi){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gev_p12_lmn=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,mm,nn){
 
@@ -225,6 +235,7 @@ gev_p12_lmn=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood, with fixed shape parameter
+#' @inherit manldd return
 #' @inheritParams manf
 gev_p12k3_ldd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5){
 	d5=999
@@ -243,10 +254,10 @@ gev_p12k3_ldd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5){
 			ldd[i,j]=ldd[j,i]
 		}
 	}
-#	cat("new ldd:",ldd,"\n")
 	return(ldd)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gev_p12_ldd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 	nx=length(x)
@@ -262,10 +273,10 @@ gev_p12_ldd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 			ldd[i,j]=ldd[j,i]
 		}
 	}
-#	cat("new:",ldd,"\n")
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gev_p12_lmnp=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,mm,nn,rr){
 
@@ -330,6 +341,7 @@ gev_p12_lmnp=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood, with fixed shape parameter
+#' @inherit manlddd return
 #' @inheritParams manf
 gev_p12k3_lddd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberately
 	nparams=4
@@ -353,10 +365,10 @@ gev_p12k3_lddd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberately
 			}
 		}
 	}
-#	cat("sum(ldddnew)=",sum(lddd),"\n")
 	return(lddd)
 }
 #' Third derivative tensor of the normalized log-likelihood, with fixed shape parameter
+#' @inherit manlddd return
 #' @inheritParams manf
 gev_p12_lddd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 	nparams=5
@@ -379,10 +391,10 @@ gev_p12_lddd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 			}
 		}
 	}
-#	cat("sum(ldddnew)=",sum(lddd),"\n")
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term, fixed shape parameter
+#' @inherit man1f return
 #' @inheritParams manf
 gev_p12k3_f1f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberately
 
@@ -401,10 +413,10 @@ gev_p12k3_f1f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberatel
 		Fp1=dgev_p12(y,t01,t02,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi=v5)
 		f1[i,]=ifelse(y<ymax,(Fp1-Fm1)/(2*dd[i]),0)
 	}
-#	cat("new f1=",sum(f1),"\n")
 	return(f1)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gev_p12_f1f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 
@@ -424,10 +436,10 @@ gev_p12_f1f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 		Fp1=dgev_p12(y,t01,t02,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi=vvp[5])
 		f1[i,]=ifelse(y<ymax,(Fp1-Fm1)/(2*dd[i]),0)
 	}
-#	cat("new f1=",sum(f1),"\n")
 	return(f1)
 }
 #' GEVD-with-p1: DMGS equation 3.3 mu1 term, fixed shape parameter
+#' @inherit man1f return
 #' @inheritParams manf
 gev_p12k3_mu1f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberately
 
@@ -448,10 +460,10 @@ gev_p12k3_mu1f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 delibe
 		Fp1=pgev_p12(q00,t01,t02,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi=v5)
 		mu1[i,]=-(Fp1-Fm1)/(2*dd[i])
 	}
-#	cat("new mu1=",sum(mu1),"\n")
 	return(mu1)
 }
 #' GEVD-with-p1: DMGS equation 3.3 mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gev_p12_mu1f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 
@@ -471,10 +483,10 @@ gev_p12_mu1f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 		Fp1=pgev_p12(q00,t01,t02,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi=vvp[5])
 		mu1[i,]=-(Fp1-Fm1)/(2*dd[i])
 	}
-#	cat("new mu1=",sum(mu1),"\n")
 	return(mu1)
 }
 #' GEVD-with-p1: DMGS equation 3.3 mu2 term, fixed shape parameter
+#' @inherit man2f return
 #' @inheritParams manf
 gev_p12k3_mu2f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberately
 
@@ -516,10 +528,10 @@ gev_p12k3_mu2f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 delibe
 			}
 		}
 	}
-#	cat("new mu2=",sum(mu2),"\n")
 	return(mu2)
 }
 #' GEVD-with-p1: DMGS equation 1.2 f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_p12k3_f2f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberately
 
@@ -560,10 +572,10 @@ gev_p12k3_f2f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5){ #no d5 deliberatel
 			}
 		}
 	}
-#	cat("new f2=",sum(f2),"\n")
 	return(f2)
 }
 #' GEVD-with-p1: DMGS equation 1.2 f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_p12_f2f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 
@@ -604,10 +616,10 @@ gev_p12_f2f=function(y,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 			}
 		}
 	}
-#	cat("new f2=",sum(f2),"\n")
 	return(f2)
 }
 #' GEVD-with-p1: DMGS equation 3.3 mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_p12_mu2f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 	nparams=5
@@ -647,10 +659,10 @@ gev_p12_mu2f=function(alpha,t01,t02,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 			}
 		}
 	}
-#	cat("new mu2=",sum(mu2),"\n")
 	return(mu2)
 }
 #' Derivative of information matrix, based on ldd
+#' @inherit manldd return
 #' @inheritParams manf
 gev_p12_ggd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 
@@ -682,6 +694,7 @@ gev_p12_ggd=function(x,t1,t2,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5){
 }
 #' Analytical expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1
+#' @inherit manmeans return
 #' @inheritParams manf
 gev_p12_means=function(means,t01,t02,ml_params,nx){
 
@@ -716,13 +729,13 @@ gev_p12_means=function(means,t01,t02,ml_params,nx){
 	list(ml_mean=ml_mean,crhp_mle_mean=crhp_mle_mean,pu_mean=pu_mean)
 }
 #' Densities for 5 predictions
+#' @inherit mandsub return
 #' @inheritParams manf
 dgev_p12sub=function(x,t1,t2,y,t01,t02,ics,d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,
 	minxi,maxxi,debug,extramodels=FALSE,aderivs=TRUE){
 
 		nx=length(x)
 
-#		if(debug)cat("inside sub\n")
 		ics=gev_p12_setics(x,t1,t2,ics)
 		opt=optim(ics,gev_p12_loglik,x=x,t1=t1,t2=t2,control=list(fnscale=-1))
 		v1hat=opt$par[1]

@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 pareto_p1k2_fd=function (x, t, v1, v2, v3) 
 {
@@ -16,6 +17,7 @@ pareto_p1k2_fd=function (x, t, v1, v2, v3)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_fdd=function (x, t, v1, v2, v3) 
 {
@@ -38,6 +40,7 @@ pareto_p1k2_fdd=function (x, t, v1, v2, v3)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 pareto_p1k2_pd=function (x, t, v1, v2, v3) 
 {
@@ -50,6 +53,7 @@ pareto_p1k2_pd=function (x, t, v1, v2, v3)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_pdd=function (x, t, v1, v2, v3) 
 {
@@ -64,6 +68,7 @@ pareto_p1k2_pdd=function (x, t, v1, v2, v3)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_logfdd=function (x, t, v1, v2, v3) 
 {
@@ -77,6 +82,7 @@ pareto_p1k2_logfdd=function (x, t, v1, v2, v3)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 pareto_p1k2_logfddd=function (x, t, v1, v2, v3) 
 {
@@ -90,6 +96,7 @@ pareto_p1k2_logfddd=function (x, t, v1, v2, v3)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 pareto_p1k2_f1fa=function(x,t,v1,v2,kscale){
 	vf=Vectorize(pareto_p1k2_fd)
@@ -98,6 +105,7 @@ pareto_p1k2_f1fa=function(x,t,v1,v2,kscale){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_f2fa=function(x,t,v1,v2,kscale){
 	nx=length(x)
@@ -108,6 +116,7 @@ pareto_p1k2_f2fa=function(x,t,v1,v2,kscale){
 }
 ############################################################
 #' The first derivative of the cdf
+#' @returns Vector
 #' @inheritParams manf
 pareto_p1k2_p1fa=function(x,t,v1,v2,kscale){
 	vf=Vectorize(pareto_p1k2_pd)
@@ -116,6 +125,7 @@ pareto_p1k2_p1fa=function(x,t,v1,v2,kscale){
 }
 ############################################################
 #' The second derivative of the cdf
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_p2fa=function(x,t,v1,v2,kscale){
 	nx=length(x)
@@ -126,6 +136,7 @@ pareto_p1k2_p2fa=function(x,t,v1,v2,kscale){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 pareto_p1k2_mu1fa=function(alpha,t,v1,v2,kscale){
 	x=extraDistr::qpareto((1-alpha),a=exp(-v1-v2*t),b=kscale)
@@ -135,6 +146,7 @@ pareto_p1k2_mu1fa=function(alpha,t,v1,v2,kscale){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_mu2fa=function(alpha,t,v1,v2,kscale){
 	x=extraDistr::qpareto((1-alpha),a=exp(-v1-v2*t),b=kscale)
@@ -146,6 +158,7 @@ pareto_p1k2_mu2fa=function(alpha,t,v1,v2,kscale){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 pareto_p1k2_ldda=function(x,t,v1,v2,kscale){
 	nx=length(x)
@@ -156,6 +169,7 @@ pareto_p1k2_ldda=function(x,t,v1,v2,kscale){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 pareto_p1k2_lddda=function(x,t,v1,v2,kscale){
 	nx=length(x)

@@ -13,6 +13,9 @@ pareto_k2_mu2fa(alpha, v1, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

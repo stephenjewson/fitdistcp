@@ -19,6 +19,9 @@ qgev_p1(p, t0, ymn, slope, sigma, xi)
 
 \item{xi}{the shape parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 GEVD-with-p1: Quantile function
 }

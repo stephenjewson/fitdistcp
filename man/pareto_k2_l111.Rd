@@ -15,6 +15,9 @@ pareto_k2_l111(x, v1, fd1, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Scalar value
+}
 \description{
 Third derivative of the normalized log-likelihood
 }

@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 frechet_p2k1_fd=function (x, t, v1, v2, v3, v4) 
 {
@@ -23,6 +24,7 @@ frechet_p2k1_fd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_fdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -74,6 +76,7 @@ frechet_p2k1_fdd=function (x, t, v1, v2, v3, v4)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 frechet_p2k1_pd=function (x, t, v1, v2, v3, v4) 
 {
@@ -90,6 +93,7 @@ frechet_p2k1_pd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_pdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -121,6 +125,7 @@ frechet_p2k1_pdd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_logfdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -148,6 +153,7 @@ frechet_p2k1_logfdd=function (x, t, v1, v2, v3, v4)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 frechet_p2k1_logfddd=function (x, t, v1, v2, v3, v4) 
 {
@@ -201,9 +207,10 @@ frechet_p2k1_logfddd=function (x, t, v1, v2, v3, v4)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 frechet_p2k1_f1fa=function(x,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	vf=Vectorize(frechet_p2k1_fd)
 	f1=vf(x,t,kloc,v1,v2,v3)
@@ -211,9 +218,10 @@ frechet_p2k1_f1fa=function(x,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_f2fa=function(x,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_fdd)
@@ -223,9 +231,10 @@ frechet_p2k1_f2fa=function(x,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' The first derivative of the cdf
+#' @returns Vector
 #' @inheritParams manf
 frechet_p2k1_p1fa=function(x,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	vf=Vectorize(frechet_p2k1_pd)
 	p1=vf(x,t,kloc,v1,v2,v3)
@@ -233,9 +242,10 @@ frechet_p2k1_p1fa=function(x,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' The second derivative of the cdf
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_p2fa=function(x,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_pdd)
@@ -245,9 +255,10 @@ frechet_p2k1_p2fa=function(x,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 frechet_p2k1_mu1fa=function(alpha,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t),lambda=v3)
 #	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v2+v3*t),lambda=vkloc)
@@ -257,9 +268,10 @@ frechet_p2k1_mu1fa=function(alpha,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_mu2fa=function(alpha,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t),lambda=v3)
 	nx=length(x)
@@ -270,9 +282,10 @@ frechet_p2k1_mu2fa=function(alpha,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 frechet_p2k1_ldda=function(x,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_logfdd)
@@ -282,9 +295,10 @@ frechet_p2k1_ldda=function(x,t,v1,v2,v3,kloc){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 frechet_p2k1_lddda=function(x,t,v1,v2,v3,kloc){
-# the v1 coming in here is sigma, and the v2 is lambda, following my pu code
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_logfddd)

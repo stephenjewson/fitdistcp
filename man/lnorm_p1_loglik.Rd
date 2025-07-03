@@ -13,6 +13,9 @@ lnorm_p1_loglik(vv, x, t)
 
 \item{t}{a vector or matrix of predictors}
 }
+\value{
+Scalar value.
+}
 \description{
 Log-normal-with-p1  observed log-likelihood function
 }

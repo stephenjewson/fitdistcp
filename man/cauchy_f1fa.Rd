@@ -13,6 +13,9 @@ cauchy_f1fa(x, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

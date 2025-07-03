@@ -19,6 +19,9 @@ gev_p1k3_ldda(x, t, v1, v2, v3, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

@@ -7,11 +7,14 @@
 lnorm_p1_logscores(logscores, x, t)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
 \item{t}{a vector or matrix of predictors}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

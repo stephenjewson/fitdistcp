@@ -1,9 +1,8 @@
 #' Generalized Pareto Distribution with Known Location Parameter, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 #' @inheritSection man Optional Return Values (EVT models only)
 #' @inheritSection man Optional Return Values (some EVT models only)
@@ -26,7 +25,7 @@
 #'
 #' The calibrating prior we use is given by
 #' \deqn{\pi(\mu,\sigma,\xi) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' The code will stop with an error if the
 #' input data gives a maximum likelihood
@@ -68,8 +67,9 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 	v1hat=opt1$par[1]
 	v2hat=opt1$par[2]
 	ml_params=c(v1hat,v2hat)
-	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
-	if(debug)cat("	v1hat,v2hat=",v1hat,v2hat,"\n")
+#	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
+	if(debug)message("	v1hat,v2hat=",v1hat,v2hat)
+	if((abs(v2hat)>=1)||(v2hat>30)){revert2ml=TRUE}else{revert2ml=FALSE}
 #
 # 3 aic
 #
@@ -112,7 +112,7 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 	cp_method="dmgs not selected"
 	jp_mean="dmgs not selected"
 
-	if(dmgs){
+	if((dmgs)&&(!revert2ml)){
 #
 # 5 alpha pdf stuff
 #
@@ -122,11 +122,11 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 			fhatm=extraDistr::dgpd(ml_quantilesm,mu=kloc,sigma=v1hat,xi=v2hat)
 			fhatp=extraDistr::dgpd(ml_quantilesp,mu=kloc,sigma=v1hat,xi=v2hat)
 		}
-		if(debug)cat("  ml_quantiles=",ml_quantiles,"\n")
+		if(debug)message("  ml_quantiles=",ml_quantiles)
 #
 # 6 expected information matrix and related (for Jeffreys prior)
 #
-		if(debug)cat(" call gpd.infomat\n")
+		if(debug)message(" call gpd.infomat")
 		if(extramodels|means){
 			gg=gpd.infomat(c(v1hat,v2hat),dat=c(1),method=c("exp")) #faster than num (seems to fail when v3hat=0.4 though)
 			ggi=solve(gg)
@@ -136,7 +136,7 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 #
 # 7 ldd (two versions)
 #
-		if(debug)cat("  calculate ldd\n")
+		if(debug)message("  calculate ldd")
 		if(aderivs) ldd=gpd_k1_ldda(x,v1hat,v2hat,kloc)
 		if(!aderivs)ldd=gpd_k1_ldd(x,v1hat,fd1,v2hat,d2,kloc)
 		lddi=solve(ldd)
@@ -148,12 +148,12 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 			lddi_k13=solve(ldd_k13)
 		}
 
-		if(debug)cat("  ldd=",ldd,"\n")
-		if(extramodels&means&debug)cat("  ldd_k13=",ldd_k13,"\n")
+		if(debug)message("  ldd=",ldd)
+		if(extramodels&means&debug)message("  ldd_k13=",ldd_k13)
 #
 # 8 lddd (two versions)
 #
-		if(debug)cat("  calculate lddd\n")
+		if(debug)message("  calculate lddd")
 		if(aderivs) lddd=gpd_k1_lddda(x,v1hat,v2hat,kloc)
 		if(!aderivs)lddd=gpd_k1_lddd(x,v1hat,fd1,v2hat,d2,kloc)
 		if(extramodels|means){
@@ -302,6 +302,20 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 			rustsim=rgpd_k1_cp(nrust,x,kloc,rust=TRUE,mlcp=FALSE)
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
+	} else {
+		flat_quantiles=ml_quantiles
+		rh_ml_quantiles=ml_quantiles
+		rh_flat_quantiles=ml_quantiles
+		ru_quantiles=ml_quantiles
+		jp_quantiles=ml_quantiles
+		lp_quantiles=ml_quantiles
+		lp2_quantiles=ml_quantiles
+		dpi_quantiles=ml_quantiles
+		rh_flat_pdf=ml_pdf
+		flat_mean=ml_mean
+		rh_ml_mean=ml_mean
+		rh_flat_mean=ml_mean
+		jp_mean=ml_mean
 	} #end of if(dmgs)
 
 	list(	ml_params=ml_params,
@@ -311,6 +325,7 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 				standard_errors=standard_errors,
 				ml_quantiles=ml_quantiles,
 				ml_max=ml_max,
+				revert2ml=revert2ml,
 				flat_quantiles=flat_quantiles,
 				rh_ml_quantiles=rh_ml_quantiles,
 				cp_quantiles=rh_flat_quantiles,
@@ -394,22 +409,27 @@ dgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 	opt1=optim(ics,gpd_k1_loglik,x=x,kloc=kloc,control=list(fnscale=-1))
 	v1hat=opt1$par[1]
 	v2hat=opt1$par[2]
+	if(v2hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat)
 	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
 	dd=dgpdsub(x=x,y=y,ics=ics,fd1=fd1,d2=d2,kloc,customprior,
 		minxi,maxxi,extramodels=extramodels,aderivs=aderivs)
 	ru_pdf="rust not selected"
-	if(rust){
+
+	if(rust&&(!revert2ml)){
 		th=tgpd_k1_cp(nrust,x)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_pdf=ru_pdf+dgpd(y,mu=kloc,sigma=th[ir,1],xi=th[ir,2])
 		}
 		ru_pdf=ru_pdf/nrust
+	} else {
+		ru_pdf=dd$ml_pdf
 	}
 	op=list(
 					ml_params=dd$ml_params,
 					ml_pdf=dd$ml_pdf,
+					revert2ml=revert2ml,
 #					flat_pdf=dd$flat_pdf,
 #					rh_ml_pdf=dd$rh_ml_pdf,
 #					cp_pdf=dd$rh_flat_pdf,
@@ -434,22 +454,28 @@ pgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 	opt1=optim(ics,gpd_k1_loglik,x=x,kloc=kloc,control=list(fnscale=-1))
 	v1hat=opt1$par[1]
 	v2hat=opt1$par[2]
+	if(v2hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat)
 	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
 	dd=dgpdsub(x=x,y=y,ics=ics,fd1=fd1,d2=d2,kloc,customprior,
 		minxi,maxxi,extramodels=extramodels,aderivs=aderivs)
 	ru_cdf="rust not selected"
-	if(rust){
+
+	if(rust&&(!revert2ml)){
 		th=tgpd_k1_cp(nrust,x)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_cdf=ru_cdf+pgpd(y,mu=kloc,sigma=th[ir,1],xi=th[ir,2])
 		}
 		ru_cdf=ru_cdf/nrust
+	} else {
+		ru_pdf=dd$ml_pdf
 	}
+
 	op=list(
 					ml_params=dd$ml_params,
 					ml_cdf=dd$ml_cdf,
+					revert2ml=revert2ml,
 #					flat_cdf=dd$flat_cdf,
 #					rh_ml_cdf=dd$rh_ml_cdf,
 #					cp_cdf=dd$rh_flat_cdf,

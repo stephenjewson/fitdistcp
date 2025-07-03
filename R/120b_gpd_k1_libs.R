@@ -1,7 +1,8 @@
 #' rgpd for gpd_k1 but with maxlik xi within bounds
+#' @return Vector
 #' @inheritParams manf
 rgpd_k1_minmax=function(nx,kloc,sigma,xi,minxi=-0.45,maxxi=0.45){
-	xihat=-999
+	xihat=-9999
 	while((xihat<minxi)||(xihat>maxxi)){ #0.46 also works...0.47 doesn't
 		xx=extraDistr::rgpd(nx,mu=kloc,sigma=sigma,xi=xi)
 		ics=gpd_k1_setics(xx,c(0,0))
@@ -11,6 +12,7 @@ rgpd_k1_minmax=function(nx,kloc,sigma,xi,minxi=-0.45,maxxi=0.45){
 	return(xx)
 }
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gpd_k1_waic=function(waicscores,x,v1hat,fd1,v2hat,d2,kloc,lddi,lddd,lambdad,
 	aderivs){
@@ -33,6 +35,7 @@ gpd_k1_waic=function(waicscores,x,v1hat,fd1,v2hat,d2,kloc,lddi,lddd,lambdad,
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gpd_k1_logf=function(params,x,kloc){
 #	sc=params[1]
@@ -46,7 +49,9 @@ gpd_k1_logf=function(params,x,kloc){
 	sh=params[2]
 	logf=sum(dgpd(x,mu=kloc,sigma=sc,xi=sh,log=TRUE))-log(sc)
 	return(logf)
-}#' Set initial conditions
+}
+#' Set initial conditions
+#' @return Vector
 #' @inheritParams manf
 gpd_k1_setics=function(x,ics){
 	if((ics[1]==0)&&(ics[2]==0)){
@@ -56,6 +61,7 @@ gpd_k1_setics=function(x,ics){
 	return(ics)
 }
 #'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gpd_k1_loglik=function(vv,x,kloc){
 	n=length(x)
@@ -63,6 +69,7 @@ gpd_k1_loglik=function(vv,x,kloc){
 	return(loglik)
 }
 #' Check MLE
+#' @return No return value (just a message to the screen).
 #' @inheritParams manf
 gpd_k1_checkmle=function(ml_params,kloc,minxi,maxxi){
 	v1hat=ml_params[1]
@@ -73,11 +80,11 @@ gpd_k1_checkmle=function(ml_params,kloc,minxi,maxxi){
 # min xi
 #
 ##	minxi=0
-	if(v2hat<minxi){cat("\n***v2hat=",v2hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
+	if(v2hat<minxi){warning("\n***v2hat=",v2hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
 #
 # max xi
 #
-	if(v2hat>maxxi){cat("\n***v2hat=",v2hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
+	if(v2hat>maxxi){warning("\n***v2hat=",v2hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
 # This max value is ad-hoc
 # If it's lowered to 1, then the ppm results for xi=0.6 go wrong, which I understand.
 # If it's increased to 100, then in about 1 in a billion cases, for nx=25,
@@ -86,6 +93,7 @@ gpd_k1_checkmle=function(ml_params,kloc,minxi,maxxi){
 # this is a compromise.
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gpd_k13_l11=function(x,v1,fd1,v2,kloc){
   nx=length(x)
@@ -100,6 +108,7 @@ gpd_k13_l11=function(x,v1,fd1,v2,kloc){
 	return(dld22)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gpd_k1_lmn=function(x,v1,fd1,v2,d2,kloc,mm,nn){
 	d1=fd1*v1
@@ -135,6 +144,7 @@ gpd_k1_lmn=function(x,v1,fd1,v2,d2,kloc,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood, with fixed shape
+#' @inherit manldd return
 #' @inheritParams manf
 gpd_k13_ldd=function(x,v1,fd1,v2,kloc){
 	ldd=matrix(0,1,1)
@@ -142,6 +152,7 @@ gpd_k13_ldd=function(x,v1,fd1,v2,kloc){
 	return(ldd)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gpd_k1_ldd=function(x,v1,fd1,v2,d2,kloc){
 	ldd=matrix(0,2,2)
@@ -158,6 +169,7 @@ gpd_k1_ldd=function(x,v1,fd1,v2,d2,kloc){
 	return(ldd)
 }
 #' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gpd_k13_l111=function(x,v1,fd1,v2,kloc){
   nx=length(x)
@@ -174,6 +186,7 @@ gpd_k13_l111=function(x,v1,fd1,v2,kloc){
 	return(dld111)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gpd_k13_lddd=function(x,v1,fd1,v2,kloc){
 	lddd=array(0,c(1,1,1))
@@ -181,6 +194,7 @@ gpd_k13_lddd=function(x,v1,fd1,v2,kloc){
 	return(lddd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gpd_k1_lmnp=function(x,v1,fd1,v2,d2,kloc,mm,nn,rr){
 	d1=fd1*v1
@@ -241,6 +255,7 @@ gpd_k1_lmnp=function(x,v1,fd1,v2,d2,kloc,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gpd_k1_lddd=function(x,v1,fd1,v2,d2,kloc){
 	lddd=array(0,c(2,2,2))
@@ -264,6 +279,7 @@ gpd_k1_lddd=function(x,v1,fd1,v2,d2,kloc){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gpd_k13_f1f=function(y,v1,fd1,v2,kloc){
   d1=fd1*v1
@@ -280,6 +296,7 @@ gpd_k13_f1f=function(y,v1,fd1,v2,kloc){
 	return(f1)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gpd_k1_f1f=function(y,v1,fd1,v2,d2,kloc){
   d1=fd1*v1
@@ -304,6 +321,7 @@ gpd_k1_f1f=function(y,v1,fd1,v2,d2,kloc){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gpd_k13_p1f=function(y,v1,fd1,v2,kloc){
   d1=fd1*v1
@@ -320,6 +338,7 @@ gpd_k13_p1f=function(y,v1,fd1,v2,kloc){
 	return(p1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gpd_k1_p1f=function(y,v1,fd1,v2,d2,kloc){
   d1=fd1*v1
@@ -344,6 +363,7 @@ gpd_k1_p1f=function(y,v1,fd1,v2,d2,kloc){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gpd_k13_mu1f=function(alpha,v1,fd1,v2,kloc){
 	q00=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
@@ -361,6 +381,7 @@ gpd_k13_mu1f=function(alpha,v1,fd1,v2,kloc){
 	return(mu1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gpd_k1_mu1f=function(alpha,v1,fd1,v2,d2,kloc){
 	q00=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
@@ -385,6 +406,7 @@ gpd_k1_mu1f=function(alpha,v1,fd1,v2,d2,kloc){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gpd_k13_f2f=function(y,v1,fd1,v2,kloc){
   d1=fd1*v1
@@ -406,6 +428,7 @@ gpd_k13_f2f=function(y,v1,fd1,v2,kloc){
 	return(f2)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gpd_k1_f2f=function(y,v1,fd1,v2,d2,kloc){
   d1=fd1*v1
@@ -447,6 +470,7 @@ gpd_k1_f2f=function(y,v1,fd1,v2,d2,kloc){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gpd_k13_p2f=function(y,v1,fd1,v2,kloc){
   d1=fd1*v1
@@ -468,6 +492,7 @@ gpd_k13_p2f=function(y,v1,fd1,v2,kloc){
 	return(p2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gpd_k1_p2f=function(y,v1,fd1,v2,d2,kloc){
   d1=fd1*v1
@@ -509,6 +534,7 @@ gpd_k1_p2f=function(y,v1,fd1,v2,d2,kloc){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gpd_k13_mu2f=function(alpha,v1,fd1,v2,kloc){
 	q00=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
@@ -530,6 +556,7 @@ gpd_k13_mu2f=function(alpha,v1,fd1,v2,kloc){
 	return(mu2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gpd_k1_mu2f=function(alpha,v1,fd1,v2,d2,kloc){
 	q00=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
@@ -571,6 +598,7 @@ gpd_k1_mu2f=function(alpha,v1,fd1,v2,d2,kloc){
 	return(mu2)
 }
 #' Derivative of expected information matrix, based on MEV routine gpd.infomat
+#' @inherit manlddd return
 #' @inheritParams manf
 gpd_k1_ggd_mev=function(v1,fd1,v2,d2,kloc){
 	ggd=array(0,c(2,2,2))
@@ -588,6 +616,7 @@ gpd_k1_ggd_mev=function(v1,fd1,v2,d2,kloc){
 }
 #' Analytical Expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1
+#' @inherit manmeans return
 #' @inheritParams manf
 gpd_k1_means=function(means,ml_params,lddi,lddi_k2,lddd,lddd_k2,
 									lambdad_flat,lambdad_rh_mle,lambdad_rh_flat,lambdad_jp,
@@ -647,6 +676,7 @@ gpd_k1_means=function(means,ml_params,lddi,lddi_k2,lddd,lddd_k2,
 	list(ml_mean=ml_mean,flat_mean=flat_mean,rh_ml_mean=rh_ml_mean,rh_flat_mean=rh_flat_mean,jp_mean=jp_mean)
 }
 #' Densities for 5 predictions
+#' @inherit mandsub return
 #' @inheritParams manf
 dgpdsub=function(x,y,ics,fd1=0.01,d2=0.01,kloc=0,dlogpi=0,
 	minxi,maxxi,extramodels=FALSE,aderivs=TRUE){
@@ -659,7 +689,6 @@ dgpdsub=function(x,y,ics,fd1=0.01,d2=0.01,kloc=0,dlogpi=0,
 		v2hat=min(maxxi,max(minxi,opt$par[2])) #just reset in this case
 #		v2hat=opt$par[2]
 		ml_params=c(v1hat,v2hat)
-#		cat("ml_params=",ml_params,"\n")
 
 		y=fixgpdrange(y,kloc,v1hat,v2hat)
 

@@ -7,7 +7,7 @@
 lst_p1k3_logscores(logscores, x, t, d1, d2, fd3, kdf, aderivs)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
@@ -21,7 +21,10 @@ lst_p1k3_logscores(logscores, x, t, d1, d2, fd3, kdf, aderivs)
 
 \item{kdf}{the known degrees of freedom parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

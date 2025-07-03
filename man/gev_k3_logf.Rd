@@ -13,6 +13,9 @@ gev_k3_logf(params, x, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

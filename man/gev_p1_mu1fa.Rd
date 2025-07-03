@@ -19,6 +19,9 @@ gev_p1_mu1fa(alpha, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

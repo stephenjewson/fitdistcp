@@ -17,7 +17,10 @@ dpareto_p1k2(x, t0, ymn, slope, kscale, log = FALSE)
 
 \item{kscale}{the known scale parameter}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
+}
+\value{
+Vector
 }
 \description{
 pareto_k1-with-p2 density function

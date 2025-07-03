@@ -13,6 +13,9 @@ gpd_k1_loglik(vv, x, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 log-likelihood function
 }

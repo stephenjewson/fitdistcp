@@ -17,7 +17,10 @@ dgumbel_p1(x, t0, ymn, slope, sigma, log = FALSE)
 
 \item{sigma}{the sigma parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
+}
+\value{
+Vector
 }
 \description{
 Gumbel-with-p1 density function

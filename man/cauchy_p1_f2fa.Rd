@@ -17,6 +17,9 @@ cauchy_p1_f2fa(x, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the density
 }

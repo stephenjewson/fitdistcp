@@ -13,6 +13,9 @@ logis_p1_loglik(vv, x, t)
 
 \item{t}{a vector or matrix of predictors}
 }
+\value{
+Scalar value.
+}
 \description{
 Logistic-with-p1  observed log-likelihood function
 }

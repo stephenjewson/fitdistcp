@@ -15,6 +15,9 @@ frechet_p2k1_logf(params, x, t, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

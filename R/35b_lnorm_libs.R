@@ -1,4 +1,5 @@
 #' Waic for RUST
+#' @inherit manwaic return
 #' @inheritParams manf
 lnorm_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,aderivs){
 	if(waicscores){
@@ -26,21 +27,16 @@ lnorm_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,aderivs){
 	list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 lnorm_logf=function(params,x){
-#	m=params[1]
-#	s=params[2]
-#	if(s>0){
-#		logf=sum(dlnorm(x,meanlog=m,sdlog=s,log=TRUE))-log(s)
-#	}else{
-#		logf=-Inf
-#	}
 	m=params[1]
 	s=pmax(params[2],.Machine$double.eps)
 	logf=sum(dlnorm(x,meanlog=m,sdlog=s,log=TRUE))-log(s)
 	return(logf)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 lnorm_lmn=function(x,v1,d1,v2,fd2,mm,nn){
 	d2=fd2*v2
@@ -76,6 +72,7 @@ lnorm_lmn=function(x,v1,d1,v2,fd2,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the lnormalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 lnorm_ldd=function(x,v1,d1,v2,fd2){
 	ldd=matrix(0,2,2)
@@ -92,6 +89,7 @@ lnorm_ldd=function(x,v1,d1,v2,fd2){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 lnorm_lmnp=function(x,v1,d1,v2,fd2,mm,nn,rr){
 	d2=fd2*v2
@@ -152,6 +150,7 @@ lnorm_lmnp=function(x,v1,d1,v2,fd2,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the lnormalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 lnorm_lddd=function(x,v1,d1,v2,fd2){
 	lddd=array(0,c(2,2,2))
@@ -175,6 +174,7 @@ lnorm_lddd=function(x,v1,d1,v2,fd2){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 lnorm_f1f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -198,6 +198,7 @@ lnorm_f1f=function(y,v1,d1,v2,fd2){
 	return(f1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 lnorm_f2f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -238,6 +239,7 @@ lnorm_f2f=function(y,v1,d1,v2,fd2){
 	return(f2)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 lnorm_logscores=function(logscores,x){
 
@@ -267,6 +269,7 @@ lnorm_logscores=function(logscores,x){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dlnormsub=function(x,y,aderivs=TRUE){
 

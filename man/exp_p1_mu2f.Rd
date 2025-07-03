@@ -19,6 +19,9 @@ exp_p1_mu2f(alpha, t0, v1, d1, v2, d2)
 
 \item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 3.3, mu2 term
 }

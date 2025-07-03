@@ -2,7 +2,7 @@
 % Please edit documentation in R/41b_lst_k3_libs.R
 \name{lst_k3_lmnp}
 \alias{lst_k3_lmnp}
-\title{One component of the second derivative of the normalized log-likelihood}
+\title{One component of the third derivative of the normalized log-likelihood}
 \usage{
 lst_k3_lmnp(x, v1, d1, v2, fd2, kdf, mm, nn, rr)
 }
@@ -25,6 +25,9 @@ lst_k3_lmnp(x, v1, d1, v2, fd2, kdf, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
-One component of the second derivative of the normalized log-likelihood
+One component of the third derivative of the normalized log-likelihood
 }

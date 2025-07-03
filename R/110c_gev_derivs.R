@@ -2,8 +2,9 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
-gev_fd=function (x, v1, v2, v3) 
+gev_fd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e2 <- 1/v3
@@ -16,16 +17,17 @@ gev_fd=function (x, v1, v2, v3)
     .e13 <- log1p(.e4)
     .e14 <- v2^2
     .e17 <- v3 * .e6/.e9 - 1/.e5^(2 * .e6)
-    c(v1 = .e10 * .e17/.e14, v2 = (.e17 * .e1/v2 - 1/.e7) * .e10/.e14, 
-        v3 = ((.e13/(v3 * .e7) - (.e13/(v3 * .e5^.e2) - .e1/(v2 * 
+    c(v1 = .e10 * .e17/.e14, v2 = (.e17 * .e1/v2 - 1/.e7) * .e10/.e14,
+        v3 = ((.e13/(v3 * .e7) - (.e13/(v3 * .e5^.e2) - .e1/(v2 *
             .e7))/.e7)/v3 - .e6 * .e1/(v2 * .e9)) * .e10/v2)
 }
 ######################################################################
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
-gev_fdd=function (x, v1, v2, v3) 
+gev_fdd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e2 <- 1/v3
@@ -70,9 +72,9 @@ gev_fdd=function (x, v1, v2, v3)
     .e60 <- .e21^2
     .e61 <- .e13^2
     .e62 <- .e37/.e14
-    .e74 <- (2 * (.e6 * .e5^(.e11 - 1) * .e1/v2) - 2 * (.e14 * 
+    .e74 <- (2 * (.e6 * .e5^(.e11 - 1) * .e1/v2) - 2 * (.e14 *
         .e9/.e22))/.e5^(4 * .e6) + .e29
-    .e80 <- .e18 + v3 * (.e51 * .e1/v2 - (.e42 + .e29)) * .e6 - 
+    .e80 <- .e18 + v3 * (.e51 * .e1/v2 - (.e42 + .e29)) * .e6 -
         .e46/.e7
     .e83 <- v3 * .e55 * .e6/.e5^.e30
     .e85 <- .e16 * .e12 * .e1
@@ -80,27 +82,28 @@ gev_fdd=function (x, v1, v2, v3)
     .e89 <- .e16 * (.e13 * .e9/.e60 - .e42 * .e20) - .e29
     .e91 <- .e21 * .e8 * .e1
     .e94 <- v3 * .e56 * .e9/.e61
-    c(v1 = c(v1 = .e24 * .e87/.e48, v2 = .e80 * .e24/.e48, v3 = ((.e89/v2 - 
-        ((.e28 + .e94 - .e28)/v2 - .e85/.e58)/.e7)/v3 - (.e57/.e15 + 
-        .e6 * (.e91/.e59 - 1/.e25))) * .e24/v2), v2 = c(v1 = (.e87 * 
-        .e1/v2 - 2 * .e27) * .e24/.e48, v2 = (.e80 * .e1/v2 - 
-        2 * .e46) * .e24/.e48, v3 = (((.e10 - .e91/v2) * .e6/.e59 + 
-        (.e89/.e33 - ((.e7 - .e85/v2)/.e58 + (.e94 - .e28)/.e33)/.e7)/v3 - 
-        .e57/(.e33 * .e7)) * .e1 - .e57/v2) * .e24/v2), v3 = c(v1 = (.e74 - 
-        (.e20 * .e27/v3 + .e83)) * .e24/.e33, v2 = (.e62 + (.e74 - 
-        .e83) * .e1/v2 - .e46 * .e20/v3) * .e24/.e33, v3 = (((.e62 + 
-        .e39 - .e43) * .e20 + (.e31 + .e1/.e25 - .e32)/v3 - ((.e7 + 
-        v3 * .e37) * .e9/.e60 + ((1/(v2 * v3 * .e7) + v2 * .e37/.e58) * 
-        .e1 - (.e56 * .e1/v2 + .e12 - .e12 * .e9/v3) * .e9/.e61)/.e7))/v3 + 
-        (1/(v2 * .e22 * .e10) + v2 * .e55 * .e6/.e59) * .e1) * 
+    c(v1 = c(v1 = .e24 * .e87/.e48, v2 = .e80 * .e24/.e48, v3 = ((.e89/v2 -
+        ((.e28 + .e94 - .e28)/v2 - .e85/.e58)/.e7)/v3 - (.e57/.e15 +
+        .e6 * (.e91/.e59 - 1/.e25))) * .e24/v2), v2 = c(v1 = (.e87 *
+        .e1/v2 - 2 * .e27) * .e24/.e48, v2 = (.e80 * .e1/v2 -
+        2 * .e46) * .e24/.e48, v3 = (((.e10 - .e91/v2) * .e6/.e59 +
+        (.e89/.e33 - ((.e7 - .e85/v2)/.e58 + (.e94 - .e28)/.e33)/.e7)/v3 -
+        .e57/(.e33 * .e7)) * .e1 - .e57/v2) * .e24/v2), v3 = c(v1 = (.e74 -
+        (.e20 * .e27/v3 + .e83)) * .e24/.e33, v2 = (.e62 + (.e74 -
+        .e83) * .e1/v2 - .e46 * .e20/v3) * .e24/.e33, v3 = (((.e62 +
+        .e39 - .e43) * .e20 + (.e31 + .e1/.e25 - .e32)/v3 - ((.e7 +
+        v3 * .e37) * .e9/.e60 + ((1/(v2 * v3 * .e7) + v2 * .e37/.e58) *
+        .e1 - (.e56 * .e1/v2 + .e12 - .e12 * .e9/v3) * .e9/.e61)/.e7))/v3 +
+        (1/(v2 * .e22 * .e10) + v2 * .e55 * .e6/.e59) * .e1) *
         .e24/v2))
 }
 ######################################################################
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
-gev_pd=function (x, v1, v2, v3) 
+gev_pd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e3 <- v3 * .e1/v2
@@ -109,15 +112,16 @@ gev_pd=function (x, v1, v2, v3)
     .e7 <- .e4^(1 + .e5)
     .e8 <- exp(-.e4^-.e5)
     .e9 <- v2 * .e7
-    c(v1 = -(.e8/.e9), v2 = -(.e8 * .e1/(v2^2 * .e7)), v3 = -(.e8 * 
+    c(v1 = -(.e8/.e9), v2 = -(.e8 * .e1/(v2^2 * .e7)), v3 = -(.e8 *
         (log1p(.e3)/(v3 * .e4^.e5) - .e1/.e9)/v3))
 }
 ######################################################################
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
-gev_pdd=function (x, v1, v2, v3) 
+gev_pdd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e3 <- v3 * .e1/v2
@@ -150,23 +154,24 @@ gev_pdd=function (x, v1, v2, v3)
     .e37 <- v2 * .e26/.e16
     .e38 <- .e32 * .e7
     .e41 <- v3 * .e27 * .e10/.e30
-    c(v1 = c(v1 = -(.e12 * (.e20/.e16 - 1/(.e14 * .e28))), v2 = -(.e12 * 
-        (.e32 * .e6 * .e8 * .e1/.e29 - (.e15 + 1)/.e21)), v3 = -(((.e31 + 
-        .e41 - .e35)/v2 - .e22/.e16) * .e12/v3)), v2 = c(v1 = (.e33 + 
-        .e1/(v2^3 * .e28)) * .e12, v2 = ((2 * .e9 - .e22)/.e29 + 
-        .e1/(v2^4 * .e28)) * .e12 * .e1, v3 = -((.e33 + (.e41 - 
-        .e35)/.e14) * .e12 * .e1/v3)), v3 = c(v1 = (.e18/.e38 + 
-        .e37) * .e12, v2 = (.e18/(.e14 * v3 * .e7) + .e14 * .e26/.e29) * 
-        .e12 * .e1, v3 = -(((1/.e38 + .e37) * .e1 - ((.e27 * 
-        .e1/v2 + .e8 - .e8 * .e10/v3) * .e10/.e30 + (1 + .e17 - 
+    c(v1 = c(v1 = -(.e12 * (.e20/.e16 - 1/(.e14 * .e28))), v2 = -(.e12 *
+        (.e32 * .e6 * .e8 * .e1/.e29 - (.e15 + 1)/.e21)), v3 = -(((.e31 +
+        .e41 - .e35)/v2 - .e22/.e16) * .e12/v3)), v2 = c(v1 = (.e33 +
+        .e1/(v2^3 * .e28)) * .e12, v2 = ((2 * .e9 - .e22)/.e29 +
+        .e1/(v2^4 * .e28)) * .e12 * .e1, v3 = -((.e33 + (.e41 -
+        .e35)/.e14) * .e12 * .e1/v3)), v3 = c(v1 = (.e18/.e38 +
+        .e37) * .e12, v2 = (.e18/(.e14 * v3 * .e7) + .e14 * .e26/.e29) *
+        .e12 * .e1, v3 = -(((1/.e38 + .e37) * .e1 - ((.e27 *
+        .e1/v2 + .e8 - .e8 * .e10/v3) * .e10/.e30 + (1 + .e17 -
         .e15) * .e18/v3)) * .e12/v3)))
 }
 ############################################################
 #' First derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
-gev_logfd=function (x, v1, v2, v3) 
+gev_logfd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e3 <- v3 * .e1/v2
@@ -176,15 +181,16 @@ gev_logfd=function (x, v1, v2, v3)
     .e8 <- 1/.e4^.e5
     .e9 <- v2 * .e4
     .e11 <- v3 * .e6 - .e8
-    c(v1 = .e11/.e9, v2 = (.e11 * .e1/.e9 - 1)/v2, v3 = -(((.e8 - 
+    c(v1 = .e11/.e9, v2 = (.e11 * .e1/.e9 - 1)/v2, v3 = -(((.e8 -
         1) * log1p(.e3)/v3 - .e1/(v2 * .e4^.e6))/v3 + .e6 * .e1/.e9))
 }
 ############################################################
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
-gev_logfdd=function (x, v1, v2, v3) 
+gev_logfdd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e2 <- v3 * .e1
@@ -214,23 +220,24 @@ gev_logfdd=function (x, v1, v2, v3)
     .e33 <- .e10 * .e6 * .e1
     .e34 <- v3 * .e13
     .e35 <- v3^2
-    c(v1 = c(v1 = .e34/.e11 - 1/(.e31 * .e20), v2 = (.e34 * .e1/.e11 - 
-        (.e1/.e15 + .e10 - .e9)/.e8)/v2, v3 = -(((.e30/v3 + .e9)/.e8 - 
-        .e33/.e21)/v3 + .e7 * (.e2/.e11 - 1/.e8))), v2 = c(v1 = -.e28, 
-        v2 = -(((.e22/.e8 - 1)/v2 + .e28 * .e1)/v2), v3 = -((((.e14 - 
-            .e33/v2)/.e21 + .e30/(.e31 * v3 * .e4))/v3 - .e7/.e11) * 
-            .e1)), v3 = c(v1 = .e26, v2 = .e26 * .e1/v2, v3 = -(((((2/.e6 - 
-        1) * .e1/v2 - .e19 * .e12/(v3 * .e4^(.e24 - 1)))/.e4 - 
-        2 * (.e23 * .e12/v3))/v3 + v2 * (.e7 * .e6 * .e1/v2 - 
-        .e14 * .e12/.e35) * .e1/.e21)/v3 - (.e7 * .e1/.e11 + 
+    c(v1 = c(v1 = .e34/.e11 - 1/(.e31 * .e20), v2 = (.e34 * .e1/.e11 -
+        (.e1/.e15 + .e10 - .e9)/.e8)/v2, v3 = -(((.e30/v3 + .e9)/.e8 -
+        .e33/.e21)/v3 + .e7 * (.e2/.e11 - 1/.e8))), v2 = c(v1 = -.e28,
+        v2 = -(((.e22/.e8 - 1)/v2 + .e28 * .e1)/v2), v3 = -((((.e14 -
+            .e33/v2)/.e21 + .e30/(.e31 * v3 * .e4))/v3 - .e7/.e11) *
+            .e1)), v3 = c(v1 = .e26, v2 = .e26 * .e1/v2, v3 = -(((((2/.e6 -
+        1) * .e1/v2 - .e19 * .e12/(v3 * .e4^(.e24 - 1)))/.e4 -
+        2 * (.e23 * .e12/v3))/v3 + v2 * (.e7 * .e6 * .e1/v2 -
+        .e14 * .e12/.e35) * .e1/.e21)/v3 - (.e7 * .e1/.e11 +
         1/(v2 * .e35 * .e4)) * .e1)))
 }
 ############################################################
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
-gev_logfddd=function (x, v1, v2, v3) 
+gev_logfddd=function (x, v1, v2, v3)
 {
     .e1 <- x - v1
     .e2 <- v3 * .e1
@@ -288,7 +295,7 @@ gev_logfddd=function (x, v1, v2, v3)
     .e58 <- .e52 - .e42
     .e59 <- .e39/v3
     .e60 <- .e24 * .e10
-    .e62 <- (.e43 + v3 * .e12)/v3 - (.e12 + v3 * .e44 * .e11 * 
+    .e62 <- (.e43 + v3 * .e12)/v3 - (.e12 + v3 * .e44 * .e11 *
         .e1/v2)
     .e63 <- .e4^(.e13 - 2)
     .e64 <- .e47^2
@@ -311,7 +318,7 @@ gev_logfddd=function (x, v1, v2, v3)
     .e89 <- .e24 * .e4
     .e91 <- .e50/.e9
     .e92 <- .e53/.e26
-    .e95 <- (.e44 * .e11 * .e1/v2 - .e43/.e29) * .e1/v2 - ((.e17 - 
+    .e95 <- (.e44 * .e11 * .e1/v2 - .e43/.e29) * .e1/v2 - ((.e17 -
         .e78) * .e8/v3 + .e17)/v3
     .e96 <- .e82/.e14
     .e100 <- .e10 * .e25 * .e1/v2 - .e31 * .e8/.e29
@@ -335,8 +342,8 @@ gev_logfddd=function (x, v1, v2, v3)
     .e121 <- (.e73/.e116 + .e75) * .e1
     .e122 <- (.e91 - .e106/.e14)/v2
     .e125 <- .e73/.e89
-    .e127 <- (.e95/.e28 - .e23 * (.e22 + 2 * (.e32 * .e1/v2) - 
-        2 * (.e22 * .e8/v3))/.e65)/.e9 - (2 + 2 * .e40 - .e46) * 
+    .e127 <- (.e95/.e28 - .e23 * (.e22 + 2 * (.e32 * .e1/v2) -
+        2 * (.e22 * .e8/v3))/.e65)/.e9 - (2 + 2 * .e40 - .e46) *
         .e1/.e14
     .e134 <- (.e50 - .e46)/.e14
     .e135 <- .e50/.e14
@@ -345,7 +352,7 @@ gev_logfddd=function (x, v1, v2, v3)
     .e139 <- .e42 + 2 * (.e24 * .e58 * .e53 * .e10/.e26)
     .e140 <- .e77 - .e7
     .e142 <- .e35 * .e8/v3
-    .e143 <- (2 * (.e1/(v2 * .e7)) + v3 * .e81 - ((.e62 * .e8 - 
+    .e143 <- (2 * (.e1/(v2 * .e7)) + v3 * .e81 - ((.e62 * .e8 -
         .e68/.e4)/.e120 + 2/.e12))/.e4
     .e144 <- .e101 + .e56 * .e10 * .e25 * .e1/.e64
     .e146 <- .e86/v3 + 1/.e10
@@ -362,55 +369,56 @@ gev_logfddd=function (x, v1, v2, v3)
     .e162 <- .e34 * .e100 * .e1/.e64
     .e163 <- v3 * ((.e74 + 1)/v3 + 2 - .e46)
     .e165 <- v3 * .e67/.e14
-    c(v1 = c(v1 = c(v1 = v3 * (.e101 - .e20 * .e25/.e104), v2 = (v3 * 
-        (.e54 + v3 * (.e46 - (2 + .e13)) - 2 * .e45)/.e14 - (.e49/.e26 - 
-        2/.e20)/.e9)/v2, v3 = -((.e146/.e89 + v3 * (.e96 - ((2 * 
-        (.e115 * .e4^(1 + 3/v3)/.e26) - .e12/v2) * .e1 - .e7) * 
-        .e6/.e26))/v3 + .e21 * .e156/.e14)), v2 = c(v1 = -(.e144 - 
-        1/.e47), v2 = -(((.e144 - 2/.e47) * .e1 + .e148 - .e147)/v2), 
-        v3 = -(((.e86/(.e34 * v3 * .e4) + v3 * ((.e140/v2 + .e154) * 
-            .e6/.e26 + .e36 * .e39/.e105))/v3 - 2 * (.e115 * 
-            .e4/.e102)) * .e1 + .e6/.e14 - (.e92 + .e39/.e71)/v3)), 
-        v3 = c(v1 = .e125 + (.e45 + .e163 - .e15)/.e14, v2 = ((.e125 + 
-            .e150/.e14) * .e1 - .e91)/v2, v3 = -((((.e136 - .e77 * 
-            .e6) * .e1 + .e112 * (2 * (.e115 * .e76 * .e1/.e26) - 
-            1))/.e26 + (.e143 + 2 - .e153)/.e55)/v3 - (.e6 * 
-            .e156/.e14 + v3^3/.e103) * .e1))), v2 = c(v1 = c(v1 = (2 * 
-        .e114 - .e119)/.e104 - .e165, v2 = (((.e92 + 1/.e60)/.e9 - 
-        .e165) * .e1 + .e109/.e14 - .e148)/v2, v3 = -(((.e146/.e116 + 
-        v3 * (.e16/.e24 + .e154) * .e6/.e26) * .e1 - .e96)/v3 + 
-        (1 - .e83) * .e6/.e14)), v2 = c(v1 = .e138, v2 = (.e138 * 
-        .e1 + 2 * (((.e106/.e9 - 1)/v2 + (.e147 + .e1/.e47) * 
-        .e1)/v2))/v2, v3 = -(((.e86 * .e1/(v2^4 * v3 * .e4) + 
-        (v3 * .e140 * .e6 * .e1/.e24 - 2 * (v2 * .e53^2 * .e10/.e26))/.e26 - 
-        v3 * (.e155 - .e2) * .e39/.e105)/v3 + 2 * (.e88/.e102)) * 
-        .e1)), v3 = c(v1 = .e121 - .e135, v2 = (.e121 - (.e122 + 
-        .e135)) * .e1/v2, v3 = -(((((.e136 + (.e7 - .e77) * .e6) * 
-        .e1/v2 - .e139)/.e26 + (.e143 + 1 - .e153)/.e71)/v3 + 
-        2 * (.e113/.e102) + .e29/.e103) * .e1))), v3 = c(v1 = c(v1 = (.e163 - 
-        .e15)/.e14 + .e24 * .e100/.e104, v2 = (.e150 * .e1/.e14 - 
-        (.e50 - .e159)/.e9)/v2, v3 = -((((.e23 * (.e110 - (.e110 + 
-        .e157)) + .e45 + 2 - (.e111 + .e54))/.e9 + v3 * (.e37/.e26 - 
-        1/.e14) * .e1)/v3 - (((.e17 - (.e19 + 2 * (.e56 * .e58 * 
-        .e76/.e26))) * .e6 + .e7)/.e26 + .e96) * .e1)/v3 + .e6 * 
-        (2 - .e83) * .e1/.e14)), v2 = c(v1 = -(.e134 - .e162), 
-        v2 = -((.e122 + .e134 - .e162) * .e1/v2), v3 = -(((((.e23 * 
-            (.e110 - .e157) + .e45 + 1 - .e82)/.e89 - .e92)/v3 + 
-            (((.e78 - .e17) * .e6 - .e7) * .e1/v2 - .e139)/.e26 - 
-            v2 * .e39 * (.e9 + .e2)/.e105)/v3 + .e152/.e14) * 
-            .e1)), v3 = c(v1 = .e127, v2 = .e127 * .e1/v2, v3 = -((((((.e32 + 
-        v3 * (.e63 * .e30 * .e1/v2 - 2 * (.e32 * .e8/.e29))) * 
-        .e8/.e107 - 2 * (.e1/(.e36 * .e22))) * .e23 - ((.e95 * 
-        .e8 + .e23 * .e1/.e9)/.e120 + .e81 * .e1/v2)/.e4)/.e4 - 
-        ((2 * ((.e35 * .e1/v2 - .e70)/.e4 - .e142) + 2 * (.e81/.e4) - 
-            4 * .e142)/v3 + .e159))/v3 + v2 * (((.e23 * .e6 - 
-        .e7/v3) * .e1/v2 - ((.e52 - (.e41/v3 + 2 * .e10)/v3) * 
-        .e8 + .e7 * .e1/v2)/v3)/v3 - 2 * (.e24 * .e58^2 * .e10/.e26)) * 
-        .e1/.e26)/v3 + (.e152 * .e1/.e14 + v3 * (.e155 + .e2)/.e103) * 
+    c(v1 = c(v1 = c(v1 = v3 * (.e101 - .e20 * .e25/.e104), v2 = (v3 *
+        (.e54 + v3 * (.e46 - (2 + .e13)) - 2 * .e45)/.e14 - (.e49/.e26 -
+        2/.e20)/.e9)/v2, v3 = -((.e146/.e89 + v3 * (.e96 - ((2 *
+        (.e115 * .e4^(1 + 3/v3)/.e26) - .e12/v2) * .e1 - .e7) *
+        .e6/.e26))/v3 + .e21 * .e156/.e14)), v2 = c(v1 = -(.e144 -
+        1/.e47), v2 = -(((.e144 - 2/.e47) * .e1 + .e148 - .e147)/v2),
+        v3 = -(((.e86/(.e34 * v3 * .e4) + v3 * ((.e140/v2 + .e154) *
+            .e6/.e26 + .e36 * .e39/.e105))/v3 - 2 * (.e115 *
+            .e4/.e102)) * .e1 + .e6/.e14 - (.e92 + .e39/.e71)/v3)),
+        v3 = c(v1 = .e125 + (.e45 + .e163 - .e15)/.e14, v2 = ((.e125 +
+            .e150/.e14) * .e1 - .e91)/v2, v3 = -((((.e136 - .e77 *
+            .e6) * .e1 + .e112 * (2 * (.e115 * .e76 * .e1/.e26) -
+            1))/.e26 + (.e143 + 2 - .e153)/.e55)/v3 - (.e6 *
+            .e156/.e14 + v3^3/.e103) * .e1))), v2 = c(v1 = c(v1 = (2 *
+        .e114 - .e119)/.e104 - .e165, v2 = (((.e92 + 1/.e60)/.e9 -
+        .e165) * .e1 + .e109/.e14 - .e148)/v2, v3 = -(((.e146/.e116 +
+        v3 * (.e16/.e24 + .e154) * .e6/.e26) * .e1 - .e96)/v3 +
+        (1 - .e83) * .e6/.e14)), v2 = c(v1 = .e138, v2 = (.e138 *
+        .e1 + 2 * (((.e106/.e9 - 1)/v2 + (.e147 + .e1/.e47) *
+        .e1)/v2))/v2, v3 = -(((.e86 * .e1/(v2^4 * v3 * .e4) +
+        (v3 * .e140 * .e6 * .e1/.e24 - 2 * (v2 * .e53^2 * .e10/.e26))/.e26 -
+        v3 * (.e155 - .e2) * .e39/.e105)/v3 + 2 * (.e88/.e102)) *
+        .e1)), v3 = c(v1 = .e121 - .e135, v2 = (.e121 - (.e122 +
+        .e135)) * .e1/v2, v3 = -(((((.e136 + (.e7 - .e77) * .e6) *
+        .e1/v2 - .e139)/.e26 + (.e143 + 1 - .e153)/.e71)/v3 +
+        2 * (.e113/.e102) + .e29/.e103) * .e1))), v3 = c(v1 = c(v1 = (.e163 -
+        .e15)/.e14 + .e24 * .e100/.e104, v2 = (.e150 * .e1/.e14 -
+        (.e50 - .e159)/.e9)/v2, v3 = -((((.e23 * (.e110 - (.e110 +
+        .e157)) + .e45 + 2 - (.e111 + .e54))/.e9 + v3 * (.e37/.e26 -
+        1/.e14) * .e1)/v3 - (((.e17 - (.e19 + 2 * (.e56 * .e58 *
+        .e76/.e26))) * .e6 + .e7)/.e26 + .e96) * .e1)/v3 + .e6 *
+        (2 - .e83) * .e1/.e14)), v2 = c(v1 = -(.e134 - .e162),
+        v2 = -((.e122 + .e134 - .e162) * .e1/v2), v3 = -(((((.e23 *
+            (.e110 - .e157) + .e45 + 1 - .e82)/.e89 - .e92)/v3 +
+            (((.e78 - .e17) * .e6 - .e7) * .e1/v2 - .e139)/.e26 -
+            v2 * .e39 * (.e9 + .e2)/.e105)/v3 + .e152/.e14) *
+            .e1)), v3 = c(v1 = .e127, v2 = .e127 * .e1/v2, v3 = -((((((.e32 +
+        v3 * (.e63 * .e30 * .e1/v2 - 2 * (.e32 * .e8/.e29))) *
+        .e8/.e107 - 2 * (.e1/(.e36 * .e22))) * .e23 - ((.e95 *
+        .e8 + .e23 * .e1/.e9)/.e120 + .e81 * .e1/v2)/.e4)/.e4 -
+        ((2 * ((.e35 * .e1/v2 - .e70)/.e4 - .e142) + 2 * (.e81/.e4) -
+            4 * .e142)/v3 + .e159))/v3 + v2 * (((.e23 * .e6 -
+        .e7/v3) * .e1/v2 - ((.e52 - (.e41/v3 + 2 * .e10)/v3) *
+        .e8 + .e7 * .e1/v2)/v3)/v3 - 2 * (.e24 * .e58^2 * .e10/.e26)) *
+        .e1/.e26)/v3 + (.e152 * .e1/.e14 + v3 * (.e155 + .e2)/.e103) *
         .e1))))
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 gev_f1fa=function(x,v1,v2,v3){
 
@@ -422,6 +430,7 @@ gev_f1fa=function(x,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 gev_f2fa=function(x,v1,v2,v3){
 	nx=length(x)
@@ -435,6 +444,7 @@ gev_f2fa=function(x,v1,v2,v3){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 gev_mu1fa=function(alpha,v1,v2,v3){
 	x=qgev((1-alpha),mu=v1,sigma=v2,xi=v3)
@@ -447,6 +457,7 @@ gev_mu1fa=function(alpha,v1,v2,v3){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 gev_mu2fa=function(alpha,v1,v2,v3){
 	x=qgev((1-alpha),mu=v1,sigma=v2,xi=v3)
@@ -461,6 +472,7 @@ gev_mu2fa=function(alpha,v1,v2,v3){
 }
 ############################################################
 #' The first derivative of the normalized log-likelihood
+#' @returns Vector
 #' @inheritParams manf
 gev_lda=function(x,v1,v2,v3){
 	nx=length(x)
@@ -473,6 +485,7 @@ gev_lda=function(x,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 gev_ldda=function(x,v1,v2,v3){
 	nx=length(x)
@@ -486,6 +499,7 @@ gev_ldda=function(x,v1,v2,v3){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gev_lddda=function(x,v1,v2,v3){
 	nx=length(x)
@@ -499,6 +513,7 @@ gev_lddda=function(x,v1,v2,v3){
 }
 ############################################################
 #' The combined derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gev_ld12a=function(x,v1,v2,v3){
 	nx=length(x)
@@ -510,9 +525,6 @@ gev_ld12a=function(x,v1,v2,v3){
 	ld1=vf1(x,v1,v2,v3) 							#a matrix which is 3 by nx
 	temp2=vf2(x,v1,v2,v3) 						#a matrix which is 9 by nx
 	ld2=deriv_copyld2(temp2,nx,dim=3) #a matrix which is 3 by 3 by nx
-#	cat(dim(ld1))
-#	cat(dim(ld2))
-#	stop()
 	dim=3
 	ld12=array(0,c(dim,dim,dim))
 	for (j in 1:dim){

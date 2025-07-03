@@ -19,6 +19,9 @@ gev_p1_ldda(x, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

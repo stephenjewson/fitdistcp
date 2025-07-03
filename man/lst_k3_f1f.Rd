@@ -19,6 +19,9 @@ lst_k3_f1f(y, v1, d1, v2, fd2, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, f1 term
 }

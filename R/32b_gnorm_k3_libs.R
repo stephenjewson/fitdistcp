@@ -1,4 +1,5 @@
 #' Waic for RUST
+#' @inherit manwaic return
 #' @inheritParams manf
 gnorm_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,kbeta,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,6 +21,7 @@ gnorm_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,kbeta,lddi,lddd,lambdad,ader
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gnorm_k3_logf=function(params,x,kbeta){
 	m=params[1]
@@ -28,6 +30,7 @@ gnorm_k3_logf=function(params,x,kbeta){
 	return(logf)
 }
 #'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gnorm_k3_loglik=function(vv,x,kbeta){
 	n=length(x)
@@ -35,6 +38,7 @@ gnorm_k3_loglik=function(vv,x,kbeta){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gnorm_k3_lmn=function(x,v1,d1,v2,fd2,kbeta,mm,nn){
 	d2=fd2*v2
@@ -70,6 +74,7 @@ gnorm_k3_lmn=function(x,v1,d1,v2,fd2,kbeta,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gnorm_k3_ldd=function(x,v1,d1,v2,fd2,kbeta){
 	nx=length(x)
@@ -87,6 +92,7 @@ gnorm_k3_ldd=function(x,v1,d1,v2,fd2,kbeta){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gnorm_lmnp=function(x,v1,d1,v2,fd2,kbeta,mm,nn,rr){
 	d2=fd2*v2
@@ -147,6 +153,7 @@ gnorm_lmnp=function(x,v1,d1,v2,fd2,kbeta,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gnorm_k3_lddd=function(x,v1,d1,v2,fd2,kbeta){
 	lddd=array(0,c(2,2,2))
@@ -170,6 +177,7 @@ gnorm_k3_lddd=function(x,v1,d1,v2,fd2,kbeta){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gnorm_k3_f1f=function(y,v1,d1,v2,fd2,kbeta){
 	d2=fd2*v2
@@ -193,6 +201,7 @@ gnorm_k3_f1f=function(y,v1,d1,v2,fd2,kbeta){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gnorm_k3_p1f=function(y,v1,d1,v2,fd2,kbeta){
 	d2=fd2*v2
@@ -216,6 +225,7 @@ gnorm_k3_p1f=function(y,v1,d1,v2,fd2,kbeta){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gnorm_k3_mu1f=function(alpha,v1,d1,v2,fd2,kbeta){
 	q00=qgnorm((1-alpha),mu=v1,alpha=v2,beta=kbeta)
@@ -240,6 +250,7 @@ gnorm_k3_mu1f=function(alpha,v1,d1,v2,fd2,kbeta){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gnorm_k3_f2f=function(y,v1,d1,v2,fd2,kbeta){
 	d2=fd2*v2
@@ -280,6 +291,7 @@ gnorm_k3_f2f=function(y,v1,d1,v2,fd2,kbeta){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gnorm_k3_p2f=function(y,v1,d1,v2,fd2,kbeta){
 	d2=fd2*v2
@@ -320,6 +332,7 @@ gnorm_k3_p2f=function(y,v1,d1,v2,fd2,kbeta){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gnorm_k3_mu2f=function(alpha,v1,d1,v2,fd2,kbeta){
 	q00=qgnorm((1-alpha),mu=v1,alpha=v2,beta=kbeta)
@@ -361,6 +374,7 @@ gnorm_k3_mu2f=function(alpha,v1,d1,v2,fd2,kbeta){
 	return(mu2)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 gnorm_k3_logscores=function(logscores,x,d1=0.01,fd2=0.01,kbeta,aderivs){
 
@@ -387,6 +401,7 @@ gnorm_k3_logscores=function(logscores,x,d1=0.01,fd2=0.01,kbeta,aderivs){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dgnorm_k3sub=function(x,y,d1=0.01,fd2=0.01,kbeta,aderivs=TRUE){
 

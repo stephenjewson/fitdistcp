@@ -2,7 +2,7 @@
 % Please edit documentation in R/51b_frechet_k1_libs.R
 \name{frechet_k1_lmnp}
 \alias{frechet_k1_lmnp}
-\title{One component of the second derivative of the normalized log-likelihood}
+\title{One component of the third derivative of the normalized log-likelihood}
 \usage{
 frechet_k1_lmnp(x, v1, fd1, v2, fd2, kloc, mm, nn, rr)
 }
@@ -25,6 +25,9 @@ frechet_k1_lmnp(x, v1, fd1, v2, fd2, kloc, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
-One component of the second derivative of the normalized log-likelihood
+One component of the third derivative of the normalized log-likelihood
 }

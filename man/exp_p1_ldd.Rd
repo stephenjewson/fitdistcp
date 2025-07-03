@@ -19,6 +19,9 @@ exp_p1_ldd(x, t, v1, d1, v2, d2)
 
 \item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

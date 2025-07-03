@@ -23,6 +23,9 @@ gev_p123_predictordata(x, t1, t2, t3, t01, t02, t03, params)
 
 \item{params}{model parameters for calculating logf}
 }
+\value{
+Two vectors
+}
 \description{
 Predicted Parameter and Generalized Residuals
 }

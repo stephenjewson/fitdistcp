@@ -19,6 +19,9 @@ gev_k3_mu2f(alpha, v1, d1, v2, fd2, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 3.3, mu2 term
 }

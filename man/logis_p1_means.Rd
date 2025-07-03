@@ -21,6 +21,9 @@ logis_p1_means(t0, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2)
 
 \item{dim}{number of parameters}
 }
+\value{
+Two scalars
+}
 \description{
 Logistic distribution: RHP mean
 }

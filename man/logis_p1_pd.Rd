@@ -19,6 +19,9 @@ logis_p1_pd(x, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the cdf
 Created by Stephen Jewson

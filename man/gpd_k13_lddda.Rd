@@ -15,6 +15,9 @@ gpd_k13_lddda(x, v1, v2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

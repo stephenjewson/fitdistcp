@@ -13,6 +13,9 @@ exp_logfdd(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the log density
 Created by Stephen Jewson

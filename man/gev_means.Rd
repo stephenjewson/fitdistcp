@@ -22,7 +22,7 @@ gev_means(
 )
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{ml_params}{parameters}
 
@@ -47,6 +47,9 @@ gev_means(
 \item{nx}{length of training data}
 
 \item{dim}{number of parameters}
+}
+\value{
+Two scalars
 }
 \description{
 Analytical Expressions for Predictive Means

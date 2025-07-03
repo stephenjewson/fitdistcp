@@ -1,5 +1,7 @@
 #' Evaluation of Reliability for Models in the \code{fitdistcp} Package
 #'
+#' @inherit man references seealso
+#'
 #' @description
 #' Uses simulations to evaluate the reliability of
 #' the predictive quantiles produced by the \code{q****_cp} routines in the \code{fitdistcp} package.
@@ -50,13 +52,15 @@
 #' @param plotflag	logical to turn the plotting on and off
 #' @param verbose		logical to turn loop counting on and off
 #' @param dmgs			logical to turn DMGS calculations on and off (to optimize speed for maxlik only calculations)
-#' @param	debug			flag for turning debug messages on
-#' @param aderivs		a logical for whether to use analytic derivatives (instead of numerical)
-#' @param unbiasedv a logical for whether to use the unbiased variance instead of maxlik (for the normal)
-#' @param pwm				a logical for whether to use PWM instead of maxlik (for the GEV)
+#' @param	debug			logical for turning debug messages on and off
+#' @param aderivs		logical for whether to use analytic derivatives (instead of numerical)
+#' @param unbiasedv logical for whether to use the unbiased variance instead of maxlik (for the normal)
+#' @param pwm				logical for whether to use PWM instead of maxlik (for the GEV)
+#' @param minxi			minimum value for EVT shape parameter
+#' @param maxxi			maximum value for EVT shape parameter
 #'
-#' @returns
-#' A plot showing 9 different diagnostic checks, and a list containing
+#' @return
+#' A plot showing 9 different reliability checks, and a list containing
 #' various outputs, including the
 #' probabilities shown in the plot.
 #'
@@ -119,7 +123,8 @@
 #' "\code{gev_p1}",
 #' "\code{gev_p12}",
 #' "\code{gev_p123}",
-#' the calibrating prior quantiles are calculated using the recommend priors,
+#' the calibrating prior quantiles are calculated using the "\code{fitdistcp}"
+#' recommended calibrating priors,
 #' with the DMGS asymptotic solution for the Bayesian prediction integral.
 #' The chosen priors give reasonably good reliability with a
 #' large enough number of trials,
@@ -129,28 +134,6 @@
 #' @author
 #' Stephen Jewson \email{stephen.jewson@@gmail.com}
 #'
-#' @references
-#'
-#' If you use this package, we would be grateful if you would cite the following reference,
-#' which gives the various calibrating priors, and tests them for reliability:
-#'
-#'\itemize{
-#' \item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
-#' Assessments of Extreme Weather Risk using Calibrating Priors;
-#' ASCMO (Advances in Statistical Climatology, Meteorology and Oceanography)
-#' }
-#'
-#' The proof that using the right Haar prior gives exact probability
-#' matching for homogeneous models is given in:
-#'\itemize{
-#' \item Severini, T., Mukerjee, R. and Ghosh, M. (2002); Biometrika
-#' }
-#'
-#' The DMGS asymptotic expansions come from:
-#'\itemize{
-#' \item Datta, G., Mukerjee, R., Ghosh, M. and Sweeting, T. (2000); Annals of Statistics
-#' }
-#'
 #' @example man/examples/example_01_reltest.R
 #'
 #' @export
@@ -158,7 +141,7 @@
 reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=c(1),
 	alpha=seq(0.005,0.995,0.005),
 	plotflag=TRUE,verbose=TRUE,dmgs=TRUE,debug=FALSE,aderivs=TRUE,
-	unbiasedv=FALSE,pwm=FALSE,ximin=-10,minxi=-10,maxxi=10){
+	unbiasedv=FALSE,pwm=FALSE,minxi=-10,maxxi=10){
 #
 # intro
 #
@@ -190,25 +173,20 @@ reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=c(1),
 	ep1=array(0,c(nmethods,nalpha))
 	epsum=array(0,c(nmethods,nrepeats,nalpha))
 	maxepsum=array(0,c(nrepeats))
-	if(verbose)cat("\nmodel=",model,"\n")
+	if(verbose)message("\nmodel=",model)
 	for (ir in 1:nrepeats){
-		if(verbose)cat(" \nrepeat:",ir,"\n ")
+		if(verbose)message(" \nrepeat:",ir)
 		for (it in 1:ntrials){
-			if(verbose)cat(it,",")
+			if(verbose)message(it)
 #
 # make random training and testing data
 #
 			xx=reltest_simulate(model,nx,tt,tt1,tt2,tt3,params,minxi=minxi,maxxi=maxxi)
-#			cat("xx=",xx,"\n")
 #
 # make predictions
 # -params is only passed in to provide the various known parameters
 			pred=reltest_predict(model,xx,tt,tt1,tt2,tt3,n0,n10=n0,n20=n0,n30=n0,pp,params,dmgs=dmgs,
 				debug=debug,aderivs=aderivs,unbiasedv=unbiasedv,pwm=pwm,minxi=minxi,maxxi=maxxi)
-#			cat("\n")
-#			cat("pred1=",pred[1,],"\n")
-#			cat("pred2=",pred[2,],"\n")
-#			stop()
 #
 # make ep
 #

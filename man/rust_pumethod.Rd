@@ -6,6 +6,9 @@
 \usage{
 rust_pumethod()
 }
+\value{
+String
+}
 \description{
 Generates a comment about the method
 }

@@ -7,7 +7,7 @@
 gumbel_p1_logscores(logscores, x, t, d1, d2, fd3, aderivs = TRUE)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
@@ -19,7 +19,10 @@ gumbel_p1_logscores(logscores, x, t, d1, d2, fd3, aderivs = TRUE)
 
 \item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

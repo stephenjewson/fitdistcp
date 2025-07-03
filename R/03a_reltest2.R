@@ -1,7 +1,9 @@
 #' Evaluation of Reliability for Certain Additional Models in the \code{fitdistcp} Package
 #'
+#' @inherit man references seealso
+#'
 #' @description
-#' This routine is mainly for reproducing certain results in Jewson et al. (2024),
+#' This routine is mainly for reproducing certain results in Jewson et al. (2025),
 #' and not of general interest.
 #'
 #' It uses simulations to evaluate the reliability of
@@ -25,8 +27,8 @@
 #' @param plotflag	logical to turn the plotting on and off
 #' @param verbose		logical to turn loop counting on and off
 #'
-#' @returns
-#' A plot showing 9 different diagnostic checks, and a list containing
+#' @return
+#' A plot showing 9 different reliability checks, and a list containing
 #' various outputs, including the
 #' probabilities shown in the plot.
 #'
@@ -39,28 +41,6 @@
 #'
 #' @author
 #' Stephen Jewson \email{stephen.jewson@@gmail.com}
-#'
-#' @references
-#'
-#' If you use this package, we would be grateful if you would cite the following reference,
-#' which gives the various calibrating priors, and tests them for reliability:
-#'
-#'\itemize{
-#' \item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
-#' Assessments of Extreme Weather Risk using Calibrating Priors;
-#' ASCMO (Advances in Statistical Climatology, Meteorology and Oceanography)
-#' }
-#'
-#' The proof that using the right Haar prior gives exact probability
-#' matching for homogeneous models is given in:
-#'\itemize{
-#' \item Severini, T., Mukerjee, R. and Ghosh, M. (2002); Biometrika
-#' }
-#'
-#' The DMGS asymptotic expansions come from:
-#'\itemize{
-#' \item Datta, G., Mukerjee, R., Ghosh, M. and Sweeting, T. (2000); Annals of Statistics
-#' }
 #'
 #' @example man/examples/example_02_reltest2.R
 #'
@@ -82,32 +62,28 @@ reltest2=function(model="gev",ntrials=100,nrepeats=3,nx=50,
 	cases=reltest2_cases(model="gev",nx,params)
 	nmethods=cases$nmethods
 	case=cases$case
-	cat("nmethods=",nmethods,"\n")
-	cat("case=",case,"\n")
+	if(verbose)message("nmethods=",nmethods)
+	if(verbose)message("case=",case)
 #
 # the big testing loop
 #
 	ep1=array(0,c(nmethods,nalpha))
 	epsum=array(0,c(nmethods,nrepeats,nalpha))
-	cat("model=",model,"\n")
+	if(verbose)message("model=",model)
 	for (ir in 1:nrepeats){
-		if(verbose)cat(" \nrepeat:",ir,"\n ")
+		if(verbose)message(" \nrepeat:",ir)
 		for (it in 1:ntrials){
-			if(verbose)cat(it,",")
+			if(verbose)message(it)
 
 # make xx and flags
 			simop=reltest2_simulate(model,nx,tt,params)
 			xx=simop$xx
 			rh_ml_flag=simop$rh_ml_flag
 			cp_flag=simop$cp_flag
-#			cat("xx=",xx,"\n")
-#			cat("yy=",yy,"\n")
 #
 # make predictions
 # -params is only passed in to provide the various known parameters
 			pred=reltest2_predict(model,xx,tt,n0,pp,params,case,nmethods)
-#			cat("pred1=",pred[1,],"\n")
-#			cat("pred2=",pred[2,],"\n")
 #
 # make ep
 #

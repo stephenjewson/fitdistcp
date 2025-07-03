@@ -11,6 +11,10 @@ make_maic(ml_value, nparams)
 
 \item{nparams}{number of parameters}
 }
+\value{
+Vector of 3 values
+Returns the two compoments of MAIC, and their sum
+}
 \description{
 Calculate MAIC
 }

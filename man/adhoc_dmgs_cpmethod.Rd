@@ -6,6 +6,9 @@
 \usage{
 adhoc_dmgs_cpmethod()
 }
+\value{
+String
+}
 \description{
 Generates a comment about the method
 }

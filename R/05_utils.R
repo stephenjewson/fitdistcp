@@ -1,5 +1,7 @@
 #' Deal with situations in which the user wants d or p outside the GEV range
 #' @inheritParams manf
+#'
+#' @return Vector
 fixgevrange=function(y,v1,v2,v3){
 #
 # I've added minxi now, so that even in the case where I adjust xi slightly
@@ -25,6 +27,8 @@ fixgevrange=function(y,v1,v2,v3){
 }
 #' Deal with situations in which the user wants d or p outside the GPD range
 #' @inheritParams manf
+#'
+#' @return Vector
 fixgpdrange=function(y,v1,v2,v3){
 	if(v3<0){
 		ximin=v1
@@ -44,6 +48,8 @@ fixgpdrange=function(y,v1,v2,v3){
 #' @param temp1 					output from derivative calculations
 #' @param nx 							number of x values
 #' @param dim 						number of parameters
+#'
+#' @return 3d array
 deriv_copyfdd=function(temp1,nx,dim){
 	f2=array(0,c(dim,dim,nx))
 	for (i in 1:dim){
@@ -57,6 +63,8 @@ deriv_copyfdd=function(temp1,nx,dim){
 #' @param temp1 					output from derivative calculations
 #' @param nx 							number of x values
 #' @param dim 						number of parameters
+#'
+#' @return Matrix
 deriv_copyldd=function(temp1,nx,dim){
 	temp2=apply(temp1,1,sum)/nx
 	ldd=matrix(0,dim,dim)
@@ -71,6 +79,8 @@ deriv_copyldd=function(temp1,nx,dim){
 #' @param temp1 					output from derivative calculations
 #' @param nx 							number of x values
 #' @param dim 						number of parameters
+#'
+#' @return 3d array
 deriv_copylddd=function(temp1,nx,dim){
 	temp2=apply(temp1,1,sum)/nx
 	lddd=array(0,c(dim,dim,dim))
@@ -87,6 +97,8 @@ deriv_copylddd=function(temp1,nx,dim){
 #' @param temp1 					output from derivative calculations
 #' @param nx 							number of x values
 #' @param dim 						number of parameters
+#'
+#' @return 3d array
 deriv_copyld2=function(temp1,nx,dim){
 	ld2=array(0,c(dim,dim,nx))
 	for (i in 1:dim){
@@ -98,6 +110,8 @@ deriv_copyld2=function(temp1,nx,dim){
 }
 #' Move xi away from zero a bit
 #' @param xi 					xi
+#'
+#' @return Scalar
 movexiawayfromzero=function(xi){
 	minxi=10^-7
 	if(abs(xi)<minxi){
@@ -115,13 +129,15 @@ movexiawayfromzero=function(xi){
 }
 #' Determine t0
 #' @inheritParams manf
+#'
+#' @return Scalar
 maket0=function(t0,n0,t){
 
 # if t0 is specified, does nothing
 # if t0 isn't specified, calculates t0 from n0
 
-	if( (is.na(t0))  && (is.na(n0))  ){cat("Either t0 or n0 must be specified\n")}
-	if( (!is.na(t0)) && (!is.na(n0)) ){cat("Only one of t0 or n0 must be specified\n")}
+	if( (is.na(t0))  && (is.na(n0))  ){message("Either t0 or n0 must be specified")}
+	if( (!is.na(t0)) && (!is.na(n0)) ){message("Only one of t0 or n0 must be specified")}
 
 	if(is.na(t0))t0=t[n0]
 
@@ -132,6 +148,8 @@ maket0=function(t0,n0,t){
 #' @param n0					the position in the predictor vector at which to make the prediction (positive integer less than or equal to the length of \eqn{x}) (if t0 not specified)
 #' @param t 					predictor
 #' @param mle_params	MLE params
+#'
+#' @return Scalar
 makemuhat0=function(t0,n0,t,mle_params){
 
 	muhat=mle_params[1]+mle_params[2]*t
@@ -148,6 +166,8 @@ makemuhat0=function(t0,n0,t,mle_params){
 #' @param t0					the value of the predictor vector at which to make the prediction (if n0 not specified)
 #' @param n0					the position in the predictor vector at which to make the prediction (positive integer less than or equal to the length of \eqn{x}) (if t0 not specified)
 #' @param t 					predictor
+#'
+#' @return Scalar
 maketa0=function(t0,n0,t){
 
 	ta=t-mean(t)
@@ -160,9 +180,11 @@ maketa0=function(t0,n0,t){
 
 	return(ta0)
 }
-#' Make Standad Errors from lddi
+#' Make Standard Errors from lddi
 #' @param nx					length of training data
 #' @param lddi				the inverse log-likelihood matrix
+#'
+#' @return Vector
 make_se=function(nx,lddi){
 	nd=dim(lddi)[1]
 	standard_errors=matrix(0,nd)
@@ -170,7 +192,6 @@ make_se=function(nx,lddi){
 		if(lddi[i,i]>0){
 			standard_errors[i]="square root not possible"
 		} else{
-#			cat("calculating se for element",i,lddi[i,i],"\n")
 			standard_errors[i]=sqrt(-lddi[i,i]/nx)
 		}
 	}
@@ -186,6 +207,8 @@ make_se=function(nx,lddi){
 #' @param 	lambdad	the slope of the log prior
 #' @param 	f2f					the f2 term from DMGS equation 2.1
 #' @param 	dim					number of free parameters
+#'
+#' @return Two scalars
 make_waic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 
 # waic seems to be a bust because it doesn't make sense for the mle models...it doesn't penalize them at all for parameters
@@ -207,8 +230,6 @@ make_waic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 			}
 		}
 	}
-#	cat("f2f[,,1]=",f2f[,,1],"\n")
-#	cat("outerf1f[,,1]=",outerf1f[,,1],"\n")
 
 # first term is the llpd
 # which is just the in-sample log-likelihood
@@ -220,15 +241,7 @@ make_waic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 		t1[,i]	=f1f[,i]
 		t2[,,i]	=f2f[,,i]
 	}
-#	cat("lddi=",lddi,"\n")
-#	cat("lddd=",lddd,"\n")
-#	cat("t1=",t1,"\n")
-#	cat("lambdad=",lambdad,"\n")
-#	cat("t2=",t2,"\n")
-#	cat("dim=",dim,"\n")
 	dq=dmgs(lddi,lddd,t1,lambdad,t2,dim=dim)/nx
-#	cat("fhatx=",fhatx,"\n")
-#	cat("dq=",dq,"\n")
 	dqq=pmax(fhatx+dq,.Machine$double.eps)
 	logf1_rhp=log(dqq)
 	sumlogf1_rhp=sum(logf1_rhp)
@@ -279,10 +292,6 @@ make_waic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 	waic2[2]=-pwaic2_rhp
 	waic2[3]=waic2[1]+waic2[2]
 
-#	cat("waic_mle=",waic_mle,"\n")
-#	cat("waic_rhp=",waic_rhp,"\n")
-#	stop()
-
 	list(waic1=waic1,waic2=waic2)
 }
 #' Make WAIC
@@ -294,6 +303,8 @@ make_waic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 #' @param 	lambdad	the slope of the log prior
 #' @param 	f2f					the f2 term from DMGS equation 2.1
 #' @param 	dim					number of free parameters
+#'
+#' @return Two scalars
 make_cwaic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 
 # waic seems to be a bust because it doesn't make sense for the mle models...it doesn't penalize them at all for parameters
@@ -315,8 +326,6 @@ make_cwaic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 			}
 		}
 	}
-#	cat("f2f[,,1]=",f2f[,,1],"\n")
-#	cat("outerf1f[,,1]=",outerf1f[,,1],"\n")
 
 # first term is the llpd
 # which is just the in-sample log-likelihood
@@ -328,22 +337,11 @@ make_cwaic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 		t1[,i]	=f1f[,i]
 		t2[,,i]	=f2f[,,i]
 	}
-#	cat("lddi=",lddi,"\n")
-#	cat("lddd=",lddd,"\n")
-#	cat("t1=",t1,"\n")
-#	cat("lambdad=",lambdad,"\n")
-#	cat("t2=",t2,"\n")
-#	cat("dim=",dim,"\n")
 	dq=dmgs(lddi,lddd,t1,lambdad,t2,dim=dim)/nx
-#	cat("fhatx=",fhatx,"\n")
-#	cat("dq=",dq,"\n")
 	dqq=pmax(fhatx+dq,.Machine$double.eps)
 	logf1_rhp=log(dqq)
 	sumlogf1_rhp=sum(logf1_rhp)
 	lppd_rhp=sumlogf1_rhp
-#	logf1_mle=log(fhatx)
-#	sumlogf1_mle=sum(logf1_mle)
-#	lppd_mle=sumlogf1_mle #no point in calculating for mle because the adjustment is zero
 
 # second term is the penalty term
 # this version of it is a difference
@@ -387,15 +385,14 @@ make_cwaic=function(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim){
 	waic2[2]=-pwaic2_rhp
 	waic2[3]=waic2[1]+waic2[2]
 
-#	cat("waic_mle=",waic_mle,"\n")
-#	cat("waic_rhp=",waic_rhp,"\n")
-#	stop()
-
 	list(waic1=waic1,waic2=waic2)
 }
 #' Calculate MAIC
 #' @param ml_value	maximum of the likelihood
 #' @param nparams		number of parameters
+#'
+#' @return Vector of 3 values
+#' Returns the two compoments of MAIC, and their sum
 make_maic=function(ml_value,nparams){
 	maic=numeric(3)
 	maic[1]=ml_value
@@ -405,6 +402,8 @@ make_maic=function(ml_value,nparams){
 }
 
 #' Generates a comment about the method
+#'
+#' @return String
 rust_pumethod=function(){
 
   method="The cp results are based posterior simulation using
@@ -415,6 +414,7 @@ rust_pumethod=function(){
 	return(method)
 }
 #' Generates a comment about the method
+#' @return String
 analytic_cpmethod=function(){
 
   method="The cp results are based on an analytic solution of
@@ -425,6 +425,7 @@ analytic_cpmethod=function(){
 	return(method)
 }
 #' Generates a comment about the method
+#' @return String
 rhp_dmgs_cpmethod=function(){
 
   method="The cp results are based on the DMGS approximation of
@@ -435,6 +436,7 @@ rhp_dmgs_cpmethod=function(){
 	return(method)
 }
 #' Generates a comment about the method
+#' @return String
 crhpflat_dmgs_cpmethod=function(){
 
   method="The cp results are based on the DMGS approximation of
@@ -445,6 +447,7 @@ crhpflat_dmgs_cpmethod=function(){
 	return(method)
 }
 #' Generates a comment about the method
+#' @return String
 adhoc_dmgs_cpmethod=function(){
 
   method="The cp results are based on the DMGS approximation of
@@ -456,6 +459,7 @@ adhoc_dmgs_cpmethod=function(){
 }
 #' Calculates quantiles from simulations by inverting the Hazen CDF
 #' @inheritParams manf
+#' @return Vector
 makeq=function(yy,pp){
 	nyy=length(yy)
 	npp=length(pp)
@@ -475,8 +479,10 @@ makeq=function(yy,pp){
 	}
 	return(qq)
 }
-#' Message to explain why GEV and GPD d*** and p*** routines don't return DMGS pdfs and cdfs
+#' Message to explain why GEV and GPD \code{d***} and \code{p***} routines
+#' don't return DMGS pdfs and cdfs
 #' @inheritParams manf
+#' @return String
 nopdfcdfmsg=function(yy,pp){
 
 	msg="For the pdf and cdf for the GEV and GPD, considered as a function of the rv, DMGS doesn't return anything."

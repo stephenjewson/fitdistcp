@@ -2,7 +2,7 @@
 % Please edit documentation in R/53b_gev_k3_libs.R
 \name{gev_k3_lmnp}
 \alias{gev_k3_lmnp}
-\title{One component of the second derivative of the normalized log-likelihood}
+\title{One component of the third derivative of the normalized log-likelihood}
 \usage{
 gev_k3_lmnp(x, v1, d1, v2, fd2, kshape, mm, nn, rr)
 }
@@ -25,6 +25,9 @@ gev_k3_lmnp(x, v1, d1, v2, fd2, kshape, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
-One component of the second derivative of the normalized log-likelihood
+One component of the third derivative of the normalized log-likelihood
 }

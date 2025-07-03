@@ -25,6 +25,9 @@ gev_p12_fdd(x, t1, t2, v1, v2, v3, v4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the density
 Created by Stephen Jewson

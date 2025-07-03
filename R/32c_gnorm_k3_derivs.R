@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gnorm_k3_fd=function (x, v1, v2, v3) 
 {
@@ -18,6 +19,7 @@ gnorm_k3_fd=function (x, v1, v2, v3)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gnorm_k3_fdd=function (x, v1, v2, v3) 
 {
@@ -50,6 +52,7 @@ gnorm_k3_fdd=function (x, v1, v2, v3)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gnorm_k3_logfdd=function (x, v1, v2, v3) 
 {
@@ -70,6 +73,7 @@ gnorm_k3_logfdd=function (x, v1, v2, v3)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 gnorm_k3_logfddd=function (x, v1, v2, v3) 
 {
@@ -101,6 +105,7 @@ gnorm_k3_logfddd=function (x, v1, v2, v3)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 gnorm_k3_f1fa=function(x,v1,v2,kbeta){
 	vf=Vectorize(gnorm_k3_fd)
@@ -109,6 +114,8 @@ gnorm_k3_f1fa=function(x,v1,v2,kbeta){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
+#' @returns Matrix
 #' @inheritParams manf
 gnorm_k3_f2fa=function(x,v1,v2,kbeta){
 	nx=length(x)
@@ -120,6 +127,7 @@ gnorm_k3_f2fa=function(x,v1,v2,kbeta){
 ############################################################
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 gnorm_k3_ldda=function(x,v1,v2,kbeta){
 	nx=length(x)
@@ -130,6 +138,7 @@ gnorm_k3_ldda=function(x,v1,v2,kbeta){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gnorm_k3_lddda=function(x,v1,v2,kbeta){
 	nx=length(x)

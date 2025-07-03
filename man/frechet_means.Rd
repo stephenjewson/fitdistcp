@@ -7,7 +7,7 @@
 frechet_means(means, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2, kloc)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{ml_params}{parameters}
 
@@ -22,6 +22,9 @@ frechet_means(means, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2, kloc)
 \item{dim}{number of parameters}
 
 \item{kloc}{the known location parameter}
+}
+\value{
+Two scalars
 }
 \description{
 MLE and RHP predictive means

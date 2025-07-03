@@ -15,6 +15,9 @@ pareto_k2_f2f(y, v1, fd1, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 2.1, f2 term
 }

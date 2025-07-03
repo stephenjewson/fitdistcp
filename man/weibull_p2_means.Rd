@@ -7,7 +7,7 @@
 weibull_p2_means(means, t0, ml_params, lddi, lddd, lambdad_rhp, nx, dim)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
@@ -22,6 +22,9 @@ weibull_p2_means(means, t0, ml_params, lddi, lddd, lambdad_rhp, nx, dim)
 \item{nx}{length of training data}
 
 \item{dim}{number of parameters}
+}
+\value{
+Two scalars
 }
 \description{
 weibull distribution: RHP mean

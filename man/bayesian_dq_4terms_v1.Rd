@@ -21,6 +21,9 @@ bayesian_dq_4terms_v1(lddi, lddd, mu1, pidopi1, pidopi2, mu2, dim)
 
 \item{dim}{number of parameters}
 }
+\value{
+Vector
+}
 \description{
 Evaluate DMGS equation 3.3
 }

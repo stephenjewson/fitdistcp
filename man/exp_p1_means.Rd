@@ -2,12 +2,12 @@
 % Please edit documentation in R/55b_exp_p1_libs.R
 \name{exp_p1_means}
 \alias{exp_p1_means}
-\title{exp distribution: RHP mean}
+\title{exp distribution: RHP means}
 \usage{
 exp_p1_means(means, t0, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
@@ -23,6 +23,9 @@ exp_p1_means(means, t0, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2)
 
 \item{dim}{number of parameters}
 }
+\value{
+Two scalars
+}
 \description{
-exp distribution: RHP mean
+exp distribution: RHP means
 }

@@ -7,7 +7,7 @@
 gev_k3_means(means, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2, kshape)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{ml_params}{parameters}
 
@@ -22,6 +22,9 @@ gev_k3_means(means, ml_params, lddi, lddd, lambdad_rhp, nx, dim = 2, kshape)
 \item{dim}{number of parameters}
 
 \item{kshape}{the known shape parameter}
+}
+\value{
+Two scalars
 }
 \description{
 MLE and RHP means

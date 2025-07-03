@@ -13,6 +13,9 @@ exp_fdd(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the density
 Created by Stephen Jewson

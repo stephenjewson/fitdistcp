@@ -19,6 +19,9 @@ gev_p123_checkmle(ml_params, minxi, maxxi, t1, t2, t3)
 
 \item{t3}{a vector of predictors for the shape}
 }
+\value{
+No return value (just a message to the screen).
+}
 \description{
 Check MLE
 }

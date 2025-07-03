@@ -19,6 +19,9 @@ weibull_p2_pdd(x, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the cdf
 Created by Stephen Jewson

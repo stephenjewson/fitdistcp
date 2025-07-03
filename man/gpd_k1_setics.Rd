@@ -11,6 +11,9 @@ gpd_k1_setics(x, ics)
 
 \item{ics}{initial conditions for the maximum likelihood search}
 }
+\value{
+Vector
+}
 \description{
 Set initial conditions
 }

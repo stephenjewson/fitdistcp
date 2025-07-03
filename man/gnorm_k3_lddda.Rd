@@ -15,6 +15,9 @@ gnorm_k3_lddda(x, v1, v2, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

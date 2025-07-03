@@ -13,6 +13,9 @@ exp_pd(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the cdf
 Created by Stephen Jewson

@@ -2,7 +2,8 @@
 % Please edit documentation in R/05_utils.R
 \name{nopdfcdfmsg}
 \alias{nopdfcdfmsg}
-\title{Message to explain why GEV and GPD d*** and p*** routines don't return DMGS pdfs and cdfs}
+\title{Message to explain why GEV and GPD \code{d***} and \code{p***} routines
+don't return DMGS pdfs and cdfs}
 \usage{
 nopdfcdfmsg(yy, pp)
 }
@@ -11,6 +12,10 @@ nopdfcdfmsg(yy, pp)
 
 \item{pp}{vector of probabilities}
 }
+\value{
+String
+}
 \description{
-Message to explain why GEV and GPD d*** and p*** routines don't return DMGS pdfs and cdfs
+Message to explain why GEV and GPD \code{d***} and \code{p***} routines
+don't return DMGS pdfs and cdfs
 }

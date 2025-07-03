@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gumbel_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,6 +21,7 @@ gumbel_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gumbel_logf=function(params,x){
 	m=params[1]
@@ -28,12 +30,14 @@ gumbel_logf=function(params,x){
 	return(logf)
 }
 #'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gumbel_loglik=function(vv,x){
 	loglik=sum(extraDistr::dgumbel(x,mu=vv[1],sigma=max(vv[2],.Machine$double.eps),log=TRUE))
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gumbel_lmn=function(x,v1,d1,v2,fd2,mm,nn){
 	d2=fd2*v2
@@ -69,6 +73,7 @@ gumbel_lmn=function(x,v1,d1,v2,fd2,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gumbel_ldd=function(x,v1,d1,v2,fd2){
 	nx=length(x)
@@ -85,7 +90,8 @@ gumbel_ldd=function(x,v1,d1,v2,fd2){
 	}
 	return(ldd)
 }
-#' One component of the second derivative of the normalized log-likelihood
+#' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gumbel_lmnp=function(x,v1,d1,v2,fd2,mm,nn,rr){
 	d2=fd2*v2
@@ -146,6 +152,7 @@ gumbel_lmnp=function(x,v1,d1,v2,fd2,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gumbel_lddd=function(x,v1,d1,v2,fd2){
 # calculate the unique values
@@ -170,6 +177,7 @@ gumbel_lddd=function(x,v1,d1,v2,fd2){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gumbel_f1f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -193,6 +201,7 @@ gumbel_f1f=function(y,v1,d1,v2,fd2){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gumbel_p1f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -216,6 +225,7 @@ gumbel_p1f=function(y,v1,d1,v2,fd2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gumbel_mu1f=function(alpha,v1,d1,v2,fd2){
 	q00=extraDistr::qgumbel((1-alpha),mu=v1,sigma=v2)
@@ -240,6 +250,7 @@ gumbel_mu1f=function(alpha,v1,d1,v2,fd2){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gumbel_f2f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -280,6 +291,7 @@ gumbel_f2f=function(y,v1,d1,v2,fd2){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gumbel_p2f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -320,6 +332,7 @@ gumbel_p2f=function(y,v1,d1,v2,fd2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gumbel_mu2f=function(alpha,v1,d1,v2,fd2){
 	q00=extraDistr::qgumbel((1-alpha),mu=v1,sigma=v2)
@@ -361,6 +374,7 @@ gumbel_mu2f=function(alpha,v1,d1,v2,fd2){
 	return(mu2)
 }
 #' MLE and RHP predictive means
+#' @inherit manmeans return
 #' @inheritParams manf
 gumbel_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
@@ -389,6 +403,7 @@ gumbel_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 }
 
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 gumbel_logscores=function(logscores,x,d1=0.01,fd2=0.01,aderivs=TRUE){
 
@@ -419,6 +434,7 @@ gumbel_logscores=function(logscores,x,d1=0.01,fd2=0.01,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dgumbelsub=function(x,y,d1=0.01,fd2=0.01,aderivs=TRUE){
 

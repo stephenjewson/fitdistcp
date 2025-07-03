@@ -22,7 +22,7 @@ gpd_k1_means(
 )
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{ml_params}{parameters}
 
@@ -47,6 +47,9 @@ gpd_k1_means(
 \item{dim}{number of parameters}
 
 \item{kloc}{the known location parameter}
+}
+\value{
+Two scalars
 }
 \description{
 Analytical Expressions for Predictive Means

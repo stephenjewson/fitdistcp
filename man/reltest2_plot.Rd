@@ -2,7 +2,7 @@
 % Please edit documentation in R/03c_reltest2_plot_libs.R
 \name{reltest2_plot}
 \alias{reltest2_plot}
-\title{Plotting routine for ppm_testppm}
+\title{Plotting routine for reltest2}
 \usage{
 reltest2_plot(
   model,
@@ -37,6 +37,9 @@ reltest2_plot(
 \item{freqexceeded}{the exceedance counts}
 
 \item{case}{there are 3 cases (must be set to case=1 except for my testing)}
+}
+\value{
+Plots the results of reliability testing
 }
 \description{
 Plots 9 diagnostics related to predictive probability matching.

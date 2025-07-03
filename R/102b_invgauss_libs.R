@@ -1,5 +1,6 @@
 # I use v1=mean, v2=shape
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 invgauss_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -21,6 +22,7 @@ invgauss_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderiv
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 invgauss_logf=function(params,x,prior){
 	mn=pmax(params[1],.Machine$double.eps)
@@ -31,7 +33,9 @@ invgauss_logf=function(params,x,prior){
 		logf=sum(dinvgauss(x,mean=mn,shape=sh,log=TRUE))-log(mn)-log(sh)
 	}
 	return(logf)
-}#'  log-likelihood function
+}
+#'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 invgauss_loglik=function(vv,x){
 	n=length(x)
@@ -39,6 +43,7 @@ invgauss_loglik=function(vv,x){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 invgauss_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 	d1=fd1*v1
@@ -73,7 +78,9 @@ invgauss_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 		dld=(lmn[1]-2*lmn[2]+lmn[3])/(dd[mm]*dd[mm])
 	}
 	return(dld)
-}#' Second derivative matrix of the normalized log-likelihood
+}
+#' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 invgauss_ldd=function(x,v1,fd1,v2,fd2){
 	ldd=matrix(0,2,2)
@@ -90,6 +97,7 @@ invgauss_ldd=function(x,v1,fd1,v2,fd2){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 invgauss_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	d1=fd1*v1
@@ -150,6 +158,7 @@ invgauss_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	}
 	return(dld)
 }#' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 invgauss_lddd=function(x,v1,fd1,v2,fd2){
 	lddd=array(0,c(2,2,2))
@@ -173,6 +182,7 @@ invgauss_lddd=function(x,v1,fd1,v2,fd2){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 invgauss_f1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -197,6 +207,7 @@ invgauss_f1f=function(y,v1,fd1,v2,fd2){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 invgauss_p1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -221,6 +232,7 @@ invgauss_p1f=function(y,v1,fd1,v2,fd2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 invgauss_mu1f=function(alpha,v1,fd1,v2,fd2){
 	q00=qinvgauss((1-alpha),mean=v1,shape=v2)
@@ -246,6 +258,7 @@ invgauss_mu1f=function(alpha,v1,fd1,v2,fd2){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 invgauss_f2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -287,6 +300,7 @@ invgauss_f2f=function(y,v1,fd1,v2,fd2){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 invgauss_p2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -328,6 +342,7 @@ invgauss_p2f=function(y,v1,fd1,v2,fd2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 invgauss_mu2f=function(alpha,v1,fd1,v2,fd2){
 	q00=qinvgauss((1-alpha),mean=v1,shape=v2)
@@ -370,6 +385,7 @@ invgauss_mu2f=function(alpha,v1,fd1,v2,fd2){
 	return(mu2)
 }
 #' MLE and RHP predictive means
+#' @inherit manmeans return
 #' @inheritParams manf
 invgauss_means=function(means,ml_params,lddi,lddd,lambdad_cp,nx,dim=2){
 # v1 is mean
@@ -399,6 +415,7 @@ invgauss_means=function(means,ml_params,lddi,lddd,lambdad_cp,nx,dim=2){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 invgauss_logscores=function(logscores,x,prior,fd1=0.01,fd2=0.01,aderivs=TRUE){
 
@@ -426,6 +443,7 @@ invgauss_logscores=function(logscores,x,prior,fd1=0.01,fd2=0.01,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,cp_oos_logscore=cp_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dinvgausssub=function(x,y,prior,fd1=0.01,fd2=0.01,aderivs=TRUE){
 
@@ -461,7 +479,7 @@ dinvgausssub=function(x,y,prior,fd1=0.01,fd2=0.01,aderivs=TRUE){
 		} else if (prior=="type 2"){
 			lambdad_cp=c(-1/v1hat,-1/v2hat)
 		} else {
-			cat("invalid prior choice.\n")
+			warning("invalid prior choice.")
 			stop()
 		}
 		df1=dmgs(lddi,lddd,f1,lambdad_cp,f2,dim=2)

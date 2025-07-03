@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 cauchy_p1_fd=function (x, t, v1, v2, v3) 
 {
@@ -16,6 +17,8 @@ cauchy_p1_fd=function (x, t, v1, v2, v3)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_p1_fdd=function (x, t, v1, v2, v3) 
 {
@@ -47,6 +50,7 @@ cauchy_p1_fdd=function (x, t, v1, v2, v3)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_p1_logfdd=function (x, t, v1, v2, v3) 
 {
@@ -70,6 +74,7 @@ cauchy_p1_logfdd=function (x, t, v1, v2, v3)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 cauchy_p1_logfddd=function (x, t, v1, v2, v3) 
 {
@@ -114,6 +119,7 @@ cauchy_p1_logfddd=function (x, t, v1, v2, v3)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 cauchy_p1_f1fa=function(x,t,v1,v2,v3){
 	vf=Vectorize(cauchy_p1_fd)
@@ -122,6 +128,7 @@ cauchy_p1_f1fa=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_p1_f2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
@@ -132,6 +139,7 @@ cauchy_p1_f2fa=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 cauchy_p1_ldda=function(x,t,v1,v2,v3){
 	nx=length(x)
@@ -142,6 +150,7 @@ cauchy_p1_ldda=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 cauchy_p1_lddda=function(x,t,v1,v2,v3){
 	nx=length(x)

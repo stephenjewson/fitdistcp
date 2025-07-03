@@ -11,6 +11,9 @@ pareto_k2_ml_params(x, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 Maximum likelihood estimator
 }

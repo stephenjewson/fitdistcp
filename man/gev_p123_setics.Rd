@@ -17,6 +17,9 @@ gev_p123_setics(x, t1, t2, t3, ics)
 
 \item{ics}{initial conditions for the maximum likelihood search}
 }
+\value{
+Vector
+}
 \description{
 Set initial conditions
 }

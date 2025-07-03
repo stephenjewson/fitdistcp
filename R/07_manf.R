@@ -71,15 +71,15 @@
 #' @param ximax							maximum value of shape parameter xi
 #' @param alpha							a vector of values of alpha (one minus probability)
 #' @param fdalpha						the fractional delta used in the numerical derivatives with respect to probability, for calculating the pdf as a function of quantiles
-#' @param means							a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)
-#' @param waicscores				a logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)
-#' @param logscores					a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)
-#' @param extramodels				a logical that indicates whether to add three additional prediction models
-#' @param pdf								a logical that indicates whether to return density functions evaluated at quantiles specified by input probabilities
-#' @param predictordata			a logical that indicates whether to calculate and return predictordata
-#' @param nonnegslopesonly	a logical that indicates whether to disallow non-negative slopes
-#' @param rnonnegslopesonly	a logical that indicates whether to disallow non-negative slopes
-#' @param aderivs						a logical for whether to use analytic derivatives (instead of numerical)
+#' @param means							logical that indicates whether to return analytical estimates for the distribution means (longer runtime)
+#' @param waicscores				logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)
+#' @param logscores					logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)
+#' @param extramodels				logical that indicates whether to add three additional prediction models
+#' @param pdf								logical that indicates whether to return density functions evaluated at quantiles specified by input probabilities
+#' @param predictordata			logical that indicates whether to calculate and return predictordata
+#' @param nonnegslopesonly	logical that indicates whether to disallow non-negative slopes
+#' @param rnonnegslopesonly	logical that indicates whether to disallow non-negative slopes
+#' @param aderivs						logical for whether to use analytic derivatives (instead of numerical)
 #' @param	ymn								the location parameter of the function of the predictor
 #' @param slope							the slope of the function of the predictor
 #' @param mu								the location parameter of the distribution
@@ -92,7 +92,7 @@
 #' @param xi1								first coefficient for the shape parameter of the distribution
 #' @param xi2								second coefficient for the shape parameter of the distribution
 #' @param lambda						the lambda parameter of the distribution
-#' @param log								a logical for the density evaluation
+#' @param log								logical for the density evaluation
 #' @param mm								an index for which derivative to calculate
 #' @param nn								an index for which derivative to calculate
 #' @param rr								an index for which derivative to calculate
@@ -114,13 +114,14 @@
 #' @param lambdad_custom		custom value of the derivative of the log prior
 #' @param dim								number of parameters
 #' @param customprior				a custom value for the slope of the log prior at the maxlik estimate
-#' @param	prior							a logical indicating which prior to use
+#' @param	prior							logical indicating which prior to use
 #' @param	params						model parameters for calculating logf
 #' @param yy								vector of samples
 #' @param pp								vector of probabilities
 #' @param	dlogpi						gradient of the log prior
 #' @param	debug							debug flag
 #' @param	centering					indicates whether the routine should center the data or not
+#' @return No return value
 #' @name manf
 #' @export
 manf=function(dim,vv,ml_params,nx,nxx,x,xx,t,t1,t2,t3,tt,tt1,tt2,tt3,tt2d,tt3d,

@@ -15,6 +15,9 @@ gev_ld12a(x, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+3d array
+}
 \description{
 The combined derivative of the normalized log-likelihood
 }

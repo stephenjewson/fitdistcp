@@ -17,6 +17,9 @@ weibull_p2_mu1fa(alpha, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

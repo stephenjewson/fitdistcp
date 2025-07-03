@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 pareto_p1k2_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,lambdad){
 		if(waicscores){
@@ -15,6 +16,7 @@ pareto_p1k2_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,lamb
 		list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 pareto_p1k2_predictordata=function(predictordata,x,t,t0,params,kscale){
 	if(predictordata){
@@ -38,12 +40,9 @@ pareto_p1k2_predictordata=function(predictordata,x,t,t0,params,kscale){
 	list(predictedparameter=sh,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 pareto_p1k2_logf=function(params,x,t,kscale){
-#	a=params[1]
-#	b=params[2]
-#	sh=1/exp(a+b*t)
-#	logf=sum(dpareto(x,a=sh,b=kscale,log=TRUE))
 	a=params[1]
 	b=params[2]
 	sh=pmax(1/exp(a+b*t),.Machine$double.eps)
@@ -51,6 +50,7 @@ pareto_p1k2_logf=function(params,x,t,kscale){
 	return(logf)
 }
 #'  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams	manf
 pareto_p1k2_loglik=function(vv,x,t,kscale){
 	mu=vv[1]+vv[2]*t
@@ -58,6 +58,7 @@ pareto_p1k2_loglik=function(vv,x,t,kscale){
 	return(loglik)
 }
 #' pareto_k1-with-p2 quantile function
+#' @inherit manvector return
 #' @inheritParams	manf
 qpareto_p1k2=function(p,t0,ymn,slope,kscale){
 
@@ -66,6 +67,7 @@ qpareto_p1k2=function(p,t0,ymn,slope,kscale){
 
 }
 #' pareto_k1-with-p2 density function
+#' @inherit manvector return
 #' @inheritParams	manf
 dpareto_p1k2=function(x,t0,ymn,slope,kscale,log=FALSE){
 
@@ -74,6 +76,7 @@ dpareto_p1k2=function(x,t0,ymn,slope,kscale,log=FALSE){
 
 }
 #' pareto_k1-with-p2 distribution function
+#' @inherit manvector return
 #' @inheritParams	manf
 ppareto_p1k2=function(x,t0,ymn,slope,kscale){
 
@@ -82,6 +85,7 @@ ppareto_p1k2=function(x,t0,ymn,slope,kscale){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 pareto_p1k2_lmn=function(x,t,v1,d1,v2,d2,kscale,mm,nn){
 	net3=matrix(0,3,2)
@@ -116,6 +120,7 @@ pareto_p1k2_lmn=function(x,t,v1,d1,v2,d2,kscale,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams	manf
 pareto_p1k2_ldd=function(x,t,v1,d1,v2,d2,kscale){
 	nx=length(x)
@@ -133,6 +138,7 @@ pareto_p1k2_ldd=function(x,t,v1,d1,v2,d2,kscale){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 pareto_p1k2_lmnp=function(x,t,v1,d1,v2,d2,kscale,mm,nn,rr){
 	d2=d2*v2
@@ -193,6 +199,7 @@ pareto_p1k2_lmnp=function(x,t,v1,d1,v2,d2,kscale,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams	manf
 pareto_p1k2_lddd=function(x,t,v1,d1,v2,d2,kscale){
 # calculate the unique values
@@ -217,6 +224,7 @@ pareto_p1k2_lddd=function(x,t,v1,d1,v2,d2,kscale){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 pareto_p1k2_f1f=function(y,t0,v1,d1,v2,d2,kscale){
 # v1 stuff
@@ -239,6 +247,7 @@ pareto_p1k2_f1f=function(y,t0,v1,d1,v2,d2,kscale){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 pareto_p1k2_p1f=function(y,t0,v1,d1,v2,d2,kscale){
 # v1 stuff
@@ -261,6 +270,7 @@ pareto_p1k2_p1f=function(y,t0,v1,d1,v2,d2,kscale){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 pareto_p1k2_mu1f=function(alpha,t0,v1,d1,v2,d2,kscale){
 	q00=qpareto_p1k2((1-alpha),t0,ymn=v1,slope=v2,kscale=kscale)
@@ -284,6 +294,7 @@ pareto_p1k2_mu1f=function(alpha,t0,v1,d1,v2,d2,kscale){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 pareto_p1k2_f2f=function(y,t0,v1,d1,v2,d2,kscale){
 # v1 stuff
@@ -323,6 +334,7 @@ pareto_p1k2_f2f=function(y,t0,v1,d1,v2,d2,kscale){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 pareto_p1k2_p2f=function(y,t0,v1,d1,v2,d2,kscale){
 # v1 stuff
@@ -362,6 +374,7 @@ pareto_p1k2_p2f=function(y,t0,v1,d1,v2,d2,kscale){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 pareto_p1k2_mu2f=function(alpha,t0,v1,d1,v2,d2,kscale){
 	q00=qpareto_p1k2((1-alpha),t0,ymn=v1,slope=v2,kscale=kscale)
@@ -402,6 +415,7 @@ pareto_p1k2_mu2f=function(alpha,t0,v1,d1,v2,d2,kscale){
 	return(mu2)
 }
 #' pareto_k1 distribution: RHP mean
+#' @inherit manmeans return
 #' @inheritParams	manf
 pareto_p1k2_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,kscale){
 
@@ -429,6 +443,7 @@ pareto_p1k2_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,ksc
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams	manf
 pareto_p1k2_logscores=function(logscores,x,t,d1,d2,kscale,aderivs,debug){
 
@@ -448,7 +463,6 @@ pareto_p1k2_logscores=function(logscores,x,t,d1,d2,kscale,aderivs,debug){
 
 			rh_pdf=dd$rh_pdf
 			rh_oos_logscore=rh_oos_logscore+log(rh_pdf)
-#			cat("i,ml_pdf,rh_pdf=",i,ml_pdf,rh_pdf,"\n")
 		}
 	}else{
 		ml_oos_logscore="extras not selected"
@@ -457,11 +471,12 @@ pareto_p1k2_logscores=function(logscores,x,t,d1,d2,kscale,aderivs,debug){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dpareto_p1k2sub=function(x,t,y,t0,d1,d2,kscale,aderivs=TRUE,debug=FALSE){
 
 
-		if(debug)cat("inside pareto_p1k2sub\n")
+		if(debug)message("inside pareto_p1k2sub")
 		nx=length(x)
 
 		lm=lm(x~t)
@@ -482,32 +497,32 @@ dpareto_p1k2sub=function(x,t,y,t0,d1,d2,kscale,aderivs=TRUE,debug=FALSE){
 		ml_cdf=ppareto(y,a=1/exp(muhat),b=kscale)
 
 # rhp
-		if(debug)cat("calc ldd\n")
+		if(debug)message("calc ldd")
 		if(aderivs) ldd=pareto_p1k2_ldda(x,t,v1hat,v2hat,kscale)
 		if(!aderivs)ldd=pareto_p1k2_ldd(x,t,v1hat,d1,v2hat,d2,kscale)
 		lddi=solve(ldd)
 
-		if(debug)cat("calc lddd\n")
+		if(debug)message("calc lddd")
 		if(aderivs) lddd=pareto_p1k2_lddda(x,t,v1hat,v2hat,kscale)
 		if(!aderivs)lddd=pareto_p1k2_lddd(x,t,v1hat,d1,v2hat,d2,kscale)
 
-		if(debug)cat("calc f1f\n")
+		if(debug)message("calc f1f")
 		if(aderivs) f1=pareto_p1k2_f1fa(y,t0,v1hat,v2hat,kscale)
 		if(!aderivs)f1=pareto_p1k2_f1f(y,t0,v1hat,d1,v2hat,d2,kscale)
 
-		if(debug)cat("calc f2f\n")
+		if(debug)message("calc f2f")
 		if(aderivs) f2=pareto_p1k2_f2fa(y,t0,v1hat,v2hat,kscale)
 		if(!aderivs)f2=pareto_p1k2_f2f(y,t0,v1hat,d1,v2hat,d2,kscale)
 
-		if(debug)cat("calc p1f\n")
+		if(debug)message("calc p1f")
 		if(aderivs) p1=pareto_p1k2_p1fa(y,t0,v1hat,v2hat,kscale)
 		if(!aderivs)p1=pareto_p1k2_p1f(y,t0,v1hat,d1,v2hat,d2,kscale)
 
-		if(debug)cat("calc p2f\n")
+		if(debug)message("calc p2f")
 		if(aderivs) p2=pareto_p1k2_p2fa(y,t0,v1hat,v2hat,kscale)
 		if(!aderivs)p2=pareto_p1k2_p2f(y,t0,v1hat,d1,v2hat,d2,kscale)
 
-		if(debug)cat("call dmgs\n")
+		if(debug)message("call dmgs")
 		lambdad_rhp=c(0,0)
 		df=dmgs(lddi,lddd,f1,lambdad_rhp,f2,dim=2)
 		dp=dmgs(lddi,lddd,p1,lambdad_rhp,p2,dim=2)

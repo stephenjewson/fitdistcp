@@ -1,9 +1,8 @@
 #' t Distribution with a Predictor, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -30,7 +29,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\sigma) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_63_lst_p1k3.R
 #'
@@ -47,7 +46,7 @@ qlst_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 1 intro
 #
-	if(debug)cat("inside qlst_p1k3\n")
+	if(debug)message("inside qlst_p1k3")
 	stopifnot(	is.finite(x),
 							!is.na(x),
 							is.finite(p),
@@ -72,7 +71,7 @@ qlst_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 3 ml param estimate
 #
-	if(debug)cat("calc ml param estimate\n")
+	if(debug)message("calc ml param estimate")
 	ics=lst_p1k3_setics(x,t,c(0,0,0))
 	opt=optim(ics,lst_p1k3_loglik,x=x,t=t,kdf=kdf,
 		control=list(fnscale=-1))
@@ -83,7 +82,7 @@ qlst_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 	muhat=ml_params[1]+ml_params[2]*t
 	muhat0=makemuhat0(t0,n0,t,ml_params)
 	residuals=x-muhat
-	if(debug)cat("  ml_params=",ml_params,"\n")
+	if(debug)message("  ml_params=",ml_params)
 #
 # 4 predictordata
 #
@@ -93,14 +92,14 @@ qlst_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 5 aic
 #
-	if(debug)cat("calc aic\n")
+	if(debug)message("calc aic")
  	ml_value=opt$val
 	maic=make_maic(ml_value,nparams=3)
 
 #
 # 6 mle quantiles
 #
-	if(debug)cat("calc mle quantiles\n")
+	if(debug)message("calc mle quantiles")
 	ml_quantiles=qlst_p1k3((1-alpha),t0,ymn=v1hat,slope=v2hat,sigma=v3hat,kdf=kdf)
 #
 # dmgs
@@ -121,7 +120,7 @@ qlst_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 7 lddi
 #
-		if(debug)cat("calc ldd\n")
+		if(debug)message("calc ldd")
 		if(aderivs) ldd=lst_p1k3_ldda(x,t,v1hat,v2hat,v3hat,kdf=kdf)
 		if(!aderivs)ldd=lst_p1k3_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf=kdf)
 		lddi=solve(ldd)
@@ -129,28 +128,28 @@ qlst_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 8 lddd
 #
-		if(debug)cat("calculate lddd\n")
+		if(debug)message("calculate lddd")
 		if(aderivs) lddd=lst_p1k3_lddda(x,t,v1hat,v2hat,v3hat,kdf=kdf)
 		if(!aderivs)lddd=lst_p1k3_lddd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf=kdf)
 #
 # 9 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		mu1=lst_p1k3_mu1f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kdf=kdf)
 #
 # 10 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		mu2=lst_p1k3_mu2f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kdf=kdf)
 #
 # 11 rhp
 #
-		if(debug)cat("  rhp\n")
+		if(debug)message("  rhp")
 		lambdad_rhp=c(0,0,-1/v3hat) #this is rhp
 #
 # 12 rhp quantiles
 #
-		if(debug)cat("  rhp quantiles\n")
+		if(debug)message("  rhp quantiles")
 		fhat=dlst_p1k3(ml_quantiles,t0,ymn=v1hat,slope=v2hat,sigma=v3hat,log=FALSE,kdf=kdf)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=3)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)

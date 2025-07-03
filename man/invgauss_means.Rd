@@ -7,7 +7,7 @@
 invgauss_means(means, ml_params, lddi, lddd, lambdad_cp, nx, dim = 2)
 }
 \arguments{
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
 \item{ml_params}{parameters}
 
@@ -20,6 +20,9 @@ invgauss_means(means, ml_params, lddi, lddd, lambdad_cp, nx, dim = 2)
 \item{nx}{length of training data}
 
 \item{dim}{number of parameters}
+}
+\value{
+Two scalars
 }
 \description{
 MLE and RHP predictive means

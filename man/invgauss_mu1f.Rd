@@ -17,6 +17,9 @@ invgauss_mu1f(alpha, v1, fd1, v2, fd2)
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, mu1 term
 }

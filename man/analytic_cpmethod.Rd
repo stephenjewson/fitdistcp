@@ -6,6 +6,9 @@
 \usage{
 analytic_cpmethod()
 }
+\value{
+String
+}
 \description{
 Generates a comment about the method
 }

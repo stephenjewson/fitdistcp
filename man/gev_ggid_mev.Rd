@@ -19,6 +19,9 @@ gev_ggid_mev(v1, d1, v2, fd2, v3, d3)
 
 \item{d3}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Derivative of inverse expected information matrix, based on MEV routine gev.infomat
 }

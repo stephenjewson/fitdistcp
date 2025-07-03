@@ -13,6 +13,9 @@ maket0(t0, n0, t)
 
 \item{t}{a vector or matrix of predictors}
 }
+\value{
+Scalar
+}
 \description{
 Determine t0
 }

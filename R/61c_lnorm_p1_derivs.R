@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 lnorm_p1_fd=function (x, t, v1, v2, v3) 
 {
@@ -19,6 +20,7 @@ lnorm_p1_fd=function (x, t, v1, v2, v3)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_fdd=function (x, t, v1, v2, v3) 
 {
@@ -48,6 +50,7 @@ lnorm_p1_fdd=function (x, t, v1, v2, v3)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 lnorm_p1_pd=function (x, t, v1, v2, v3) 
 {
@@ -59,6 +62,7 @@ lnorm_p1_pd=function (x, t, v1, v2, v3)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_pdd=function (x, t, v1, v2, v3) 
 {
@@ -79,6 +83,7 @@ lnorm_p1_pdd=function (x, t, v1, v2, v3)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_logfdd=function (x, t, v1, v2, v3) 
 {
@@ -98,6 +103,7 @@ lnorm_p1_logfdd=function (x, t, v1, v2, v3)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 lnorm_p1_logfddd=function (x, t, v1, v2, v3) 
 {
@@ -124,6 +130,7 @@ lnorm_p1_logfddd=function (x, t, v1, v2, v3)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 lnorm_p1_f1fa=function(x,t,v1,v2,v3){
 	vf=Vectorize(lnorm_p1_fd)
@@ -132,6 +139,7 @@ lnorm_p1_f1fa=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_f2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
@@ -142,6 +150,7 @@ lnorm_p1_f2fa=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The first derivative of the cdf
+#' @returns Vector
 #' @inheritParams manf
 lnorm_p1_p1fa=function(x,t,v1,v2,v3){
 	vf=Vectorize(lnorm_p1_pd)
@@ -150,6 +159,7 @@ lnorm_p1_p1fa=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the cdf
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_p2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
@@ -160,6 +170,7 @@ lnorm_p1_p2fa=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 lnorm_p1_mu1fa=function(alpha,t,v1,v2,v3){
 	x=qlnorm((1-alpha),meanlog=v1+v2*t,sdlog=v3)
@@ -169,6 +180,7 @@ lnorm_p1_mu1fa=function(alpha,t,v1,v2,v3){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_mu2fa=function(alpha,t,v1,v2,v3){
 	x=qlnorm((1-alpha),meanlog=v1+v2*t,sdlog=v3)
@@ -180,6 +192,7 @@ lnorm_p1_mu2fa=function(alpha,t,v1,v2,v3){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 lnorm_p1_ldda=function(x,t,v1,v2,v3){
 	nx=length(x)
@@ -190,6 +203,7 @@ lnorm_p1_ldda=function(x,t,v1,v2,v3){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 lnorm_p1_lddda=function(x,t,v1,v2,v3){
 	nx=length(x)

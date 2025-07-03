@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 lst_p1k3_fd=function (x, t, v1, v2, v3, v4) 
 {
@@ -25,6 +26,7 @@ lst_p1k3_fd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 lst_p1k3_fdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -70,6 +72,7 @@ lst_p1k3_fdd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 lst_p1k3_logfdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -101,6 +104,7 @@ lst_p1k3_logfdd=function (x, t, v1, v2, v3, v4)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 lst_p1k3_logfddd=function (x, t, v1, v2, v3, v4) 
 {
@@ -163,6 +167,7 @@ lst_p1k3_logfddd=function (x, t, v1, v2, v3, v4)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 lst_p1k3_f1fa=function(x,t,v1,v2,v3,kdf){
 	vf=Vectorize(lst_p1k3_fd)
@@ -171,6 +176,7 @@ lst_p1k3_f1fa=function(x,t,v1,v2,v3,kdf){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 lst_p1k3_f2fa=function(x,t,v1,v2,v3,kdf){
 	nx=length(x)
@@ -183,6 +189,7 @@ lst_p1k3_f2fa=function(x,t,v1,v2,v3,kdf){
 ############################################################
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 lst_p1k3_ldda=function(x,t,v1,v2,v3,kdf){
 	nx=length(x)
@@ -193,6 +200,7 @@ lst_p1k3_ldda=function(x,t,v1,v2,v3,kdf){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 lst_p1k3_lddda=function(x,t,v1,v2,v3,kdf){
 	nx=length(x)

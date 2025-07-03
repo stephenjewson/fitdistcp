@@ -17,6 +17,9 @@ pareto_p1k2_ldda(x, t, v1, v2, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

@@ -7,7 +7,7 @@
 frechet_logscores(logscores, x, fd1 = 0.01, fd2 = 0.01, kloc, aderivs)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
@@ -17,7 +17,10 @@ frechet_logscores(logscores, x, fd1 = 0.01, fd2 = 0.01, kloc, aderivs)
 
 \item{kloc}{the known location parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

@@ -11,6 +11,9 @@ dunif_formula(x, y)
 
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 }
+\value{
+Two vectors
+}
 \description{
 Predictive PDFs
 }

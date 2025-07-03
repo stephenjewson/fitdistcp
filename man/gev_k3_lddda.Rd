@@ -15,6 +15,9 @@ gev_k3_lddda(x, v1, v2, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

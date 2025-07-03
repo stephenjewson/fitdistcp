@@ -13,7 +13,10 @@ dpareto_k2_sub(x, y, kscale, aderivs = TRUE)
 
 \item{kscale}{the known scale parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

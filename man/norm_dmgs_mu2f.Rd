@@ -17,6 +17,9 @@ norm_dmgs_mu2f(alpha, v1, d1, v2, fd2)
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 3.3, mu2 term
 }

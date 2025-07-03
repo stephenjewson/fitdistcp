@@ -23,6 +23,9 @@ weibull_p2_lddd(x, t, v1, fd1, v2, d2, v3, d3)
 
 \item{d3}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

@@ -29,6 +29,9 @@ frechet_p2k1_lmn(x, t, v1, d1, v2, d2, v3, fd3, kloc, mm, nn)
 
 \item{nn}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the second derivative of the normalized log-likelihood
 }

@@ -17,6 +17,9 @@ gev_logfd(x, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the log density
 Created by Stephen Jewson

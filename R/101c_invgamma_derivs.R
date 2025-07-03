@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 invgamma_fd=function (x, v1, v2) 
 {
@@ -16,6 +17,7 @@ invgamma_fd=function (x, v1, v2)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 invgamma_fdd=function (x, v1, v2) 
 {
@@ -45,6 +47,7 @@ invgamma_fdd=function (x, v1, v2)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 invgamma_logfdd=function (x, v1, v2) 
 {
@@ -56,6 +59,7 @@ invgamma_logfdd=function (x, v1, v2)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 invgamma_logfddd=function (x, v1, v2) 
 {
@@ -66,6 +70,7 @@ invgamma_logfddd=function (x, v1, v2)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 invgamma_f1fa=function(x,v1,v2){
 	vf=Vectorize(invgamma_fd)
@@ -74,6 +79,7 @@ invgamma_f1fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 invgamma_f2fa=function(x,v1,v2){
 	nx=length(x)
@@ -86,6 +92,7 @@ invgamma_f2fa=function(x,v1,v2){
 ############################################################
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 invgamma_ldda=function(x,v1,v2){
 	nx=length(x)
@@ -96,6 +103,7 @@ invgamma_ldda=function(x,v1,v2){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 invgamma_lddda=function(x,v1,v2){
 	nx=length(x)

@@ -11,7 +11,10 @@ invgauss_logf(params, x, prior)
 
 \item{x}{a vector of training data values}
 
-\item{prior}{a logical indicating which prior to use}
+\item{prior}{logical indicating which prior to use}
+}
+\value{
+Scalar value.
 }
 \description{
 Logf for RUST

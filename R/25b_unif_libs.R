@@ -1,4 +1,5 @@
 #' Predictive PDFs
+#' @return Two vectors
 #' @inheritParams manf
 dunif_formula=function(x,y){
 	nx=length(x)
@@ -22,6 +23,7 @@ dunif_formula=function(x,y){
 	return(list(ml_pdf=ml,rh_pdf=rh))
 }
 #' Predictive CDFs
+#' @return Two vectors
 #' @inheritParams manf
 punif_formula=function(x,y){
 	nx=length(x)
@@ -73,6 +75,7 @@ punif_formula=function(x,y){
 	return(list(ml_cdf=ml,rh_cdf=rh))
 }
 #' Predictive Quantiles
+#' @return Two vectors
 #' @inheritParams manf
 qunif_formula=function(x,p){
 	nx=length(x)
@@ -91,8 +94,6 @@ qunif_formula=function(x,p){
 	t4=(a0-b0)^(nx-1)
 	pp1=fact*t1/t2
 	pp2=fact*(t1/t2+1/t4)
-#	cat("pp1,pp2=",pp1,pp2,"\n")
-#	cat("a0,b0=",a0,b0,"\n")
 	for (ip in 1:np){
 		if(p[ip]<=pp1){
 

@@ -17,6 +17,9 @@ lnorm_p1_lddda(x, t, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

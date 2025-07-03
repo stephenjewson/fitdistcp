@@ -1,9 +1,8 @@
 #' Gamma Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -50,7 +49,7 @@ qgamma_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
 	v1hat=opt$par[1]
 	v2hat=opt$par[2]
 	ml_params=c(v1hat,v2hat)
-	if(debug)cat("  v1hat,v2hat=",v1hat,v2hat,"\n")
+	if(debug)message("  v1hat,v2hat=",v1hat,v2hat,"")
 #
 # 3 aic
 #
@@ -91,31 +90,31 @@ qgamma_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
 #
 # 7 lddd
 #
-		if(debug)cat("  calculate lddd\n")
+		if(debug)message("  calculate lddd")
 		if(aderivs) lddd=gamma_lddda(x,v1hat,v2hat)
 		if(!aderivs)lddd=gamma_lddd(x,v1hat,fd1,v2hat,fd2)
 #
 # 8 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		mu1=gamma_mu1f(alpha,v1hat,fd1,v2hat,fd2)
 #
 # 9 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		mu2=gamma_mu2f(alpha,v1hat,fd1,v2hat,fd2)
 #
 # 10 q cp
 # (I compared these two priors, and the double prior worked better)
 # (so I made the better one type 1)
 # (see the actuary paper)
-		if(debug)cat("  cp\n")
+		if(debug)message("  cp")
 		if(prior=="type 1"){
 			lambdad_cp=c(-1/v1hat,-1/v2hat)
 		} else if (prior=="type 2"){
 			lambdad_cp=c(0,-1/v2hat)
 		} else {
-			cat("invalid prior choice.\n")
+			message("invalid prior choice.")
 			stop()
 		}
 ##		lambdad_cp=c(0,-1/v2hat) 				#this worked ok
@@ -123,7 +122,7 @@ qgamma_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
 #
 # 11 derive the bayesian dq based on v2hat
 #
-		if(debug)cat("  fhat, dq and cp quantiles\n")
+		if(debug)message("  fhat, dq and cp quantiles")
 		fhat=dgamma(ml_quantiles,shape=v1hat,scale=v2hat)
 		dq=dmgs(lddi,lddd,mu1,lambdad_cp,mu2,dim=2)
 		cp_quantiles=ml_quantiles+dq/(nx*fhat)

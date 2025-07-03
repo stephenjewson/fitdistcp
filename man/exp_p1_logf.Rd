@@ -13,6 +13,9 @@ exp_p1_logf(params, x, t)
 
 \item{t}{a vector or matrix of predictors}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

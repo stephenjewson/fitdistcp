@@ -17,6 +17,9 @@ gev_k3_logfdd(x, v1, v2, v3)
 
 \item{v3}{third parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the log density
 Created by Stephen Jewson

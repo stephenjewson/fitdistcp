@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 cauchy_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,
 	lddi,lddd,lambdad,aderivs){
@@ -21,6 +22,7 @@ cauchy_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,
 		list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 cauchy_p1_predictordata=function(predictordata,x,t,t0,params){
 	if(predictordata){
@@ -45,6 +47,7 @@ cauchy_p1_predictordata=function(predictordata,x,t,t0,params){
 	list(predictedparameter=mu,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 cauchy_p1_logf=function(params,x,t){
 #	a=params[1]
@@ -64,6 +67,7 @@ cauchy_p1_logf=function(params,x,t){
 return(logf)
 }
 #' Cauchy-with-p1  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 cauchy_p1_loglik=function(vv,x,t){
 	location=vv[1]+vv[2]*t
@@ -71,6 +75,7 @@ cauchy_p1_loglik=function(vv,x,t){
 	return(loglik)
 }
 #' Cauchy-with-p1 quantile function
+#' @inherit manvector return
 #' @inheritParams manf
 qcauchy_p1=function(p,t0,ymn,slope,scale){
 
@@ -78,6 +83,7 @@ qcauchy_p1=function(p,t0,ymn,slope,scale){
 
 }
 #' Cauchy-with-p1 density function
+#' @inherit manvector return
 #' @inheritParams manf
 dcauchy_p1=function(x,t0,ymn,slope,scale,log=FALSE){
 
@@ -85,6 +91,7 @@ dcauchy_p1=function(x,t0,ymn,slope,scale,log=FALSE){
 
 }
 #' Cauchy-with-p1 distribution function
+#' @inherit manvector return
 #' @inheritParams manf
 pcauchy_p1=function(x,t0,ymn,slope,scale){
 
@@ -92,6 +99,7 @@ pcauchy_p1=function(x,t0,ymn,slope,scale){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 cauchy_p1_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn){
 	d3=fd3*v3
@@ -126,6 +134,7 @@ cauchy_p1_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn){
 	}
 	return(dld)
 }#' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 cauchy_p1_ldd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	ldd=matrix(0,3,3)
@@ -142,6 +151,7 @@ cauchy_p1_ldd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 cauchy_p1_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn,rr){
 	d3=fd3*v3
@@ -200,7 +210,9 @@ cauchy_p1_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn,rr){
 		dld=(dld2-dld1)/(2*dd[n2])
 	}
 	return(dld)
-}#' Third derivative tensor of the normalized log-likelihood
+}
+#' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 cauchy_p1_lddd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	lddd=array(0,c(3,3,3))
@@ -224,6 +236,7 @@ cauchy_p1_lddd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 cauchy_p1_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	d3=fd3*v3
@@ -255,6 +268,7 @@ cauchy_p1_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 cauchy_p1_p1f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	d3=fd3*v3
@@ -286,6 +300,7 @@ cauchy_p1_p1f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 cauchy_p1_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3){
 	q00=qcauchy_p1((1-alpha),t0,ymn=v1,slope=v2,scale=v3)
@@ -318,6 +333,7 @@ cauchy_p1_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 cauchy_p1_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	d3=fd3*v3
@@ -358,6 +374,7 @@ cauchy_p1_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 cauchy_p1_p2f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	d3=fd3*v3
@@ -398,6 +415,7 @@ cauchy_p1_p2f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 cauchy_p1_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3){
 	q00=qcauchy_p1((1-alpha),t0,ymn=v1,slope=v2,scale=v3)
@@ -439,6 +457,7 @@ cauchy_p1_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3){
 	return(mu2)
 }
 #' Cauchy distribution: RHP mean
+#' @inherit manmeans return
 #' @inheritParams	manf
 cauchy_p1_means=function(t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
@@ -464,6 +483,7 @@ cauchy_p1_means=function(t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams	manf
 cauchy_p1_logscores=function(logscores,x,t,d1,d2,fd3,aderivs=TRUE){
 
@@ -491,6 +511,7 @@ cauchy_p1_logscores=function(logscores,x,t,d1,d2,fd3,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dcauchy_p1sub=function(x,t,y,t0,d1,d2,fd3,aderivs=TRUE){
 

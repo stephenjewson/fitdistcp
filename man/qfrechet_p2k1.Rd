@@ -19,6 +19,9 @@ qfrechet_p2k1(p, t0, ymn, slope, lambda, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Vector
+}
 \description{
 Frechet_k1-with-p2 quantile function
 }

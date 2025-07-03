@@ -15,6 +15,9 @@ pexp_p1(x, t0, ymn, slope)
 
 \item{slope}{the slope of the function of the predictor}
 }
+\value{
+Vector
+}
 \description{
 Exponential-with-p1 distribution function
 }

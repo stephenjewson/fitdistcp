@@ -23,6 +23,9 @@ gev_p12_mu1fa(alpha, t01, t02, v1, v2, v3, v4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

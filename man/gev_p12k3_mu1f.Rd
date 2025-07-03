@@ -31,6 +31,9 @@ gev_p12k3_mu1f(alpha, t01, t02, v1, d1, v2, d2, v3, d3, v4, d4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+Matrix
+}
 \description{
 GEVD-with-p1: DMGS equation 3.3 mu1 term, fixed shape parameter
 }

@@ -23,6 +23,9 @@ gumbel_p1_ldd(x, t, v1, d1, v2, d2, v3, fd3)
 
 \item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

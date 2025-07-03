@@ -27,6 +27,9 @@ gev_p1k3_lddd(x, t, v1, d1, v2, d2, v3, fd3, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood, with fixed shape parameter
 

@@ -9,6 +9,9 @@ norm_ml_params(x)
 \arguments{
 \item{x}{a vector of training data values}
 }
+\value{
+Scalar value.
+}
 \description{
 Maximum likelihood estimator
 }

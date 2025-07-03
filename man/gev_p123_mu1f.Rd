@@ -56,6 +56,9 @@ gev_p123_mu1f(
 
 \item{d6}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 GEVD-with-p1: DMGS equation 3.3 mu1 term
 }

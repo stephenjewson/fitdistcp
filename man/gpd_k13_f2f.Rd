@@ -17,6 +17,9 @@ gpd_k13_f2f(y, v1, fd1, v2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 3.3, f2 term
 }

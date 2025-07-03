@@ -13,6 +13,9 @@ lnorm_p2fa(x, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the cdf
 }

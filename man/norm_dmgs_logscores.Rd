@@ -7,13 +7,16 @@
 norm_dmgs_logscores(logscores, x, d1 = 0.01, fd2 = 0.01)
 }
 \arguments{
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
 \item{d1}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
+}
+\value{
+Two scalars
 }
 \description{
 Log scores for MLE and RHP predictions calculated using leave-one-out

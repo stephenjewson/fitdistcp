@@ -15,6 +15,11 @@ gnorm_k3_f2fa(x, v1, v2, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+Matrix
+
+Matrix
+}
 \description{
 The second derivative of the density
 }

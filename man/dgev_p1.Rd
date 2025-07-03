@@ -19,7 +19,10 @@ dgev_p1(x, t0, ymn, slope, sigma, xi, log = FALSE)
 
 \item{xi}{the shape parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
+}
+\value{
+Vector
 }
 \description{
 GEVD-with-p1: Density function

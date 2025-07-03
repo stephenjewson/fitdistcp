@@ -13,6 +13,9 @@ gnorm_k3_logf(params, x, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

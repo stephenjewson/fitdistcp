@@ -11,13 +11,16 @@ dinvgausssub(x, y, prior, fd1 = 0.01, fd2 = 0.01, aderivs = TRUE)
 
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
-\item{prior}{a logical indicating which prior to use}
+\item{prior}{logical indicating which prior to use}
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

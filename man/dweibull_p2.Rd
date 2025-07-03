@@ -17,7 +17,10 @@ dweibull_p2(x, t0, shape, ymn, slope, log = FALSE)
 
 \item{slope}{the slope of the function of the predictor}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
+}
+\value{
+Vector
 }
 \description{
 Weibull-with-p1 density function

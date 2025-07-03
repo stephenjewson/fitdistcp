@@ -31,6 +31,9 @@ gev_p12k3_f2f(y, t01, t02, v1, d1, v2, d2, v3, d3, v4, d4, v5)
 
 \item{v5}{fifth parameter}
 }
+\value{
+3d array
+}
 \description{
 GEVD-with-p1: DMGS equation 1.2 f2 term
 }

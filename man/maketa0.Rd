@@ -13,6 +13,9 @@ maketa0(t0, n0, t)
 
 \item{t}{predictor}
 }
+\value{
+Scalar
+}
 \description{
 Make ta0
 }

@@ -13,6 +13,9 @@ halfnorm_logfddd(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+3d array
+}
 \description{
 Third derivative of the log density
 Created by Stephen Jewson

@@ -13,6 +13,9 @@ gev_p12_checkmle(ml_params, minxi, maxxi)
 
 \item{maxxi}{maximum value of shape parameter xi}
 }
+\value{
+No return value (just a message to the screen).
+}
 \description{
 Check MLE
 }

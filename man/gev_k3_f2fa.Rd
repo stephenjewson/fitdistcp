@@ -15,6 +15,9 @@ gev_k3_f2fa(x, v1, v2, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the density
 }

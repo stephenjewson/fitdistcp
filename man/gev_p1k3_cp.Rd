@@ -121,98 +121,44 @@ with respect to probability, for calculating the pdf as a function of quantiles}
 
 \item{kshape}{the known shape parameter}
 
-\item{means}{a logical that indicates whether to run additional
+\item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
 
-\item{waicscores}{a logical that indicates whether to run additional
+\item{waicscores}{logical that indicates whether to run additional
 calculations and return estimates for the WAIC1 and WAIC2 scores (longer runtime)}
 
-\item{pdf}{a logical that indicates whether to run additional
+\item{pdf}{logical that indicates whether to run additional
 calculations and return density functions evaluated at quantiles specified by
 the input probabilities (longer runtime)}
 
-\item{dmgs}{a logical that indicates whether DMGS calculations
+\item{dmgs}{logical that indicates whether DMGS calculations
 should be run or not (longer run time)}
 
-\item{rust}{a logical that indicates whether RUST-based posterior
+\item{rust}{logical that indicates whether RUST-based posterior
 sampling calculations should be run or not (longer run time)}
 
 \item{nrust}{the number of posterior samples used in the RUST calculations}
 
-\item{predictordata}{a logical that indicates whether predictordata should be calculated}
+\item{predictordata}{logical that indicates whether predictordata should be calculated}
 
-\item{centering}{a logical that indicates whether the predictor should be centered}
+\item{centering}{logical that indicates whether the predictor should be centered}
 
-\item{debug}{a logical for turning on debug messages}
+\item{debug}{logical for turning on debug messages}
 
-\item{aderivs}{(for code testing only) a logical for whether to use
+\item{aderivs}{(for code testing only) logical for whether to use
 analytic derivatives (instead of numerical). By default almost all models now
 use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 
-\item{mlcp}{a logical that indicates whether maxlik and parameter
+\item{mlcp}{logical that indicates whether maxlik and parameter
 uncertainty calculations should be performed (turn off to speed up RUST)}
 
 \item{y}{a vector of values at which to calculate the density and
 distribution functions}
 }
-\description{
-The \code{fitdistcp} package contains functions that generate predictive distributions
-for various statistical models,
-with and without parameter uncertainty.
-Parameter uncertainty is included by using Bayesian prediction with a type of objective
-prior known as a calibrating prior.
-
-There are five functions for each model,
-each of which uses training data \code{x}.
-For model \code{****} the five functions are as follows:
-
-\itemize{
-\item \code{q****_cp} returns predictive quantiles at the specified probabilities \code{p},
-and various other diagnostics.
-\item \code{r****_cp} returns \code{n} random deviates from the predictive distribution.
-\item \code{d****_cp} returns the predictive density function at the specified values \code{y}
-\item \code{p****_cp} returns the predictive distribution function at the specified values \code{y}
-\item \code{t****_cp} returns \code{n} random deviates from the posterior distribution
-of the model parameters.
-}
-The \code{q, r, d, p} routines return two sets of results,
-one based on maximum likelihood, and the other based on a calibrating prior.
-The prior used depends on the model, and
-is given under Details below.
-
-Where possible, the Bayesian prediction integral is solved analytically.
-Otherwise, the DMGS asymptotic expansions are used.
-Optionally, a third set of results is returned that integrates the prediction
-integral by sampling the parameter posterior
-distribution using the RUST rejection sampling algorithm.
-}
-\section{Details of the Model}{
-
-The GEV distribution with known shape with a predictor has distribution function
-\deqn{F(x;a,b,\sigma)=\exp{(-t(x;\mu(a,b),\sigma))}}
-where
-\deqn{t(x;a,b,\sigma) =
-   \begin{cases}
-     {\left[1+\xi\left(\frac{x-\mu(a,b)}{\sigma}\right)\right]}^{-1/\xi} & \text{if $\xi \ne 0$}\\
-     \exp{(-\frac{x-\mu(a,b)}{\sigma})} & \text{if $\xi=0$}
-   \end{cases}}
-where
-\eqn{x} is the random variable,
-\eqn{\mu=a+bt} is the location parameter,
-\eqn{\sigma>0} is the shape parameter and
-\eqn{\xi} is known (hence the \code{k3} in the name).
-
-The calibrating prior we use is given by
-\deqn{\pi(\mu,\sigma) \propto \frac{1}{\sigma}}
-as given in Jewson et al. (2024).
-}
-
-\section{Default Return Values}{
-
-
-\code{q****} returns a list containing the following:
+\value{
+\code{q****} returns a list containing at least the following:
 
 \itemize{
 \item \code{ml_params:} maximum likelihood estimates for the parameters.
@@ -247,7 +193,7 @@ as a function of the predictor.
 \item \code{ml_params:} maximum likelihood estimates for the parameters.
 \item \code{ml_pdf:} density function from maximum likelihood.
 \item \code{cp_pdf:} predictive density function calculated using a calibrating prior
-(not available in EVT routines, for mathematical reasons, but available using RUST).
+(not available in EVT routines, for mathematical reasons, unless using RUST).
 \item \code{cp_method:} a comment about the method used to generate the \code{cp} prediction.
 }
 
@@ -257,7 +203,7 @@ as a function of the predictor.
 \item \code{ml_params:} maximum likelihood estimates for the parameters.
 \item \code{ml_cdf:} distribution function from maximum likelihood.
 \item \code{cp_cdf:} predictive distribution function  calculated using a calibrating prior
-(not available in EVT routines, for mathematical reasons, but available using RUST).
+(not available in EVT routines, for mathematical reasons, unless using RUST).
 \item \code{cp_method:} a comment about the method used to generate the \code{cp} prediction.
 }
 
@@ -266,6 +212,60 @@ as a function of the predictor.
 \itemize{
 \item \code{theta_samples:} random samples from the parameter posterior.
 }
+}
+\description{
+The \code{fitdistcp} package contains functions that generate predictive distributions
+for various statistical models,
+with and without parameter uncertainty.
+Parameter uncertainty is included by using Bayesian prediction with a type of objective
+prior known as a calibrating prior.
+Calibrating priors are chosen to give predictions that give good reliability
+(i.e., are well calibrated), for any
+underlying true parameter values.
+
+There are five functions for each model,
+each of which uses training data \code{x}.
+For model \code{****} the five functions are as follows:
+
+\itemize{
+\item \code{q****_cp} returns predictive quantiles at the specified probabilities \code{p},
+and various other diagnostics.
+\item \code{r****_cp} returns \code{n} random deviates from the predictive distribution.
+\item \code{d****_cp} returns the predictive density function at the specified values \code{y}
+\item \code{p****_cp} returns the predictive distribution function at the specified values \code{y}
+\item \code{t****_cp} returns \code{n} random deviates from the posterior distribution
+of the model parameters.
+}
+The \code{q, r, d, p} routines return two sets of results,
+one based on maximum likelihood, and the other based on a calibrating prior.
+The prior used depends on the model, and
+is given under Details below.
+
+Where possible, the Bayesian prediction integral is solved analytically.
+Otherwise, DMGS asymptotic expansions are used.
+Optionally, a third set of results is returned that integrates the prediction
+integral by sampling the parameter posterior
+distribution using the RUST rejection sampling algorithm.
+}
+\section{Details of the Model}{
+
+The GEV distribution with known shape with a predictor has distribution function
+\deqn{F(x;a,b,\sigma)=\exp{(-t(x;\mu(a,b),\sigma))}}
+where
+\deqn{t(x;a,b,\sigma) =
+   \begin{cases}
+     {\left[1+\xi\left(\frac{x-\mu(a,b)}{\sigma}\right)\right]}^{-1/\xi} & \text{if $\xi \ne 0$}\\
+     \exp{(-\frac{x-\mu(a,b)}{\sigma})} & \text{if $\xi=0$}
+   \end{cases}}
+where
+\eqn{x} is the random variable,
+\eqn{\mu=a+bt} is the location parameter,
+\eqn{\sigma>0} is the shape parameter and
+\eqn{\xi} is known (hence the \code{k3} in the name).
+
+The calibrating prior we use is given by
+\deqn{\pi(\mu,\sigma) \propto \frac{1}{\sigma}}
+as given in Jewson et al. (2025).
 }
 
 \section{Optional Return Values}{
@@ -339,11 +339,10 @@ over many thousands of repeats.
 This model is a homogeneous model, and the \code{cp} results are based on the
 right Haar prior.
 For homogeneous models
-(models with sharply transitive transformations),
+(models with sharply transitive transformation groups),
 a Bayesian prediction based on the right Haar prior
-gives exact predictive probability matching,
-as shown by Severini et al. (2002).
-Exact predictive probability matching then implies exact reliability,
+gives exact reliability,
+as shown by Severini et al. (2002),
 even when the true parameters are unknown.
 This means that probabilities in the prediction will correspond to frequencies
 of future outcomes in repeated trials (if the model is correct).
@@ -386,7 +385,9 @@ it may be better to use RUST.
 For medium sample sizes (30+), DMGS is reasonably accurate, except for the very far tail.
 
 It is advisable to check the RUST results for convergence versus the number
-of RUST samples. It may also be interesting to compare the DMGS and RUST results.
+of RUST samples.
+
+It may be interesting to compare the DMGS and RUST results.
 }
 
 \examples{
@@ -405,65 +406,6 @@ plot(q$ml_quantiles,p,xlab="quantile estimates",xlim=c(xmin,xmax),
 points(q$cp_quantiles,p,col="red",lwd=2)
 points(q$ru_quantiles,p,col="blue",lwd=2)
 cat(" ml_params=",q$ml_params,"\n")
-#
-# example 2: focus on upper tail
-invp=c(2:20)
-p=1-1/invp
-n0=10
-q=qgev_p1k3_cp(x=x,t=tt,n0=n0,t0=NA,p=p,rust=TRUE,nrust=1000)
-ymin=min(q$ml_quantiles,q$cp_quantiles);
-ymax=max(q$ml_quantiles,q$cp_quantiles);
-plot(invp,q$ml_quantiles,ylab="quantile estimates",ylim=c(ymin,ymax),
-	sub="(from qgev_p1k3_cp)",
-	main="Quantile estimates: tail");
-points(invp,q$cp_quantiles,col="red",lwd=2)
-points(invp,q$ru_quantiles,col="blue",lwd=2)
-legend(x=10,y=ymin+0.25*(ymax-ymin),c("maxlik","cp dmgs","cp rust"),
-	col=c("black","red","blue"),pch=1)
-#
-# example 3: random number generation from the predictive distribution
-n0=3
-r=rgev_p1k3_cp(n=10000,x=x,t=tt,n0=n0,t0=NA,rust=TRUE)
-plot(density(r$ml_deviates),
-	sub="(from rgev_p1k3_cp)",
-	main="Density (from random deviates)")
-lines(density(r$cp_deviates),col="red",lwd=2)
-lines(density(r$ru_deviates),col="blue",lwd=2)
-#
-# example 4: plot pdf and cdf
-nx=50
-n0=3
-xax=c(-75:100)/20
-np=10000
-pp=(c(1:np)-0.5)/np
-pdfs_qq=qgev_p1k3_cp(x=x,t=tt,n0=n0,p=pp,pdf=TRUE,rust=TRUE)
-pdfs=dgev_p1k3_cp(x=x,t=tt,n0=n0,y=xax,rust=TRUE)
-cdfs=pgev_p1k3_cp(x=x,t=tt,n0=n0,y=xax,rust=TRUE)
-#
-plot(xax,pdfs$ml_pdf,"l",
-	sub="(from dgev_p1k3_cp, qgev_p1k3_cp)",
-	main="PDF")
-lines(xax,pdfs$ru_pdf,col="blue",lwd=2)
-lines(pdfs_qq$cp_quantiles,pdfs_qq$cp_pdf,col="orange")
-legend(x=xax[1],y=0.99*max(pdfs$ml_pdf),
-	c("maxlik","cp rust","cp from dmgs q"),
-	col=c("black","blue","orange"),pch=1,cex=0.7)
-#
-plot(xax,pmax(exp(-10),pdfs$ml_pdf),"l",log="y",
-	sub="(from dgev_p1k3_cp, qgev_p1k3_cp)",
-	main="Log-PDF")
-lines(xax,pmax(exp(-10),pdfs$ru_pdf),col="blue",lwd=2)
-lines(pdfs_qq$cp_quantiles,pmax(exp(-10),pdfs_qq$cp_pdf),col="orange")
-legend(x=xax[1],y=0.99*max(pdfs$ml_pdf),
-	c("maxlik","cp rust","cp from dmgs q"),
-	col=c("black","blue","orange"),pch=1,cex=0.7)
-#
-plot(xax,cdfs$ml_cdf,"l",
-	sub="(from pgev_p1k3_cp)",
-	main="CDF")
-lines(xax,cdfs$ru_cdf,col="blue",lwd=2)
-lines(pdfs_qq$cp_quantiles,pp,col="orange")
-
 }
 \references{
 If you use this package, we would be grateful if you would cite the following reference,
@@ -472,27 +414,12 @@ which gives the various calibrating priors, and tests them for reliability:
 \itemize{
 \item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
 Assessments of Extreme Weather Risk using Calibrating Priors;
-ASCMO (Advances in Statistical Climatology, Meteorology and Oceanography)
-}
-
-The proof that using the right Haar prior gives exact probability
-matching for homogeneous models is given in:
-\itemize{
-\item Severini, T., Mukerjee, R. and Ghosh, M. (2002); Biometrika
-}
-
-The DMGS asymptotic expansions come from:
-\itemize{
-\item Datta, G., Mukerjee, R., Ghosh, M. and Sweeting, T. (2000); Annals of Statistics
-}
-
-The RUST library is described here:
-\itemize{
-\item Northrop, P. (2023); Ratio-of-uniforms simulation with transformation, R package.
+ASCMO Advances in Statistical Climatology, Meteorology and Oceanography),
+\url{https://ascmo.copernicus.org/articles/11/1/2025/}.
 }
 }
 \seealso{
-An introduction to \code{fitdistcp}
+An introduction to \code{fitdistcp}, with more examples,
 is given \href{http://www.fitdistcp.info/index.html}{on this webpage}.
 
 The \code{fitdistcp} package currently includes the following models (in alphabetical order):
@@ -541,8 +468,11 @@ by the maximum likelihood and calibrating prior quantiles, for any model,
 sample size and true parameter values, can be demonstrated using the
 routine \code{reltest}.
 
-Model selection among models can be demonstrated using the routines \code{modelselection_flat}
-and \code{modelselection_predictors}.
+Model selection among models can be demonstrated using the routines
+\code{ms_flat_1tail},
+\code{ms_flat_2tail},
+\code{ms_predictors_1tail},
+and \code{ms_predictors_2tail},
 }
 \author{
 Stephen Jewson \email{stephen.jewson@gmail.com}

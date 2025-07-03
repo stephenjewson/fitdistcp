@@ -7,7 +7,7 @@
 exp_p1_predictordata(predictordata, x, t, t0, params)
 }
 \arguments{
-\item{predictordata}{a logical that indicates whether to calculate and return predictordata}
+\item{predictordata}{logical that indicates whether to calculate and return predictordata}
 
 \item{x}{a vector of training data values}
 
@@ -16,6 +16,9 @@ exp_p1_predictordata(predictordata, x, t, t0, params)
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
 \item{params}{model parameters for calculating logf}
+}
+\value{
+Two vectors
 }
 \description{
 Predicted Parameter and Generalized Residuals

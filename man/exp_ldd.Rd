@@ -13,6 +13,9 @@ exp_ldd(x, v1, fd1)
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

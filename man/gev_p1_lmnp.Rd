@@ -33,6 +33,9 @@ gev_p1_lmnp(x, t, v1, d1, v2, d2, v3, fd3, v4, d4, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the second derivative of the normalized log-likelihood
 }

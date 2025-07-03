@@ -15,6 +15,9 @@ frechet_k1_mu2fa(alpha, v1, v2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

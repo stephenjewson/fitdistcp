@@ -17,7 +17,10 @@ dlogis_p1(x, t0, ymn, slope, scale, log = FALSE)
 
 \item{scale}{the scale parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
+}
+\value{
+Vector
 }
 \description{
 Logistic-with-p1 density function

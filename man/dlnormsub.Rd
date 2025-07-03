@@ -11,7 +11,10 @@ dlnormsub(x, y, aderivs = TRUE)
 
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
 }
 \description{
 Densities from MLE and RHP

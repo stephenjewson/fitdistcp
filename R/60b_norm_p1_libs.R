@@ -1,4 +1,5 @@
 #' Linear regression formula, densities
+#' @inherit manvector return
 #' @inheritParams manf
 pnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
 	top=ta0*ta0
@@ -14,6 +15,7 @@ pnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
 	return(rh_cdf)
 }
 #' Linear regression formula, densities
+#' @inherit manvector return
 #' @inheritParams manf
 dnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
 	top=ta0*ta0
@@ -28,6 +30,7 @@ dnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
 	return(rh_pdf)
 }
 #' Linear regression formula, quantiles
+#' @inherit manvector return
 #' @inheritParams manf
 qnorm_p1_formula=function(alpha,ta,ta0,nx,muhat0,v3hat){
 	top=ta0*ta0
@@ -42,6 +45,7 @@ qnorm_p1_formula=function(alpha,ta,ta0,nx,muhat0,v3hat){
 	return(rh_quantiles)
 }
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 norm_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=TRUE){
 	if(waicscores){
@@ -65,6 +69,7 @@ norm_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=TRUE){
 	list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 norm_p1_predictordata=function(x,t,t0,params){
 #
@@ -87,17 +92,9 @@ norm_p1_predictordata=function(x,t,t0,params){
 	list(predictedparameter=mu,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 norm_p1_logf=function(params,x,t){
-#	a=params[1]
-#	b=params[2]
-#	s=params[3]
-#	mu=a+b*t
-#	if(s>0){
-#		logf=sum(dnorm(x,mean=mu,sd=s,log=TRUE))
-#	}else{
-#		logf=-Inf
-#	}
 	a=params[1]
 	b=params[2]
 	s=pmax(params[3],.Machine$double.eps)
@@ -106,6 +103,7 @@ norm_p1_logf=function(params,x,t){
 	return(logf)
 }
 #' Normal-with-p1  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 norm_p1_loglik=function(vv,x,t){
 	n=length(x)
@@ -114,6 +112,7 @@ norm_p1_loglik=function(vv,x,t){
 	return(loglik)
 }
 #' Maximum likelihood estimator
+#' @inherit manvector return
 #' @inheritParams manf
 norm_p1_mlparams=function(x,t){
 	mlparams=matrix(0,3)
@@ -124,6 +123,7 @@ norm_p1_mlparams=function(x,t){
 	return(mlparams)
 }
 #' Normal-with-p1 quantile function
+#' @inherit manvector return
 #' @inheritParams manf
 qnorm_p1=function(p,t0,ymn,slope,sigma){
 
@@ -131,6 +131,7 @@ qnorm_p1=function(p,t0,ymn,slope,sigma){
 
 }
 #' Normal-with-p1 density function
+#' @inherit manvector return
 #' @inheritParams manf
 dnorm_p1=function(x,t0,ymn,slope,sigma,log=FALSE){
 
@@ -138,6 +139,7 @@ dnorm_p1=function(x,t0,ymn,slope,sigma,log=FALSE){
 
 }
 #' Normal-with-p1 distribution function
+#' @inherit manvector return
 #' @inheritParams manf
 pnorm_p1=function(x,t0,ymn,slope,sigma){
 
@@ -145,6 +147,7 @@ pnorm_p1=function(x,t0,ymn,slope,sigma){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 norm_p1_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn){
 	d3=fd3*v3
@@ -180,6 +183,7 @@ norm_p1_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 norm_p1_ldd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	nx=length(x)
@@ -197,6 +201,7 @@ norm_p1_ldd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 norm_p1_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn,rr){
 	d3=fd3*v3
@@ -257,6 +262,7 @@ norm_p1_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 norm_p1_lddd=function(x,t,v1,d1,v2,d2,v3,fd3){
 # calculate the unique values
@@ -281,6 +287,7 @@ norm_p1_lddd=function(x,t,v1,d1,v2,d2,v3,fd3){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 norm_p1_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	d3=fd3*v3
@@ -312,6 +319,7 @@ norm_p1_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	return(f1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 norm_p1_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	d3=fd3*v3
@@ -352,6 +360,7 @@ norm_p1_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3){
 	return(f2)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 norm_p1_logscores=function(logscores,x,t,aderivs=TRUE){
 
@@ -377,6 +386,7 @@ norm_p1_logscores=function(logscores,x,t,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dnorm_p1sub=function(x,t,y,t0,aderivs=TRUE){
 

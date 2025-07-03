@@ -27,6 +27,9 @@ gev_p1k3_ldd(x, t, v1, d1, v2, d2, v3, fd3, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood, with fixed shape parameter
 

@@ -17,6 +17,9 @@ lnorm_dmgs_gg11(alpha, v1, d1, v2, fd2)
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the second derivative of the expected log-likelihood
 }

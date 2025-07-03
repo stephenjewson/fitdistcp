@@ -300,7 +300,7 @@ manf(
 
 \item{lambda}{the lambda parameter of the distribution}
 
-\item{log}{a logical for the density evaluation}
+\item{log}{logical for the density evaluation}
 
 \item{mm}{an index for which derivative to calculate}
 
@@ -340,25 +340,25 @@ manf(
 
 \item{lambdad_custom}{custom value of the derivative of the log prior}
 
-\item{means}{a logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
+\item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
 
-\item{waicscores}{a logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
+\item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
 
-\item{logscores}{a logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
+\item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
-\item{extramodels}{a logical that indicates whether to add three additional prediction models}
+\item{extramodels}{logical that indicates whether to add three additional prediction models}
 
-\item{pdf}{a logical that indicates whether to return density functions evaluated at quantiles specified by input probabilities}
+\item{pdf}{logical that indicates whether to return density functions evaluated at quantiles specified by input probabilities}
 
-\item{predictordata}{a logical that indicates whether to calculate and return predictordata}
+\item{predictordata}{logical that indicates whether to calculate and return predictordata}
 
-\item{nonnegslopesonly}{a logical that indicates whether to disallow non-negative slopes}
+\item{nonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
 
-\item{rnonnegslopesonly}{a logical that indicates whether to disallow non-negative slopes}
+\item{rnonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
 
 \item{customprior}{a custom value for the slope of the log prior at the maxlik estimate}
 
-\item{prior}{a logical indicating which prior to use}
+\item{prior}{logical indicating which prior to use}
 
 \item{params}{model parameters for calculating logf}
 
@@ -372,7 +372,10 @@ manf(
 
 \item{centering}{indicates whether the routine should center the data or not}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+No return value
 }
 \description{
 Blank function I use for setting up the man page information for the functions

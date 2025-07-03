@@ -1,9 +1,8 @@
 #' GEV Distribution with Known Shape with a Predictor, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -30,7 +29,7 @@
 #'
 #' The calibrating prior we use is given by
 #' \deqn{\pi(\mu,\sigma) \propto \frac{1}{\sigma}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_74_gev_p1k3.R
 #'
@@ -50,7 +49,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 	debug=TRUE
 	debug=FALSE
-	if(debug)cat("inside qgev_p1k3\n")
+	if(debug)message("inside qgev_p1k3")
 	stopifnot(	is.finite(x),
 							!is.na(x),
 							is.finite(p),
@@ -79,7 +78,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 3 ml param estimate
 #
-	if(debug)cat("calc ml param estimate\n")
+	if(debug)message("calc ml param estimate")
 	lm=lm(x~t)
 	v1start=lm$coefficients[1]
 	v2start=lm$coefficients[2]
@@ -92,7 +91,8 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 	v3hat=opt1$par[3]
 	ml_params=c(v1hat,v2hat,v3hat)
 	muhat=ml_params[1]+ml_params[2]*t
-	if(debug)cat("  ml_params=",ml_params,"\n")
+	if(debug)message("  ml_params=",ml_params)
+	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 #
 # 4 predictordata
 #
@@ -102,13 +102,13 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 5 aic
 #
-	if(debug)cat("calc aic\n")
+	if(debug)message("calc aic")
  	ml_value=opt1$val
 	maic=make_maic(ml_value,nparams=3)
 #
 # 6 mle quantiles
 #
-	if(debug)cat("calc mle quantiles\n")
+	if(debug)message("calc mle quantiles")
 	ml_quantiles=qgev_p1k3((1-alpha),t0,ymn=v1hat,slope=v2hat,sigma=v3hat,kshape=kshape)
 #
 # dmgs
@@ -124,7 +124,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 	rh_mean="dmgs not selected"
 	cp_mean="dmgs not selected"
 	cp_method="dmgs not selected"
-	if(dmgs){
+	if((dmgs)&&(!revert2ml)){
 		if(pdf){
 			ml_quantilesm=qgev((1-alpham),mu=muhat,sigma=v3hat,xi=kshape)
 			ml_quantilesp=qgev((1-alphap),mu=muhat,sigma=v3hat,xi=kshape)
@@ -134,7 +134,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 7 lddi
 #
-		if(debug)cat("calc ldd\n")
+		if(debug)message("calc ldd")
 		if(aderivs) ldd=gev_p1k3_ldda(x,t,v1hat,v2hat,v3hat,kshape=kshape)
 		if(!aderivs)ldd=gev_p1k3_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kshape=kshape)
 		lddi=solve(ldd)
@@ -142,13 +142,13 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 8 lddd
 #
-		if(debug)cat("calculate lddd\n")
+		if(debug)message("calculate lddd")
 		if(aderivs) lddd=gev_p1k3_lddda(x,t,v1hat,v2hat,v3hat,kshape=kshape)
 		if(!aderivs)lddd=gev_p1k3_lddd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kshape=kshape)
 #
 # 9 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		if(aderivs) mu1=gev_p1k3_mu1fa(alpha,t0,v1hat,v2hat,v3hat,kshape=kshape)
 		if(!aderivs)mu1=gev_p1k3_mu1f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kshape=kshape)
 
@@ -164,7 +164,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 10 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		mu2=gev_p1k3_mu2f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kshape=kshape)
 		if(pdf){
 			mu2m=gev_p1k3_mu2f(alpham,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kshape=kshape)
@@ -173,12 +173,12 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 11 rhp
 #
-		if(debug)cat("  rhp\n")
+		if(debug)message("  rhp")
 		lambdad_cp=c(0,0,-1/v3hat) #this is rhp
 #
 # 12 rhp quantiles
 #
-		if(debug)cat("  rhp quantiles\n")
+		if(debug)message("  rhp quantiles")
 		fhat=dgev_p1k3(ml_quantiles,t0,ymn=v1hat,slope=v2hat,sigma=v3hat,log=FALSE,kshape=kshape)
 		dq=dmgs(lddi,lddd,mu1,lambdad_cp,mu2,dim=3)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)
@@ -198,7 +198,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 		means=gev_p1k3_means(means,t0,ml_params,kshape,nx)
 		ml_mean				=means$ml_mean
-		cp_mean				=means$cp_mean
+		rh_mean				=means$cp_mean
 #
 # 14 waicscores
 #
@@ -214,6 +214,11 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 			rustsim=rgev_p1k3_cp(nrust,x,t=t,t0=t0,kshape=kshape,rust=TRUE,mlcp=FALSE)
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
+	} else {
+		rh_quantiles=ml_quantiles
+		ru_quantiles=ml_quantiles
+		rh_pdf=ml_pdf
+		rh_mean=ml_mean
 	} #end of if(dmgs)
 #
 # 17 decentering
@@ -233,6 +238,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #				expinfmat=expinfmat,
 #				expinfmati=expinfmati,
 				standard_errors=standard_errors,
+				revert2ml=revert2ml,
 				ml_quantiles=ml_quantiles,
 				cp_quantiles=rh_quantiles,
 				ru_quantiles=ru_quantiles,
@@ -242,7 +248,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 				waic1=waic1,
 				waic2=waic2,
 				ml_mean=ml_mean,
-				cp_mean=cp_mean,
+				cp_mean=rh_mean,
 				cp_method=rhp_dmgs_cpmethod())
 
 }
@@ -327,8 +333,9 @@ dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 	dd=dgev_p1k3sub(x=x,t=t,y=y,t0=t0,d1,d2,fd3,kshape=kshape,aderivs=aderivs)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
+	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 
-	if(rust){
+	if(rust&&(!revert2ml)){
 		th=tgev_p1k3_cp(nrust,x,t,kshape)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
@@ -336,6 +343,8 @@ dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 			ru_pdf=ru_pdf+dgev(y,mu=mu,sigma=th[ir,3],xi=kshape)
 		}
 		ru_pdf=ru_pdf/nrust
+	} else {
+		ru_pdf=dd$ml_pdf
 	}
 #
 # decentering
@@ -345,6 +354,7 @@ dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 	op=list(
 				ml_params=ml_params,
 				ml_pdf=dd$ml_pdf,
+				revert2ml=revert2ml,
 				ru_pdf=ru_pdf,
 				cp_method=nopdfcdfmsg())
 	return(op)
@@ -372,7 +382,9 @@ pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 	dd=dgev_p1k3sub(x=x,t=t,y=y,t0=t0,d1,d2,fd3,kshape=kshape,aderivs=aderivs)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
-	if(rust){
+	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
+
+	if(rust&&(!revert2ml)){
 		th=tgev_p1k3_cp(nrust,x,t,kshape)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
@@ -380,6 +392,8 @@ pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 			ru_cdf=ru_cdf+pgev(y,mu=mu,sigma=th[ir,3],xi=kshape)
 		}
 		ru_cdf=ru_cdf/nrust
+	} else {
+		ru_pdf=dd$ml_pdf
 	}
 #
 # decentering
@@ -389,6 +403,7 @@ pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 	op=list(
 				ml_params=ml_params,
 				ml_cdf=dd$ml_cdf,
+				revert2ml=revert2ml,
 				ru_cdf=ru_cdf,
 				cp_method=nopdfcdfmsg())
 

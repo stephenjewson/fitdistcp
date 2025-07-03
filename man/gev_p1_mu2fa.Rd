@@ -19,6 +19,9 @@ gev_p1_mu2fa(alpha, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

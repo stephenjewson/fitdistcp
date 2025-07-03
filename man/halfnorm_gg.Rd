@@ -11,6 +11,9 @@ halfnorm_gg(v1, fd1)
 
 \item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Square scalar matrix
+}
 \description{
 Expected information matrix
 }

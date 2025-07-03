@@ -15,6 +15,9 @@ gnorm_k3_f1fa(x, v1, v2, kbeta)
 
 \item{kbeta}{the known beta parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the density
 }

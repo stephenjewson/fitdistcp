@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gev_p1k3_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kshape,
 	lddi,lddd,lambdad,aderivs){
@@ -21,6 +22,7 @@ gev_p1k3_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kshape,
 		list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 gev_p1k3_predictordata=function(predictordata,x,t,t0,params,kshape){
 	if(predictordata){
@@ -45,6 +47,7 @@ gev_p1k3_predictordata=function(predictordata,x,t,t0,params,kshape){
 	list(predictedparameter=mu,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gev_p1k3_logf=function(params,x,t,kshape){
 #	a=params[1]
@@ -64,6 +67,7 @@ gev_p1k3_logf=function(params,x,t,kshape){
 	return(logf)
 }
 #' GEV-with-known-shape-with-p1  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams	manf
 gev_p1k3_loglik=function(vv,x,t,kshape){
 	n=length(x)
@@ -73,6 +77,7 @@ gev_p1k3_loglik=function(vv,x,t,kshape){
 	return(loglik)
 }
 #' GEV-with-known-shape-with-p1 quantile function
+#' @inherit manvector return
 #' @inheritParams	manf
 qgev_p1k3=function(p,t0,ymn,slope,sigma,kshape){
 
@@ -80,6 +85,7 @@ qgev_p1k3=function(p,t0,ymn,slope,sigma,kshape){
 
 }
 #' GEV-with-known-shape-with-p1 density function
+#' @inherit manvector return
 #' @inheritParams	manf
 dgev_p1k3=function(x,t0,ymn,slope,sigma,log=FALSE,kshape){
 
@@ -87,13 +93,14 @@ dgev_p1k3=function(x,t0,ymn,slope,sigma,log=FALSE,kshape){
 
 }
 #' GEV-with-known-shape-with-p1 distribution function
+#' @inherit manvector return
 #' @inheritParams	manf
 pgev_p1k3=function(x,t0,ymn,slope,sigma,kshape){
 
 	return(pgev(x,mu=(ymn+slope*t0),sigma=sigma,xi=kshape))
-
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gev_p1k3_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,kshape,mm,nn){
 	d3=fd3*v3
@@ -129,6 +136,7 @@ gev_p1k3_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,kshape,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams	manf
 gev_p1k3_ldd=function(x,t,v1,d1,v2,d2,v3,fd3,kshape){
 	ldd=matrix(0,3,3)
@@ -145,6 +153,7 @@ gev_p1k3_ldd=function(x,t,v1,d1,v2,d2,v3,fd3,kshape){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gev_p1k3_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,kshape,mm,nn,rr){
 	d3=fd3*v3
@@ -204,6 +213,7 @@ gev_p1k3_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,kshape,mm,nn,rr){
 	}
 	return(dld)
 }#' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams	manf
 gev_p1k3_lddd=function(x,t,v1,d1,v2,d2,v3,fd3,kshape){
 	lddd=array(0,c(3,3,3))
@@ -227,6 +237,7 @@ gev_p1k3_lddd=function(x,t,v1,d1,v2,d2,v3,fd3,kshape){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 gev_p1k3_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	d3=fd3*v3
@@ -258,6 +269,7 @@ gev_p1k3_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	return(f1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 gev_p1k3_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	q00=qgev_p1k3((1-alpha),t0,ymn=v1,slope=v2,sigma=v3,kshape=kshape)
@@ -290,6 +302,7 @@ gev_p1k3_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 gev_p1k3_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	d3=fd3*v3
@@ -330,6 +343,7 @@ gev_p1k3_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	return(f2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 gev_p1k3_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kshape){
 	q00=qgev_p1k3((1-alpha),t0,ymn=v1,slope=v2,sigma=v3,kshape=kshape)
@@ -372,6 +386,7 @@ gev_p1k3_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kshape){
 }
 #' Analytical expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1
+#' @inherit manmeans return
 #' @inheritParams manf
 gev_p1k3_means=function(means,t0,ml_params,kshape,nx){
 
@@ -402,6 +417,7 @@ gev_p1k3_means=function(means,t0,ml_params,kshape,nx){
 	list(ml_mean=ml_mean,pu_mean=pu_mean)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dgev_p1k3sub=function(x,t,y,t0,d1,d2,fd3,kshape,aderivs=TRUE){
 

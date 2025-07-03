@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gev_k3_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,kshape,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,6 +21,7 @@ gev_k3_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,kshape,lddi,lddd,lambdad,ad
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gev_k3_logf=function(params,x,kshape){
 	l=params[1]
@@ -28,6 +30,7 @@ gev_k3_logf=function(params,x,kshape){
 	return(logf)
 }
 #'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gev_k3_loglik=function(vv,x,kshape){
 	n=length(x)
@@ -35,6 +38,7 @@ gev_k3_loglik=function(vv,x,kshape){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gev_k3_lmn=function(x,v1,d1,v2,fd2,kshape,mm,nn){
 	d2=fd2*v2
@@ -70,6 +74,7 @@ gev_k3_lmn=function(x,v1,d1,v2,fd2,kshape,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gev_k3_ldd=function(x,v1,d1,v2,fd2,kshape){
 	nx=length(x)
@@ -86,7 +91,8 @@ gev_k3_ldd=function(x,v1,d1,v2,fd2,kshape){
 	}
 	return(ldd)
 }
-#' One component of the second derivative of the normalized log-likelihood
+#' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gev_k3_lmnp=function(x,v1,d1,v2,fd2,kshape,mm,nn,rr){
 	d2=fd2*v2
@@ -147,6 +153,7 @@ gev_k3_lmnp=function(x,v1,d1,v2,fd2,kshape,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gev_k3_lddd=function(x,v1,d1,v2,fd2,kshape){
 # calculate the unique values
@@ -171,6 +178,7 @@ gev_k3_lddd=function(x,v1,d1,v2,fd2,kshape){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gev_k3_f1f=function(y,v1,d1,v2,fd2,kshape){
 	d2=fd2*v2
@@ -196,6 +204,7 @@ gev_k3_f1f=function(y,v1,d1,v2,fd2,kshape){
 	return(f1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gev_k3_mu1f=function(alpha,v1,d1,v2,fd2,kshape){
 	q00=extraDistr::qgev((1-alpha),mu=v1,sigma=v2,xi=kshape)
@@ -220,6 +229,7 @@ gev_k3_mu1f=function(alpha,v1,d1,v2,fd2,kshape){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_k3_f2f=function(y,v1,d1,v2,fd2,kshape){
 	d2=fd2*v2
@@ -262,6 +272,7 @@ gev_k3_f2f=function(y,v1,d1,v2,fd2,kshape){
 	return(f2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gev_k3_mu2f=function(alpha,v1,d1,v2,fd2,kshape){
 	q00=extraDistr::qgev((1-alpha),mu=v1,sigma=v2,xi=kshape)
@@ -303,6 +314,7 @@ gev_k3_mu2f=function(alpha,v1,d1,v2,fd2,kshape){
 	return(mu2)
 }
 #' MLE and RHP means
+#' @inherit manmeans return
 #' @inheritParams manf
 gev_k3_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,kshape){
 
@@ -337,6 +349,7 @@ gev_k3_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,kshape){
 	list(ml_mean=ml_mean,rh_mean=rh_mean)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dgev_k3sub=function(x,y,d1=0.01,fd2=0.01,kshape,aderivs=TRUE){
 

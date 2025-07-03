@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 weibull_fd=function (x, v1, v2) 
 {
@@ -17,6 +18,7 @@ weibull_fd=function (x, v1, v2)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 weibull_fdd=function (x, v1, v2) 
 {
@@ -53,6 +55,7 @@ weibull_fdd=function (x, v1, v2)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 weibull_pd=function (x, v1, v2) 
 {
@@ -66,6 +69,7 @@ weibull_pd=function (x, v1, v2)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 weibull_pdd=function (x, v1, v2) 
 {
@@ -87,6 +91,7 @@ weibull_pdd=function (x, v1, v2)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 weibull_logfdd=function (x, v1, v2) 
 {
@@ -104,6 +109,7 @@ weibull_logfdd=function (x, v1, v2)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 weibull_logfddd=function (x, v1, v2) 
 {
@@ -134,6 +140,7 @@ weibull_logfddd=function (x, v1, v2)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 weibull_f1fa=function(x,v1,v2){
 	vf=Vectorize(weibull_fd)
@@ -142,6 +149,7 @@ weibull_f1fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 weibull_f2fa=function(x,v1,v2){
 	nx=length(x)
@@ -152,6 +160,7 @@ weibull_f2fa=function(x,v1,v2){
 }
 ############################################################
 #' The first derivative of the cdf
+#' @returns Vector
 #' @inheritParams manf
 weibull_p1fa=function(x,v1,v2){
 	vf=Vectorize(weibull_pd)
@@ -160,6 +169,7 @@ weibull_p1fa=function(x,v1,v2){
 }
 ############################################################
 #' The second derivative of the cdf
+#' @returns Matrix
 #' @inheritParams manf
 weibull_p2fa=function(x,v1,v2){
 	nx=length(x)
@@ -170,6 +180,7 @@ weibull_p2fa=function(x,v1,v2){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 weibull_mu1fa=function(alpha,v1,v2){
 	x=qweibull((1-alpha),shape=v1,scale=v2)
@@ -179,6 +190,7 @@ weibull_mu1fa=function(alpha,v1,v2){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 weibull_mu2fa=function(alpha,v1,v2){
 	x=qweibull((1-alpha),shape=v1,scale=v2)
@@ -190,6 +202,7 @@ weibull_mu2fa=function(alpha,v1,v2){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 weibull_ldda=function(x,v1,v2){
 	nx=length(x)
@@ -200,6 +213,7 @@ weibull_ldda=function(x,v1,v2){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 weibull_lddda=function(x,v1,v2){
 	nx=length(x)

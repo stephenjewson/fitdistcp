@@ -4,10 +4,9 @@
 # so it's p1k3 (shape has a predictor, scale is known)
 #' Pareto Distribution with a Predictor, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -31,7 +30,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(a,b) \propto 1}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #' Note that others authors have referred to the shape and scale parameters
 #' as the scale and location parameters, respectively.
 #'
@@ -50,7 +49,7 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 1 intro
 #
-	if(debug)cat("inside qpareto_p1k2\n")
+	if(debug)message("inside qpareto_p1k2")
 	stopifnot(	is.finite(x),!is.na(x),is.finite(p),!is.na(p),p>0,p<1,!x<kscale)
 	alpha=1-p
 	nx=length(x)
@@ -67,7 +66,7 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 3 ml param estimate
 #
-	if(debug)cat("calc ml param estimate\n")
+	if(debug)message("calc ml param estimate")
 	lm=lm(x~t)
 	v1start=lm$coefficients[1]
 	v2start=lm$coefficients[2]
@@ -82,7 +81,7 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 	muhat=ml_params[1]+ml_params[2]*t
 #	muhat0=makemuhat0(t0,n0,t,ml_params)
 	residuals=x-muhat
-	if(debug)cat("  inside q: ml_params=",ml_params,"\n")
+	if(debug)message("  inside q: ml_params=",ml_params)
 #
 # 4 predictordata
 #
@@ -92,14 +91,14 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 5 aic
 #
-	if(debug)cat("calc aic\n")
+	if(debug)message("calc aic")
  	ml_value=opt$val
 	maic=make_maic(ml_value,nparams=2)
 
 #
 # 6 mle quantiles
 #
-	if(debug)cat("calc mle quantiles\n")
+	if(debug)message("calc mle quantiles")
 	ml_quantiles=qpareto_p1k2((1-alpha),t0,ymn=v1hat,slope=v2hat,kscale=kscale)
 #
 # dmgs
@@ -120,39 +119,39 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 7 lddi
 #
-		if(debug)cat("calc ldd\n")
+		if(debug)message("calc ldd")
 		if(aderivs) ldd=pareto_p1k2_ldda(x,t,v1hat,v2hat,kscale)
 		if(!aderivs)ldd=pareto_p1k2_ldd(x,t,v1hat,d1,v2hat,d2,kscale)
-		if(debug)cat("ldd=",ldd,"\n")
+		if(debug)message("ldd=",ldd)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 8 lddd
 #
-		if(debug)cat("calculate lddd\n")
+		if(debug)message("calculate lddd")
 		if(aderivs) lddd=pareto_p1k2_lddda(x,t,v1hat,v2hat,kscale)
 		if(!aderivs)lddd=pareto_p1k2_lddd(x,t,v1hat,d1,v2hat,d2,kscale)
 #
 # 9 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		if(aderivs) mu1=pareto_p1k2_mu1fa(alpha,t0,v1hat,v2hat,kscale)
 		if(!aderivs)mu1=pareto_p1k2_mu1f(alpha,t0,v1hat,d1,v2hat,d2,kscale)
 #
 # 10 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		if(aderivs) mu2=pareto_p1k2_mu2fa(alpha,t0,v1hat,v2hat,kscale)
 		if(!aderivs)mu2=pareto_p1k2_mu2f(alpha,t0,v1hat,d1,v2hat,d2,kscale)
 #
 # 11 rhp
 #
-		if(debug)cat("  rhp\n")
+		if(debug)message("  rhp")
 		lambdad_rhp=c(0,0) #this is rhp
 #
 # 12 rhp quantiles
 #
-		if(debug)cat("  rhp quantiles\n")
+		if(debug)message("  rhp quantiles")
 		fhat=dpareto_p1k2(ml_quantiles,t0,ymn=v1hat,slope=v2hat,kscale=kscale,log=FALSE)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=2)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)
@@ -171,7 +170,7 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 15 logscores
 #
-		if(debug)cat("calc logscores\n")
+		if(debug)message("calc logscores")
 		logscores=pareto_p1k2_logscores(logscores,x,t,d1,d2,kscale,aderivs,debug)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
@@ -194,7 +193,7 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
   }
 
 # return
-	if(debug)cat("return\n")
+	if(debug)message("return")
 	list(	ml_params=ml_params,
 				ml_value=ml_value,
 				predictedparameter=predictedparameter,
@@ -251,7 +250,7 @@ rpareto_p1k2_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
-		if(debug)cat("  inside r: ml_params=",ml_params,"\n")
+		if(debug)message("  inside r: ml_params=",ml_params)
 	}
 
 	if(rust){

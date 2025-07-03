@@ -15,6 +15,9 @@ exp_p1_mu1fa(alpha, t, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Vector
+}
 \description{
 Minus the first derivative of the cdf, at alpha
 }

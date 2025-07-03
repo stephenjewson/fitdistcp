@@ -1,4 +1,5 @@
 #'  Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 norm_dmgs_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -20,12 +21,14 @@ norm_dmgs_waic=function(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,lambdad,aderiv
 		list(waic1=waic1,waic2=waic2)
 }
 #'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 norm_dmgs_loglik=function(vv,x){
 	loglik=sum(dnorm(x,mean=vv[1],sd=max(vv[2],.Machine$double.eps),log=TRUE))
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 norm_lmn=function(x,v1,d1,v2,fd2,mm,nn){
 	d2=fd2*v2
@@ -60,7 +63,8 @@ norm_lmn=function(x,v1,d1,v2,fd2,mm,nn){
 	}
 	return(dld)
 }
-#' One component of the second derivative of the normalized log-likelihood
+#' One component of the third derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 norm_lmnp=function(x,v1,d1,v2,fd2,mm,nn,rr){
 	d2=fd2*v2
@@ -121,6 +125,7 @@ norm_lmnp=function(x,v1,d1,v2,fd2,mm,nn,rr){
 	return(dld)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 norm_dmgs_p1f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -144,6 +149,7 @@ norm_dmgs_p1f=function(y,v1,d1,v2,fd2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 norm_dmgs_mu1f=function(alpha,v1,d1,v2,fd2){
 	q00=qnorm((1-alpha),mean=v1,sd=v2)
@@ -168,6 +174,7 @@ norm_dmgs_mu1f=function(alpha,v1,d1,v2,fd2){
 	return(mu1)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 norm_dmgs_p2f=function(y,v1,d1,v2,fd2){
 	d2=fd2*v2
@@ -208,6 +215,7 @@ norm_dmgs_p2f=function(y,v1,d1,v2,fd2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 norm_dmgs_mu2f=function(alpha,v1,d1,v2,fd2){
 	q00=qnorm((1-alpha),mean=v1,sd=v2)
@@ -249,6 +257,7 @@ norm_dmgs_mu2f=function(alpha,v1,d1,v2,fd2){
 	return(mu2)
 }
 #' MLE and RHP predictive means
+#' @inherit manmeans return
 #' @inheritParams manf
 norm_dmgs_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 
@@ -275,6 +284,7 @@ norm_dmgs_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2){
 }
 
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 norm_dmgs_logscores=function(logscores,x,d1=0.01,fd2=0.01){
 
@@ -305,6 +315,7 @@ norm_dmgs_logscores=function(logscores,x,d1=0.01,fd2=0.01){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dnorm_dmgssub=function(x,y,d1=0.01,fd2=0.01,aderivs=TRUE){
 

@@ -11,6 +11,9 @@ halfnorm_lddda(x, v1)
 
 \item{v1}{first parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

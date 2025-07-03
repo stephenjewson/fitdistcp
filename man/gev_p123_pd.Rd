@@ -29,6 +29,9 @@ gev_p123_pd(x, t1, t2, t3, v1, v2, v3, v4, v5, v6)
 
 \item{v6}{sixth parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the cdf
 Created by Stephen Jewson

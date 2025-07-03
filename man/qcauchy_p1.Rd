@@ -17,6 +17,9 @@ qcauchy_p1(p, t0, ymn, slope, scale)
 
 \item{scale}{the scale parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 Cauchy-with-p1 quantile function
 }

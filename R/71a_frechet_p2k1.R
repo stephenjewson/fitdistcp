@@ -1,9 +1,8 @@
 #' Frechet Distribution with Predictor, Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -25,7 +24,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(a,b) \propto 1}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_71_frechet_p2k1.R
 #'
@@ -43,7 +42,7 @@ qfrechet_p2k1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 #
 # 1 intro
 #
-	if(debug)cat("inside qfrechet_p2k1\n")
+	if(debug)message("inside qfrechet_p2k1")
 	stopifnot(	is.finite(x),!is.na(x),is.finite(p),!is.na(p),p>0,p<1,
 		length(t)==length(x),!x<kloc)
 	alpha=1-p
@@ -61,7 +60,7 @@ qfrechet_p2k1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 #
 # 3 ml param estimate
 #
-	if(debug)cat("calc ml param estimate\n")
+	if(debug)message("calc ml param estimate")
 	lm=lm(x~t)
 	v1start=lm$coefficients[1]
 	v2start=lm$coefficients[2]
@@ -79,7 +78,7 @@ qfrechet_p2k1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	muhat=ml_params[1]+ml_params[2]*t
 #	muhat0=makemuhat0(t0,n0,t,ml_params)
 	residuals=x-muhat
-	if(debug)cat("  ml_params=",ml_params,"\n")
+	if(debug)message("  ml_params=",ml_params)
 #
 # 4 predictordata
 #
@@ -89,13 +88,13 @@ qfrechet_p2k1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 #
 # 5 aic
 #
-	if(debug)cat("calc aic\n")
+	if(debug)message("calc aic")
  	ml_value=opt$val
 	maic=make_maic(ml_value,nparams=3)
 #
 # 6 mle quantiles
 #
-	if(debug)cat("calc mle quantiles\n")
+	if(debug)message("calc mle quantiles")
 	ml_quantiles=qfrechet_p2k1((1-alpha),t0,ymn=v1hat,slope=v2hat,lambda=v3hat,kloc=kloc)
 #
 # dmgs
@@ -116,39 +115,39 @@ qfrechet_p2k1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 #
 # 7 lddi
 #
-		if(debug)cat("calc ldd\n")
+		if(debug)message("calc ldd")
 		if(aderivs) ldd=frechet_p2k1_ldda(x,t,v1hat,v2hat,v3hat,kloc)
 		if(!aderivs)ldd=frechet_p2k1_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc)
-		if(debug)cat("ldd=",ldd,"\n")
+		if(debug)message("ldd=",ldd)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 8 lddd
 #
-		if(debug)cat("calculate lddd\n")
+		if(debug)message("calculate lddd")
 		if(aderivs) lddd=frechet_p2k1_lddda(x,t,v1hat,v2hat,v3hat,kloc)
 		if(!aderivs)lddd=frechet_p2k1_lddd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc)
 #
 # 9 mu1
 #
-		if(debug)cat("calculate mu1\n")
+		if(debug)message("calculate mu1")
 		if(aderivs) mu1=frechet_p2k1_mu1fa(alpha,t0,v1hat,v2hat,v3hat,kloc)
 		if(!aderivs)mu1=frechet_p2k1_mu1f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kloc)
 #
 # 10 mu2
 #
-		if(debug)cat("calculate mu2\n")
+		if(debug)message("calculate mu2")
 		if(aderivs) mu2=frechet_p2k1_mu2fa(alpha,t0,v1hat,v2hat,v3hat,kloc)
 		if(!aderivs)mu2=frechet_p2k1_mu2f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3,kloc)
 #
 # 11 rhp
 #
-		if(debug)cat("  rhp\n")
+		if(debug)message("  rhp")
 		lambdad_rhp=c(0,0,-1/v3hat) #this is rhp
 #
 # 12 rhp quantiles
 #
-		if(debug)cat("  rhp quantiles\n")
+		if(debug)message("  rhp quantiles")
 		fhat=dfrechet_p2k1(ml_quantiles,t0,ymn=v1hat,slope=v2hat,lambda=v3hat,log=FALSE,kloc=kloc)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=3)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)

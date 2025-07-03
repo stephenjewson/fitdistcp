@@ -15,6 +15,9 @@ pareto_p1k2_loglik(vv, x, t, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 observed log-likelihood function
 }

@@ -15,6 +15,9 @@ gamma_logfddd(x, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+3d array
+}
 \description{
 Third derivative of the log density
 Created by Stephen Jewson

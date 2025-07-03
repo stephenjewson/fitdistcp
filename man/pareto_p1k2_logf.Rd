@@ -15,6 +15,9 @@ pareto_p1k2_logf(params, x, t, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

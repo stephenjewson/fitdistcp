@@ -17,6 +17,9 @@ gpd_k1_ggd_mev(v1, fd1, v2, d2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Derivative of expected information matrix, based on MEV routine gpd.infomat
 }

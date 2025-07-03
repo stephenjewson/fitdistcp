@@ -19,6 +19,9 @@ lst_k3_lddd(x, v1, d1, v2, fd2, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

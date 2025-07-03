@@ -2,6 +2,7 @@
 #' First derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gev_p1_fd=function (x, t, v1, v2, v3, v4) 
 {
@@ -25,6 +26,7 @@ gev_p1_fd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gev_p1_fdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -106,6 +108,7 @@ gev_p1_fdd=function (x, t, v1, v2, v3, v4)
 #' First derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Vector
 #' @inheritParams manf
 gev_p1_pd=function (x, t, v1, v2, v3, v4) 
 {
@@ -124,6 +127,7 @@ gev_p1_pd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the cdf
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gev_p1_pdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -181,6 +185,7 @@ gev_p1_pdd=function (x, t, v1, v2, v3, v4)
 #' Second derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns Matrix
 #' @inheritParams manf
 gev_p1_logfdd=function (x, t, v1, v2, v3, v4) 
 {
@@ -233,6 +238,7 @@ gev_p1_logfdd=function (x, t, v1, v2, v3, v4)
 #' Third derivative of the log density
 #' Created by Stephen Jewson
 #' using Deriv() by Andrew Clausen and Serguei Sokol
+#' @returns 3d array
 #' @inheritParams manf
 gev_p1_logfddd=function (x, t, v1, v2, v3, v4) 
 {
@@ -447,6 +453,7 @@ gev_p1_logfddd=function (x, t, v1, v2, v3, v4)
 }
 ############################################################
 #' The first derivative of the density
+#' @returns Vector
 #' @inheritParams manf
 gev_p1_f1fa=function(x,t,v1,v2,v3,v4){
 
@@ -458,6 +465,7 @@ gev_p1_f1fa=function(x,t,v1,v2,v3,v4){
 }
 ############################################################
 #' The second derivative of the density
+#' @returns Matrix
 #' @inheritParams manf
 gev_p1_f2fa=function(x,t,v1,v2,v3,v4){
 	nx=length(x)
@@ -471,6 +479,7 @@ gev_p1_f2fa=function(x,t,v1,v2,v3,v4){
 }
 ############################################################
 #' Minus the first derivative of the cdf, at alpha
+#' @returns Vector
 #' @inheritParams manf
 gev_p1_mu1fa=function(alpha,t,v1,v2,v3,v4){
 	x=qgev((1-alpha),mu=v1+v2*t,sigma=v3,xi=v4)
@@ -483,6 +492,7 @@ gev_p1_mu1fa=function(alpha,t,v1,v2,v3,v4){
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
+#' @returns Matrix
 #' @inheritParams manf
 gev_p1_mu2fa=function(alpha,t,v1,v2,v3,v4){
 	x=qgev((1-alpha),mu=v1+v2*t,sigma=v3,xi=v4)
@@ -497,6 +507,7 @@ gev_p1_mu2fa=function(alpha,t,v1,v2,v3,v4){
 }
 ############################################################
 #' The second derivative of the normalized log-likelihood
+#' @returns Matrix
 #' @inheritParams manf
 gev_p1_ldda=function(x,t,v1,v2,v3,v4){
 	nx=length(x)
@@ -510,6 +521,7 @@ gev_p1_ldda=function(x,t,v1,v2,v3,v4){
 }
 ############################################################
 #' The third derivative of the normalized log-likelihood
+#' @returns 3d array
 #' @inheritParams manf
 gev_p1_lddda=function(x,t,v1,v2,v3,v4){
 	nx=length(x)

@@ -19,6 +19,9 @@ frechet_p2k1_p1fa(x, t, v1, v2, v3, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the cdf
 }

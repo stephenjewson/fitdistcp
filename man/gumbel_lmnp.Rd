@@ -2,7 +2,7 @@
 % Please edit documentation in R/50b_gumbel_libs.R
 \name{gumbel_lmnp}
 \alias{gumbel_lmnp}
-\title{One component of the second derivative of the normalized log-likelihood}
+\title{One component of the third derivative of the normalized log-likelihood}
 \usage{
 gumbel_lmnp(x, v1, d1, v2, fd2, mm, nn, rr)
 }
@@ -23,6 +23,9 @@ gumbel_lmnp(x, v1, d1, v2, fd2, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
-One component of the second derivative of the normalized log-likelihood
+One component of the third derivative of the normalized log-likelihood
 }

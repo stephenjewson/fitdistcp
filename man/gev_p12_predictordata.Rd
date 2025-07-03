@@ -7,7 +7,7 @@
 gev_p12_predictordata(predictordata, x, t1, t2, t01, t02, params)
 }
 \arguments{
-\item{predictordata}{a logical that indicates whether to calculate and return predictordata}
+\item{predictordata}{logical that indicates whether to calculate and return predictordata}
 
 \item{x}{a vector of training data values}
 
@@ -20,6 +20,9 @@ gev_p12_predictordata(predictordata, x, t1, t2, t01, t02, params)
 \item{t02}{a single value of the predictor (specify either \code{t02} or \code{n02} but not both)}
 
 \item{params}{model parameters for calculating logf}
+}
+\value{
+Two vectors
 }
 \description{
 Predicted Parameter and Generalized Residuals

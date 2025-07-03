@@ -21,7 +21,7 @@ gumbel_p1_waic(
 )
 }
 \arguments{
-\item{waicscores}{a logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
+\item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
 
 \item{x}{a vector of training data values}
 
@@ -45,7 +45,10 @@ gumbel_p1_waic(
 
 \item{lambdad}{derivative of the log prior}
 
-\item{aderivs}{a logical for whether to use analytic derivatives (instead of numerical)}
+\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
+}
+\value{
+Two numeric values.
 }
 \description{
 Waic

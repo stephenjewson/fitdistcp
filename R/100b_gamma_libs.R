@@ -1,5 +1,6 @@
 # I use v1-=shape,v2=scale
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 gamma_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
@@ -21,6 +22,7 @@ gamma_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,lambdad,aderivs){
 		list(waic1=waic1,waic2=waic2)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 gamma_logf=function(params,x){
 	sh=pmax(params[1],.Machine$double.eps)
@@ -28,6 +30,7 @@ gamma_logf=function(params,x){
 	logf=sum(dgamma(x,shape=sh,scale=sc,log=TRUE))-log(sh)-log(sc)
 	return(logf)
 }#'  log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams manf
 gamma_loglik=function(vv,x){
 	n=length(x)
@@ -35,6 +38,7 @@ gamma_loglik=function(vv,x){
 	return(loglik)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gamma_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 	d1=fd1*v1
@@ -71,6 +75,7 @@ gamma_lmn=function(x,v1,fd1,v2,fd2,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gamma_ldd=function(x,v1,fd1,v2,fd2){
 	ldd=matrix(0,2,2)
@@ -87,6 +92,7 @@ gamma_ldd=function(x,v1,fd1,v2,fd2){
 	return(ldd)
 }
 #' One component of the second derivative of the expected log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 gamma_gmn=function(alpha,v1,fd1,v2,fd2,mm,nn){
 	nx=length(alpha)
@@ -125,6 +131,7 @@ gamma_gmn=function(alpha,v1,fd1,v2,fd2,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the expected log-likelihood
+#' @inherit manldd return
 #' @inheritParams manf
 gamma_gg=function(v1,fd1,v2,fd2){
 	expinfmat=matrix(0,2,2)
@@ -141,6 +148,7 @@ gamma_gg=function(v1,fd1,v2,fd2){
  return(expinfmat)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 gamma_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	d1=fd1*v1
@@ -202,6 +210,7 @@ gamma_lmnp=function(x,v1,fd1,v2,fd2,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams manf
 gamma_lddd=function(x,v1,fd1,v2,fd2){
 # calculate the unique values
@@ -226,6 +235,7 @@ gamma_lddd=function(x,v1,fd1,v2,fd2){
 	return(lddd)
 }
 #' DMGS equation 3.3, f1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gamma_f1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -250,6 +260,7 @@ gamma_f1f=function(y,v1,fd1,v2,fd2){
 	return(f1)
 }
 #' DMGS equation 3.3, p1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gamma_p1f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -274,6 +285,7 @@ gamma_p1f=function(y,v1,fd1,v2,fd2){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams manf
 gamma_mu1f=function(alpha,v1,fd1,v2,fd2){
 	q00=qgamma((1-alpha),shape=v1,scale=v2)
@@ -299,6 +311,7 @@ gamma_mu1f=function(alpha,v1,fd1,v2,fd2){
 	return(mu1)
 }
 #' DMGS equation 3.3, f2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gamma_f2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -340,6 +353,7 @@ gamma_f2f=function(y,v1,fd1,v2,fd2){
 	return(f2)
 }
 #' DMGS equation 3.3, p2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gamma_p2f=function(y,v1,fd1,v2,fd2){
 	d1=fd1*v1
@@ -381,6 +395,7 @@ gamma_p2f=function(y,v1,fd1,v2,fd2){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams manf
 gamma_mu2f=function(alpha,v1,fd1,v2,fd2){
 	q00=qgamma((1-alpha),shape=v1,scale=v2)
@@ -423,6 +438,7 @@ gamma_mu2f=function(alpha,v1,fd1,v2,fd2){
 	return(mu2)
 }
 #' MLE and RHP predictive means
+#' @inherit manmeans return
 #' @inheritParams manf
 gamma_means=function(means,ml_params,lddi,lddd,lambdad_cp,nx,dim=2){
 # v1 is shape
@@ -458,6 +474,7 @@ gamma_means=function(means,ml_params,lddi,lddd,lambdad_cp,nx,dim=2){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams manf
 gamma_logscores=function(logscores,x,fd1=0.01,fd2=0.01,aderivs=TRUE){
 
@@ -485,6 +502,7 @@ gamma_logscores=function(logscores,x,fd1=0.01,fd2=0.01,aderivs=TRUE){
 	list(ml_oos_logscore=ml_oos_logscore,cp_oos_logscore=cp_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams manf
 dgammasub=function(x,y,fd1=0.01,fd2=0.01,aderivs=TRUE){
 

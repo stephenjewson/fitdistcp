@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 lst_p1k3_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf,
 	lddi,lddd,lambdad,aderivs){
@@ -21,6 +22,7 @@ lst_p1k3_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf,
 		list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 lst_p1k3_predictordata=function(predictordata,x,t,t0,params,kdf){
 	if(predictordata){
@@ -45,6 +47,7 @@ lst_p1k3_predictordata=function(predictordata,x,t,t0,params,kdf){
 	list(predictedparameter=mu,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 lst_p1k3_logf=function(params,x,t,kdf){
 #	a=params[1]
@@ -64,6 +67,7 @@ lst_p1k3_logf=function(params,x,t,kdf){
 	return(logf)
 }
 #' Set initial conditions
+#' @inherit manvector return
 #' @inheritParams manf
 lst_p1k3_setics=function(x,t,ics){
 	if((ics[1]==0)&&(ics[2]==0)&&(ics[3]==0)){
@@ -79,6 +83,7 @@ lst_p1k3_setics=function(x,t,ics){
 	return(ics)
 }
 #' LST-with-p1  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams	manf
 lst_p1k3_loglik=function(vv,x,t,kdf){
 	n=length(x)
@@ -87,6 +92,7 @@ lst_p1k3_loglik=function(vv,x,t,kdf){
 	return(loglik)
 }
 #' LST-with-p1 quantile function
+#' @inherit manvector return
 #' @inheritParams	manf
 qlst_p1k3=function(p,t0,ymn,slope,sigma,kdf){
 
@@ -94,6 +100,7 @@ qlst_p1k3=function(p,t0,ymn,slope,sigma,kdf){
 
 }
 #' LST-with-p1 density function
+#' @inherit manvector return
 #' @inheritParams	manf
 dlst_p1k3=function(x,t0,ymn,slope,sigma,log=FALSE,kdf){
 
@@ -101,6 +108,7 @@ dlst_p1k3=function(x,t0,ymn,slope,sigma,log=FALSE,kdf){
 
 }
 #' LST-with-p1 distribution function
+#' @inherit manvector return
 #' @inheritParams	manf
 plst_p1k3=function(x,t0,ymn,slope,sigma,kdf){
 
@@ -108,6 +116,7 @@ plst_p1k3=function(x,t0,ymn,slope,sigma,kdf){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 lst_p1k3_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,kdf,mm,nn){
 	d3=fd3*v3
@@ -142,6 +151,7 @@ lst_p1k3_lmn=function(x,t,v1,d1,v2,d2,v3,fd3,kdf,mm,nn){
 	}
 	return(dld)
 }#' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams	manf
 lst_p1k3_ldd=function(x,t,v1,d1,v2,d2,v3,fd3,kdf){
 	ldd=matrix(0,3,3)
@@ -158,6 +168,7 @@ lst_p1k3_ldd=function(x,t,v1,d1,v2,d2,v3,fd3,kdf){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 lst_p1k3_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,kdf,mm,nn,rr){
 	d3=fd3*v3
@@ -218,6 +229,7 @@ lst_p1k3_lmnp=function(x,t,v1,d1,v2,d2,v3,fd3,kdf,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams	manf
 lst_p1k3_lddd=function(x,t,v1,d1,v2,d2,v3,fd3,kdf){
 	lddd=array(0,c(3,3,3))
@@ -241,6 +253,7 @@ lst_p1k3_lddd=function(x,t,v1,d1,v2,d2,v3,fd3,kdf){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 lst_p1k3_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	d3=fd3*v3
@@ -272,6 +285,7 @@ lst_p1k3_f1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @param t0				value of predictor
 #' @param y 				value of random variable
 #' @param v1				first parameter
@@ -311,6 +325,7 @@ lst_p1k3_p1f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 lst_p1k3_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	q00=qlst_p1k3((1-alpha),t0,ymn=v1,slope=v2,sigma=v3,kdf=kdf)
@@ -343,6 +358,7 @@ lst_p1k3_mu1f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 lst_p1k3_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	d3=fd3*v3
@@ -383,6 +399,7 @@ lst_p1k3_f2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 lst_p1k3_p2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	d3=fd3*v3
@@ -423,6 +440,7 @@ lst_p1k3_p2f=function(y,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 lst_p1k3_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	q00=qlst_p1k3((1-alpha),t0,ymn=v1,slope=v2,sigma=v3,kdf=kdf)
@@ -464,6 +482,7 @@ lst_p1k3_mu2f=function(alpha,t0,v1,d1,v2,d2,v3,fd3,kdf){
 	return(mu2)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams	manf
 lst_p1k3_logscores=function(logscores,x,t,d1,d2,fd3,kdf,aderivs){
 
@@ -491,6 +510,7 @@ lst_p1k3_logscores=function(logscores,x,t,d1,d2,fd3,kdf,aderivs){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dlst_p1k3sub=function(x,t,y,t0,d1,d2,fd3,kdf,aderivs=TRUE){
 

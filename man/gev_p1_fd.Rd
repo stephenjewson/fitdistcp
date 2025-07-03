@@ -21,6 +21,9 @@ gev_p1_fd(x, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the density
 Created by Stephen Jewson

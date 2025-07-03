@@ -19,6 +19,9 @@ lst_p1k3_lddda(x, t, v1, v2, v3, kdf)
 
 \item{kdf}{the known degrees of freedom parameter}
 }
+\value{
+3d array
+}
 \description{
 The third derivative of the normalized log-likelihood
 }

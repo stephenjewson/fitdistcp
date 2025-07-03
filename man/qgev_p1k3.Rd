@@ -19,6 +19,9 @@ qgev_p1k3(p, t0, ymn, slope, sigma, kshape)
 
 \item{kshape}{the known shape parameter}
 }
+\value{
+Vector
+}
 \description{
 GEV-with-known-shape-with-p1 quantile function
 }

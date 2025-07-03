@@ -17,6 +17,9 @@ invgamma_f1f(y, v1, fd1, v2, fd2)
 
 \item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 DMGS equation 3.3, f1 term
 }

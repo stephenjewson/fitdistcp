@@ -19,6 +19,9 @@ exp_p1_lddd(x, t, v1, d1, v2, d2)
 
 \item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Cubic scalar array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood
 }

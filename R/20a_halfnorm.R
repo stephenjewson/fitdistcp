@@ -1,9 +1,8 @@
 #' Half-Normal Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -23,7 +22,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\theta) \propto \frac{1}{\theta}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #' Some other authors may parametrize the half-normal differently.
 #'
 #' @example man/examples/example_20_halfnorm.R
@@ -49,13 +48,13 @@ qhalfnorm_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
 #
 # 2 ml param estimate
 #
-	if(debug)cat("2 calc ml param estimate")
+	if(debug)message("2 calc ml param estimate")
 	v1start=sqrt((sum(x*x))/nx)
 	opt=optim(c(v1start),halfnorm_loglik,x=x,method="Brent",
 		lower=.Machine$double.eps,upper=999999999999,control=list(fnscale=-1))
 	v1hat=opt$par[1]
 	ml_params=c(v1hat)
-	if(debug)cat("  v1start,v1hat=",v1start,v1hat,"//")
+	if(debug)message("  v1start,v1hat=",v1start,v1hat,"//")
 #
 # 3 aic
 #
@@ -84,7 +83,7 @@ qhalfnorm_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
 #
 # 5 lddi
 #
-		if(debug)cat("  calculate ldd,lddi\n")
+		if(debug)message("  calculate ldd,lddi")
 		if(aderivs)	ldd=halfnorm_ldda(x,v1hat)
 		if(!aderivs)ldd=halfnorm_ldd(x,v1hat,fd1)
 
@@ -95,18 +94,18 @@ qhalfnorm_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
 #
 # 6 lddd
 #
-		if(debug)cat("  calculate lddd\n")
+		if(debug)message("  calculate lddd")
 		if(aderivs)	lddd=halfnorm_lddda(x,v1hat)
 		if(!aderivs)lddd=halfnorm_lddd(x,v1hat,fd1)
 #
 # 7 mu1
 #
-		if(debug)cat("  calculate mu1\n")
+		if(debug)message("  calculate mu1")
 		mu1=halfnorm_mu1f(alpha,v1hat,fd1)
 #
 # 8 mu2
 #
-		if(debug)cat("  calculate mu2\n")
+		if(debug)message("  calculate mu2")
 		mu2=halfnorm_mu2f(alpha,v1hat,fd1)
 #
 # 9 rhp
@@ -115,7 +114,7 @@ qhalfnorm_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
 #
 # 10 fhat, dq and quantiles
 #
-		if(debug)cat("  fhat, dq and quantiles\n")
+		if(debug)message("  fhat, dq and quantiles")
 		fhat=dhalfnorm(ml_quantiles,theta=v1hat)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rhp,mu2,dim=1)
 		rh_quantiles=ml_quantiles+dq/(nx*fhat)

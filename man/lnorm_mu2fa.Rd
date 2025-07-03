@@ -13,6 +13,9 @@ lnorm_mu2fa(alpha, v1, v2)
 
 \item{v2}{second parameter}
 }
+\value{
+Matrix
+}
 \description{
 Minus the second derivative of the cdf, at alpha
 }

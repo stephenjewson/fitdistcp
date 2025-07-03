@@ -25,6 +25,9 @@ gpd_k1_lmnp(x, v1, fd1, v2, d2, kloc, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
 One component of the second derivative of the normalized log-likelihood
 }

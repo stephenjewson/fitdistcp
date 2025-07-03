@@ -4,10 +4,9 @@
 #
 #' Pareto Distribution Predictions Based on a Calibrating Prior
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
 # #' @inheritSection man Optional Return Values (EVD models only)
 # #' @inheritSection man Optional Return Values (non-RHP models only)
@@ -30,7 +29,7 @@
 #'
 #' The calibrating prior is given by the right Haar prior, which is
 #' \deqn{\pi(\alpha) \propto \frac{1}{\alpha}}
-#' as given in Jewson et al. (2024).
+#' as given in Jewson et al. (2025).
 #' Some others authors may refer to the shape and scale parameters
 #' as the scale and location parameters, respectively.
 #'

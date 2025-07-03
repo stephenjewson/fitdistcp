@@ -11,6 +11,9 @@ norm_p1_mlparams(x, t)
 
 \item{t}{a vector or matrix of predictors}
 }
+\value{
+Vector
+}
 \description{
 Maximum likelihood estimator
 }

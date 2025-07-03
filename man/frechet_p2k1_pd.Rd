@@ -21,6 +21,9 @@ frechet_p2k1_pd(x, t, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Vector
+}
 \description{
 First derivative of the cdf
 Created by Stephen Jewson

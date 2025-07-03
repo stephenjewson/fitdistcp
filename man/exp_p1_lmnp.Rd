@@ -2,7 +2,7 @@
 % Please edit documentation in R/55b_exp_p1_libs.R
 \name{exp_p1_lmnp}
 \alias{exp_p1_lmnp}
-\title{One component of the second derivative of the normalized log-likelihood}
+\title{One component of the third derivative of the normalized log-likelihood}
 \usage{
 exp_p1_lmnp(x, t, v1, d1, v2, d2, mm, nn, rr)
 }
@@ -25,6 +25,9 @@ exp_p1_lmnp(x, t, v1, d1, v2, d2, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
-One component of the second derivative of the normalized log-likelihood
+One component of the third derivative of the normalized log-likelihood
 }

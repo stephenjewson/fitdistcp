@@ -15,6 +15,9 @@ gpd_k13_ldda(x, v1, v2, kloc)
 
 \item{kloc}{the known location parameter}
 }
+\value{
+Matrix
+}
 \description{
 The second derivative of the normalized log-likelihood
 }

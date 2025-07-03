@@ -17,6 +17,9 @@ pareto_p1k2_p1fa(x, t, v1, v2, kscale)
 
 \item{kscale}{the known scale parameter}
 }
+\value{
+Vector
+}
 \description{
 The first derivative of the cdf
 }

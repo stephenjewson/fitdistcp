@@ -23,6 +23,9 @@ cauchy_p1_f2f(y, t0, v1, d1, v2, d2, v3, fd3)
 
 \item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+3d array
+}
 \description{
 DMGS equation 2.1, f2 term
 }

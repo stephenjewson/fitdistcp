@@ -1,4 +1,5 @@
 #' Waic
+#' @inherit manwaic return
 #' @inheritParams manf
 weibull_p2_waic=function(waicscores,x,t,v1hat,fd1,v2hat,d2,v3hat,d3,
 	lddi,lddd,lambdad,aderivs=TRUE){
@@ -21,6 +22,7 @@ weibull_p2_waic=function(waicscores,x,t,v1hat,fd1,v2hat,d2,v3hat,d3,
 	list(waic1=waic1,waic2=waic2)
 }
 #' Predicted Parameter and Generalized Residuals
+#' @inherit manpredictor return
 #' @inheritParams manf
 weibull_p2_predictordata=function(predictordata,x,t,t0,params){
 	if(predictordata){
@@ -45,6 +47,7 @@ weibull_p2_predictordata=function(predictordata,x,t,t0,params){
 	list(predictedparameter=sc,adjustedx=qx)
 }
 #' Logf for RUST
+#' @inherit manlogf return
 #' @inheritParams manf
 weibull_p2_logf=function(params,x,t){
 #	sh=min(50,params[1]) #high values of shape give NaNs in dweibull
@@ -63,28 +66,30 @@ weibull_p2_logf=function(params,x,t){
 	sc=pmax(exp(a+b*t),sqrt(.Machine$double.eps))
 	logf=sum(dweibull(x,shape=sh,scale=sc,log=TRUE))-log(sh)
 	if(is.na(logf)){
-		cat("dweibull is giving NaNs again...let's have a look why.\n")
-		cat("logf=",logf,"\n")
-		cat("a=",a,"\n")
-		cat("b=",b,"\n")
-		cat("sh=",sh,"\n")
-		cat("sc=",sc,"\n")
+		message("dweibull is giving NaNs again...let's have a look why.")
+		message("logf=",logf)
+		message("a=",a)
+		message("b=",b)
+		message("sh=",sh)
+		message("sc=",sc)
 		for(i in 1:length(x)){
-			cat("x,d=",x[i],dweibull(x[i],shape=sh,scale=sc,log=TRUE))
+			message("x,d=",x[i],dweibull(x[i],shape=sh,scale=sc,log=TRUE))
 		}
 	}
 	return(logf)
 }
 #'  observed log-likelihood function
+#' @inherit manloglik return
 #' @inheritParams	manf
 weibull_p2_loglik=function(vv,x,t){
 	sh=pmax(min(20,vv[1]),.Machine$double.eps)
 	sc=pmax(exp(vv[2]+vv[3]*t),.Machine$double.eps)
 	loglik=sum(dweibull(x,shape=sh,scale=sc,log=TRUE))
-	if(is.na(loglik))cat("\n B:",loglik,sh,sc,"\n")
+	if(is.na(loglik))message("\n B:",loglik,sh,sc)
 	return(loglik)
 }
 #' Weibull-with-p1 quantile function
+#' @inherit manvector return
 #' @inheritParams	manf
 qweibull_p2=function(p,t0,shape,ymn,slope){
 
@@ -93,6 +98,7 @@ qweibull_p2=function(p,t0,shape,ymn,slope){
 
 }
 #' Weibull-with-p1 density function
+#' @inherit manvector return
 #' @inheritParams	manf
 dweibull_p2=function(x,t0,shape,ymn,slope,log=FALSE){
 
@@ -102,6 +108,7 @@ dweibull_p2=function(x,t0,shape,ymn,slope,log=FALSE){
 
 }
 #' Weibull-with-p1 distribution function
+#' @inherit manvector return
 #' @inheritParams	manf
 pweibull_p2=function(x,t0,shape,ymn,slope){
 
@@ -110,6 +117,7 @@ pweibull_p2=function(x,t0,shape,ymn,slope){
 
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnn return
 #' @inheritParams manf
 weibull_p2_lmn=function(x,t,v1,fd1,v2,d2,v3,d3,mm,nn){
 	d1=fd1*v1
@@ -145,6 +153,7 @@ weibull_p2_lmn=function(x,t,v1,fd1,v2,d2,v3,d3,mm,nn){
 	return(dld)
 }
 #' Second derivative matrix of the normalized log-likelihood
+#' @inherit manldd return
 #' @inheritParams	manf
 weibull_p2_ldd=function(x,t,v1,fd1,v2,d2,v3,d3){
 	ldd=matrix(0,3,3)
@@ -161,6 +170,7 @@ weibull_p2_ldd=function(x,t,v1,fd1,v2,d2,v3,d3){
 	return(ldd)
 }
 #' One component of the second derivative of the normalized log-likelihood
+#' @inherit manlnnn return
 #' @inheritParams manf
 weibull_p2_lmnp=function(x,t,v1,fd1,v2,d2,v3,d3,mm,nn,rr){
 	d1=fd1*v1
@@ -221,6 +231,7 @@ weibull_p2_lmnp=function(x,t,v1,fd1,v2,d2,v3,d3,mm,nn,rr){
 	return(dld)
 }
 #' Third derivative tensor of the normalized log-likelihood
+#' @inherit manlddd return
 #' @inheritParams	manf
 weibull_p2_lddd=function(x,t,v1,fd1,v2,d2,v3,d3){
 	lddd=array(0,c(3,3,3))
@@ -244,6 +255,7 @@ weibull_p2_lddd=function(x,t,v1,fd1,v2,d2,v3,d3){
 	return(lddd)
 }
 #' DMGS equation 2.1, f1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 weibull_p2_f1f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	d1=fd1*v1
@@ -275,6 +287,7 @@ weibull_p2_f1f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	return(f1)
 }
 #' DMGS equation 2.1, p1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 weibull_p2_p1f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	d1=fd1*v1
@@ -306,6 +319,7 @@ weibull_p2_p1f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	return(p1)
 }
 #' DMGS equation 3.3, mu1 term
+#' @inherit man1f return
 #' @inheritParams	manf
 weibull_p2_mu1f=function(alpha,t0,v1,fd1,v2,d2,v3,d3){
 	q00=qweibull_p2((1-alpha),t0,shape=v1,ymn=v2,slope=v3)
@@ -338,6 +352,7 @@ weibull_p2_mu1f=function(alpha,t0,v1,fd1,v2,d2,v3,d3){
 	return(mu1)
 }
 #' DMGS equation 2.1, f2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 weibull_p2_f2f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	d1=fd1*v1
@@ -378,6 +393,7 @@ weibull_p2_f2f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	return(f2)
 }
 #' DMGS equation 2.1, p2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 weibull_p2_p2f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	d1=fd1*v1
@@ -418,6 +434,7 @@ weibull_p2_p2f=function(y,t0,v1,fd1,v2,d2,v3,d3){
 	return(p2)
 }
 #' DMGS equation 3.3, mu2 term
+#' @inherit man2f return
 #' @inheritParams	manf
 weibull_p2_mu2f=function(alpha,t0,v1,fd1,v2,d2,v3,d3){
 	q00=qweibull_p2((1-alpha),t0,shape=v1,ymn=v2,slope=v3)
@@ -459,6 +476,7 @@ weibull_p2_mu2f=function(alpha,t0,v1,fd1,v2,d2,v3,d3){
 	return(mu2)
 }
 #' weibull distribution: RHP mean
+#' @inherit manmeans return
 #' @inheritParams	manf
 weibull_p2_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim){
 
@@ -518,6 +536,7 @@ weibull_p2_means=function(means,t0,ml_params,lddi,lddd,lambdad_rhp,nx,dim){
 
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
+#' @inherit manlogscores return
 #' @inheritParams	manf
 weibull_p2_logscores=function(logscores,x,t,fd1,d2,d3,aderivs){
 
@@ -537,7 +556,6 @@ weibull_p2_logscores=function(logscores,x,t,fd1,d2,d3,aderivs){
 
 			rh_pdf=dd$rh_pdf
 			rh_oos_logscore=rh_oos_logscore+log(rh_pdf)
-#			cat("i,ml_pdf,rh_pdf=",i,ml_pdf,rh_pdf,"\n")
 		}
 	}else{
 		ml_oos_logscore="extras not selected"
@@ -546,6 +564,7 @@ weibull_p2_logscores=function(logscores,x,t,fd1,d2,d3,aderivs){
 	list(ml_oos_logscore=ml_oos_logscore,rh_oos_logscore=rh_oos_logscore)
 }
 #' Densities from MLE and RHP
+#' @inherit mandsub return
 #' @inheritParams	manf
 dweibull_p2sub=function(x,t,y,t0,fd1,d2,d3,aderivs=TRUE){
 

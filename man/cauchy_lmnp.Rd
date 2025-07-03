@@ -2,7 +2,7 @@
 % Please edit documentation in R/42b_cauchy_libs.R
 \name{cauchy_lmnp}
 \alias{cauchy_lmnp}
-\title{One component of the second derivative of the normalized log-likelihood}
+\title{One component of the third derivative of the normalized log-likelihood}
 \usage{
 cauchy_lmnp(x, v1, d1, v2, fd2, mm, nn, rr)
 }
@@ -23,6 +23,9 @@ cauchy_lmnp(x, v1, d1, v2, fd2, mm, nn, rr)
 
 \item{rr}{an index for which derivative to calculate}
 }
+\value{
+Scalar value
+}
 \description{
-One component of the second derivative of the normalized log-likelihood
+One component of the third derivative of the normalized log-likelihood
 }

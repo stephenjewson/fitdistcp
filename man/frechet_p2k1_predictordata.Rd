@@ -7,7 +7,7 @@
 frechet_p2k1_predictordata(predictordata, x, t, t0, params, kloc)
 }
 \arguments{
-\item{predictordata}{a logical that indicates whether to calculate and return predictordata}
+\item{predictordata}{logical that indicates whether to calculate and return predictordata}
 
 \item{x}{a vector of training data values}
 
@@ -18,6 +18,9 @@ frechet_p2k1_predictordata(predictordata, x, t, t0, params, kloc)
 \item{params}{model parameters for calculating logf}
 
 \item{kloc}{the known location parameter}
+}
+\value{
+Two vectors
 }
 \description{
 Predicted Parameter and Generalized Residuals
