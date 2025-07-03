@@ -1,3 +1,2 @@
-Please ignore this repo for now.
-I'm planning to release the fitdistcp package soon. 
-Information will be posted at [www.fitdistcp.info](https://fitdistcp.info/index.html).
+V0.1.1 is now available on CRAN.
+See [www.fitdistcp.info](https://fitdistcp.info/index.html) for information.
