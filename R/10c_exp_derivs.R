@@ -59,7 +59,7 @@ exp_logfddd=function (x, v1)
 exp_f1fa=function(x,v1){
 	nx=length(x)
 	f1=matrix(0,1,nx)
-	vf=Vectorize(exp_fd)
+	vf=Vectorize(exp_fd,"x")
 	f1[1,]=vf(x,v1)
 	return(f1)
 }
@@ -70,7 +70,7 @@ exp_f1fa=function(x,v1){
 exp_f2fa=function(x,v1){
 	nx=length(x)
 	f2=array(0,c(1,1,nx))
-	vf=Vectorize(exp_fdd)
+	vf=Vectorize(exp_fdd,"x")
 	f2[1,1,]=vf(x,v1)
 	return(f2)
 }
@@ -81,7 +81,7 @@ exp_f2fa=function(x,v1){
 exp_p1fa=function(x,v1){
 	nx=length(x)
 	p1=matrix(0,1,nx)
-	vf=Vectorize(exp_pd)
+	vf=Vectorize(exp_pd,"x")
 	p1[1,]=vf(x,v1)
 	return(p1)
 }
@@ -92,7 +92,7 @@ exp_p1fa=function(x,v1){
 exp_p2fa=function(x,v1){
 	nx=length(x)
 	p2=array(0,c(1,1,nx))
-	vf=Vectorize(exp_pdd)
+	vf=Vectorize(exp_pdd,"x")
 	p2[1,1,]=vf(x,v1)
 	return(p2)
 }
@@ -103,7 +103,7 @@ exp_p2fa=function(x,v1){
 exp_ldda=function(x,v1){
 	nx=length(x)
 	ldd=matrix(0,1,1)
-	vf=Vectorize(exp_logfdd)
+	vf=Vectorize(exp_logfdd,"x")
 	ldd[1,1]=sum(vf(x,v1))/nx
 	return(ldd)
 }
@@ -114,7 +114,7 @@ exp_ldda=function(x,v1){
 exp_lddda=function(x,v1){
 	nx=length(x)
 	lddd=array(0,c(1,1,1))
-	vf=Vectorize(exp_logfddd)
+	vf=Vectorize(exp_logfddd,"x")
 	lddd[1,1,1]=sum(vf(x,v1))/nx
 	return(lddd)
 }

@@ -68,7 +68,7 @@ pareto_k2_logfddd=function (x, v1, v2)
 pareto_k2_f1fa=function(x,v1,kscale){
 	nx=length(x)
 	f1=matrix(0,1,nx)
-	vf=Vectorize(pareto_k2_fd)
+	vf=Vectorize(pareto_k2_fd,"x")
 	f1[1,]=vf(x,v1,v2=kscale)
 	return(f1)
 }
@@ -79,7 +79,7 @@ pareto_k2_f1fa=function(x,v1,kscale){
 pareto_k2_f2fa=function(x,v1,kscale){
 	nx=length(x)
 	f2=array(0,c(1,1,nx))
-	vf=Vectorize(pareto_k2_fdd)
+	vf=Vectorize(pareto_k2_fdd,"x")
 	f2[1,1,]=vf(x,v1,v2=kscale)
 	return(f2)
 }
@@ -90,7 +90,7 @@ pareto_k2_f2fa=function(x,v1,kscale){
 pareto_k2_p1fa=function(x,v1,kscale){
 	nx=length(x)
 	p1=matrix(0,1,nx)
-	vf=Vectorize(pareto_k2_pd)
+	vf=Vectorize(pareto_k2_pd,"x")
 	p1[1,]=vf(x,v1,v2=kscale)
 	return(p1)
 }
@@ -101,7 +101,7 @@ pareto_k2_p1fa=function(x,v1,kscale){
 pareto_k2_p2fa=function(x,v1,kscale){
 	nx=length(x)
 	p2=array(0,c(1,1,nx))
-	vf=Vectorize(pareto_k2_pdd)
+	vf=Vectorize(pareto_k2_pdd,"x")
 	p2[1,1,]=vf(x,v1,v2=kscale)
 	return(p2)
 }
@@ -111,7 +111,7 @@ pareto_k2_p2fa=function(x,v1,kscale){
 #' @inheritParams manf
 pareto_k2_mu1fa=function(alpha,v1,kscale){
 	x=extraDistr::qpareto((1-alpha),a=v1,b=kscale)
-	vf=Vectorize(pareto_k2_pd)
+	vf=Vectorize(pareto_k2_pd,"x")
 	mu1=-vf(x,v1,kscale)
 	return(mu1)
 }
@@ -122,7 +122,7 @@ pareto_k2_mu1fa=function(alpha,v1,kscale){
 pareto_k2_mu2fa=function(alpha,v1,kscale){
 	x=qpareto((1-alpha),a=v1,b=kscale)
 	nx=length(x)
-	vf=Vectorize(pareto_k2_pdd)
+	vf=Vectorize(pareto_k2_pdd,"x")
 	mu2=-vf(x,v1,kscale)
 	return(mu2)
 }
@@ -133,7 +133,7 @@ pareto_k2_mu2fa=function(alpha,v1,kscale){
 pareto_k2_ldda=function(x,v1,kscale){
 	nx=length(x)
 	ldd=matrix(0,1,1)
-	vf=Vectorize(pareto_k2_logfdd)
+	vf=Vectorize(pareto_k2_logfdd,"x")
 	ldd[1,1]=sum(vf(x,v1,v2=kscale))/nx
 	return(ldd)
 }
@@ -145,7 +145,7 @@ pareto_k2_lddda=function(x,v1,kscale){
 	nx=length(x)
 	lddd=array(0,c(1,1,1))
 	temp=0
-	vf=Vectorize(pareto_k2_logfddd)
+	vf=Vectorize(pareto_k2_logfddd,"x")
 	lddd[1,1,1]=sum(vf(x,v1,v2=kscale))/nx
 	return(lddd)
 }

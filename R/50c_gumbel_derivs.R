@@ -108,7 +108,7 @@ gumbel_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 gumbel_f1fa=function(x,v1,v2){
-	vf=Vectorize(gumbel_fd)
+	vf=Vectorize(gumbel_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -118,7 +118,7 @@ gumbel_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 gumbel_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gumbel_fdd)
+	vf=Vectorize(gumbel_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -128,7 +128,7 @@ gumbel_f2fa=function(x,v1,v2){
 #' @returns Vector
 #' @inheritParams manf
 gumbel_p1fa=function(x,v1,v2){
-	vf=Vectorize(gumbel_pd)
+	vf=Vectorize(gumbel_pd,"x")
 	p1=vf(x,v1,v2)
 	return(p1)
 }
@@ -138,7 +138,7 @@ gumbel_p1fa=function(x,v1,v2){
 #' @inheritParams manf
 gumbel_p2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gumbel_pdd)
+	vf=Vectorize(gumbel_pdd,"x")
 	temp1=vf(x,v1,v2)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
@@ -149,7 +149,7 @@ gumbel_p2fa=function(x,v1,v2){
 #' @inheritParams manf
 gumbel_mu1fa=function(alpha,v1,v2){
 	x=qgumbel((1-alpha),mu=v1,sigma=v2)
-	vf=Vectorize(gumbel_pd)
+	vf=Vectorize(gumbel_pd,"x")
 	mu1=-vf(x,v1,v2)
 	return(mu1)
 }
@@ -160,7 +160,7 @@ gumbel_mu1fa=function(alpha,v1,v2){
 gumbel_mu2fa=function(alpha,v1,v2){
 	x=qgumbel((1-alpha),mu=v1,sigma=v2)
 	nx=length(x)
-	vf=Vectorize(gumbel_pdd)
+	vf=Vectorize(gumbel_pdd,"x")
 	temp1=vf(x,v1,v2)
 	mu2=-deriv_copyfdd(temp1,nx,dim=2)
 	return(mu2)
@@ -171,7 +171,7 @@ gumbel_mu2fa=function(alpha,v1,v2){
 #' @inheritParams manf
 gumbel_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gumbel_logfdd)
+	vf=Vectorize(gumbel_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -182,7 +182,7 @@ gumbel_ldda=function(x,v1,v2){
 #' @inheritParams manf
 gumbel_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gumbel_logfddd)
+	vf=Vectorize(gumbel_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

@@ -176,7 +176,7 @@ gpd_k1_logfddd=function (x, v1, v2, v3)
 #' @inheritParams manf
 gpd_k1_f1fa=function(x,v1,v2,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
-	vf=Vectorize(gpd_k1_fd)
+	vf=Vectorize(gpd_k1_fd,"x")
 
 	v2=movexiawayfromzero(v2)
 
@@ -190,7 +190,7 @@ gpd_k1_f1fa=function(x,v1,v2,kloc){
 gpd_k1_f2fa=function(x,v1,v2,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	nx=length(x)
-	vf=Vectorize(gpd_k1_fdd)
+	vf=Vectorize(gpd_k1_fdd,"x")
 
 	v2=movexiawayfromzero(v2)
 
@@ -205,7 +205,7 @@ gpd_k1_f2fa=function(x,v1,v2,kloc){
 gpd_k1_mu1fa=function(alpha,v1,v2,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	x=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
-	vf=Vectorize(gpd_k1_pd)
+	vf=Vectorize(gpd_k1_pd,"x")
 
 	v2=movexiawayfromzero(v2)
 
@@ -220,7 +220,7 @@ gpd_k1_mu2fa=function(alpha,v1,v2,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	x=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
 	nx=length(x)
-	vf=Vectorize(gpd_k1_pdd)
+	vf=Vectorize(gpd_k1_pdd,"x")
 
 	v2=movexiawayfromzero(v2)
 
@@ -235,7 +235,7 @@ gpd_k1_mu2fa=function(alpha,v1,v2,kloc){
 gpd_k1_ldda=function(x,v1,v2,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 	nx=length(x)
-	vf=Vectorize(gpd_k1_logfdd)
+	vf=Vectorize(gpd_k1_logfdd,"x")
 
 	v2=movexiawayfromzero(v2)
 
@@ -251,7 +251,7 @@ gpd_k1_lddda=function(x,v1,v2,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch because my cp code orders sigma and lambda differently
 	nx=length(x)
-	vf=Vectorize(gpd_k1_logfddd)
+	vf=Vectorize(gpd_k1_logfddd,"x")
 
 	v2=movexiawayfromzero(v2)
 

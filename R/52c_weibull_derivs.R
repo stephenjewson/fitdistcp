@@ -143,7 +143,7 @@ weibull_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 weibull_f1fa=function(x,v1,v2){
-	vf=Vectorize(weibull_fd)
+	vf=Vectorize(weibull_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -153,7 +153,7 @@ weibull_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 weibull_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(weibull_fdd)
+	vf=Vectorize(weibull_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -163,7 +163,7 @@ weibull_f2fa=function(x,v1,v2){
 #' @returns Vector
 #' @inheritParams manf
 weibull_p1fa=function(x,v1,v2){
-	vf=Vectorize(weibull_pd)
+	vf=Vectorize(weibull_pd,"x")
 	p1=vf(x,v1,v2)
 	return(p1)
 }
@@ -173,7 +173,7 @@ weibull_p1fa=function(x,v1,v2){
 #' @inheritParams manf
 weibull_p2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(weibull_pdd)
+	vf=Vectorize(weibull_pdd,"x")
 	temp1=vf(x,v1,v2)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
@@ -184,7 +184,7 @@ weibull_p2fa=function(x,v1,v2){
 #' @inheritParams manf
 weibull_mu1fa=function(alpha,v1,v2){
 	x=qweibull((1-alpha),shape=v1,scale=v2)
-	vf=Vectorize(weibull_pd)
+	vf=Vectorize(weibull_pd,"x")
 	mu1=-vf(x,v1,v2)
 	return(mu1)
 }
@@ -195,7 +195,7 @@ weibull_mu1fa=function(alpha,v1,v2){
 weibull_mu2fa=function(alpha,v1,v2){
 	x=qweibull((1-alpha),shape=v1,scale=v2)
 	nx=length(x)
-	vf=Vectorize(weibull_pdd)
+	vf=Vectorize(weibull_pdd,"x")
 	temp1=vf(x,v1,v2)
 	mu2=-deriv_copyfdd(temp1,nx,dim=2)
 	return(mu2)
@@ -206,7 +206,7 @@ weibull_mu2fa=function(alpha,v1,v2){
 #' @inheritParams manf
 weibull_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(weibull_logfdd)
+	vf=Vectorize(weibull_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -217,7 +217,7 @@ weibull_ldda=function(x,v1,v2){
 #' @inheritParams manf
 weibull_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(weibull_logfddd)
+	vf=Vectorize(weibull_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

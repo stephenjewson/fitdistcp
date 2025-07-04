@@ -94,7 +94,7 @@ cauchy_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 cauchy_f1fa=function(x,v1,v2){
-	vf=Vectorize(cauchy_fd)
+	vf=Vectorize(cauchy_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -104,7 +104,7 @@ cauchy_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 cauchy_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(cauchy_fdd)
+	vf=Vectorize(cauchy_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -115,7 +115,7 @@ cauchy_f2fa=function(x,v1,v2){
 #' @inheritParams manf
 cauchy_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(cauchy_logfdd)
+	vf=Vectorize(cauchy_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -126,7 +126,7 @@ cauchy_ldda=function(x,v1,v2){
 #' @inheritParams manf
 cauchy_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(cauchy_logfddd)
+	vf=Vectorize(cauchy_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

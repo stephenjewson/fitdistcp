@@ -486,7 +486,7 @@ gev_p12_f1fa=function(x,t01,t02,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_fd)
+	vf=Vectorize(gev_p12_fd,"x")
 	f1=vf(x,t01,t02,v1,v2,v3,v4,v5)
 	return(f1)
 }
@@ -499,7 +499,7 @@ gev_p12_f2fa=function(x,t01,t02,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_fdd)
+	vf=Vectorize(gev_p12_fdd,"x")
 	temp1=vf(x,t01,t02,v1,v2,v3,v4,v5)
 	f2=deriv_copyfdd(temp1,nx,dim=5)
 	return(f2)
@@ -513,7 +513,7 @@ gev_p12_mu1fa=function(alpha,t01,t02,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_pd)
+	vf=Vectorize(gev_p12_pd,"x")
 	mu1=-vf(x,t01,t02,v1,v2,v3,v4,v5)
 	return(mu1)
 }
@@ -527,7 +527,7 @@ gev_p12_mu2fa=function(alpha,t01,t02,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_pdd)
+	vf=Vectorize(gev_p12_pdd,"x")
 	temp1=vf(x,t01,t02,v1,v2,v3,v4,v5)
 	mu2=-deriv_copyfdd(temp1,nx,dim=5)
 	return(mu2)
@@ -541,7 +541,7 @@ gev_p12_ldda=function(x,t1,t2,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_logfdd)
+	vf=Vectorize(gev_p12_logfdd,"x")
 	temp1=vf(x,t1,t2,v1,v2,v3,v4,v5)
 	ldd=deriv_copyldd(temp1,nx,dim=5)
 	return(ldd)
@@ -555,7 +555,7 @@ gev_p12_lddda=function(x,t1,t2,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_logfddd)
+	vf=Vectorize(gev_p12_logfddd,"x")
 	temp1=vf(x,t1,t2,v1,v2,v3,v4,v5)
 	lddd=deriv_copylddd(temp1,nx,dim=5)
 	return(lddd)

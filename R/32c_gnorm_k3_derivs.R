@@ -108,7 +108,7 @@ gnorm_k3_logfddd=function (x, v1, v2, v3)
 #' @returns Vector
 #' @inheritParams manf
 gnorm_k3_f1fa=function(x,v1,v2,kbeta){
-	vf=Vectorize(gnorm_k3_fd)
+	vf=Vectorize(gnorm_k3_fd,"x")
 	f1=vf(x,v1,v2,kbeta)
 	return(f1)
 }
@@ -119,7 +119,7 @@ gnorm_k3_f1fa=function(x,v1,v2,kbeta){
 #' @inheritParams manf
 gnorm_k3_f2fa=function(x,v1,v2,kbeta){
 	nx=length(x)
-	vf=Vectorize(gnorm_k3_fdd)
+	vf=Vectorize(gnorm_k3_fdd,"x")
 	temp1=vf(x,v1,v2,kbeta)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -131,7 +131,7 @@ gnorm_k3_f2fa=function(x,v1,v2,kbeta){
 #' @inheritParams manf
 gnorm_k3_ldda=function(x,v1,v2,kbeta){
 	nx=length(x)
-	vf=Vectorize(gnorm_k3_logfdd)
+	vf=Vectorize(gnorm_k3_logfdd,"x")
 	temp1=vf(x,v1,v2,kbeta)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -142,7 +142,7 @@ gnorm_k3_ldda=function(x,v1,v2,kbeta){
 #' @inheritParams manf
 gnorm_k3_lddda=function(x,v1,v2,kbeta){
 	nx=length(x)
-	vf=Vectorize(gnorm_k3_logfddd)
+	vf=Vectorize(gnorm_k3_logfddd,"x")
 	temp1=vf(x,v1,v2,kbeta)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

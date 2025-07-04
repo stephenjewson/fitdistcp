@@ -109,7 +109,7 @@ norm_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 norm_f1fa=function(x,v1,v2){
-	vf=Vectorize(norm_fd)
+	vf=Vectorize(norm_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }

@@ -86,7 +86,7 @@ gamma_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 gamma_f1fa=function(x,v1,v2){
-	vf=Vectorize(gamma_fd)
+	vf=Vectorize(gamma_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -96,7 +96,7 @@ gamma_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 gamma_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gamma_fdd)
+	vf=Vectorize(gamma_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -107,7 +107,7 @@ gamma_f2fa=function(x,v1,v2){
 #' @inheritParams manf
 gamma_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gamma_logfdd)
+	vf=Vectorize(gamma_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -118,7 +118,7 @@ gamma_ldda=function(x,v1,v2){
 #' @inheritParams manf
 gamma_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(gamma_logfddd)
+	vf=Vectorize(gamma_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

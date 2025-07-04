@@ -234,7 +234,7 @@ gev_p12k3_logfddd=function (x, t1, t2, v1, v2, v3, v4, v5)
 #' @inheritParams manf
 gev_p12k3_f1fa=function(x,t,v1,v2,v3,v4,kshape){
 	kshape=movexiawayfromzero(kshape)
-	vf=Vectorize(gev_p12k3_fd)
+	vf=Vectorize(gev_p12k3_fd,"x")
 	f1=vf(x,t[,1],t[,2],v1,v2,v3,v4,kshape)
 	return(f1)
 }
@@ -247,7 +247,7 @@ gev_p12k3_f2fa=function(x,t,v1,v2,v3,v4,kshape){
 
 	kshape=movexiawayfromzero(kshape)
 
-	vf=Vectorize(gev_p12k3_fdd)
+	vf=Vectorize(gev_p12k3_fdd,"x")
 	temp1=vf(x,t[,1],t[,2],v1,v2,v3,v4,kshape)
 	f2=deriv_copyfdd(temp1,nx,dim=4)
 	return(f2)
@@ -259,7 +259,7 @@ gev_p12k3_f2fa=function(x,t,v1,v2,v3,v4,kshape){
 gev_p12k3_mu1fa=function(alpha,t,v1,v2,v3,v4,kshape){
 	x=extraDistr::qgev((1-alpha),mu=v1+v2*t[,1],sigma=exp(v3+v4*t[,2]),xi=kshape)
 	kshape=movexiawayfromzero(kshape)
-	vf=Vectorize(gev_p12k3_pd)
+	vf=Vectorize(gev_p12k3_pd,"x")
 	mu1=-vf(x,t[,1],t[,2],v1,v2,v3,v4,kshape)
 	return(mu1)
 }
@@ -273,7 +273,7 @@ gev_p12k3_mu2fa=function(alpha,t,v1,v2,v3,v4,kshape){
 
 	kshape=movexiawayfromzero(kshape)
 
-	vf=Vectorize(gev_p12k3_pdd)
+	vf=Vectorize(gev_p12k3_pdd,"x")
 	temp1=vf(x,t[,1],t[,2],v1,v2,v3,v4,kshape)
 	mu2=-deriv_copyfdd(temp1,nx,dim=4)
 	return(mu2)
@@ -287,7 +287,7 @@ gev_p12k3_ldda=function(x,t,v1,v2,v3,v4,kshape){
 
 	kshape=movexiawayfromzero(kshape)
 
-	vf=Vectorize(gev_p12k3_logfdd)
+	vf=Vectorize(gev_p12k3_logfdd,"x")
 	temp1=vf(x,t[,1],t[,2],v1,v2,v3,v4,kshape)
 	ldd=deriv_copyldd(temp1,nx,dim=4)
 	return(ldd)
@@ -298,7 +298,7 @@ gev_p12k3_ldda=function(x,t,v1,v2,v3,v4,kshape){
 #' @inheritParams manf
 gev_p12k3_lddda=function(x,t,v1,v2,v3,v4,kshape){
 	nx=length(x)
-	vf=Vectorize(gev_p12k3_logfddd)
+	vf=Vectorize(gev_p12k3_logfddd,"x")
 
 	kshape=movexiawayfromzero(kshape)
 

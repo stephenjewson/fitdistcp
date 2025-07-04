@@ -112,7 +112,7 @@ lnorm_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 lnorm_f1fa=function(x,v1,v2){
-	vf=Vectorize(lnorm_fd)
+	vf=Vectorize(lnorm_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -122,7 +122,7 @@ lnorm_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 lnorm_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(lnorm_fdd)
+	vf=Vectorize(lnorm_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -132,7 +132,7 @@ lnorm_f2fa=function(x,v1,v2){
 #' @returns Vector
 #' @inheritParams manf
 lnorm_p1fa=function(x,v1,v2){
-	vf=Vectorize(lnorm_pd)
+	vf=Vectorize(lnorm_pd,"x")
 	p1=vf(x,v1,v2)
 	return(p1)
 }
@@ -142,7 +142,7 @@ lnorm_p1fa=function(x,v1,v2){
 #' @inheritParams manf
 lnorm_p2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(lnorm_pdd)
+	vf=Vectorize(lnorm_pdd,"x")
 	temp1=vf(x,v1,v2)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
@@ -153,7 +153,7 @@ lnorm_p2fa=function(x,v1,v2){
 #' @inheritParams manf
 lnorm_mu1fa=function(alpha,v1,v2){
 	x=qlnorm((1-alpha),meanlog=v1,sdlog=v2)
-	vf=Vectorize(lnorm_pd)
+	vf=Vectorize(lnorm_pd,"x")
 	mu1=-vf(x,v1,v2)
 	return(mu1)
 }
@@ -164,7 +164,7 @@ lnorm_mu1fa=function(alpha,v1,v2){
 lnorm_mu2fa=function(alpha,v1,v2){
 	x=qlnorm((1-alpha),meanlog=v1,sdlog=v2)
 	nx=length(x)
-	vf=Vectorize(lnorm_pdd)
+	vf=Vectorize(lnorm_pdd,"x")
 	temp1=vf(x,v1,v2)
 	mu2=-deriv_copyfdd(temp1,nx,dim=2)
 	return(mu2)
@@ -175,7 +175,7 @@ lnorm_mu2fa=function(alpha,v1,v2){
 #' @inheritParams manf
 lnorm_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(lnorm_logfdd)
+	vf=Vectorize(lnorm_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -186,7 +186,7 @@ lnorm_ldda=function(x,v1,v2){
 #' @inheritParams manf
 lnorm_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(lnorm_logfddd)
+	vf=Vectorize(lnorm_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

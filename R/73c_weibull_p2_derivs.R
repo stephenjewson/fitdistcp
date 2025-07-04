@@ -188,7 +188,7 @@ weibull_p2_logfddd=function (x, t, v1, v2, v3)
 #' @returns Vector
 #' @inheritParams manf
 weibull_p2_f1fa=function(x,t,v1,v2,v3){
-	vf=Vectorize(weibull_p2_fd)
+	vf=Vectorize(weibull_p2_fd,"x")
 	f1=vf(x,t,v1,v2,v3)
 	return(f1)
 }
@@ -198,7 +198,7 @@ weibull_p2_f1fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 weibull_p2_f2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(weibull_p2_fdd)
+	vf=Vectorize(weibull_p2_fdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -208,7 +208,7 @@ weibull_p2_f2fa=function(x,t,v1,v2,v3){
 #' @returns Vector
 #' @inheritParams manf
 weibull_p2_p1fa=function(x,t,v1,v2,v3){
-	vf=Vectorize(weibull_p2_pd)
+	vf=Vectorize(weibull_p2_pd,"x")
 	p1=vf(x,t,v1,v2,v3)
 	return(p1)
 }
@@ -218,7 +218,7 @@ weibull_p2_p1fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 weibull_p2_p2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(weibull_p2_pdd)
+	vf=Vectorize(weibull_p2_pdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	p2=deriv_copyfdd(temp1,nx,dim=3)
 	return(p2)
@@ -229,7 +229,7 @@ weibull_p2_p2fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 weibull_p2_mu1fa=function(alpha,t,v1,v2,v3){
 	x=qweibull((1-alpha),shape=v1,scale=exp(v2+v3*t))
-	vf=Vectorize(weibull_p2_pd)
+	vf=Vectorize(weibull_p2_pd,"x")
 	mu1=-vf(x,t,v1,v2,v3)
 	return(mu1)
 }
@@ -240,7 +240,7 @@ weibull_p2_mu1fa=function(alpha,t,v1,v2,v3){
 weibull_p2_mu2fa=function(alpha,t,v1,v2,v3){
 	x=qweibull((1-alpha),shape=v1,scale=exp(v2+v3*t))
 	nx=length(x)
-	vf=Vectorize(weibull_p2_pdd)
+	vf=Vectorize(weibull_p2_pdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	mu2=-deriv_copyfdd(temp1,nx,dim=3)
 	return(mu2)
@@ -251,7 +251,7 @@ weibull_p2_mu2fa=function(alpha,t,v1,v2,v3){
 #' @inheritParams manf
 weibull_p2_ldda=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(weibull_p2_logfdd)
+	vf=Vectorize(weibull_p2_logfdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -262,7 +262,7 @@ weibull_p2_ldda=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 weibull_p2_lddda=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(weibull_p2_logfddd)
+	vf=Vectorize(weibull_p2_logfddd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	lddd=deriv_copylddd(temp1,nx,dim=3)
 	return(lddd)

@@ -99,7 +99,7 @@ invgauss_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 invgauss_f1fa=function(x,v1,v2){
-	vf=Vectorize(invgauss_fd)
+	vf=Vectorize(invgauss_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -109,7 +109,7 @@ invgauss_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 invgauss_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(invgauss_fdd)
+	vf=Vectorize(invgauss_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -122,7 +122,7 @@ invgauss_f2fa=function(x,v1,v2){
 #' @inheritParams manf
 invgauss_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(invgauss_logfdd)
+	vf=Vectorize(invgauss_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -133,7 +133,7 @@ invgauss_ldda=function(x,v1,v2){
 #' @inheritParams manf
 invgauss_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(invgauss_logfddd)
+	vf=Vectorize(invgauss_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

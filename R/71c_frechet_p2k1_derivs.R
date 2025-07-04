@@ -212,7 +212,7 @@ frechet_p2k1_logfddd=function (x, t, v1, v2, v3, v4)
 frechet_p2k1_f1fa=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
-	vf=Vectorize(frechet_p2k1_fd)
+	vf=Vectorize(frechet_p2k1_fd,"x")
 	f1=vf(x,t,kloc,v1,v2,v3)
 	return(f1)
 }
@@ -224,7 +224,7 @@ frechet_p2k1_f2fa=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_fdd)
+	vf=Vectorize(frechet_p2k1_fdd,"x")
 	temp1=vf(x,t,kloc,v1,v2,v3)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -236,7 +236,7 @@ frechet_p2k1_f2fa=function(x,t,v1,v2,v3,kloc){
 frechet_p2k1_p1fa=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
-	vf=Vectorize(frechet_p2k1_pd)
+	vf=Vectorize(frechet_p2k1_pd,"x")
 	p1=vf(x,t,kloc,v1,v2,v3)
 	return(p1)
 }
@@ -248,7 +248,7 @@ frechet_p2k1_p2fa=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_pdd)
+	vf=Vectorize(frechet_p2k1_pdd,"x")
 	temp1=vf(x,t,kloc,v1,v2,v3)
 	p2=deriv_copyfdd(temp1,nx,dim=3)
 	return(p2)
@@ -262,7 +262,7 @@ frechet_p2k1_mu1fa=function(alpha,t,v1,v2,v3,kloc){
 # I have to switch below
 	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t),lambda=v3)
 #	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v2+v3*t),lambda=vkloc)
-	vf=Vectorize(frechet_p2k1_pd)
+	vf=Vectorize(frechet_p2k1_pd,"x")
 	mu1=-vf(x,t,kloc,v1,v2,v3)
 	return(mu1)
 }
@@ -275,7 +275,7 @@ frechet_p2k1_mu2fa=function(alpha,t,v1,v2,v3,kloc){
 # I have to switch below
 	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t),lambda=v3)
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_pdd)
+	vf=Vectorize(frechet_p2k1_pdd,"x")
 	temp1=vf(x,t,kloc,v1,v2,v3)
 	mu2=-deriv_copyfdd(temp1,nx,dim=3)
 	return(mu2)
@@ -288,7 +288,7 @@ frechet_p2k1_ldda=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_logfdd)
+	vf=Vectorize(frechet_p2k1_logfdd,"x")
 	temp1=vf(x,t,kloc,v1,v2,v3)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -301,7 +301,7 @@ frechet_p2k1_lddda=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_logfddd)
+	vf=Vectorize(frechet_p2k1_logfddd,"x")
 	temp1=vf(x,t,kloc,v1,v2,v3) #these are in mu, sigma, lambda order
 	lddd=deriv_copylddd(temp1,nx,dim=3)
 	return(lddd)

@@ -138,7 +138,7 @@ logis_logfddd=function (x, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 logis_f1fa=function(x,v1,v2){
-	vf=Vectorize(logis_fd)
+	vf=Vectorize(logis_fd,"x")
 	f1=vf(x,v1,v2)
 	return(f1)
 }
@@ -148,7 +148,7 @@ logis_f1fa=function(x,v1,v2){
 #' @inheritParams manf
 logis_f2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(logis_fdd)
+	vf=Vectorize(logis_fdd,"x")
 	temp1=vf(x,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -158,7 +158,7 @@ logis_f2fa=function(x,v1,v2){
 #' @returns Vector
 #' @inheritParams manf
 logis_p1fa=function(x,v1,v2){
-	vf=Vectorize(logis_pd)
+	vf=Vectorize(logis_pd,"x")
 	p1=vf(x,v1,v2)
 	return(p1)
 }
@@ -168,7 +168,7 @@ logis_p1fa=function(x,v1,v2){
 #' @inheritParams manf
 logis_p2fa=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(logis_pdd)
+	vf=Vectorize(logis_pdd,"x")
 	temp1=vf(x,v1,v2)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
@@ -179,7 +179,7 @@ logis_p2fa=function(x,v1,v2){
 #' @inheritParams manf
 logis_mu1fa=function(alpha,v1,v2){
 	x=qlogis((1-alpha),location=v1,scale=v2)
-	vf=Vectorize(logis_pd)
+	vf=Vectorize(logis_pd,"x")
 	mu1=-vf(x,v1,v2)
 	return(mu1)
 }
@@ -190,7 +190,7 @@ logis_mu1fa=function(alpha,v1,v2){
 logis_mu2fa=function(alpha,v1,v2){
 	x=qlogis((1-alpha),location=v1,scale=v2)
 	nx=length(x)
-	vf=Vectorize(logis_pdd)
+	vf=Vectorize(logis_pdd,"x")
 	temp1=vf(x,v1,v2)
 	mu2=-deriv_copyfdd(temp1,nx,dim=2)
 	return(mu2)
@@ -201,7 +201,7 @@ logis_mu2fa=function(alpha,v1,v2){
 #' @inheritParams manf
 logis_ldda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(logis_logfdd)
+	vf=Vectorize(logis_logfdd,"x")
 	temp1=vf(x,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -212,7 +212,7 @@ logis_ldda=function(x,v1,v2){
 #' @inheritParams manf
 logis_lddda=function(x,v1,v2){
 	nx=length(x)
-	vf=Vectorize(logis_logfddd)
+	vf=Vectorize(logis_logfddd,"x")
 	temp1=vf(x,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

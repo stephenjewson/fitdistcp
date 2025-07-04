@@ -1,4 +1,4 @@
-#' Generalized Extreme Value Distribution, Predictions Based on a Calibrating Prior
+#' Generalized Extreme Value Distribution, Predictions Based on a Calibrating Prior, and various other priors
 #'
 #' @inherit man description author references seealso return
 #' @inheritParams man
@@ -29,6 +29,13 @@
 #' \deqn{\pi(\mu,\sigma,\xi) \propto \frac{1}{\sigma}}
 #' as given in Jewson et al. (2025).
 #'
+#' The code will stop with an error if the
+#' input data gives a maximum likelihood
+#' value for the shape parameter that lies outside the range \code{(minxi,maxxi)},
+#' since outside this range there may be numerical problems.
+#' Such values seldom occur
+#' in real observed data for maxima.
+#'
 #' @example man/examples/example_110_gev.R
 #'
 #' @name gev_cp
@@ -38,7 +45,8 @@ NULL
 #' @export
 #'
 qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
-	fdalpha=0.01,
+	d1=0.01,fd2=0.01,d3=0.01,fdalpha=0.01,
+	minxi=-1,maxxi=999,
 	means=FALSE,waicscores=FALSE,extramodels=FALSE,
 	pdf=FALSE,customprior=0,
 	dmgs=TRUE,rust=FALSE,nrust=100000,
@@ -88,8 +96,11 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 # dmgs
 #
 	standard_errors="dmgs not selected"
+	flat_quantiles="dmgs not selected"
+	rh_ml_quantiles="dmgs not selected"
 	rh_flat_quantiles="dmgs not selected"
 	cp_quantiles="dmgs not selected"
+	jp_quantiles="dmgs not selected"
 	ru_quantiles="dmgs not selected"
 	custom_quantiles="dmgs not selected"
 	ml_pdf="dmgs not selected"
@@ -98,10 +109,13 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 	waic1="dmgs not selected"
 	waic2="dmgs not selected"
 	ml_mean="dmgs not selected"
+	flat_mean="dmgs not selected"
 	rh_mean="dmgs not selected"
 	rh_flat_mean="dmgs not selected"
+	rh_ml_mean="dmgs not selected"
 	cp_mean="dmgs not selected"
 	cp_method="dmgs not selected"
+	jp_mean="dmgs not selected"
 	custom_mean="dmgs not selected"
 #
 # 5 alpha pdf stuff
@@ -115,35 +129,85 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 			fhatp=dgev(ml_quantilesp,mu=v1hat,sigma=v2hat,xi=v3hat)
 		}
 #
-# 7 ldd
+# 6 expected information matrix and related (for Jeffreys prior)
+#
+		if(debug)message(" call gev.infomat")
+		if(extramodels|means){
+			gg=gev.infomat(c(v1hat,v2hat,v3hat),dat=c(1),method=c("exp")) #faster than num (seems to fail when v3hat=0.4 though)
+			ggi=solve(gg)
+			detg=det(gg)
+			ggd=gev_ggd_mev(v1hat,d1,v2hat,fd2,v3hat,d3)	#is faster than num
+		}
+#
+# 7 ldd (two versions)
 #
 		if(debug)message("  calculate ldd")
+
 		ldd=gev_ldda(x,v1hat,v2hat,v3hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
+
+		if(extramodels|means){
+			ldd_k3=gev_k3_ldda(x,v1hat,v2hat,v3hat)
+			lddi_k3=solve(ldd_k3)
+		}
 #
-# 8 lddd
+# 8 lddd (two versions)
 #
 		if(debug)message("  calculate lddd")
+
 		lddd=gev_lddda(x,v1hat,v2hat,v3hat)
+		if(extramodels|means){
+			lddd_k3=gev_k3_lddda(x,v1hat,v2hat,v3hat)
+		}
+
+
 #
-# 9 mu1
+# 9 mu1 (two versions)
 #
 		mu1=gev_mu1fa(alpha,v1hat,v2hat,v3hat)
+
+		if(extramodels|means){
+			mu1_k3=gev_k3_mu1fa(alpha,v1hat,v2hat,v3hat)
+		}
 		if(pdf){
 			mu1m=gev_mu1fa(alpham,v1hat,v2hat,v3hat)
 			mu1p=gev_mu1fa(alphap,v1hat,v2hat,v3hat)
 		}
 #
-# 10 mu2
+# 10 mu2 (two versions)
 #
 		mu2=gev_mu2fa(alpha,v1hat,v2hat,v3hat)
+
+		if(extramodels|means){
+			mu2_k3=gev_k3_mu2fa(alpha,v1hat,v2hat,v3hat)
+		}
 		if(pdf){
 			mu2m=gev_mu2fa(alpham,v1hat,v2hat,v3hat)
 			mu2p=gev_mu2fa(alphap,v1hat,v2hat,v3hat)
 		}
 #
-# 13 model 4: rh_flat with flat prior on shape
+# 11 model 2: flat prior
+#
+		if(extramodels|means){
+			lambdad_flat=matrix(0,3)
+			dq=dmgs(lddi,lddd,mu1,lambdad_flat,mu2,dim=3)
+			flat_quantiles=ml_quantiles+dq/(nx*fhat)
+		} else {
+			flat_quantiles="extramodels not selected"
+		}
+#
+# 12 model 3: rh_ML (needs to use 2d version of Bayesian code, and ldd_k3,lddd_k3,mu1_k3,mu2_k3)
+#
+		if(extramodels|means){
+			lambdad_rh_mle=c(0,-1/v2hat)
+			dq=dmgs(lddi_k3,lddd_k3,mu1_k3,lambdad_rh_mle,mu2_k3,dim=2)
+			rh_ml_quantiles=ml_quantiles+dq/(nx*fhat)
+		} else {
+			rh_ml_quantiles="extramodels not selected"
+		}
+#
+# 13 model 4: rh_Flat with flat prior on shape (needs to use 3d version of Bayesian code)
 #
 		lambdad_rh_flat=c(0,-1/v2hat,0)
 		dq=dmgs(lddi,lddd,mu1,lambdad_rh_flat,mu2,dim=3)
@@ -160,6 +224,16 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 			rh_flat_pdf="pdf not selected"
 		}
 #
+# 14 model 5: JP, calculated from g, using Jacobi's formula, in a function in the generic library
+#
+		if(extramodels|means){
+			lambdad_jp=jpf3p(ggd,detg,ggi) #this is jp
+			dq=dmgs(lddi,lddd,mu1,lambdad_jp,mu2,dim=3)
+			jp_quantiles=ml_quantiles+dq/(nx*fhat)
+		} else {
+			jp_quantiles="extramodels not selected"
+		}
+#
 # 15 model 6: custom prior on shape parameter
 #
 		if(extramodels|means){
@@ -172,16 +246,20 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #
 # 16 means
 #
-		means=gev_means(means,ml_params,lddi,lddd,
-										lambdad_rh_flat,lambdad_custom,
+		means=gev_means(means,ml_params,lddi,lddi_k3,lddd,lddd_k3,
+										lambdad_flat,lambdad_rh_mle,
+										lambdad_rh_flat,lambdad_jp,lambdad_custom,
 										nx,dim=3)
 		ml_mean				=means$ml_mean
+		flat_mean			=means$flat_mean
+		rh_ml_mean		=means$rh_ml_mean
 		rh_flat_mean	=means$rh_flat_mean
+		jp_mean				=means$jp_mean
 		custom_mean		=means$custom_mean
 #
 # 17 waicscores
 #
-		waic=gev_waic(waicscores,x,v1hat,v2hat,v3hat,lddi,lddd,
+		waic=gev_waic(waicscores,x,v1hat,d1,v2hat,fd2,v3hat,d3,lddi,lddd,
 			lambdad_rh_flat)
 		waic1=waic$waic1
 		waic2=waic$waic2
@@ -195,12 +273,18 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 		}
 #end of if(dmgs)
 	} else {
+		flat_quantiles=ml_quantiles
+	  rh_ml_quantiles=ml_quantiles
 		rh_flat_quantiles=ml_quantiles
 	  ru_quantiles=ml_quantiles
+	  jp_quantiles=ml_quantiles
 	  pw_quantiles=ml_quantiles
 	  custom_quantiles=ml_quantiles
 	  rh_flat_pdf=ml_pdf
+	  flat_mean=ml_mean
+	  rh_ml_mean=ml_mean
 	  rh_flat_mean=ml_mean
+	  jp_mean=ml_mean
 	  custom_mean=ml_mean
 	}
 
@@ -213,8 +297,11 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 				ml_quantiles=ml_quantiles,
 				ml_max=ml_max,
 				revert2ml=revert2ml,
+				flat_quantiles=flat_quantiles,
+				rh_ml_quantiles=rh_ml_quantiles,
 				cp_quantiles=rh_flat_quantiles,
 				ru_quantiles=ru_quantiles,
+				jp_quantiles=jp_quantiles,
 				pw_quantiles=pw_quantiles,
 				custom_quantiles=custom_quantiles,
 				ml_pdf=ml_pdf,
@@ -223,7 +310,10 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 				waic1=waic1,
 				waic2=waic2,
 				ml_mean=ml_mean,
+				flat_mean=flat_mean,
+				rh_ml_mean=rh_ml_mean,
 				cp_mean=rh_flat_mean,
+				jp_mean=jp_mean,
 				custom_mean=custom_mean,
 				cp_method=crhpflat_dmgs_cpmethod())
 
@@ -231,22 +321,30 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #' @rdname gev_cp
 #' @inheritParams man
 #' @export
-rgev_cp=function(n,x,ics=c(0,0,0),
+rgev_cp=function(n,x,ics=c(0,0,0),d1=0.01,fd2=0.01,d3=0.01,
+	minxi=-0.45,maxxi=0.45,
 	extramodels=FALSE,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
-	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==3)
+#	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==3)
+	stopifnot(is.finite(x),!is.na(x),length(ics)==3)
 
 	ml_params="mlcp not selected"
 	ml_deviates="mlcp not selected"
+	flat_deviates="mlcp not selected"
+	rh_ml_deviates="mlcp not selected"
+	jp_deviates="mlcp not selected"
 	cp_deviates="mlcp not selected"
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgev_cp(x,runif(n),ics=ics,extramodels=extramodels)
+		q=qgev_cp(x,runif(n),ics=ics,d1=d1,fd2=fd2,d3=d3,extramodels=extramodels)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
+		flat_deviates=q$flat_quantiles
+		rh_ml_deviates=q$rh_ml_quantiles
 		ru_deviates=q$ru_quantiles
 		cp_deviates=q$cp_quantiles
+		jp_deviates=q$jp_quantiles
 	}
 
 	if(rust){
@@ -258,9 +356,12 @@ rgev_cp=function(n,x,ics=c(0,0,0),
 	}
 	op=list(ml_params=ml_params,
 			 ml_deviates=ml_deviates,
+			 flat_deviates=flat_deviates,
+			 rh_ml_deviates=rh_ml_deviates,
 			 cp_deviates=cp_deviates,
 			 ru_deviates=ru_deviates,
-			 cp_method=crhpflat_dmgs_cpmethod())
+			 jp_deviates=jp_deviates,
+				cp_method=crhpflat_dmgs_cpmethod())
 
 	return(op)
 
@@ -268,8 +369,8 @@ rgev_cp=function(n,x,ics=c(0,0,0),
 #' @rdname gev_cp
 #' @inheritParams man
 #' @export
-dgev_cp=function(x,y=x,ics=c(0,0,0),
-	extramodels=FALSE,
+dgev_cp=function(x,y=x,ics=c(0,0,0),d1=0.01,fd2=0.01,d3=0.01,
+	minxi=-0.45,maxxi=0.45,extramodels=FALSE,
 	rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),length(ics)==3)
@@ -281,7 +382,9 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 	v3hat=opt1$par[3]
 	if(v3hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat)
-	dd=dgevsub(x=x,y=y,ics=ics)
+#	gev_checkmle(ml_params,minxi,maxxi)
+	dd=dgevsub(x=x,y=y,ics=ics,d1=d1,fd2=fd2,d3=d3,customprior=0,
+		minxi=minxi,maxxi=maxxi,extramodels=extramodels)
 	ru_pdf="rust not selected"
 
 	if(rust&&(!revert2ml)){
@@ -306,8 +409,8 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 #' @rdname gev_cp
 #' @inheritParams man
 #' @export
-pgev_cp=function(x,y=x,ics=c(0,0,0),
-	extramodels=FALSE,
+pgev_cp=function(x,y=x,ics=c(0,0,0),d1=0.01,fd2=0.01,d3=0.01,
+	minxi=-0.45,maxxi=0.45,extramodels=FALSE,
 	rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),length(ics)==3)
@@ -319,7 +422,9 @@ pgev_cp=function(x,y=x,ics=c(0,0,0),
 	v3hat=opt1$par[3]
 	if(v3hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat)
-	dd=dgevsub(x=x,y=y,ics=ics)
+#	gev_checkmle(ml_params,minxi,maxxi)
+	dd=dgevsub(x=x,y=y,ics=ics,d1=d1,fd2=fd2,d3=d3,customprior=0,
+		minxi=minxi,maxxi=maxxi,extramodels=extramodels)
 	ru_cdf="rust not selected"
 
 	if(rust&&(!revert2ml)){
@@ -344,11 +449,13 @@ pgev_cp=function(x,y=x,ics=c(0,0,0),
 #' @rdname gev_cp
 #' @inheritParams man
 #' @export
-tgev_cp=function(n,x,ics=c(0,0,0),extramodels=FALSE,debug=FALSE){
+tgev_cp=function(n,x,ics=c(0,0,0),d1=0.01,fd2=0.01,d3=0.01,extramodels=FALSE,debug=FALSE){
 
+#	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==3)
 	stopifnot(is.finite(x),!is.na(x),length(ics)==3)
 
 	ics=gev_setics(x,ics)
+#	t=ru(gev_logf,x=x,n=n,d=3,init=c(0,1,0))
 	t=ru(gev_logf,x=x,n=n,d=3,init=ics)
 
 	list(theta_samples=t$sim_vals)

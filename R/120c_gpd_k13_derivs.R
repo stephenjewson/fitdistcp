@@ -97,7 +97,7 @@ gpd_k13_f1fa=function(x,v1,v2,kloc){
 
 	nx=length(x)
 	f1=matrix(0,1,nx)
-	vf=Vectorize(gpd_k13_fd)
+	vf=Vectorize(gpd_k13_fd,"x")
 	v2=movexiawayfromzero(v2)
 	f1[1,]=vf(x,kloc,v1,v2)
 
@@ -112,7 +112,7 @@ gpd_k13_f2fa=function(x,v1,v2,kloc){
 
 	nx=length(x)
 	f2=array(0,c(1,1,nx))
-	vf=Vectorize(gpd_k13_fdd)
+	vf=Vectorize(gpd_k13_fdd,"x")
 	v2=movexiawayfromzero(v2)
 	f2[1,1,]=vf(x,kloc,v1,v2)
 
@@ -126,7 +126,7 @@ gpd_k13_mu1fa=function(alpha,v1,v2,kloc){
 	x=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
 	nx=length(x)
 	mu1=array(0,c(1,nx))
-	vf=Vectorize(gpd_k13_pd)
+	vf=Vectorize(gpd_k13_pd,"x")
 	mu1[1,]=-vf(x,v1,v2,kloc)
 	return(mu1)
 }
@@ -138,7 +138,7 @@ gpd_k13_mu2fa=function(alpha,v1,v2,kloc){
 	x=extraDistr::qgpd((1-alpha),mu=kloc,sigma=v1,xi=v2)
 	nx=length(x)
 	mu2=array(0,c(1,1,nx))
-	vf=Vectorize(gpd_k13_pdd)
+	vf=Vectorize(gpd_k13_pdd,"x")
 	mu2[1,1,]=-vf(x,v1,v2,kloc)
 	return(mu2)
 }
@@ -151,7 +151,7 @@ gpd_k13_ldda=function(x,v1,v2,kloc){
 
 	nx=length(x)
 	ldd=matrix(0,1,1)
-	vf=Vectorize(gpd_k13_logfdd)
+	vf=Vectorize(gpd_k13_logfdd,"x")
 	v2=movexiawayfromzero(v2)
 	ldd[1,1]=sum(vf(x,kloc,v1,v2))/nx
 
@@ -167,7 +167,7 @@ gpd_k13_lddda=function(x,v1,v2,kloc){
 
 	nx=length(x)
 	lddd=array(0,c(1,1,1))
-	vf=Vectorize(gpd_k13_logfddd)
+	vf=Vectorize(gpd_k13_logfddd,"x")
 	v2=movexiawayfromzero(v2)
 	lddd[1,1,1]=sum(vf(x,kloc,v1,v2))/nx
 

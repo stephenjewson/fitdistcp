@@ -168,7 +168,7 @@ logis_p1_logfddd=function (x, t, v1, v2, v3)
 #' @returns Vector
 #' @inheritParams manf
 logis_p1_f1fa=function(x,t,v1,v2,v3){
-	vf=Vectorize(logis_p1_fd)
+	vf=Vectorize(logis_p1_fd,"x")
 	f1=vf(x,t,v1,v2,v3)
 	return(f1)
 }
@@ -178,7 +178,7 @@ logis_p1_f1fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 logis_p1_f2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(logis_p1_fdd)
+	vf=Vectorize(logis_p1_fdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -188,7 +188,7 @@ logis_p1_f2fa=function(x,t,v1,v2,v3){
 #' @returns Vector
 #' @inheritParams manf
 logis_p1_p1fa=function(x,t,v1,v2,v3){
-	vf=Vectorize(logis_p1_pd)
+	vf=Vectorize(logis_p1_pd,"x")
 	p1=vf(x,t,v1,v2,v3)
 	return(p1)
 }
@@ -198,7 +198,7 @@ logis_p1_p1fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 logis_p1_p2fa=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(logis_p1_pdd)
+	vf=Vectorize(logis_p1_pdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	p2=deriv_copyfdd(temp1,nx,dim=3)
 	return(p2)
@@ -209,7 +209,7 @@ logis_p1_p2fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 logis_p1_mu1fa=function(alpha,t,v1,v2,v3){
 	x=qlogis((1-alpha),location=v1+v2*t,scale=v3)
-	vf=Vectorize(logis_p1_pd)
+	vf=Vectorize(logis_p1_pd,"x")
 	mu1=-vf(x,t,v1,v2,v3)
 	return(mu1)
 }
@@ -220,7 +220,7 @@ logis_p1_mu1fa=function(alpha,t,v1,v2,v3){
 logis_p1_mu2fa=function(alpha,t,v1,v2,v3){
 	x=qlogis((1-alpha),location=v1+v2*t,scale=v3)
 	nx=length(x)
-	vf=Vectorize(logis_p1_pdd)
+	vf=Vectorize(logis_p1_pdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	mu2=-deriv_copyfdd(temp1,nx,dim=3)
 	return(mu2)
@@ -231,7 +231,7 @@ logis_p1_mu2fa=function(alpha,t,v1,v2,v3){
 #' @inheritParams manf
 logis_p1_ldda=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(logis_p1_logfdd)
+	vf=Vectorize(logis_p1_logfdd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -242,7 +242,7 @@ logis_p1_ldda=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 logis_p1_lddda=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(logis_p1_logfddd)
+	vf=Vectorize(logis_p1_logfddd,"x")
 	temp1=vf(x,t,v1,v2,v3)
 	lddd=deriv_copylddd(temp1,nx,dim=3)
 	return(lddd)

@@ -90,7 +90,7 @@ exp_p1_logfddd=function (x, t, v1, v2)
 #' @returns Vector
 #' @inheritParams manf
 exp_p1_f1fa=function(x,t,v1,v2){
-	vf=Vectorize(exp_p1_fd)
+	vf=Vectorize(exp_p1_fd,"x")
 	f1=vf(x,t,v1,v2)
 	return(f1)
 }
@@ -100,7 +100,7 @@ exp_p1_f1fa=function(x,t,v1,v2){
 #' @inheritParams manf
 exp_p1_f2fa=function(x,t,v1,v2){
 	nx=length(x)
-	vf=Vectorize(exp_p1_fdd)
+	vf=Vectorize(exp_p1_fdd,"x")
 	temp1=vf(x,t,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -110,7 +110,7 @@ exp_p1_f2fa=function(x,t,v1,v2){
 #' @returns Vector
 #' @inheritParams manf
 exp_p1_p1fa=function(x,t,v1,v2){
-	vf=Vectorize(exp_p1_pd)
+	vf=Vectorize(exp_p1_pd,"x")
 	p1=vf(x,t,v1,v2)
 	return(p1)
 }
@@ -121,7 +121,7 @@ exp_p1_p1fa=function(x,t,v1,v2){
 exp_p1_p2fa=function(x,t,v1,v2){
 	nx=length(x)
 	p2=array(0,c(2,2,nx))
-	vf=Vectorize(exp_p1_pdd)
+	vf=Vectorize(exp_p1_pdd,"x")
 	temp1=vf(x,t,v1,v2)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
@@ -132,7 +132,7 @@ exp_p1_p2fa=function(x,t,v1,v2){
 #' @inheritParams manf
 exp_p1_mu1fa=function(alpha,t,v1,v2){
 	x=qexp((1-alpha),rate=exp(-v1-v2*t))
-	vf=Vectorize(exp_p1_pd)
+	vf=Vectorize(exp_p1_pd,"x")
 	mu1=-vf(x,t,v1,v2)
 	return(mu1)
 }
@@ -143,7 +143,7 @@ exp_p1_mu1fa=function(alpha,t,v1,v2){
 exp_p1_mu2fa=function(alpha,t,v1,v2){
 	x=qexp((1-alpha),rate=exp(-v1-v2*t))
 	nalpha=length(alpha)
-	vf=Vectorize(exp_p1_pdd)
+	vf=Vectorize(exp_p1_pdd,"x")
 	temp1=vf(x,t,v1,v2)
 	mu2=-deriv_copyfdd(temp1,nalpha,dim=2)
 	return(mu2)
@@ -155,7 +155,7 @@ exp_p1_mu2fa=function(alpha,t,v1,v2){
 exp_p1_ldda=function(x,t,v1,v2){
 	nx=length(x)
 	ldd=matrix(0,2,2)
-	vf=Vectorize(exp_p1_logfdd)
+	vf=Vectorize(exp_p1_logfdd,"x")
 	temp1=vf(x,t,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -167,7 +167,7 @@ exp_p1_ldda=function(x,t,v1,v2){
 exp_p1_lddda=function(x,t,v1,v2){
 	nx=length(x)
 	lddd=array(0,c(2,2,2))
-	vf=Vectorize(exp_p1_logfddd)
+	vf=Vectorize(exp_p1_logfddd,"x")
 	temp1=vf(x,t,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

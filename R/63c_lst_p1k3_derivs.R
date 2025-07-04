@@ -170,7 +170,7 @@ lst_p1k3_logfddd=function (x, t, v1, v2, v3, v4)
 #' @returns Vector
 #' @inheritParams manf
 lst_p1k3_f1fa=function(x,t,v1,v2,v3,kdf){
-	vf=Vectorize(lst_p1k3_fd)
+	vf=Vectorize(lst_p1k3_fd,"x")
 	f1=vf(x,t,v1,v2,v3,kdf)
 	return(f1)
 }
@@ -180,7 +180,7 @@ lst_p1k3_f1fa=function(x,t,v1,v2,v3,kdf){
 #' @inheritParams manf
 lst_p1k3_f2fa=function(x,t,v1,v2,v3,kdf){
 	nx=length(x)
-	vf=Vectorize(lst_p1k3_fdd)
+	vf=Vectorize(lst_p1k3_fdd,"x")
 	temp1=vf(x,t,v1,v2,v3,kdf)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -193,7 +193,7 @@ lst_p1k3_f2fa=function(x,t,v1,v2,v3,kdf){
 #' @inheritParams manf
 lst_p1k3_ldda=function(x,t,v1,v2,v3,kdf){
 	nx=length(x)
-	vf=Vectorize(lst_p1k3_logfdd)
+	vf=Vectorize(lst_p1k3_logfdd,"x")
 	temp1=vf(x,t,v1,v2,v3,kdf)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -204,7 +204,7 @@ lst_p1k3_ldda=function(x,t,v1,v2,v3,kdf){
 #' @inheritParams manf
 lst_p1k3_lddda=function(x,t,v1,v2,v3,kdf){
 	nx=length(x)
-	vf=Vectorize(lst_p1k3_logfddd)
+	vf=Vectorize(lst_p1k3_logfddd,"x")
 	temp1=vf(x,t,v1,v2,v3,kdf)
 	lddd=deriv_copylddd(temp1,nx,dim=3)
 	return(lddd)
