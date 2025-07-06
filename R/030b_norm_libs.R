@@ -1,7 +1,7 @@
 #' Waic
 #' @inherit manwaic return
 #' @inheritParams manf
-norm_waic=function(waicscores,x,v1hat,d1,v2hat,fd2){
+norm_waic=function(waicscores,x,v1hat,v2hat){
 	if(waicscores){
 
 		f1f=norm_f1fa(x,v1hat,v2hat)
@@ -48,63 +48,6 @@ norm_unbiasedv_params=function(x){
 	params[1]=mean(x)
 	params[2]=sd(x)
 	return(params)
-}
-#' One component of the second derivative of the expected log-likelihood
-#' @inherit manlnn return
-#' @inheritParams manf
-norm_gmn=function(alpha,v1,d1,v2,fd2,mm,nn){
-# saved for future testing of the mpd theory
-	nx=length(alpha)
-	d2=fd2*v2
-  x=qnorm((1-alpha),mean=v1,sd=v2)
-	net3=matrix(0,3,2)
-	net4=matrix(0,4,2)
-	lmn=matrix(0,nx,4)
-	dd=c(d1,d2)
-	vv=c(v1,v2)
-	vvd=matrix(0,2)
-	nx=length(x)
-# different
-	if(mm!=nn){
-		net4[,mm]=c(-1,-1,1,1)
-		net4[,nn]=c(-1,1,-1,1)
-		for (i in 1:4){
-			for (j in 1:2){
-				vvd[j]=vv[j]+net4[i,j]*dd[j]
-			}
-			lmn[,i]=dnorm(x,mean=vvd[1],sd=vvd[2],log=TRUE)
-		}
-		dld=(lmn[,1]-lmn[,2]-lmn[,3]+lmn[,4])/(4*dd[mm]*dd[nn])
-# same
-	} else {
-		net3[,mm]=c(-1,0,1)
-		for (i in 1:3){
-			for (j in 1:2){
-				vvd[j]=vv[j]+net3[i,j]*dd[j]
-			}
-			lmn[,i]=dnorm(x,mean=vvd[1],sd=vvd[2],log=TRUE)
-		}
-		dld=(lmn[,1]-2*lmn[,2]+lmn[,3])/(dd[mm]*dd[mm])
-	}
-	return(dld)
-}
-#' Second derivative matrix of the expected per-observation log-likelihood
-#' @inherit manldd return
-#' @inheritParams manf
-norm_gg=function(nx,v1,d1,v2,fd2){
-# saved for future testing of the mpd theory
-	expinfmat=matrix(0,2,2)
-	for (i in 1:2){
-		for (j in i:2){
-			expinfmat[i,j]=-quad(norm_gmn,xa=0,xb=1,v1=v1,d1=d1,v2=v2,fd2=fd2,mm=i,nn=j)
-		}
-	}
-	for (i in 2:2){
-		for (j in 1:(i-1)){
-			expinfmat[i,j]=expinfmat[j,i]
-		}
-	}
- return(expinfmat)
 }
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
 #' @inherit manlogscores return

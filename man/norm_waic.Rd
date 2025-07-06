@@ -4,7 +4,7 @@
 \alias{norm_waic}
 \title{Waic}
 \usage{
-norm_waic(waicscores, x, v1hat, d1, v2hat, fd2)
+norm_waic(waicscores, x, v1hat, v2hat)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -13,11 +13,7 @@ norm_waic(waicscores, x, v1hat, d1, v2hat, fd2)
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
-
-\item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 }
 \value{
 Two numeric values.

@@ -183,29 +183,29 @@ reltest2_predict=function(model="gev",xx,tt,n0,pp,params,case,nmethods){
 			nalpha=length(pp)
 			pred=matrix(0,nmethods,nalpha)
 			if(case==1){
-				pred[1,]=pred0$flat_quantiles
-				pred[2,]=pred0$jp_quantiles
+				pred[1,]=0 #pred0$flat_quantiles
+				pred[2,]=0 #pred0$jp_quantiles
 				pred[3,]=pred0$ml_quantiles
-				pred[4,]=pred0$rh_ml_quantiles
+				pred[4,]=0 #pred0$rh_ml_quantiles
 				pred[5,]=pred0$cp_quantiles #cp and ml last, so when it's plotted, it's on top
 			}
 			if(case==2){
-				pred[1,]=pred0$flat_quantiles
-				pred[2,]=pred0$jp_quantiles
+				pred[1,]=0 #pred0$flat_quantiles
+				pred[2,]=0 #pred0$jp_quantiles
 				pred[3,]=pred0$ml_quantiles
 				pred[4,]=pred0$mpd_quantiles
 			}
 			if(case==3){
-				pred[1,]=pred0$flat_quantiles
-				pred[2,]=pred0$jp_quantiles
+				pred[1,]=0 #pred0$flat_quantiles
+				pred[2,]=0 #pred0$jp_quantiles
 				pred[3,]=pred0$ml_quantiles
-				pred[4,]=pred0$rh_ml_quantiles
+				pred[4,]=0 #pred0$rh_ml_quantiles
 				pred[5,]=pred0$cp_quantiles #cp and ml last, so when it's plotted, it's on top
 				pred[6,]=pred0$mpd_quantiles
 			}
 			if(case==4){
-				pred[1,]=pred0$flat_quantiles
-				pred[2,]=pred0$jp_quantiles
+				pred[1,]=0 #pred0$flat_quantiles
+				pred[2,]=0 #pred0$jp_quantiles
 				pred[3,]=pred0$ml_quantiles
 				pred[4,]=pred0$rh_flat_quantiles #cp and ml last, so when it's plotted, it's on top
 				pred[5,]=pred0$mpd_quantiles
