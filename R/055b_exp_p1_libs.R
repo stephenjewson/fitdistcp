@@ -4,10 +4,10 @@
 exp_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,lddi,lddd,lambdad,aderivs){
 		if(waicscores){
 
-			if(aderivs) f1f=exp_p1_f1fa(x,t,v1hat,v2hat)
+			if(aderivs) f1f=exp_p1_f1fw(x,t,v1hat,v2hat)
 			if(!aderivs)f1f=exp_p1_f1f(x,t,v1hat,d1,v2hat,d2)
 
-			if(aderivs) f2f=exp_p1_f2fa(x,t,v1hat,v2hat)
+			if(aderivs) f2f=exp_p1_f2fw(x,t,v1hat,v2hat)
 			if(!aderivs)f2f=exp_p1_f2f(x,t,v1hat,d1,v2hat,d2)
 
 			fhatx=dexp_p1(x,t,ymn=v1hat,slope=v2hat,log=FALSE)

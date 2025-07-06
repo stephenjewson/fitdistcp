@@ -5,21 +5,7 @@
 \title{Analytical expressions for Predictive Means
 RHP mean based on the expectation of DMGS equation 2.1}
 \usage{
-gev_p1_means(
-  means,
-  t0,
-  ml_params,
-  lddi,
-  lddi_k4,
-  lddd,
-  lddd_k4,
-  lambdad_flat,
-  lambdad_rh_mle,
-  lambdad_rh_flat,
-  lambdad_jp,
-  nx,
-  dim = 4
-)
+gev_p1_means(means, t0, ml_params, lddi, lddd, lambdad_rh_flat, nx, dim = 4)
 }
 \arguments{
 \item{means}{logical that indicates whether to return analytical estimates for the distribution means (longer runtime)}
@@ -30,19 +16,9 @@ gev_p1_means(
 
 \item{lddi}{inverse observed information matrix}
 
-\item{lddi_k4}{inverse observed information matrix, fixed shape parameter}
-
 \item{lddd}{third derivative of log-likelihood}
 
-\item{lddd_k4}{third derivative of log-likelihood, fixed shape parameter}
-
-\item{lambdad_flat}{derivative of the log flat prior}
-
-\item{lambdad_rh_mle}{derivative of the log CRHP-MLE prior}
-
 \item{lambdad_rh_flat}{derivative of the log CRHP-FLAT prior}
-
-\item{lambdad_jp}{derivative of the log JP prior}
 
 \item{nx}{length of training data}
 

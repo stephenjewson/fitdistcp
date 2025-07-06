@@ -1,10 +1,16 @@
 #' Waic
 #' @inherit manwaic return
 #' @inheritParams manf
-pareto_p1k2_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,lambdad){
+pareto_p1k2_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,
+	lambdad,aderivs){
 		if(waicscores){
-			f1f=pareto_p1k2_f1f(x,t,v1hat,d1,v2hat,d2,kscale)
-			f2f=pareto_p1k2_f2f(x,t,v1hat,d1,v2hat,d2,kscale)
+
+			if(aderivs) f1f=pareto_p1k2_f1fw(x,t,v1hat,v2hat,kscale)
+			if(!aderivs)f1f=pareto_p1k2_f1f(x,t,v1hat,d1,v2hat,d2,kscale)
+
+			if(aderivs) f2f=pareto_p1k2_f2fw(x,t,v1hat,v2hat,kscale)
+			if(!aderivs)f2f=pareto_p1k2_f2f(x,t,v1hat,d1,v2hat,d2,kscale)
+
 			fhatx=dpareto_p1k2(x,t,ymn=v1hat,slope=v2hat,kscale=kscale,log=FALSE)
 			waic=make_waic(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim=2)
 			waic1=waic$waic1

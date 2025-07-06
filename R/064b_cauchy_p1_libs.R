@@ -5,8 +5,8 @@ cauchy_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,
 	lddi,lddd,lambdad,aderivs){
 		if(waicscores){
 			if(aderivs){
-				f1f=cauchy_p1_f1fa(x,t,v1hat,v2hat,v3hat)
-				f2f=cauchy_p1_f2fa(x,t,v1hat,v2hat,v3hat)
+				f1f=cauchy_p1_f1fw(x,t,v1hat,v2hat,v3hat)
+				f2f=cauchy_p1_f2fw(x,t,v1hat,v2hat,v3hat)
 			} else {
 				f1f=cauchy_p1_f1f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
 				f2f=cauchy_p1_f2f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)

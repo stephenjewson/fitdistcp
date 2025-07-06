@@ -5,8 +5,8 @@ weibull_p2_waic=function(waicscores,x,t,v1hat,fd1,v2hat,d2,v3hat,d3,
 	lddi,lddd,lambdad,aderivs=TRUE){
 		if(waicscores){
 			if(aderivs){
-				f1f=weibull_p2_f1fa(x,t,v1hat,v2hat,v3hat)
-				f2f=weibull_p2_f2fa(x,t,v1hat,v2hat,v3hat)
+				f1f=weibull_p2_f1fw(x,t,v1hat,v2hat,v3hat)
+				f2f=weibull_p2_f2fw(x,t,v1hat,v2hat,v3hat)
 			} else {
 				f1f=weibull_p2_f1f(x,t,v1hat,fd1,v2hat,d2,v3hat,d3)
 				f2f=weibull_p2_f2f(x,t,v1hat,fd1,v2hat,d2,v3hat,d3)

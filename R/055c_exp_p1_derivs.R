@@ -86,21 +86,41 @@ exp_p1_logfddd=function (x, t, v1, v2)
         v2 = c(v1 = .e7, v2 = t^3 * x * .e2)))
 }
 ############################################################
-#' The first derivative of the density
+#' The first derivative of the density for DMGS
 #' @returns Vector
 #' @inheritParams manf
-exp_p1_f1fa=function(x,t,v1,v2){
+exp_p1_f1fa=function(x,t0,v1,v2){
 	vf=Vectorize(exp_p1_fd,"x")
+	f1=vf(x,t0,v1,v2)
+	return(f1)
+}
+############################################################
+#' The first derivative of the density for WAIC
+#' @returns Vector
+#' @inheritParams manf
+exp_p1_f1fw=function(x,t,v1,v2){
+	vf=Vectorize(exp_p1_fd,c("x","t"))
 	f1=vf(x,t,v1,v2)
 	return(f1)
 }
 ############################################################
-#' The second derivative of the density
+#' The second derivative of the density for DMGS
 #' @returns Matrix
 #' @inheritParams manf
-exp_p1_f2fa=function(x,t,v1,v2){
+exp_p1_f2fa=function(x,t0,v1,v2){
 	nx=length(x)
 	vf=Vectorize(exp_p1_fdd,"x")
+	temp1=vf(x,t0,v1,v2)
+	f2=deriv_copyfdd(temp1,nx,dim=2)
+	return(f2)
+}
+############################################################
+#' The second derivative of the density for WAIC
+#' @returns Matrix
+#' @inheritParams manf
+exp_p1_f2fw=function(x,t,v1,v2){
+	nx=length(x)
+	vf=Vectorize(exp_p1_fdd,c("x","t"))
 	temp1=vf(x,t,v1,v2)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -109,20 +129,20 @@ exp_p1_f2fa=function(x,t,v1,v2){
 #' The first derivative of the cdf
 #' @returns Vector
 #' @inheritParams manf
-exp_p1_p1fa=function(x,t,v1,v2){
+exp_p1_p1fa=function(x,t0,v1,v2){
 	vf=Vectorize(exp_p1_pd,"x")
-	p1=vf(x,t,v1,v2)
+	p1=vf(x,t0,v1,v2)
 	return(p1)
 }
 ############################################################
 #' The second derivative of the cdf
 #' @returns Matrix
 #' @inheritParams manf
-exp_p1_p2fa=function(x,t,v1,v2){
+exp_p1_p2fa=function(x,t0,v1,v2){
 	nx=length(x)
 	p2=array(0,c(2,2,nx))
 	vf=Vectorize(exp_p1_pdd,"x")
-	temp1=vf(x,t,v1,v2)
+	temp1=vf(x,t0,v1,v2)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
 }
@@ -130,21 +150,21 @@ exp_p1_p2fa=function(x,t,v1,v2){
 #' Minus the first derivative of the cdf, at alpha
 #' @returns Vector
 #' @inheritParams manf
-exp_p1_mu1fa=function(alpha,t,v1,v2){
-	x=qexp((1-alpha),rate=exp(-v1-v2*t))
+exp_p1_mu1fa=function(alpha,t0,v1,v2){
+	x=qexp((1-alpha),rate=exp(-v1-v2*t0))
 	vf=Vectorize(exp_p1_pd,"x")
-	mu1=-vf(x,t,v1,v2)
+	mu1=-vf(x,t0,v1,v2)
 	return(mu1)
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
 #' @returns Matrix
 #' @inheritParams manf
-exp_p1_mu2fa=function(alpha,t,v1,v2){
-	x=qexp((1-alpha),rate=exp(-v1-v2*t))
+exp_p1_mu2fa=function(alpha,t0,v1,v2){
+	x=qexp((1-alpha),rate=exp(-v1-v2*t0))
 	nalpha=length(alpha)
 	vf=Vectorize(exp_p1_pdd,"x")
-	temp1=vf(x,t,v1,v2)
+	temp1=vf(x,t0,v1,v2)
 	mu2=-deriv_copyfdd(temp1,nalpha,dim=2)
 	return(mu2)
 }
@@ -155,7 +175,7 @@ exp_p1_mu2fa=function(alpha,t,v1,v2){
 exp_p1_ldda=function(x,t,v1,v2){
 	nx=length(x)
 	ldd=matrix(0,2,2)
-	vf=Vectorize(exp_p1_logfdd,"x")
+	vf=Vectorize(exp_p1_logfdd,c("x","t"))
 	temp1=vf(x,t,v1,v2)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -167,7 +187,7 @@ exp_p1_ldda=function(x,t,v1,v2){
 exp_p1_lddda=function(x,t,v1,v2){
 	nx=length(x)
 	lddd=array(0,c(2,2,2))
-	vf=Vectorize(exp_p1_logfddd,"x")
+	vf=Vectorize(exp_p1_logfddd,c("x","t"))
 	temp1=vf(x,t,v1,v2)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

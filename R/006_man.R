@@ -284,7 +284,7 @@
 #'
 #' @section Optional Return Values (some EVT models only):
 #'
-#' {q****} optionally returns the following, for some EVT models only:
+#' \code{q****} optionally returns the following, for some EVT models only:
 #'
 #' If \code{extramodels=TRUE}:
 #' \itemize{

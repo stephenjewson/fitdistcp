@@ -5,8 +5,8 @@ lst_p1k3_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf,
 	lddi,lddd,lambdad,aderivs){
 		if(waicscores){
 			if(aderivs){
-				f1f=lst_p1k3_f1fa(x,t,v1hat,v2hat,v3hat,kdf=kdf)
-				f2f=lst_p1k3_f2fa(x,t,v1hat,v2hat,v3hat,kdf=kdf)
+				f1f=lst_p1k3_f1fw(x,t,v1hat,v2hat,v3hat,kdf=kdf)
+				f2f=lst_p1k3_f2fw(x,t,v1hat,v2hat,v3hat,kdf=kdf)
 			} else {
 				f1f=lst_p1k3_f1f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf=kdf)
 				f2f=lst_p1k3_f2f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kdf=kdf)

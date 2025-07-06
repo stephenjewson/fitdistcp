@@ -95,21 +95,41 @@ pareto_p1k2_logfddd=function (x, t, v1, v2, v3)
         v2 = c(v1 = .e10, v2 = t^3 * .e2 * .e5)))
 }
 ############################################################
-#' The first derivative of the density
+#' The first derivative of the density for DMGS
 #' @returns Vector
 #' @inheritParams manf
-pareto_p1k2_f1fa=function(x,t,v1,v2,kscale){
+pareto_p1k2_f1fa=function(x,t0,v1,v2,kscale){
 	vf=Vectorize(pareto_p1k2_fd,"x")
+	f1=vf(x,t0,v1,v2,kscale)
+	return(f1)
+}
+############################################################
+#' The first derivative of the density for WAIC
+#' @returns Vector
+#' @inheritParams manf
+pareto_p1k2_f1fw=function(x,t,v1,v2,kscale){
+	vf=Vectorize(pareto_p1k2_fd,c("x","t"))
 	f1=vf(x,t,v1,v2,kscale)
 	return(f1)
 }
 ############################################################
-#' The second derivative of the density
+#' The second derivative of the density for DMGS
 #' @returns Matrix
 #' @inheritParams manf
-pareto_p1k2_f2fa=function(x,t,v1,v2,kscale){
+pareto_p1k2_f2fa=function(x,t0,v1,v2,kscale){
 	nx=length(x)
 	vf=Vectorize(pareto_p1k2_fdd,"x")
+	temp1=vf(x,t0,v1,v2,kscale)
+	f2=deriv_copyfdd(temp1,nx,dim=2)
+	return(f2)
+}
+############################################################
+#' The second derivative of the density for WAIC
+#' @returns Matrix
+#' @inheritParams manf
+pareto_p1k2_f2fw=function(x,t,v1,v2,kscale){
+	nx=length(x)
+	vf=Vectorize(pareto_p1k2_fdd,c("x","t"))
 	temp1=vf(x,t,v1,v2,kscale)
 	f2=deriv_copyfdd(temp1,nx,dim=2)
 	return(f2)
@@ -118,19 +138,19 @@ pareto_p1k2_f2fa=function(x,t,v1,v2,kscale){
 #' The first derivative of the cdf
 #' @returns Vector
 #' @inheritParams manf
-pareto_p1k2_p1fa=function(x,t,v1,v2,kscale){
+pareto_p1k2_p1fa=function(x,t0,v1,v2,kscale){
 	vf=Vectorize(pareto_p1k2_pd,"x")
-	p1=vf(x,t,v1,v2,kscale)
+	p1=vf(x,t0,v1,v2,kscale)
 	return(p1)
 }
 ############################################################
 #' The second derivative of the cdf
 #' @returns Matrix
 #' @inheritParams manf
-pareto_p1k2_p2fa=function(x,t,v1,v2,kscale){
+pareto_p1k2_p2fa=function(x,t0,v1,v2,kscale){
 	nx=length(x)
 	vf=Vectorize(pareto_p1k2_pdd,"x")
-	temp1=vf(x,t,v1,v2,kscale)
+	temp1=vf(x,t0,v1,v2,kscale)
 	p2=deriv_copyfdd(temp1,nx,dim=2)
 	return(p2)
 }
@@ -138,21 +158,21 @@ pareto_p1k2_p2fa=function(x,t,v1,v2,kscale){
 #' Minus the first derivative of the cdf, at alpha
 #' @returns Vector
 #' @inheritParams manf
-pareto_p1k2_mu1fa=function(alpha,t,v1,v2,kscale){
-	x=extraDistr::qpareto((1-alpha),a=exp(-v1-v2*t),b=kscale)
+pareto_p1k2_mu1fa=function(alpha,t0,v1,v2,kscale){
+	x=extraDistr::qpareto((1-alpha),a=exp(-v1-v2*t0),b=kscale)
 	vf=Vectorize(pareto_p1k2_pd,"x")
-	mu1=-vf(x,t,v1,v2,kscale)
+	mu1=-vf(x,t0,v1,v2,kscale)
 	return(mu1)
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
 #' @returns Matrix
 #' @inheritParams manf
-pareto_p1k2_mu2fa=function(alpha,t,v1,v2,kscale){
-	x=extraDistr::qpareto((1-alpha),a=exp(-v1-v2*t),b=kscale)
+pareto_p1k2_mu2fa=function(alpha,t0,v1,v2,kscale){
+	x=extraDistr::qpareto((1-alpha),a=exp(-v1-v2*t0),b=kscale)
 	nalpha=length(alpha)
 	vf=Vectorize(pareto_p1k2_pdd,"x")
-	temp1=vf(x,t,v1,v2,kscale)
+	temp1=vf(x,t0,v1,v2,kscale)
 	mu2=-deriv_copyfdd(temp1,nalpha,dim=2)
 	return(mu2)
 }
@@ -162,7 +182,7 @@ pareto_p1k2_mu2fa=function(alpha,t,v1,v2,kscale){
 #' @inheritParams manf
 pareto_p1k2_ldda=function(x,t,v1,v2,kscale){
 	nx=length(x)
-	vf=Vectorize(pareto_p1k2_logfdd,"x")
+	vf=Vectorize(pareto_p1k2_logfdd,c("x","t"))
 	temp1=vf(x,t,v1,v2,kscale)
 	ldd=deriv_copyldd(temp1,nx,dim=2)
 	return(ldd)
@@ -173,7 +193,7 @@ pareto_p1k2_ldda=function(x,t,v1,v2,kscale){
 #' @inheritParams manf
 pareto_p1k2_lddda=function(x,t,v1,v2,kscale){
 	nx=length(x)
-	vf=Vectorize(pareto_p1k2_logfddd,"x")
+	vf=Vectorize(pareto_p1k2_logfddd,c("x","t"))
 	temp1=vf(x,t,v1,v2,kscale)
 	lddd=deriv_copylddd(temp1,nx,dim=2)
 	return(lddd)

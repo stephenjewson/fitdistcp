@@ -2,7 +2,7 @@
 % Please edit documentation in R/151c_gev_p12_derivs.R
 \name{gev_p12_f2fa}
 \alias{gev_p12_f2fa}
-\title{The second derivative of the density}
+\title{The second derivative of the density for DMGS}
 \usage{
 gev_p12_f2fa(x, t01, t02, v1, v2, v3, v4, v5)
 }
@@ -27,5 +27,5 @@ gev_p12_f2fa(x, t01, t02, v1, v2, v3, v4, v5)
 Matrix
 }
 \description{
-The second derivative of the density
+The second derivative of the density for DMGS
 }

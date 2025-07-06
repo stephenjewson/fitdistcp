@@ -29,6 +29,13 @@
 #' \deqn{\pi(\mu,\sigma,\xi) \propto \frac{1}{\sigma}}
 #' as given in Jewson et al. (2025).
 #'
+#' The code will stop with an error if the
+#' input data gives a maximum likelihood
+#' value for the shape parameter that lies outside the range \code{(minxi,maxxi)},
+#' since outside this range there may be numerical problems.
+#' Such values seldom occur
+#' in real observed data for maxima.
+#'
 #' @example man/examples/example_110_gev.R
 #'
 #' @name gev_cp
@@ -39,6 +46,7 @@ NULL
 #'
 qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 	fdalpha=0.01,
+	minxi=-1,maxxi=1,
 	means=FALSE,waicscores=FALSE,extramodels=FALSE,
 	pdf=FALSE,customprior=0,
 	dmgs=TRUE,rust=FALSE,nrust=100000,
@@ -64,6 +72,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 	v2hat=opt1$par[2]
 	v3hat=opt1$par[3]
 	ml_params=c(v1hat,v2hat,v3hat)
+#	gev_checkmle(ml_params,minxi,maxxi)
 	if(debug)message("	v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat,"")
 	pw_params="pwm not selected"
 	if(pwm)pw_params=gev_pwm_params(x)
@@ -232,6 +241,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #' @inheritParams man
 #' @export
 rgev_cp=function(n,x,ics=c(0,0,0),
+	minxi=-1,maxxi=1,
 	extramodels=FALSE,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==3)
@@ -244,6 +254,7 @@ rgev_cp=function(n,x,ics=c(0,0,0),
 	if(mlcp){
 		q=qgev_cp(x,runif(n),ics=ics,extramodels=extramodels)
 		ml_params=q$ml_params
+#		gev_checkmle(ml_params,minxi,maxxi)
 		ml_deviates=q$ml_quantiles
 		ru_deviates=q$ru_quantiles
 		cp_deviates=q$cp_quantiles
@@ -269,6 +280,7 @@ rgev_cp=function(n,x,ics=c(0,0,0),
 #' @inheritParams man
 #' @export
 dgev_cp=function(x,y=x,ics=c(0,0,0),
+	minxi=-1,maxxi=1,
 	extramodels=FALSE,
 	rust=FALSE,nrust=1000,debug=FALSE){
 
@@ -281,7 +293,8 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 	v3hat=opt1$par[3]
 	if(v3hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat)
-	dd=dgevsub(x=x,y=y,ics=ics)
+#	gev_checkmle(ml_params,minxi,maxxi)
+	dd=dgevsub(x=x,y=y,ics=ics,minxi,maxxi)
 	ru_pdf="rust not selected"
 
 	if(rust&&(!revert2ml)){
@@ -307,6 +320,7 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 #' @inheritParams man
 #' @export
 pgev_cp=function(x,y=x,ics=c(0,0,0),
+	minxi=-1,maxxi=1,
 	extramodels=FALSE,
 	rust=FALSE,nrust=1000,debug=FALSE){
 
@@ -319,7 +333,8 @@ pgev_cp=function(x,y=x,ics=c(0,0,0),
 	v3hat=opt1$par[3]
 	if(v3hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat)
-	dd=dgevsub(x=x,y=y,ics=ics)
+#	gev_checkmle(ml_params,minxi,maxxi)
+	dd=dgevsub(x=x,y=y,ics=ics,minxi,maxxi)
 	ru_cdf="rust not selected"
 
 	if(rust&&(!revert2ml)){

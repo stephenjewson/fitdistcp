@@ -4,7 +4,7 @@
 \alias{gev_p1_checkmle}
 \title{Check MLE}
 \usage{
-gev_p1_checkmle(ml_params, minxi, maxxi)
+gev_p1_checkmle(ml_params, minxi = -1, maxxi = 1)
 }
 \arguments{
 \item{ml_params}{parameters}

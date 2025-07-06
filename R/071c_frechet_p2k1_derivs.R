@@ -206,25 +206,49 @@ frechet_p2k1_logfddd=function (x, t, v1, v2, v3, v4)
             .e5 * .e12 * .e3, v4 = .e12^3/.e25 + 2/v4^3)))
 }
 ############################################################
-#' The first derivative of the density
+#' The first derivative of the density for DMGS
 #' @returns Vector
 #' @inheritParams manf
-frechet_p2k1_f1fa=function(x,t,v1,v2,v3,kloc){
+frechet_p2k1_f1fa=function(x,t0,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	vf=Vectorize(frechet_p2k1_fd,"x")
+	f1=vf(x,t0,kloc,v1,v2,v3)
+	return(f1)
+}
+############################################################
+#' The first derivative of the density for WAIC
+#' @returns Vector
+#' @inheritParams manf
+frechet_p2k1_f1fw=function(x,t,v1,v2,v3,kloc){
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
+# I have to switch below
+	vf=Vectorize(frechet_p2k1_fd,c("x","t"))
 	f1=vf(x,t,kloc,v1,v2,v3)
 	return(f1)
 }
 ############################################################
-#' The second derivative of the density
+#' The second derivative of the density for DMGS
 #' @returns Matrix
 #' @inheritParams manf
-frechet_p2k1_f2fa=function(x,t,v1,v2,v3,kloc){
+frechet_p2k1_f2fa=function(x,t0,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_fdd,"x")
+	temp1=vf(x,t0,kloc,v1,v2,v3)
+	f2=deriv_copyfdd(temp1,nx,dim=3)
+	return(f2)
+}
+############################################################
+#' The second derivative of the density for WAIC
+#' @returns Matrix
+#' @inheritParams manf
+frechet_p2k1_f2fw=function(x,t,v1,v2,v3,kloc){
+# the v1 coming in here is sigma, and the v2 is lambda, following my cp code
+# I have to switch below
+	nx=length(x)
+	vf=Vectorize(frechet_p2k1_fdd,c("x","t"))
 	temp1=vf(x,t,kloc,v1,v2,v3)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -233,23 +257,23 @@ frechet_p2k1_f2fa=function(x,t,v1,v2,v3,kloc){
 #' The first derivative of the cdf
 #' @returns Vector
 #' @inheritParams manf
-frechet_p2k1_p1fa=function(x,t,v1,v2,v3,kloc){
+frechet_p2k1_p1fa=function(x,t0,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	vf=Vectorize(frechet_p2k1_pd,"x")
-	p1=vf(x,t,kloc,v1,v2,v3)
+	p1=vf(x,t0,kloc,v1,v2,v3)
 	return(p1)
 }
 ############################################################
 #' The second derivative of the cdf
 #' @returns Matrix
 #' @inheritParams manf
-frechet_p2k1_p2fa=function(x,t,v1,v2,v3,kloc){
+frechet_p2k1_p2fa=function(x,t0,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_pdd,"x")
-	temp1=vf(x,t,kloc,v1,v2,v3)
+	temp1=vf(x,t0,kloc,v1,v2,v3)
 	p2=deriv_copyfdd(temp1,nx,dim=3)
 	return(p2)
 }
@@ -257,26 +281,26 @@ frechet_p2k1_p2fa=function(x,t,v1,v2,v3,kloc){
 #' Minus the first derivative of the cdf, at alpha
 #' @returns Vector
 #' @inheritParams manf
-frechet_p2k1_mu1fa=function(alpha,t,v1,v2,v3,kloc){
+frechet_p2k1_mu1fa=function(alpha,t0,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
-	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t),lambda=v3)
-#	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v2+v3*t),lambda=vkloc)
+	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t0),lambda=v3)
+#	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v2+v3*t0),lambda=vkloc)
 	vf=Vectorize(frechet_p2k1_pd,"x")
-	mu1=-vf(x,t,kloc,v1,v2,v3)
+	mu1=-vf(x,t0,kloc,v1,v2,v3)
 	return(mu1)
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
 #' @returns Matrix
 #' @inheritParams manf
-frechet_p2k1_mu2fa=function(alpha,t,v1,v2,v3,kloc){
+frechet_p2k1_mu2fa=function(alpha,t0,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
-	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t),lambda=v3)
+	x=qfrechet((1-alpha),mu=kloc,sigma=exp(v1+v2*t0),lambda=v3)
 	nx=length(x)
 	vf=Vectorize(frechet_p2k1_pdd,"x")
-	temp1=vf(x,t,kloc,v1,v2,v3)
+	temp1=vf(x,t0,kloc,v1,v2,v3)
 	mu2=-deriv_copyfdd(temp1,nx,dim=3)
 	return(mu2)
 }
@@ -288,7 +312,7 @@ frechet_p2k1_ldda=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_logfdd,"x")
+	vf=Vectorize(frechet_p2k1_logfdd,c("x","t"))
 	temp1=vf(x,t,kloc,v1,v2,v3)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -301,7 +325,7 @@ frechet_p2k1_lddda=function(x,t,v1,v2,v3,kloc){
 # the v1 coming in here is sigma, and the v2 is lambda, following my cp code
 # I have to switch below
 	nx=length(x)
-	vf=Vectorize(frechet_p2k1_logfddd,"x")
+	vf=Vectorize(frechet_p2k1_logfddd,c("x","t"))
 	temp1=vf(x,t,kloc,v1,v2,v3) #these are in mu, sigma, lambda order
 	lddd=deriv_copylddd(temp1,nx,dim=3)
 	return(lddd)

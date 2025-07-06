@@ -4,26 +4,7 @@
 \alias{dgev_p123sub}
 \title{Densities for 5 predictions}
 \usage{
-dgev_p123sub(
-  x,
-  t1,
-  t2,
-  t3,
-  y,
-  t01,
-  t02,
-  t03,
-  ics,
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
-  d6 = 0.01,
-  extramodels,
-  debug,
-  aderivs = TRUE
-)
+dgev_p123sub(x, t1, t2, t3, y, t01, t02, t03, ics, extramodels, debug)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -44,23 +25,9 @@ dgev_p123sub(
 
 \item{ics}{initial conditions for the maximum likelihood search}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d5}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d6}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{extramodels}{logical that indicates whether to add three additional prediction models}
 
 \item{debug}{debug flag}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

@@ -22,15 +22,9 @@ qgev_p123_cp(
   n03 = NA,
   p = seq(0.1, 0.9, 0.1),
   ics = c(0, 0, 0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
-  d6 = 0.01,
   fdalpha = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   means = FALSE,
   waicscores = FALSE,
   extramodels = FALSE,
@@ -39,8 +33,7 @@ qgev_p123_cp(
   rust = FALSE,
   nrust = 1e+05,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 rgev_p123_cp(
@@ -56,20 +49,13 @@ rgev_p123_cp(
   n02 = NA,
   n03 = NA,
   ics = c(0, 0, 0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
-  d6 = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   extramodels = FALSE,
   rust = FALSE,
   mlcp = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 dgev_p123_cp(
@@ -85,20 +71,13 @@ dgev_p123_cp(
   n03 = NA,
   y = x,
   ics = c(0, 0, 0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
-  d6 = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   extramodels = FALSE,
   rust = FALSE,
   nrust = 10,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 pgev_p123_cp(
@@ -114,20 +93,13 @@ pgev_p123_cp(
   n03 = NA,
   y = x,
   ics = c(0, 0, 0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
-  d6 = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 tgev_p123_cp(
@@ -137,12 +109,6 @@ tgev_p123_cp(
   t2,
   t3,
   ics = c(0, 0, 0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
-  d6 = 0.01,
   extramodels = FALSE,
   debug = FALSE
 )
@@ -181,24 +147,6 @@ such that \code{length(t3)=length(x)}}
 
 \item{ics}{initial conditions for the maximum likelihood search}
 
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
-
-\item{d3}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the third parameter}
-
-\item{d4}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the fourth parameter}
-
-\item{d5}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the fifth parameter}
-
-\item{d6}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the sixth parameter}
-
 \item{fdalpha}{if \code{pdf=TRUE}, the fractional delta used for numerical derivatives
 with respect to probability, for calculating the pdf as a function of quantiles}
 
@@ -230,10 +178,6 @@ sampling calculations should be run or not (longer run time)}
 \item{centering}{logical that indicates whether the predictor should be centered}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 

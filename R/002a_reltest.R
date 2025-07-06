@@ -134,11 +134,11 @@
 #' @author
 #' Stephen Jewson \email{stephen.jewson@@gmail.com}
 #'
-#' @example man/examples/example_01_reltest.R
+#' @example man/examples/example_001_reltest.R
 #'
 #' @export
 #'
-reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=c(1),
+reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=NA,
 	alpha=seq(0.005,0.995,0.005),
 	plotflag=TRUE,verbose=TRUE,dmgs=TRUE,debug=FALSE,aderivs=TRUE,
 	unbiasedv=FALSE,pwm=FALSE,minxi=-10,maxxi=10){
@@ -166,6 +166,10 @@ reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=c(1),
 	known_scale=1 #pareto
 	known_loc=0 #frechet
 #
+# set default params
+#
+	params=reltest_params(model,params)
+#
 # the big testingloop
 #
 	if(dmgs==FALSE)	nmethods=1
@@ -181,6 +185,7 @@ reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=c(1),
 #
 # make random training and testing data
 #
+			cat("model=",model,"\n")
 			xx=reltest_simulate(model,nx,tt,tt1,tt2,tt3,params,minxi=minxi,maxxi=maxxi)
 #
 # make predictions

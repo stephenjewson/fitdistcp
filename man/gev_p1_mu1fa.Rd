@@ -4,12 +4,12 @@
 \alias{gev_p1_mu1fa}
 \title{Minus the first derivative of the cdf, at alpha}
 \usage{
-gev_p1_mu1fa(alpha, t, v1, v2, v3, v4)
+gev_p1_mu1fa(alpha, t0, v1, v2, v3, v4)
 }
 \arguments{
 \item{alpha}{a vector of values of alpha (one minus probability)}
 
-\item{t}{a vector or matrix of predictors}
+\item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
 \item{v1}{first parameter}
 

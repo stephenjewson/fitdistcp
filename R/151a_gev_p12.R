@@ -49,11 +49,11 @@ NULL
 #'
 
 qgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=c(0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,fdalpha=0.01,
-	minxi=-0.45,maxxi=0.45,
+	fdalpha=0.01,
+	minxi=-1,maxxi=1,
 	means=FALSE,waicscores=FALSE,extramodels=FALSE,
 	pdf=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,predictordata=TRUE,
-	centering=TRUE,debug=FALSE,aderivs=TRUE){
+	centering=TRUE,debug=FALSE){
 
 	stopifnot(	is.finite(x),!is.na(x),is.finite(p),!is.na(p),p>0,p<1,
 							length(t1)==length(x),length(t2)==length(x),
@@ -164,64 +164,39 @@ qgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=
 			fhatp=dgev_p12(ml_quantilesp,t01,t02,ymn=v1hat,slope=v2hat,sigma1=v3hat,sigma2=v4hat,xi=v5hat,log=FALSE)
 		}
 #
-# 8 ldd (two versions)
+# 8 ldd
 #
 		if(debug)message("calc ldd")
-		if(aderivs) ldd=gev_p12_ldda(x,t1,t2,v1hat,v2hat,v3hat,v4hat,v5hat)
-		if(!aderivs)ldd=gev_p12_ldd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
+		ldd=gev_p12_ldda(x,t1,t2,v1hat,v2hat,v3hat,v4hat,v5hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
-		if(extramodels|means)ldd_k5=gev_p12k3_ldd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat)
-		if(extramodels|means)lddi_k5=solve(ldd_k5)
 #
-# 9 information matrix and related (for Jeffreys prior)
-# -because of difficulty of calculating expected information, I just use observed information
-		if(debug)message(" call gev.infomat")
-		if(extramodels|means){
-			gg=-ldd
-			ggi=solve(gg)
-			detg=det(gg)
-			ggd=gev_p12_ggd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)	#uses ldd! so not expected at all, just observed
-		}
-#
-# 10 calculate lddd (two versions)
+# 10 calculate lddd
 #
 		if(debug)message(" calc lddd")
-		if(aderivs) lddd=gev_p12_lddda(x,t1,t2,v1hat,v2hat,v3hat,v4hat,v5hat)
-		if(!aderivs)lddd=gev_p12_lddd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
-		if(extramodels|means)lddd_k5=gev_p12k3_lddd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d5,v5hat)
+		lddd=gev_p12_lddda(x,t1,t2,v1hat,v2hat,v3hat,v4hat,v5hat)
 #
-# 11 mu1 (two versions)
+# 11 mu1
 #
 		if(debug)message(" calculate mu1")
 
-		if(aderivs) mu1=gev_p12_mu1fa(alpha,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
-		if(!aderivs)mu1=gev_p12_mu1f(alpha,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
-
-		if(extramodels|means)mu1_k5=gev_p12k3_mu1f(alpha,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d5,v5hat)
+		mu1=gev_p12_mu1fa(alpha,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
 		if(pdf){
-			if(aderivs){
-				mu1m=gev_p12_mu1fa(alpham,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
-				mu1p=gev_p12_mu1fa(alphap,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
-			} else {
-				mu1m=gev_p12_mu1f(alpham,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
-				mu1p=gev_p12_mu1f(alphap,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
-			}
+			mu1m=gev_p12_mu1fa(alpham,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
+			mu1p=gev_p12_mu1fa(alphap,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
 		}
 #
-# 12 mu2 (two versions)
+# 12 mu2
 #
 		if(debug)message(" calculate mu2")
-		mu2=gev_p12_mu2f(alpha,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
-		if(extramodels|means){
-			if(debug)message(" calculate mu2_k5")
-			mu2_k5=gev_p12k3_mu2f(alpha,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat)
-		}
+		mu2=gev_p12_mu2fa(alpha,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
 		if(pdf){
 			if(debug)message(" alpha pdf option")
-			mu2m=gev_p12_mu2f(alpham,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
-			mu2p=gev_p12_mu2f(alphap,t01,t02,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5)
+			mu2m=gev_p12_mu2fa(alpham,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
+			mu2p=gev_p12_mu2fa(alphap,t01,t02,v1hat,v2hat,v3hat,v4hat,v5hat)
 		}
+#
+# 13 rh_flat model
 #
 		if(debug)message("call dmgs")
 		lambdad_cp=matrix(0,5)
@@ -229,24 +204,13 @@ qgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=
 		if(debug)message("make cp quantiles")
 		rh_flat_quantiles=ml_quantiles+dq/(nx*fhat)
 #
-# 14 model 4: rh_Flat with flat prior on shape (needs to use 4d version of Bayesian code)
-#
-		if(debug)message("step 14")
-		if(extramodels|means){
-			lambdad_crhp_mle=matrix(0,4)
-			dq=dmgs(lddi,lddd,mu1,lambdad_crhp_mle,mu2,dim=4)
-			crhp_mle_quantiles=ml_quantiles+dq/(nx*fhat)
-		} else {
-			crhp_mle_quantiles="extramodels not selected"
-		}
-#
 # 15 alpha pdf
 #
 		if(debug)message("step 15")
 		if(pdf){
 			lambdad_crhp_mle=matrix(0,4)
-			dqm=dmgs(lddi,lddd,mu1m,lambdad_crhp_mle,mu2m,dim=4)
-			dqp=dmgs(lddi,lddd,mu1p,lambdad_crhp_mle,mu2p,dim=4)
+			dqm=dmgs(lddi,lddd,mu1m,lambdad_cp,mu2m,dim=5)
+			dqp=dmgs(lddi,lddd,mu1p,lambdad_cp,mu2p,dim=5)
 			quantilesm=ml_quantilesm+dqm/(nx*fhatm)
 			quantilesp=ml_quantilesp+dqp/(nx*fhatp)
 			ml_pdf=fhat
@@ -262,13 +226,12 @@ qgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=
 		means=gev_p12_means(means,t01,t02,ml_params,nx)
 		ml_mean				=means$ml_mean
 		rh_flat_mean	=means$cp_mean
-		crhp_mle_mean	=means$flat_mean
 #
 # 17 waicscores
 #
 		if(debug)message("step 17")
-		waic=gev_p12_waic(waicscores,x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,v5hat,d5,
-			lddi,lddd,lambdad_cp,aderivs)
+		waic=gev_p12_waic(waicscores,x,t1,t2,v1hat,v2hat,v3hat,v4hat,v5hat,
+			lddi,lddd,lambdad_cp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
@@ -329,10 +292,9 @@ qgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=
 #' @inheritParams man
 #' @export
 rgev_p12_cp=function(n,x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,ics=c(0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,
-		minxi=-0.45,maxxi=0.45,
+		minxi=-1,maxxi=1,
 		extramodels=FALSE,rust=FALSE,mlcp=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),is.finite(t1),is.finite(t2),!is.na(t1),!is.na(t2),
 #						length(ics)==4)
@@ -362,8 +324,8 @@ rgev_p12_cp=function(n,x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,ics=c(0,0,0,0,0),
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgev_p12_cp(x,t1=t1,t2=t2,t01=t01,t02=t02,n01=NA,n02=NA,p=runif(n),ics=ics,d1=d1,d2=d2,d3=d3,d4=d4,d5=d5,
-			extramodels=extramodels,centering=centering,aderivs=aderivs)
+		q=qgev_p12_cp(x,t1=t1,t2=t2,t01=t01,t02=t02,n01=NA,n02=NA,p=runif(n),ics=ics,
+			extramodels=extramodels,centering=centering)
 		ml_params=q$ml_params
 		if(debug)message(" inside rgev_p12_cp: ml_params=",ml_params)
 		ml_deviates=q$ml_quantiles
@@ -394,7 +356,7 @@ rgev_p12_cp=function(n,x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,ics=c(0,0,0,0,0),
 			 ml_deviates=ml_deviates,
 			 cp_deviates=cp_deviates,
 			 ru_deviates=ru_deviates,
-				cp_method=crhpflat_dmgs_cpmethod())
+			 cp_method=crhpflat_dmgs_cpmethod())
 
 	return(op)
 
@@ -403,9 +365,8 @@ rgev_p12_cp=function(n,x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,ics=c(0,0,0,0,0),
 #' @inheritParams man
 #' @export
 dgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,
-	minxi=-0.45,maxxi=0.45,extramodels=FALSE,
-	rust=FALSE,nrust=10,centering=TRUE,debug=FALSE,aderivs=TRUE){
+	minxi=-1,maxxi=1,extramodels=FALSE,
+	rust=FALSE,nrust=10,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 							length(t1)==length(x),length(t2)==length(x),
@@ -441,8 +402,8 @@ dgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
 	ml_params=c(v1hat,v2hat,v3hat,v4hat,v5hat)
 #	gev_p12_checkmle(ml_params,minxi,maxxi)
 	if(debug)message(" call sub")
-	dd=dgev_p12sub(x=x,t1=t1,t2=t2,y=y,t01=t01,t02=t02,ics=ics,d1,d2,d3,d4,d5,
-		minxi,maxxi,extramodels=extramodels,debug=debug,aderivs=aderivs)
+	dd=dgev_p12sub(x=x,t1=t1,t2=t2,y=y,t01=t01,t02=t02,ics=ics,
+		minxi,maxxi,extramodels=extramodels,debug=debug)
 	ru_pdf="rust not selected"
 		ml_params=dd$ml_params
 
@@ -484,9 +445,8 @@ dgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
 #' @inheritParams man
 #' @export
 pgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,
-	minxi=-0.45,maxxi=0.45,extramodels=FALSE,
-	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE,aderivs=TRUE){
+	minxi=-1,maxxi=1,extramodels=FALSE,
+	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 							length(t1)==length(x),length(t2)==length(x),
@@ -517,8 +477,8 @@ pgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
 	if(v5hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat,v3hat,v4hat,v5hat)
 #	gev_p12_checkmle(ml_params,minxi,maxxi)
-	dd=dgev_p12sub(x=x,t1=t1,t2=t2,y=y,t01=t01,t02=t02,ics=ics,d1,d2,d3,d4,d5,
-		minxi,maxxi,extramodels=extramodels,debug=debug,aderivs=aderivs)
+	dd=dgev_p12sub(x=x,t1=t1,t2=t2,y=y,t01=t01,t02=t02,ics=ics,
+		minxi,maxxi,extramodels=extramodels,debug=debug)
 	ru_cdf="rust not selected"
 		ml_params=dd$ml_params
 
@@ -555,7 +515,6 @@ pgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
 #' @inheritParams man
 #' @export
 tgev_p12_cp=function(n,x,t1,t2,ics=c(0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,
 	extramodels=FALSE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),

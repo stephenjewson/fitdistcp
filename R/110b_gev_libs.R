@@ -72,6 +72,20 @@ gev_loglik=function(vv,x){
 	loglik=sum(extraDistr::dgev(x,mu=vv[1],sigma=max(vv[2],.Machine$double.eps),xi=vv[3],log=TRUE))
 	return(loglik)
 }
+#' Check MLE
+#' @return No return value (just a message to the screen).
+#' @inheritParams manf
+gev_checkmle=function(ml_params,minxi=-1,maxxi=1){
+# currently not used, because instead I revert2ml
+	v1hat=ml_params[1]
+	v2hat=ml_params[2]
+	v3hat=ml_params[3]
+	if(is.na(v1hat))stop()
+	if(is.na(v2hat))stop()
+	if(is.na(v3hat))stop()
+	if(v3hat<minxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
+	if(v3hat>maxxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
+}
 #' Analytical Expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1
 #' @inherit manmeans return
@@ -136,7 +150,7 @@ gev_means=function(means,ml_params,lddi,lddd,
 #' Densities for 5 predictions
 #' @inherit mandsub return
 #' @inheritParams manf
-dgevsub=function(x,y,ics){
+dgevsub=function(x,y,ics,minxi,maxxi){
 
 		nx=length(x)
 
@@ -146,6 +160,7 @@ dgevsub=function(x,y,ics){
 		v2hat=opt$par[2]
 		v3hat=opt$par[3]
 		ml_params=c(v1hat,v2hat,v3hat)
+ 	  gev_checkmle(ml_params,minxi,maxxi)
 
 # mle
 		ml_pdf=extraDistr::dgev(y,mu=v1hat,sigma=v2hat,xi=v3hat)

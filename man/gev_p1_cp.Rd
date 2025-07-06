@@ -16,13 +16,9 @@ qgev_p1_cp(
   n0 = NA,
   p = seq(0.1, 0.9, 0.1),
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  d4 = 0.01,
   fdalpha = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   means = FALSE,
   waicscores = FALSE,
   extramodels = FALSE,
@@ -32,8 +28,7 @@ qgev_p1_cp(
   nrust = 1e+05,
   predictordata = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 rgev_p1_cp(
@@ -43,17 +38,12 @@ rgev_p1_cp(
   t0 = NA,
   n0 = NA,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  d4 = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   extramodels = FALSE,
   rust = FALSE,
   mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 dgev_p1_cp(
@@ -63,18 +53,13 @@ dgev_p1_cp(
   n0 = NA,
   y = x,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  d4 = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 pgev_p1_cp(
@@ -84,32 +69,16 @@ pgev_p1_cp(
   n0 = NA,
   y = x,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  d4 = 0.01,
-  minxi = -0.45,
-  maxxi = 0.45,
+  minxi = -1,
+  maxxi = 1,
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
-)
-
-tgev_p1_cp(
-  n,
-  x,
-  t,
-  ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  d4 = 0.01,
-  extramodels = FALSE,
   debug = FALSE
 )
+
+tgev_p1_cp(n, x, t, ics = c(0, 0, 0, 0), extramodels = FALSE, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -125,18 +94,6 @@ tgev_p1_cp(
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
 
 \item{ics}{initial conditions for the maximum likelihood search}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
-
-\item{fd3}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the third parameter}
-
-\item{d4}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the fourth parameter}
 
 \item{fdalpha}{if \code{pdf=TRUE}, the fractional delta used for numerical derivatives
 with respect to probability, for calculating the pdf as a function of quantiles}
@@ -171,10 +128,6 @@ sampling calculations should be run or not (longer run time)}
 \item{centering}{logical that indicates whether the predictor should be centered}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 
@@ -385,7 +338,7 @@ equation is not possible.
 \section{Optional Return Values (some EVT models only)}{
 
 
-{q****} optionally returns the following, for some EVT models only:
+\code{q****} optionally returns the following, for some EVT models only:
 
 If \code{extramodels=TRUE}:
 \itemize{

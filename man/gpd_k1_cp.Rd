@@ -14,11 +14,9 @@ qgpd_k1_cp(
   p = seq(0.1, 0.9, 0.1),
   kloc = 0,
   ics = c(0, 0),
-  fd1 = 0.01,
-  d2 = 0.01,
   fdalpha = 0.01,
   customprior = 0,
-  minxi = -0.45,
+  minxi = -1,
   maxxi = 2,
   means = FALSE,
   waicscores = FALSE,
@@ -27,8 +25,7 @@ qgpd_k1_cp(
   dmgs = TRUE,
   rust = FALSE,
   nrust = 1e+05,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 rgpd_k1_cp(
@@ -36,15 +33,12 @@ rgpd_k1_cp(
   x,
   kloc = 0,
   ics = c(0, 0),
-  fd1 = 0.01,
-  d2 = 0.01,
-  minxi = -0.45,
+  minxi = -1,
   maxxi = 2,
   extramodels = FALSE,
   rust = FALSE,
   mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 dgpd_k1_cp(
@@ -52,16 +46,13 @@ dgpd_k1_cp(
   y = x,
   kloc = 0,
   ics = c(0, 0),
-  fd1 = 0.01,
-  d2 = 0.01,
   customprior = 0,
-  minxi = -0.45,
+  minxi = -1,
   maxxi = 2,
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 pgpd_k1_cp(
@@ -69,28 +60,16 @@ pgpd_k1_cp(
   y = x,
   kloc = 0,
   ics = c(0, 0),
-  fd1 = 0.01,
-  d2 = 0.01,
   customprior = 0,
-  minxi = -0.45,
+  minxi = -1,
   maxxi = 2,
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
-  debug = FALSE,
-  aderivs = TRUE
-)
-
-tgpd_k1_cp(
-  n,
-  x,
-  kloc = 0,
-  ics = c(0, 0),
-  fd1 = 0.01,
-  d2 = 0.01,
-  extramodels = FALSE,
   debug = FALSE
 )
+
+tgpd_k1_cp(n, x, kloc = 0, ics = c(0, 0), extramodels = FALSE, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -100,12 +79,6 @@ tgpd_k1_cp(
 \item{kloc}{the known location parameter}
 
 \item{ics}{initial conditions for the maximum likelihood search}
-
-\item{fd1}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
 
 \item{fdalpha}{if \code{pdf=TRUE}, the fractional delta used for numerical derivatives
 with respect to probability, for calculating the pdf as a function of quantiles}
@@ -139,10 +112,6 @@ sampling calculations should be run or not (longer run time)}
 \item{nrust}{the number of posterior samples used in the RUST calculations}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 
@@ -347,7 +316,7 @@ equation is not possible.
 \section{Optional Return Values (some EVT models only)}{
 
 
-{q****} optionally returns the following, for some EVT models only:
+\code{q****} optionally returns the following, for some EVT models only:
 
 If \code{extramodels=TRUE}:
 \itemize{

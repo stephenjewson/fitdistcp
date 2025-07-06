@@ -42,7 +42,7 @@
 #' @author
 #' Stephen Jewson \email{stephen.jewson@@gmail.com}
 #'
-#' @example man/examples/example_02_reltest2.R
+#' @example man/examples/example_002_reltest2.R
 #'
 #' @export
 #'

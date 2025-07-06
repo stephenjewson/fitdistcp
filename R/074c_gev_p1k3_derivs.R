@@ -195,25 +195,49 @@ gev_p1k3_logfddd=function (x, t, v1, v2, v3, v4)
             1)/v3 + (.e59 + .e3/.e19) * .e3)/v3))/v3)))
 }
 ############################################################
-#' The first derivative of the density
+#' The first derivative of the density for DMGS
 #' @returns Vector
 #' @inheritParams manf
-gev_p1k3_f1fa=function(x,t,v1,v2,v3,kshape){
+gev_p1k3_f1fa=function(x,t0,v1,v2,v3,kshape){
 	kshape=movexiawayfromzero(kshape)
 	vf=Vectorize(gev_p1k3_fd,"x")
+	f1=vf(x,t0,v1,v2,v3,kshape)
+	return(f1)
+}
+############################################################
+#' The first derivative of the density for WAIC
+#' @returns Vector
+#' @inheritParams manf
+gev_p1k3_f1fw=function(x,t,v1,v2,v3,kshape){
+	kshape=movexiawayfromzero(kshape)
+	vf=Vectorize(gev_p1k3_fd,c("x","t"))
 	f1=vf(x,t,v1,v2,v3,kshape)
 	return(f1)
 }
 ############################################################
-#' The second derivative of the density
+#' The second derivative of the density for DMGS
 #' @returns Matrix
 #' @inheritParams manf
-gev_p1k3_f2fa=function(x,t,v1,v2,v3,kshape){
+gev_p1k3_f2fa=function(x,t0,v1,v2,v3,kshape){
 	nx=length(x)
 
 	kshape=movexiawayfromzero(kshape)
 
 	vf=Vectorize(gev_p1k3_fdd,"x")
+	temp1=vf(x,t0,v1,v2,v3,kshape)
+	f2=deriv_copyfdd(temp1,nx,dim=3)
+	return(f2)
+}
+############################################################
+#' The second derivative of the density for WAIC
+#' @returns Matrix
+#' @inheritParams manf
+gev_p1k3_f2fw=function(x,t,v1,v2,v3,kshape){
+	nx=length(x)
+
+	kshape=movexiawayfromzero(kshape)
+
+	vf=Vectorize(gev_p1k3_fdd,c("x","t"))
 	temp1=vf(x,t,v1,v2,v3,kshape)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -222,25 +246,25 @@ gev_p1k3_f2fa=function(x,t,v1,v2,v3,kshape){
 #' Minus the first derivative of the cdf, at alpha
 #' @returns Vector
 #' @inheritParams manf
-gev_p1k3_mu1fa=function(alpha,t,v1,v2,v3,kshape){
-	x=extraDistr::qgev((1-alpha),mu=v1+v2*t,sigma=v3,xi=kshape)
+gev_p1k3_mu1fa=function(alpha,t0,v1,v2,v3,kshape){
+	x=extraDistr::qgev((1-alpha),mu=v1+v2*t0,sigma=v3,xi=kshape)
 	kshape=movexiawayfromzero(kshape)
 	vf=Vectorize(gev_p1k3_pd,"x")
-	mu1=-vf(x,t,v1,v2,v3,kshape)
+	mu1=-vf(x,t0,v1,v2,v3,kshape)
 	return(mu1)
 }
 ############################################################
 #' Minus the second derivative of the cdf, at alpha
 #' @returns Matrix
 #' @inheritParams manf
-gev_p1k3_mu2fa=function(alpha,t,v1,v2,v3,kshape){
-	x=extraDistr::qgev((1-alpha),mu=v1+v2*t,sigma=v3,xi=kshape)
+gev_p1k3_mu2fa=function(alpha,t0,v1,v2,v3,kshape){
+	x=extraDistr::qgev((1-alpha),mu=v1+v2*t0,sigma=v3,xi=kshape)
 	nx=length(x)
 
 	kshape=movexiawayfromzero(kshape)
 
 	vf=Vectorize(gev_p1k3_pdd,"x")
-	temp1=vf(x,t,v1,v2,v3,kshape)
+	temp1=vf(x,t0,v1,v2,v3,kshape)
 	mu2=-deriv_copyfdd(temp1,nx,dim=3)
 	return(mu2)
 }
@@ -253,7 +277,7 @@ gev_p1k3_ldda=function(x,t,v1,v2,v3,kshape){
 
 	kshape=movexiawayfromzero(kshape)
 
-	vf=Vectorize(gev_p1k3_logfdd,"x")
+	vf=Vectorize(gev_p1k3_logfdd,c("x","t"))
 	temp1=vf(x,t,v1,v2,v3,kshape)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -264,7 +288,7 @@ gev_p1k3_ldda=function(x,t,v1,v2,v3,kshape){
 #' @inheritParams manf
 gev_p1k3_lddda=function(x,t,v1,v2,v3,kshape){
 	nx=length(x)
-	vf=Vectorize(gev_p1k3_logfddd,"x")
+	vf=Vectorize(gev_p1k3_logfddd,c("x","t"))
 
 	kshape=movexiawayfromzero(kshape)
 

@@ -36,7 +36,7 @@
 #' @author
 #' Stephen Jewson \email{stephen.jewson@@gmail.com}
 #'
-#' @example man/examples/example_03_ms_predictors_1tail.R
+#' @example man/examples/example_004c_ms_predictors_1tail.R
 #'
 #' @export
 #'
@@ -77,10 +77,15 @@ if(min(xx)<1){
 nx=length(xx)
 nmodels=5
 pp1=(c(1:nx)-0.5)/nx
+cat("1\n")
 qq1=	qexp_p1_cp					(xx+dd1,	tt,n0=nx,p=pp1,waicscores=TRUE,logscores=TRUE)
+cat("2\n")
 qq2=	qpareto_p1k2_cp			(xx+dd2,	tt,n0=nx,p=pp1,waicscores=TRUE,logscores=TRUE)
+cat("3\n")
 qq3=	qlnorm_p1_cp				(xx+dd1,	tt,n0=nx,p=pp1,waicscores=TRUE,logscores=TRUE)
+cat("4\n")
 qq4=	qfrechet_p2k1_cp		(xx+dd1,	tt,n0=nx,p=pp1,waicscores=TRUE,logscores=TRUE)
+cat("5\n")
 qq5=	qweibull_p2_cp			(xx+dd1,	tt,n0=nx,p=pp1,waicscores=TRUE,logscores=TRUE)
 #
 # plot qq plots

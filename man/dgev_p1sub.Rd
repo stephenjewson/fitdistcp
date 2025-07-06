@@ -4,21 +4,7 @@
 \alias{dgev_p1sub}
 \title{Densities for 5 predictions}
 \usage{
-dgev_p1sub(
-  x,
-  t,
-  y,
-  t0,
-  ics,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  d4 = 0.01,
-  minxi,
-  maxxi,
-  extramodels = FALSE,
-  aderivs = TRUE
-)
+dgev_p1sub(x, t, y, t0, ics, minxi, maxxi, extramodels = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -31,21 +17,11 @@ dgev_p1sub(
 
 \item{ics}{initial conditions for the maximum likelihood search}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{minxi}{minimum value of shape parameter xi}
 
 \item{maxxi}{maximum value of shape parameter xi}
 
 \item{extramodels}{logical that indicates whether to add three additional prediction models}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

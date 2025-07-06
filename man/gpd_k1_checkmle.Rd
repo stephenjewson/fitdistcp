@@ -4,7 +4,7 @@
 \alias{gpd_k1_checkmle}
 \title{Check MLE}
 \usage{
-gpd_k1_checkmle(ml_params, kloc, minxi, maxxi)
+gpd_k1_checkmle(ml_params, kloc, minxi = -1, maxxi = 2)
 }
 \arguments{
 \item{ml_params}{parameters}

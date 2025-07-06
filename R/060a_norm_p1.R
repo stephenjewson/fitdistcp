@@ -116,7 +116,7 @@ qnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01
 #
 # 9 waicscores
 #
-	waic=norm_p1_waic(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=aderivs)
+	waic=norm_p1_waic(waicscores,x,ta,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=aderivs)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #

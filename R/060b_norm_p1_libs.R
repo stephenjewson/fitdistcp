@@ -49,8 +49,8 @@ qnorm_p1_formula=function(alpha,ta,ta0,nx,muhat0,v3hat){
 #' @inheritParams manf
 norm_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=TRUE){
 	if(waicscores){
-		f1f=norm_p1_f1f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
-		f2f=norm_p1_f2f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
+		f1f=norm_p1_f1fw(x,t,v1hat,v2hat,v3hat)
+		f2f=norm_p1_f2fw(x,t,v1hat,v2hat,v3hat)
 		if(aderivs) ldd=norm_p1_ldda(x,t,v1hat,v2hat,v3hat)
 		if(!aderivs)ldd=norm_p1_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
 		lddi=solve(ldd)

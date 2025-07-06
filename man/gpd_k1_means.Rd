@@ -9,11 +9,7 @@ gpd_k1_means(
   means,
   ml_params,
   lddi,
-  lddi_k2,
   lddd,
-  lddd_k2,
-  lambdad_flat,
-  lambdad_rh_mle,
   lambdad_rh_flat,
   lambdad_jp,
   nx,
@@ -28,15 +24,7 @@ gpd_k1_means(
 
 \item{lddi}{inverse observed information matrix}
 
-\item{lddi_k2}{inverse observed information matrix, fixed shape parameter}
-
 \item{lddd}{third derivative of log-likelihood}
-
-\item{lddd_k2}{third derivative of log-likelihood, fixed shape parameter}
-
-\item{lambdad_flat}{derivative of the log flat prior}
-
-\item{lambdad_rh_mle}{derivative of the log CRHP-MLE prior}
 
 \item{lambdad_rh_flat}{derivative of the log CRHP-FLAT prior}
 

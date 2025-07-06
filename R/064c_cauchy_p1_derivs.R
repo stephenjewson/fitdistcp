@@ -118,21 +118,41 @@ cauchy_p1_logfddd=function (x, t, v1, v2, v3)
                 1)/v3 + 2 * (.e14 * .e9/.e8))/v3))/v3))))
 }
 ############################################################
-#' The first derivative of the density
+#' The first derivative of the density for DMGS
 #' @returns Vector
 #' @inheritParams manf
-cauchy_p1_f1fa=function(x,t,v1,v2,v3){
+cauchy_p1_f1fa=function(x,t0,v1,v2,v3){
 	vf=Vectorize(cauchy_p1_fd,"x")
+	f1=vf(x,t0,v1,v2,v3)
+	return(f1)
+}
+############################################################
+#' The first derivative of the density for WAIC
+#' @returns Vector
+#' @inheritParams manf
+cauchy_p1_f1fw=function(x,t,v1,v2,v3){
+	vf=Vectorize(cauchy_p1_fd,c("x","t"))
 	f1=vf(x,t,v1,v2,v3)
 	return(f1)
 }
 ############################################################
-#' The second derivative of the density
+#' The second derivative of the density for DMGS
 #' @returns Matrix
 #' @inheritParams manf
-cauchy_p1_f2fa=function(x,t,v1,v2,v3){
+cauchy_p1_f2fa=function(x,t0,v1,v2,v3){
 	nx=length(x)
 	vf=Vectorize(cauchy_p1_fdd,"x")
+	temp1=vf(x,t0,v1,v2,v3)
+	f2=deriv_copyfdd(temp1,nx,dim=3)
+	return(f2)
+}
+############################################################
+#' The second derivative of the density for WAIC
+#' @returns Matrix
+#' @inheritParams manf
+cauchy_p1_f2fw=function(x,t,v1,v2,v3){
+	nx=length(x)
+	vf=Vectorize(cauchy_p1_fdd,c("x","t"))
 	temp1=vf(x,t,v1,v2,v3)
 	f2=deriv_copyfdd(temp1,nx,dim=3)
 	return(f2)
@@ -143,7 +163,7 @@ cauchy_p1_f2fa=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 cauchy_p1_ldda=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(cauchy_p1_logfdd,"x")
+	vf=Vectorize(cauchy_p1_logfdd,c("x","t"))
 	temp1=vf(x,t,v1,v2,v3)
 	ldd=deriv_copyldd(temp1,nx,dim=3)
 	return(ldd)
@@ -154,7 +174,7 @@ cauchy_p1_ldda=function(x,t,v1,v2,v3){
 #' @inheritParams manf
 cauchy_p1_lddda=function(x,t,v1,v2,v3){
 	nx=length(x)
-	vf=Vectorize(cauchy_p1_logfddd,"x")
+	vf=Vectorize(cauchy_p1_logfddd,c("x","t"))
 	temp1=vf(x,t,v1,v2,v3)
 	lddd=deriv_copylddd(temp1,nx,dim=3)
 	return(lddd)

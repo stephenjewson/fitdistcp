@@ -43,10 +43,10 @@ NULL
 #' @export
 #'
 qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
-	fd1=0.01,d2=0.01,fdalpha=0.01,customprior=0,
-	minxi=-0.45,maxxi=2.0,
+	fdalpha=0.01,customprior=0,
+	minxi=-1,maxxi=2.0,
 	means=FALSE,waicscores=FALSE,extramodels=FALSE,
-	pdf=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,debug=FALSE,aderivs=TRUE){
+	pdf=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,debug=FALSE){
 #
 # 1 intro
 #
@@ -89,11 +89,8 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 # dmgs
 #
 	standard_errors="dmgs not selected"
-	flat_quantiles="dmgs not selected"
-	rh_ml_quantiles="dmgs not selected"
 	cp_quantiles="dmgs not selected"
 	rh_flat_quantiles="dmgs not selected"
-	jp_quantiles="dmgs not selected"
 	lp_quantiles="dmgs not selected"
 	lp2_quantiles="dmgs not selected"
 	dpi_quantiles="dmgs not selected"
@@ -104,13 +101,9 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 	waic1="dmgs not selected"
 	waic2="dmgs not selected"
 	ml_mean="dmgs not selected"
-	flat_mean="dmgs not selected"
-	rh_mean="dmgs not selected"
 	rh_flat_mean="dmgs not selected"
-	rh_ml_mean="dmgs not selected"
 	cp_mean="dmgs not selected"
 	cp_method="dmgs not selected"
-	jp_mean="dmgs not selected"
 
 	if((dmgs)&&(!revert2ml)){
 #
@@ -124,99 +117,36 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 		}
 		if(debug)message("  ml_quantiles=",ml_quantiles)
 #
-# 6 expected information matrix and related (for Jeffreys prior)
-#
-		if(debug)message(" call gpd.infomat")
-		if(extramodels|means){
-			gg=gpd.infomat(c(v1hat,v2hat),dat=c(1),method=c("exp")) #faster than num (seems to fail when v3hat=0.4 though)
-			ggi=solve(gg)
-			detg=det(gg)
-			ggd=gpd_k1_ggd_mev(v1hat,fd1,v2hat,d2)	#is faster than num
-		}
-#
 # 7 ldd (two versions)
 #
 		if(debug)message("  calculate ldd")
-		if(aderivs) ldd=gpd_k1_ldda(x,v1hat,v2hat,kloc)
-		if(!aderivs)ldd=gpd_k1_ldd(x,v1hat,fd1,v2hat,d2,kloc)
+		ldd=gpd_k1_ldda(x,v1hat,v2hat,kloc)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 
-		if(extramodels|means){
-			if(aderivs)	ldd_k13=gpd_k13_ldda(x,v1hat,v2hat,kloc)
-			if(!aderivs)ldd_k13=gpd_k13_ldd(x,v1hat,fd1,v2hat,kloc)
-			lddi_k13=solve(ldd_k13)
-		}
-
 		if(debug)message("  ldd=",ldd)
-		if(extramodels&means&debug)message("  ldd_k13=",ldd_k13)
 #
 # 8 lddd (two versions)
 #
 		if(debug)message("  calculate lddd")
-		if(aderivs) lddd=gpd_k1_lddda(x,v1hat,v2hat,kloc)
-		if(!aderivs)lddd=gpd_k1_lddd(x,v1hat,fd1,v2hat,d2,kloc)
-		if(extramodels|means){
-			if(aderivs) lddd_k13=gpd_k13_lddda(x,v1hat,v2hat,kloc=kloc)
-			if(!aderivs)lddd_k13=gpd_k13_lddd(x,v1hat,fd1,v2hat,kloc=kloc)
-		}
+		lddd=gpd_k1_lddda(x,v1hat,v2hat,kloc)
 #
 # 9 mu1 (two versions)
 #
-		if(aderivs) mu1=gpd_k1_mu1fa(alpha,v1hat,v2hat,kloc)
-		if(!aderivs)mu1=gpd_k1_mu1f(alpha,v1hat,fd1,v2hat,d2,kloc)
+		mu1=gpd_k1_mu1fa(alpha,v1hat,v2hat,kloc)
 
-		if(extramodels|means){
-			if(aderivs )mu1_k13=gpd_k13_mu1fa(alpha,v1hat,v2hat,kloc)
-			if(!aderivs)mu1_k13=gpd_k13_mu1f(alpha,v1hat,fd1,v2hat,kloc)
-		}
 		if(pdf){
-			if(aderivs){
-				mu1m=gpd_k1_mu1fa(alpham,v1hat,v2hat,kloc)
-				mu1p=gpd_k1_mu1fa(alphap,v1hat,v2hat,kloc)
-			} else{
-				mu1m=gpd_k1_mu1f(alpham,v1hat,fd1,v2hat,d2,kloc)
-				mu1p=gpd_k1_mu1f(alphap,v1hat,fd1,v2hat,d2,kloc)
-			}
+			mu1m=gpd_k1_mu1fa(alpham,v1hat,v2hat,kloc)
+			mu1p=gpd_k1_mu1fa(alphap,v1hat,v2hat,kloc)
 		}
 #
 # 10 mu2 (two versions)
 #
-		if(aderivs) mu2=gpd_k1_mu2fa(alpha,v1hat,v2hat,kloc)
-		if(!aderivs)mu2=gpd_k1_mu2f(alpha,v1hat,fd1,v2hat,d2,kloc)
+		mu2=gpd_k1_mu2fa(alpha,v1hat,v2hat,kloc)
 
-		if(extramodels|means){
-			if(aderivs) mu2_k13=gpd_k13_mu2fa(alpha,v1hat,v2hat,kloc)
-			if(!aderivs)mu2_k13=gpd_k13_mu2f(alpha,v1hat,fd1,v2hat,kloc)
-		}
 		if(pdf){
-			if(aderivs){
-				mu2m=gpd_k1_mu2fa(alpham,v1hat,v2hat,kloc)
-				mu2p=gpd_k1_mu2fa(alphap,v1hat,v2hat,kloc)
-			} else {
-				mu2m=gpd_k1_mu2f(alpham,v1hat,fd1,v2hat,d2,kloc)
-				mu2p=gpd_k1_mu2f(alphap,v1hat,fd1,v2hat,d2,kloc)
-			}
-		}
-#
-# 11 model 2: flat prior
-#
-		if(extramodels|means){
-			lambdad_flat=c(0,0)
-			dq=dmgs(lddi,lddd,mu1,lambdad_flat,mu2,dim=2)
-			flat_quantiles=ml_quantiles+dq/(nx*fhat)
-		} else {
-			flat_quantiles="extramodels not selected"
-		}
-#
-# 12 model 3: rh_ML (needs to use 1d version of Bayesian code, and ldd_k13,lddd_k13,mu1_k13,mu2_k13)
-#
-		if(extramodels|means){
-			lambdad_rh_mle=c(-1/v1hat)
-			dq=dmgs(lddi_k13,lddd_k13,mu1_k13,lambdad_rh_mle,mu2_k13,dim=1)
-			rh_ml_quantiles=ml_quantiles+dq/(nx*fhat)
-		} else {
-			rh_ml_quantiles="extramodels not selected"
+			mu2m=gpd_k1_mu2fa(alpham,v1hat,v2hat,kloc)
+			mu2p=gpd_k1_mu2fa(alphap,v1hat,v2hat,kloc)
 		}
 #
 # 13 model 4: rh_Flat with flat prior on shape (needs to use 3d version of Bayesian code)
@@ -234,16 +164,6 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 		} else{
 			ml_pdf=fhat
 			rh_flat_pdf="pdf not selected"
-		}
-#
-# 14 model 5: JP, calculated from g, using Jacobi's formula, in a function in the generic library
-#
-		if(extramodels|means){
-			lambdad_jp=jpf2p(ggd,detg,ggi) #this is jp
-			dq=dmgs(lddi,lddd,mu1,lambdad_jp,mu2,dim=2)
-			jp_quantiles=ml_quantiles+dq/(nx*fhat)
-		} else {
-			jp_quantiles="extramodels not selected"
 		}
 #
 # 15 model 6: Laplace's method
@@ -280,18 +200,14 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 #
 # 18 means
 #
-		means=gpd_k1_means(means,ml_params,lddi,lddi_k13,lddd,lddd_k13,
-											lambdad_flat,lambdad_rh_mle,lambdad_rh_flat,lambdad_jp,nx,dim=2,kloc)
-		ml_mean				=means$ml_mean
-		flat_mean			=means$flat_mean
-		rh_ml_mean		=means$rh_ml_mean
+		means=gpd_k1_means(means,ml_params,lddi,
+											lambdad_rh_flat,nx,dim=2,kloc)
 		rh_flat_mean	=means$rh_flat_mean
-		jp_mean				=means$jp_mean
 #
 # 19 waicscores
 #
-		waic=gpd_k1_waic(waicscores,x,v1hat,fd1,v2hat,d2,kloc,lddi,lddd,
-			lambdad_rh_flat,aderivs)
+		waic=gpd_k1_waic(waicscores,x,v1hat,v2hat,kloc,lddi,lddd,
+			lambdad_rh_flat)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
@@ -303,19 +219,13 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
 	} else {
-		flat_quantiles=ml_quantiles
-		rh_ml_quantiles=ml_quantiles
 		rh_flat_quantiles=ml_quantiles
 		ru_quantiles=ml_quantiles
-		jp_quantiles=ml_quantiles
 		lp_quantiles=ml_quantiles
 		lp2_quantiles=ml_quantiles
 		dpi_quantiles=ml_quantiles
 		rh_flat_pdf=ml_pdf
-		flat_mean=ml_mean
-		rh_ml_mean=ml_mean
 		rh_flat_mean=ml_mean
-		jp_mean=ml_mean
 	} #end of if(dmgs)
 
 	list(	ml_params=ml_params,
@@ -326,11 +236,8 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 				ml_quantiles=ml_quantiles,
 				ml_max=ml_max,
 				revert2ml=revert2ml,
-				flat_quantiles=flat_quantiles,
-				rh_ml_quantiles=rh_ml_quantiles,
 				cp_quantiles=rh_flat_quantiles,
 				ru_quantiles=ru_quantiles,
-				jp_quantiles=jp_quantiles,
 				lp_quantiles=lp_quantiles,
 				lp2_quantiles=lp2_quantiles,
 				dpi_quantiles=dpi_quantiles,
@@ -340,41 +247,32 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 				waic1=waic1,
 				waic2=waic2,
 				ml_mean=ml_mean,
-				flat_mean=flat_mean,
-				rh_ml_mean=rh_ml_mean,
 				cp_mean=rh_flat_mean,
-				jp_mean=jp_mean,
 				cp_method=crhpflat_dmgs_cpmethod())
 
 }
 #' @rdname gpd_k1_cp
 #' @inheritParams man
 #' @export
-rgpd_k1_cp=function(n,x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,
-	minxi=-0.45,maxxi=2.0,
-	extramodels=FALSE,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rgpd_k1_cp=function(n,x,kloc=0,ics=c(0,0),
+	minxi=-1,maxxi=2.0,
+	extramodels=FALSE,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==2,!x<0)
 	stopifnot(is.finite(x),!is.na(x),length(ics)==2,!x<0)
 
 	ml_params="mlcp not selected"
 	ml_deviates="mlcp not selected"
-	flat_deviates="mlcp not selected"
-	rh_ml_deviates="mlcp not selected"
-	jp_deviates="mlcp not selected"
 	ru_deviates="rust not selected"
 	cp_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgpd_k1_cp(x,runif(n),kloc=kloc,ics=ics,fd1=fd1,d2=d2,
-			extramodels=extramodels,aderivs=aderivs)
+		q=qgpd_k1_cp(x,runif(n),kloc=kloc,ics=ics,
+			extramodels=extramodels)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
-		flat_deviates=q$flat_quantiles
-		rh_ml_deviates=q$rh_ml_quantiles
 		ru_deviates=q$ru_quantiles
 		cp_deviates=q$cp_quantiles
-		jp_deviates=q$jp_quantiles
 	}
 
 	if(rust){
@@ -386,12 +284,9 @@ rgpd_k1_cp=function(n,x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,
 	}
 	op=list(ml_params=ml_params,
 			 ml_deviates=ml_deviates,
-			 flat_deviates=flat_deviates,
-			 rh_ml_deviates=rh_ml_deviates,
 			 cp_deviates=cp_deviates,
 			 ru_deviates=ru_deviates,
-			 jp_deviates=jp_deviates,
-				cp_method=crhpflat_dmgs_cpmethod())
+			 cp_method=crhpflat_dmgs_cpmethod())
 
 	return(op)
 
@@ -399,9 +294,10 @@ rgpd_k1_cp=function(n,x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,
 #' @rdname gpd_k1_cp
 #' @inheritParams man
 #' @export
-dgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
-	minxi=-0.45,maxxi=2.0,extramodels=FALSE,
-	rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+dgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),
+	customprior=0,
+	minxi=-1,maxxi=2.0,extramodels=FALSE,
+	rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),length(ics)==2,!x<0,!y<0)
 
@@ -411,9 +307,9 @@ dgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 	v2hat=opt1$par[2]
 	if(v2hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat)
-	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
-	dd=dgpdsub(x=x,y=y,ics=ics,fd1=fd1,d2=d2,kloc,customprior,
-		minxi,maxxi,extramodels=extramodels,aderivs=aderivs)
+#	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
+	dd=dgpdsub(x=x,y=y,ics=ics,kloc,customprior,
+		minxi,maxxi,extramodels=extramodels)
 	ru_pdf="rust not selected"
 
 	if(rust&&(!revert2ml)){
@@ -430,12 +326,6 @@ dgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 					ml_params=dd$ml_params,
 					ml_pdf=dd$ml_pdf,
 					revert2ml=revert2ml,
-#					flat_pdf=dd$flat_pdf,
-#					rh_ml_pdf=dd$rh_ml_pdf,
-#					cp_pdf=dd$rh_flat_pdf,
-#					ru_pdf=ru_pdf,
-#					jp_pdf=dd$jp_pdf,
-#					dpi_pdf=dd$dpi_pdf,
 					ru_pdf=ru_pdf,
 					cp_method=nopdfcdfmsg())
 
@@ -444,9 +334,9 @@ dgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 #' @rdname gpd_k1_cp
 #' @inheritParams man
 #' @export
-pgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
-	minxi=-0.45,maxxi=2.0,extramodels=FALSE,
-	rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+pgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),customprior=0,
+	minxi=-1,maxxi=2.0,extramodels=FALSE,
+	rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),length(ics)==2,!x<0,!y<0)
 
@@ -456,9 +346,9 @@ pgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 	v2hat=opt1$par[2]
 	if(v2hat<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ml_params=c(v1hat,v2hat)
-	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
-	dd=dgpdsub(x=x,y=y,ics=ics,fd1=fd1,d2=d2,kloc,customprior,
-		minxi,maxxi,extramodels=extramodels,aderivs=aderivs)
+#	gpd_k1_checkmle(ml_params,kloc,minxi,maxxi)
+	dd=dgpdsub(x=x,y=y,ics=ics,kloc,customprior,
+		minxi,maxxi,extramodels=extramodels)
 	ru_cdf="rust not selected"
 
 	if(rust&&(!revert2ml)){
@@ -476,12 +366,6 @@ pgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 					ml_params=dd$ml_params,
 					ml_cdf=dd$ml_cdf,
 					revert2ml=revert2ml,
-#					flat_cdf=dd$flat_cdf,
-#					rh_ml_cdf=dd$rh_ml_cdf,
-#					cp_cdf=dd$rh_flat_cdf,
-#					ru_cdf=ru_cdf,
-#					jp_cdf=dd$jp_cdf,
-#					dpi_cdf=dd$dpi_cdf,
 					ru_cdf=ru_cdf,
 					cp_method=nopdfcdfmsg())
 	return(op)
@@ -489,7 +373,7 @@ pgpd_k1_cp=function(x,y=x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,customprior=0,
 #' @rdname gpd_k1_cp
 #' @inheritParams man
 #' @export
-tgpd_k1_cp=function(n,x,kloc=0,ics=c(0,0),fd1=0.01,d2=0.01,extramodels=FALSE,debug=FALSE){
+tgpd_k1_cp=function(n,x,kloc=0,ics=c(0,0),extramodels=FALSE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==2,!x<0)
 	stopifnot(is.finite(x),!is.na(x),length(ics)==2,!x<0)

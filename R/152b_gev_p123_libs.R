@@ -37,16 +37,11 @@ rgev_p123_minmax=function(nx,mu,sigma,xi,t1,t2,t3,minxi=-0.45,maxxi=0.45,centeri
 #' Waic
 #' @inherit manwaic return
 #' @inheritParams manf
-gev_p123_waic=function(waicscores,x,t1,t2,t3,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6,
-	lddi,lddd,lambdad,aderivs){
+gev_p123_waic=function(waicscores,x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h,
+	lddi,lddd,lambdad){
 		if(waicscores){
-			if(aderivs){
-				f1f=gev_p123_f1fa(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
-				f2f=gev_p123_f2fa(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
-			} else {
-				f1f=gev_p123_f1f(x,t1,t2,t3,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
-				f2f=gev_p123_f2f(x,t1,t2,t3,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
-			}
+			f1f=gev_p123_f1fw(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
+			f2f=gev_p123_f2fw(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
 			fhatx=dgev_p123(x,t1,t2,t3,ymn=v1h,slope=v2h,sigma1=v3h,sigma2=v4h,xi1=v5h,xi2=v6h,log=FALSE)
 			waic=make_waic(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim=6)
 			waic1=waic$waic1
@@ -168,8 +163,8 @@ gev_p123_loglik=function(vv,x,t1,t2,t3){
 #' Check MLE
 #' @return No return value (just a message to the screen).
 #' @inheritParams manf
-gev_p123_checkmle=function(ml_params,minxi,maxxi,t1,t2,t3){
-# not used anymore, now that I use xireal and the transformation thing
+gev_p123_checkmle=function(ml_params,minxi=-1,maxxi=1,t1,t2,t3){
+# currently not used, because instead I revert2ml
 	v1h=ml_params[1]
 	v2h=ml_params[2]
 	v3h=ml_params[3]
@@ -258,289 +253,6 @@ pgev_p123=function(y,t1,t2,t3,ymn,slope,sigma1,sigma2,xi1,xi2){
 	return(extraDistr::pgev(y,mu=mu,sigma=sigma,xi=xi))
 
 }
-#' One component of the second derivative of the normalized log-likelihood
-#' @inherit manlnn return
-#' @inheritParams manf
-gev_p123_lmn=function(x,t1,t2,t3,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6,mm,nn){
-
-	nparams=6
-	nlmn3=3
-	nlmn4=4
-	net3=matrix(0,nlmn3,nparams)
-	net4=matrix(0,nlmn4,nparams)
-	lmn=matrix(0,nlmn4)
-	dd=c(d1,d2,d3,d4,d5,d6)
-	vv=c(v1,v2,v3,v4,v5,v6)
-	vvd=matrix(0,nparams)
-	nx=length(x)
-# different
-	if(mm!=nn){
-		net4[,mm]=c(-1,-1,1,1)
-		net4[,nn]=c(-1,1,-1,1)
-		for (i in 1:nlmn4){
-			for (j in 1:nparams){
-				vvd[j]=vv[j]+net4[i,j]*dd[j]
-			}
-			lmn[i]=sum(dgev_p123(x,t1,t2,t3,ymn=vvd[1],slope=vvd[2],sigma1=vvd[3],sigma2=vvd[4],xi1=vvd[5],xi2=vvd[6],log=TRUE))/nx
-		}
-		dld=(lmn[1]-lmn[2]-lmn[3]+lmn[4])/(4*dd[mm]*dd[nn])
-# same
-	} else {
-		net3[,mm]=c(-1,0,1)
-		for (i in 1:(nlmn4-1)){
-			for (j in 1:nparams){
-				vvd[j]=vv[j]+net3[i,j]*dd[j]
-			}
-			lmn[i]=sum(dgev_p123(x,t1,t2,t3,ymn=vvd[1],slope=vvd[2],sigma1=vvd[3],sigma2=vvd[4],xi1=vvd[5],xi2=vvd[6],log=TRUE))/nx
-		}
-		dld=(lmn[1]-2*lmn[2]+lmn[3])/(dd[mm]*dd[mm])
-	}
-	return(dld)
-}
-#' Second derivative matrix of the normalized log-likelihood
-#' @inherit manldd return
-#' @inheritParams manf
-gev_p123_ldd=function(x,t1,t2,t3,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6){
-	nx=length(x)
-	nparams=6
-	ldd=matrix(0,nparams,nparams)
-	for (i in 1:nparams){
-		for (j in i:nparams){
-			ldd[i,j]=gev_p123_lmn(x,t1,t2,t3,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6,i,j)
-		}
-	}
-	for (i in nparams:2){
-		for (j in 1:(i-1)){
-			ldd[i,j]=ldd[j,i]
-		}
-	}
-	return(ldd)
-}
-#' One component of the second derivative of the normalized log-likelihood
-#' @inherit manlnnn return
-#' @inheritParams manf
-gev_p123_lmnp=function(x,t1,t2,t3,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6,mm,nn,rr){
-
-	nparams=6
-	nlmn4=4
-	nlmn6=6
-	nlmn8=8
-	net4=matrix(0,nlmn4,nparams)
-	net6=matrix(0,nlmn6,nparams)
-	net8=matrix(0,nlmn8,nparams)
-	lmn=matrix(0,nlmn8)
-	dd=c(d1,d2,d3,d4,d5,d6)
-	vv=c(v1,v2,v3,v4,v5,v6)
-	vvd=matrix(0,nparams)
-	nx=length(x)
-# all diff
-	if ((mm!=nn)&(nn!=rr)&(rr!=mm)){
-		net8[,mm]=c(-1,1,-1,1,-1,1,-1,1)
-		net8[,nn]=c(-1,-1,1,1,-1,-1,1,1)
-		net8[,rr]=c(-1,-1,-1,-1,1,1,1,1)
-		for (i in 1:nlmn8){
-			for (j in 1:nparams){
-				vvd[j]=vv[j]+net8[i,j]*dd[j]
-			}
-			lmn[i]=sum(dgev_p123(x,t1,t2,t3,ymn=vvd[1],slope=vvd[2],sigma1=vvd[3],sigma2=vvd[4],xi1=vvd[5],xi2=vvd[6],log=TRUE))/nx
-		}
-		dld1=(lmn[2]-lmn[1])/(2*dd[mm])
-		dld2=(lmn[4]-lmn[3])/(2*dd[mm])
-		dld21=(dld2-dld1)/(2*dd[nn])
-		dld3=(lmn[6]-lmn[5])/(2*dd[mm])
-		dld4=(lmn[8]-lmn[7])/(2*dd[mm])
-		dld43=(dld4-dld3)/(2*dd[nn])
-		dld=(dld43-dld21)/(2*dd[rr])
-# all 3 the same
-	} else if ((mm==nn)&(nn==rr)){
-		net4[,mm]=c(-2,-1,1,2)
-		for (i in 1:nlmn4){
-			for (j in 1:nparams){
-				vvd[j]=vv[j]+net4[i,j]*dd[j]
-			}
-			lmn[i]=sum(dgev_p123(x,t1,t2,t3,ymn=vvd[1],slope=vvd[2],sigma1=vvd[3],sigma2=vvd[4],xi1=vvd[5],xi2=vvd[6],log=TRUE))/nx
-		}
-		dld=(-lmn[1]+2*lmn[2]-2*lmn[3]+lmn[4])/(2*dd[mm]*dd[mm]*dd[mm])
-	} else {
-# 2 the same
-# mm is the repeated one, nn is the other one
-		if(mm==nn){m2=mm;n2=rr}
-		if(mm==rr){m2=mm;n2=nn}
-		if(nn==rr){m2=nn;n2=mm}
-		net6[,m2]=c(-1,0,1,-1,0,1)
-		net6[,n2]=c(-1,-1,-1,1,1,1)
-		for (i in 1:nlmn6){
-			for (j in 1:nparams){
-				vvd[j]=vv[j]+net6[i,j]*dd[j]
-			}
-			lmn[i]=sum(dgev_p123(x,t1,t2,t3,ymn=vvd[1],slope=vvd[2],sigma1=vvd[3],sigma2=vvd[4],xi1=vvd[5],xi2=vvd[6],log=TRUE))/nx
-		}
-		dld1=(lmn[3]-2*lmn[2]+lmn[1])/(dd[m2]*dd[m2])
-		dld2=(lmn[6]-2*lmn[5]+lmn[4])/(dd[m2]*dd[m2])
-		dld=(dld2-dld1)/(2*dd[n2])
-	}
-	return(dld)
-}
-#' Third derivative tensor of the normalized log-likelihood, with fixed shape parameter
-#' @inherit manlddd return
-#' @inheritParams manf
-gev_p123_lddd=function(x,t1,t2,t3,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6){
-	nparams=6
-	lddd=array(0,c(nparams,nparams,nparams))
-# calculate the unique values
-	for (i in 1:nparams){
-		for (j in i:nparams){
-			for (k in j:nparams){
-				lddd[i,j,k]=gev_p123_lmnp(x,t1,t2,t3,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6,i,j,k)
-			}
-		}
-	}
-# steves dumb algorithm for filling in the non-unique values
-	for (i in 1:nparams){
-		for (j in 1:nparams){
-			for (k in 1:nparams){
-				a=c(i,j,k)
-				b=sort(a)
-				lddd[a[1],a[2],a[3]]=lddd[b[1],b[2],b[3]]
-			}
-		}
-	}
-	return(lddd)
-}
-#' DMGS equation 2.1, f1 term, fixed shape parameter
-#' DMGS equation 2.1, f1 term
-#' @inherit man1f return
-#' @inheritParams manf
-gev_p123_f1f=function(y,t01,t02,t03,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6){
-
-	nparams=6
-	ymax=ifelse((v5+v6*t03)<0,v1+v2*t01-2*(d1+d2*t01)-(exp(v3+v4*t02)-2*(d3+d4*t01))/(v5+v6*t03),Inf)
-#	ymax=ifelse(v4<0,v1+v2*t01-2*(d1+d2*t01)-(v3-2*d3)/(v4-2*d4),Inf)
-# new method
-	dd=c(d1,d2,d3,d4,d5,d6)
-	vv=c(v1,v2,v3,v4,v5,v6)
-	f1=matrix(0,nparams,length(y))
-	for (i in 1:nparams){
-		vvm=vv
-		vvp=vv
-		vvm[i]=vv[i]-dd[i]
-		vvp[i]=vv[i]+dd[i]
-		Fm1=dgev_p123(y,t01,t02,t03,ymn=vvm[1],slope=vvm[2],sigma1=vvm[3],sigma2=vvm[4],xi1=vvm[5],xi2=vvm[6])
-		Fp1=dgev_p123(y,t01,t02,t03,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi1=vvp[5],xi2=vvp[6])
-		f1[i,]=ifelse(y<ymax,(Fp1-Fm1)/(2*dd[i]),0)
-	}
-	return(f1)
-}
-#' GEVD-with-p1: DMGS equation 3.3 mu1 term
-#' @inherit man1f return
-#' @inheritParams manf
-gev_p123_mu1f=function(alpha,t01,t02,t03,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6){
-
-	nparams=6
-	q00=qgev_p123((1-alpha),t01,t02,t03,ymn=v1,slope=v2,sigma1=v3,sigma2=v4,xi1=v5,xi2=v6)
-
-# new method
-	dd=c(d1,d2,d3,d4,d5,d6)
-	vv=c(v1,v2,v3,v4,v5,v6)
-	mu1=matrix(0,nparams,length(alpha))
-	for (i in 1:nparams){
-		vvm=vv
-		vvp=vv
-		vvm[i]=vv[i]-dd[i]
-		vvp[i]=vv[i]+dd[i]
-		Fm1=pgev_p123(q00,t01,t02,t03,ymn=vvm[1],slope=vvm[2],sigma1=vvm[3],sigma2=vvm[4],xi1=vvm[5],xi2=vvm[6])
-		Fp1=pgev_p123(q00,t01,t02,t03,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi1=vvp[5],xi2=vvp[6])
-		mu1[i,]=-(Fp1-Fm1)/(2*dd[i])
-	}
-	return(mu1)
-}
-#' GEVD-with-p1: DMGS equation 1.2 f2 term
-#' @inherit man2f return
-#' @inheritParams manf
-gev_p123_f2f=function(y,t01,t02,t03,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6){
-
-	nparams=6
-	ymax=ifelse((v5+v6*t03)<0,v1+v2*t01-2*(d1+d2*t01)-(exp(v3+v4*t02)-2*(d3+d4*t01))/(v5+v6*t03),Inf)
-#	ymax=ifelse(v4<0,v1+v2*t0-2*(d1+d2*t0)-(v3-2*d3)/(v4-2*d4),Inf)
-# new method
-	dd=c(d1,d2,d3,d4,d5,d6)
-	vv=c(v1,v2,v3,v4,v5,v6)
-	f2=array(0,c(nparams,nparams,length(y)))
-	for (i in 1:nparams){
-		for (j in 1:nparams){
-			if(i==j){
-				vvm=vv
-				vv0=vv
-				vvp=vv
-				vvm[i]=vv[i]-dd[i]
-				vvp[i]=vv[i]+dd[i]
-				Fm1=dgev_p123(y,t01,t02,t03,ymn=vvm[1],slope=vvm[2],sigma1=vvm[3],sigma2=vvm[4],xi1=vvm[5],xi2=vvm[6])
-				F00=dgev_p123(y,t01,t02,t03,ymn=vv0[1],slope=vv0[2],sigma1=vv0[3],sigma2=vv0[4],xi1=vv0[5],xi2=vv0[6])
-				Fp1=dgev_p123(y,t01,t02,t03,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi1=vvp[5],xi2=vvp[6])
-				f2[i,i,]=ifelse(y<ymax,(Fp1-2*F00+Fm1)/(dd[i]*dd[i]),0)
-			} else if(i<j) {
-				vvmm=vv
-				vvmp=vv
-				vvpm=vv
-				vvpp=vv
-				vvmm[i]=vv[i]-dd[i];vvmm[j]=vv[j]-dd[j]
-				vvmp[i]=vv[i]-dd[i];vvmp[j]=vv[j]+dd[j]
-				vvpm[i]=vv[i]+dd[i];vvpm[j]=vv[j]-dd[j]
-				vvpp[i]=vv[i]+dd[i];vvpp[j]=vv[j]+dd[j]
-				Fm1m1=dgev_p123(y,t01,t02,t03,ymn=vvmm[1],slope=vvmm[2],sigma1=vvmm[3],sigma2=vvmm[4],xi1=vvmm[5],xi2=vvmm[6])
-				Fm1p1=dgev_p123(y,t01,t02,t03,ymn=vvmp[1],slope=vvmp[2],sigma1=vvmp[3],sigma2=vvmp[4],xi1=vvmp[5],xi2=vvmp[6])
-				Fp1m1=dgev_p123(y,t01,t02,t03,ymn=vvpm[1],slope=vvpm[2],sigma1=vvpm[3],sigma2=vvpm[4],xi1=vvpm[5],xi2=vvpm[6])
-				Fp1p1=dgev_p123(y,t01,t02,t03,ymn=vvpp[1],slope=vvpp[2],sigma1=vvpp[3],sigma2=vvpp[4],xi1=vvpp[5],xi2=vvpp[6])
-				f2[i,j,]=ifelse(y<ymax,(Fp1p1-Fm1p1-Fp1m1+Fm1m1)/(4*dd[i]*dd[j]),0)
-				f2[j,i,]=f2[i,j,]
-			}
-		}
-	}
-	return(f2)
-}
-#' GEVD-with-p1: DMGS equation 3.3 mu2 term
-#' @inherit man2f return
-#' @inheritParams manf
-gev_p123_mu2f=function(alpha,t01,t02,t03,v1,d1,v2,d2,v3,d3,v4,d4,v5,d5,v6,d6){
-	nparams=6
-	q00=qgev_p123((1-alpha),t01,t02,t03,ymn=v1,slope=v2,sigma1=v3,sigma2=v4,xi1=v5,xi2=v6)
-
-# new method
-	dd=c(d1,d2,d3,d4,d5,d6)
-	vv=c(v1,v2,v3,v4,v5,v6)
-	mu2=array(0,c(nparams,nparams,length(alpha)))
-	for (i in 1:nparams){
-		for (j in 1:nparams){
-			if(i==j){
-				vvm=vv
-				vv0=vv
-				vvp=vv
-				vvm[i]=vv[i]-dd[i]
-				vvp[i]=vv[i]+dd[i]
-				Fm1=pgev_p123(q00,t01,t02,t03,ymn=vvm[1],slope=vvm[2],sigma1=vvm[3],sigma2=vvm[4],xi1=vvm[5],xi2=vvm[6])
-				F00=pgev_p123(q00,t01,t02,t03,ymn=vv0[1],slope=vv0[2],sigma1=vv0[3],sigma2=vv0[4],xi1=vv0[5],xi2=vv0[6])
-				Fp1=pgev_p123(q00,t01,t02,t03,ymn=vvp[1],slope=vvp[2],sigma1=vvp[3],sigma2=vvp[4],xi1=vvp[5],xi2=vvp[6])
-				mu2[i,i,]=-(Fp1-2*F00+Fm1)/(dd[i]*dd[i])
-			} else if(i<j) {
-				vvmm=vv
-				vvmp=vv
-				vvpm=vv
-				vvpp=vv
-				vvmm[i]=vv[i]-dd[i];vvmm[j]=vv[j]-dd[j]
-				vvmp[i]=vv[i]-dd[i];vvmp[j]=vv[j]+dd[j]
-				vvpm[i]=vv[i]+dd[i];vvpm[j]=vv[j]-dd[j]
-				vvpp[i]=vv[i]+dd[i];vvpp[j]=vv[j]+dd[j]
-				Fm1m1=pgev_p123(q00,t01,t02,t03,ymn=vvmm[1],slope=vvmm[2],sigma1=vvmm[3],sigma2=vvmm[4],xi1=vvmm[5],xi2=vvmm[6])
-				Fm1p1=pgev_p123(q00,t01,t02,t03,ymn=vvmp[1],slope=vvmp[2],sigma1=vvmp[3],sigma2=vvmp[4],xi1=vvmp[5],xi2=vvmp[6])
-				Fp1m1=pgev_p123(q00,t01,t02,t03,ymn=vvpm[1],slope=vvpm[2],sigma1=vvpm[3],sigma2=vvpm[4],xi1=vvpm[5],xi2=vvpm[6])
-				Fp1p1=pgev_p123(q00,t01,t02,t03,ymn=vvpp[1],slope=vvpp[2],sigma1=vvpp[3],sigma2=vvpp[4],xi1=vvpp[5],xi2=vvpp[6])
-				mu2[i,j,]=-(Fp1p1-Fm1p1-Fp1m1+Fm1m1)/(4*dd[i]*dd[j])
-				mu2[j,i,]=mu2[i,j,]
-			}
-		}
-	}
-	return(mu2)
-}
 #' Analytical expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1
 #' @inherit manmeans return
@@ -583,8 +295,7 @@ gev_p123_means=function(means,t01,t02,t03,ml_params,nx){
 #' Densities for 5 predictions
 #' @inherit mandsub return
 #' @inheritParams manf
-dgev_p123sub=function(x,t1,t2,t3,y,t01,t02,t03,ics,d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,d6=0.01,
-	extramodels,debug,aderivs=TRUE){
+dgev_p123sub=function(x,t1,t2,t3,y,t01,t02,t03,ics,extramodels,debug){
 
 		nx=length(x)
 

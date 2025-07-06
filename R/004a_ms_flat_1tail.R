@@ -44,7 +44,7 @@
 #' @author
 #' Stephen Jewson \email{stephen.jewson@gmail.com}
 #'
-#' @example man/examples/example_03_ms_flat_1tail.R
+#' @example man/examples/example_004a_ms_flat_1tail.R
 #'
 #' @export
 #'

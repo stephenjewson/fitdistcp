@@ -164,7 +164,8 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 14 waicscores
 #
-		waic=pareto_p1k2_waic(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,lambdad_rhp)
+		waic=pareto_p1k2_waic(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,
+			lambdad_rhp,aderivs)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #

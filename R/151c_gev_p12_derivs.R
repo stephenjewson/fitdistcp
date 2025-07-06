@@ -479,7 +479,7 @@ gev_p12_logfddd=function (x, t1, t2, v1, v2, v3, v4, v5)
                   2/v5^3) * .e2 * .e5/.e8))))
 }
 ############################################################
-#' The first derivative of the density
+#' The first derivative of the density for DMGS
 #' @returns Vector
 #' @inheritParams manf
 gev_p12_f1fa=function(x,t01,t02,v1,v2,v3,v4,v5){
@@ -491,7 +491,19 @@ gev_p12_f1fa=function(x,t01,t02,v1,v2,v3,v4,v5){
 	return(f1)
 }
 ############################################################
-#' The second derivative of the density
+#' The first derivative of the density for WAIC
+#' @returns Vector
+#' @inheritParams manf
+gev_p12_f1fw=function(x,t1,t2,v1,v2,v3,v4,v5){
+
+	v3=movexiawayfromzero(v3)
+
+	vf=Vectorize(gev_p12_fd,c("x","t1","t2"))
+	f1=vf(x,t1,t2,v1,v2,v3,v4,v5)
+	return(f1)
+}
+############################################################
+#' The second derivative of the density for DMGS
 #' @returns Matrix
 #' @inheritParams manf
 gev_p12_f2fa=function(x,t01,t02,v1,v2,v3,v4,v5){
@@ -501,6 +513,20 @@ gev_p12_f2fa=function(x,t01,t02,v1,v2,v3,v4,v5){
 
 	vf=Vectorize(gev_p12_fdd,"x")
 	temp1=vf(x,t01,t02,v1,v2,v3,v4,v5)
+	f2=deriv_copyfdd(temp1,nx,dim=5)
+	return(f2)
+}
+############################################################
+#' The second derivative of the density for WAIC
+#' @returns Matrix
+#' @inheritParams manf
+gev_p12_f2fw=function(x,t1,t2,v1,v2,v3,v4,v5){
+	nx=length(x)
+
+	v3=movexiawayfromzero(v3)
+
+	vf=Vectorize(gev_p12_fdd,c("x","t1","t2"))
+	temp1=vf(x,t1,t2,v1,v2,v3,v4,v5)
 	f2=deriv_copyfdd(temp1,nx,dim=5)
 	return(f2)
 }
@@ -541,7 +567,7 @@ gev_p12_ldda=function(x,t1,t2,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_logfdd,"x")
+	vf=Vectorize(gev_p12_logfdd,c("x","t1","t2"))
 	temp1=vf(x,t1,t2,v1,v2,v3,v4,v5)
 	ldd=deriv_copyldd(temp1,nx,dim=5)
 	return(ldd)
@@ -555,7 +581,7 @@ gev_p12_lddda=function(x,t1,t2,v1,v2,v3,v4,v5){
 
 	v3=movexiawayfromzero(v3)
 
-	vf=Vectorize(gev_p12_logfddd,"x")
+	vf=Vectorize(gev_p12_logfddd,c("x","t1","t2"))
 	temp1=vf(x,t1,t2,v1,v2,v3,v4,v5)
 	lddd=deriv_copylddd(temp1,nx,dim=5)
 	return(lddd)

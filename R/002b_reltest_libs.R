@@ -1,3 +1,91 @@
+#' Set default params for the chosen model
+#' @param model			which distribution to test. Possibles values are
+#'	"\code{exp}",
+#'	"\code{pareto_k2}",
+#'	"\code{halfnorm}",
+#'	"\code{unif}",
+#'	"\code{norm}",
+#'	"\code{norm_dmgs}",
+#'	"\code{gnorm_k3}",
+#'	"\code{lnorm}",
+#'	"\code{lnorm_dmgs}",
+#'	"\code{logis}",
+#'	"\code{lst_k3}",
+#'	"\code{cauchy}",
+#'	"\code{gumbel}",
+#'	"\code{frechet_k1}",
+#'	"\code{weibull}",
+#'	"\code{gev_k3}",
+#'	"\code{exp_p1}",
+#'	"\code{pareto_p1k2}",
+#'	"\code{norm_p1}",
+#'	"\code{lnorm_p1}",
+#'	"\code{logis_p1}",
+#'	"\code{lst_p1k3}",
+#'	"\code{cauchy_p1}",
+#'	"\code{gumbel_p1}",
+#'	"\code{frechet_p2k1}",
+#'	"\code{weibull_p2}",
+#'	"\code{gev_p1k3}",
+#'	"\code{norm_p12}",
+#'	"\code{lst_p12k3}",
+#'	"\code{gamma}",
+#'	"\code{invgamma}",
+#'	"\code{invgauss}",
+#'	"\code{gev}",
+#'	"\code{gpd_k1}",
+#'	"\code{gev_p1}".
+#'	"\code{gev_p12}".
+#'	"\code{gev_p123}".
+#' @param params		values for the parameters for the specified distribution
+#'
+#' @return Vector
+reltest_params=function(model="exp",params){
+
+	if(is.na(params[1])){
+		if(model=="exp")							{params=c(1)}
+		if(model=="pareto_k1")				{params=c(1)}
+		if(model=="halfnorm")					{params=c(1)}
+		if(model=="norm")							{params=c(0,1)}
+		if(model=="norm_dmgs")				{params=c(0,1)}
+		if(model=="gnorm_k3")					{params=c(0,1,4)}
+    if(model=="lnorm")						{params=c(0,1)}
+    if(model=="lnorm_dmgs")				{params=c(0,1)}
+    if(model=="logis")						{params=c(0,1)}
+    if(model=="lst_k3")						{params=c(0,1,10)}
+    if(model=="cauchy")						{params=c(0,1)}
+    if(model=="gumbel")						{params=c(0,1)}
+    if(model=="frechet_k1")				{params=c(1,2)} #lambda =1 has infinite mean
+    if(model=="weibull")					{params=c(1,1)}
+    if(model=="gev_k3")						{params=c(0,1,0.1)}
+    if(model=="exp_p1")						{params=c(0,1)}
+    if(model=="pareto_p1k3")			{params=c(0,1)}
+    if(model=="norm_p1")					{params=c(0,1,1)}
+    if(model=="lnorm_p1")					{params=c(0,1,1)}
+    if(model=="logis_p1")					{params=c(0,1,2)}
+    if(model=="lst_p1k3") 				{params=c(0,1,1,10)}
+    if(model=="cauchy_p1") 				{params=c(0,1,2)}
+    if(model=="gumbel_p1")				{params=c(0,1,1)}
+    if(model=="frechet_p2k1")			{params=c(0,0.001,2)}
+    if(model=="weibull_p1")				{params=c(0,0,1)}
+    if(model=="weibull_p2")				{params=c(2,0,0)}
+    if(model=="gev_p1k3")					{params=c(0,1,1,0.1)}
+    if(model=="cweibull_p2")			{params=c(2,0,0)}
+    if(model=="norm_p12")					{params=c(0,1,0,1)} 	# params 2 and 4 can't be zero
+    if(model=="lst_p12k5")				{params=c(0,1,0,1,50)}# params 2 and 4 can't be zero...but rust gives errors
+    if(model=="weibull_p12")			{params=c(0,1,0,1)}		# params 2 and 4 can't be zero
+    if(model=="gamma")						{params=c(1,1)}
+    if(model=="invgamma")					{params=c(1,1)}
+    if(model=="invgauss")					{params=c(2,2)}
+    if(model=="gev")							{params=c(0,1,0.1)}
+    if(model=="gpd_k1")						{params=c(1,0.1)}
+    if(model=="gev_p1")						{params=c(0,1,1,0.1)}
+    if(model=="gev_p12")					{params=c(0,0.0001,0.01,0.01,0.1)}
+    if(model=="gev_p123")					{params=c(0,1,0,0.01,0.1,0)}
+	}
+
+	return(params)
+}
 #' Random training data from one model
 #' @param model			which distribution to test. Possibles values are
 #'	"\code{exp}",
@@ -187,7 +275,7 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 																dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="weibull")				pred0=qweibull_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="gev_k3")					pred0=qgev_k3_cp(xx,p=pp,kshape=params[3],
-																dmgs=dmgs,debug=debug,aderivs=aderivs)
+																dmgs=dmgs,debug=debug)
 
 	if(model=="exp_p1")					pred0=qexp_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,aderivs=aderivs)
 	if(model=="pareto_p1k2")		pred0=qpareto_p1k2_cp(xx,tt,n0=n0,p=pp,
@@ -207,7 +295,7 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 	if(model=="weibull_p2")			pred0=qweibull_p2_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 
 	if(model=="gev_p1k3")				pred0=qgev_p1k3_cp(xx,p=pp,kshape=params[4],
-																dmgs=dmgs,debug=debug,aderivs=aderivs)
+																dmgs=dmgs,debug=debug)
 #	if(model=="norm_p12")				pred0=qnorm_p12_cp(xx,tt1,tt2,n10=n0,n20=n0,p=pp,
 #																dmgs=dmgs,debug=debug,aderivs=aderivs)
 #	if(model=="lst_p12k3")			pred0=qlst_p12k3_cp(xx,tt1,tt2,n10=n0,n20=n0,p=pp,
@@ -216,15 +304,15 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 	if(model=="gamma")					pred0=qgamma_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="invgamma")				pred0=qinvgamma_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="invgauss")				pred0=qinvgauss_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
-	if(model=="gev")						pred0=qgev_cp(xx,pp,dmgs=dmgs,debug=debug,aderivs=aderivs,pwm=pwm,minxi=minxi,maxxi=maxxi)
-	if(model=="gpd_k1")					pred0=qgpd_k1_cp(xx,pp,kloc=params[1],dmgs=dmgs,debug=debug,aderivs=aderivs,minxi=minxi,maxxi=maxxi)
+	if(model=="gev")						pred0=qgev_cp(xx,pp,dmgs=dmgs,debug=debug,pwm=pwm,minxi=minxi,maxxi=maxxi)
+	if(model=="gpd_k1")					pred0=qgpd_k1_cp(xx,pp,kloc=params[1],dmgs=dmgs,debug=debug,minxi=minxi,maxxi=maxxi)
 
-	if(model=="gev_p1")					pred0=qgev_p1_cp(x=xx,t=tt1,n0=n10,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs,minxi=minxi,maxxi=maxxi)
+	if(model=="gev_p1")					pred0=qgev_p1_cp(x=xx,t=tt1,n0=n10,p=pp,dmgs=dmgs,debug=debug,minxi=minxi,maxxi=maxxi)
 
 	nx=length(tt)
-	if(model=="gev_p12")				pred0=qgev_p12_cp(x=xx,t1=tt1,t2=tt2,n01=n0,n02=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs,minxi=minxi,maxxi=maxxi)
+	if(model=="gev_p12")				pred0=qgev_p12_cp(x=xx,t1=tt1,t2=tt2,n01=n0,n02=n0,p=pp,dmgs=dmgs,debug=debug,minxi=minxi,maxxi=maxxi)
 
-	if(model=="gev_p123")				pred0=qgev_p123_cp(x=xx,t1=tt1,t2=tt2,t3=tt3,n01=n0,n02=n0,n03=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs,minxi=minxi,maxxi=maxxi)
+	if(model=="gev_p123")				pred0=qgev_p123_cp(x=xx,t1=tt1,t2=tt2,t3=tt3,n01=n0,n02=n0,n03=n0,p=pp,dmgs=dmgs,debug=debug,minxi=minxi,maxxi=maxxi)
 
 	pred=matrix(0,nmethods,nalpha)
 

@@ -4,19 +4,7 @@
 \alias{dgpdsub}
 \title{Densities for 5 predictions}
 \usage{
-dgpdsub(
-  x,
-  y,
-  ics,
-  fd1 = 0.01,
-  d2 = 0.01,
-  kloc = 0,
-  dlogpi = 0,
-  minxi,
-  maxxi,
-  extramodels = FALSE,
-  aderivs = TRUE
-)
+dgpdsub(x, y, ics, kloc = 0, dlogpi = 0, minxi, maxxi, extramodels = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -24,10 +12,6 @@ dgpdsub(
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
 \item{ics}{initial conditions for the maximum likelihood search}
-
-\item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{kloc}{the known location parameter}
 
@@ -38,8 +22,6 @@ dgpdsub(
 \item{maxxi}{maximum value of shape parameter xi}
 
 \item{extramodels}{logical that indicates whether to add three additional prediction models}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

@@ -2,11 +2,19 @@
 #' @inherit manwaic return
 #' @inheritParams manf
 lnorm_p1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=TRUE){
+# norm and lnorm waic code works differently from other cases
+# normally lddi and lddd have already been calculated, and I just pass them in
+# but in this case they haven't been calculated
+# so I need to calculate them here
+# for which I need t, in addition to t0
+# confused about whether I should pass in t,t0 or ta, ta0 though
 	if(waicscores){
-		f1f=lnorm_p1_f1f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
-		f2f=lnorm_p1_f2f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
+		f1f=lnorm_p1_f1fw(x,t,v1hat,v2hat,v3hat)
+		f2f=lnorm_p1_f2fw(x,t,v1hat,v2hat,v3hat)
+
 		if(aderivs) ldd=lnorm_p1_ldda(x,t,v1hat,v2hat,v3hat)
 		if(!aderivs)ldd=lnorm_p1_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
+
 		lddi=solve(ldd)
 
 		if(aderivs) lddd=lnorm_p1_lddda(x,t,v1hat,v2hat,v3hat)

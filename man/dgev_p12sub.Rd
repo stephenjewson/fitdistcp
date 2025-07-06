@@ -12,16 +12,10 @@ dgev_p12sub(
   t01,
   t02,
   ics,
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  d5 = 0.01,
   minxi,
   maxxi,
   debug,
-  extramodels = FALSE,
-  aderivs = TRUE
+  extramodels = FALSE
 )
 }
 \arguments{
@@ -39,16 +33,6 @@ dgev_p12sub(
 
 \item{ics}{initial conditions for the maximum likelihood search}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d5}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{minxi}{minimum value of shape parameter xi}
 
 \item{maxxi}{maximum value of shape parameter xi}
@@ -56,8 +40,6 @@ dgev_p12sub(
 \item{debug}{debug flag}
 
 \item{extramodels}{logical that indicates whether to add three additional prediction models}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

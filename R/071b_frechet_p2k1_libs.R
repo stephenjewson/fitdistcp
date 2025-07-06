@@ -5,8 +5,8 @@ frechet_p2k1_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc,
 	lddi,lddd,lambdad,aderivs){
 		if(waicscores){
 			if(aderivs){
-				f1f=frechet_p2k1_f1fa(x,t,v1hat,v2hat,v3hat,kloc=kloc)
-				f2f=frechet_p2k1_f2fa(x,t,v1hat,v2hat,v3hat,kloc=kloc)
+				f1f=frechet_p2k1_f1fw(x,t,v1hat,v2hat,v3hat,kloc=kloc)
+				f2f=frechet_p2k1_f2fw(x,t,v1hat,v2hat,v3hat,kloc=kloc)
 			} else {
 				f1f=frechet_p2k1_f1f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc=kloc)
 				f2f=frechet_p2k1_f2f(x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kloc=kloc)

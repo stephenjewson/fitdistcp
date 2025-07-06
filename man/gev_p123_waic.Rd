@@ -11,21 +11,14 @@ gev_p123_waic(
   t2,
   t3,
   v1h,
-  d1,
   v2h,
-  d2,
   v3h,
-  d3,
   v4h,
-  d4,
   v5h,
-  d5,
   v6h,
-  d6,
   lddi,
   lddd,
-  lambdad,
-  aderivs
+  lambdad
 )
 }
 \arguments{
@@ -41,35 +34,21 @@ gev_p123_waic(
 
 \item{v1h}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2h}{second parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{v3h}{third parameter}
 
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v4h}{fourth parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{v5h}{fifth parameter}
 
-\item{d5}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v6h}{sixth parameter}
-
-\item{d6}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{lddi}{inverse observed information matrix}
 
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

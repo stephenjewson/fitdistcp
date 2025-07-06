@@ -52,11 +52,11 @@ NULL
 #'
 
 qgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,p=seq(0.1,0.9,0.1),ics=c(0,0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,d6=0.01,fdalpha=0.01,
-	minxi=-0.45,maxxi=0.45,
+	fdalpha=0.01,
+	minxi=-1,maxxi=1,
 	means=FALSE,waicscores=FALSE,extramodels=FALSE,
 	pdf=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
-	centering=TRUE,debug=FALSE,aderivs=TRUE){
+	centering=TRUE,debug=FALSE){
 
 	stopifnot(	is.finite(x),!is.na(x),is.finite(p),!is.na(p),p>0,p<1,
 							length(t1)==length(x),length(t2)==length(x),length(t3)==length(x),
@@ -157,8 +157,7 @@ qgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,p=seq
 #
 # 8 ldd (two versions)
 #
-		if(aderivs) ldd=gev_p123_ldda(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
-		if(!aderivs)ldd=gev_p123_ldd(x,t1,t2,t3,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
+		ldd=gev_p123_ldda(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
 
 		if(debug)message(" ldd=",ldd)
 		if(debug)message(" det(ldd)=",det(ldd))
@@ -172,44 +171,31 @@ qgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,p=seq
 # 10 calculate lddd (two versions)
 #
 		if(debug)message(" lddd")
-		if(aderivs) lddd=gev_p123_lddda(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
-		if(!aderivs)lddd=gev_p123_lddd(x,t1,t2,t3,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
+		lddd=gev_p123_lddda(x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h)
 #
 # 11 mu1 (two versions)
 #
 		if(debug)message(" calculate mu1")
 
-		if(aderivs) mu1=gev_p123_mu1fa(alpha,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
-		if(!aderivs)mu1=gev_p123_mu1f(alpha,t01,t02,t03,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
+		mu1=gev_p123_mu1fa(alpha,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
 
 		if(pdf){
-			if(aderivs){
-				mu1m=gev_p123_mu1fa(alpham,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
-				mu1p=gev_p123_mu1fa(alphap,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
-			} else {
-				mu1m=gev_p123_mu1f(alpham,t01,t02,t03,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
-				mu1p=gev_p123_mu1f(alphap,t01,t02,t03,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
-			}
+			mu1m=gev_p123_mu1fa(alpham,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
+			mu1p=gev_p123_mu1fa(alphap,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
 		}
 #
 # 12 mu2 (two versions)
 #
 		if(debug)message(" calculate mu2")
 
-		if(aderivs) mu2=gev_p123_mu2fa(alpha,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
-		if(!aderivs)mu2=gev_p123_mu2f(alpha,t01,t02,t03,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
+		mu2=gev_p123_mu2fa(alpha,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
 
 		if(extramodels|means){
 		}
 		if(pdf){
 			if(debug)message(" alpha pdf option")
-			if(aderivs){
-				mu2m=gev_p123_mu2fa(alpham,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
-				mu2p=gev_p123_mu2fa(alphap,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
-			} else {
-				mu2m=gev_p123_mu2f(alpham,t01,t02,t03,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
-				mu2p=gev_p123_mu2f(alphap,t01,t02,t03,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6)
-			}
+			mu2m=gev_p123_mu2fa(alpham,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
+			mu2p=gev_p123_mu2fa(alphap,t01,t02,t03,v1h,v2h,v3h,v4h,v5h,v6h)
 		}
 #
 # 13 model 1: cp=flat prior
@@ -258,8 +244,8 @@ qgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,p=seq
 #
 # 17 waicscores
 #
-		waic=gev_p123_waic(waicscores,x,t1,t2,t3,v1h,d1,v2h,d2,v3h,d3,v4h,d4,v5h,d5,v6h,d6,
-			lddi,lddd,lambdad_cp,aderivs)
+		waic=gev_p123_waic(waicscores,x,t1,t2,t3,v1h,v2h,v3h,v4h,v5h,v6h,
+			lddi,lddd,lambdad_cp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 
@@ -312,10 +298,9 @@ qgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,p=seq
 #' @inheritParams man
 #' @export
 rgev_p123_cp=function(n,x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,ics=c(0,0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,d6=0.01,
-		minxi=-0.45,maxxi=0.45,
+		minxi=-1,maxxi=1,
 		extramodels=FALSE,rust=FALSE,mlcp=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),
 							length(t1)==length(x),length(t2)==length(x),length(t3)==length(x),
@@ -348,8 +333,9 @@ rgev_p123_cp=function(n,x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,ics
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgev_p123_cp(x,t1=t1,t2=t2,t3=t3,t01=t01,t02=t02,t03=t03,n01=NA,n02=NA,n03=NA,p=runif(n),ics=ics,d1=d1,d2=d2,d3=d3,d4=d4,d5=d5,d6=d6,
-			extramodels=extramodels,aderivs=aderivs)
+		q=qgev_p123_cp(x,t1=t1,t2=t2,t3=t3,t01=t01,t02=t02,t03=t03,
+			n01=NA,n02=NA,n03=NA,p=runif(n),ics=ics,
+			extramodels=extramodels)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		ru_deviates=q$ru_quantiles
@@ -390,9 +376,8 @@ rgev_p123_cp=function(n,x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,ics
 #' @inheritParams man
 #' @export
 dgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,y=x,ics=c(0,0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,d6=0.01,
-	minxi=-0.45,maxxi=0.45,extramodels=FALSE,
-	rust=FALSE,nrust=10,centering=TRUE,debug=FALSE,aderivs=TRUE){
+	minxi=-1,maxxi=1,extramodels=FALSE,
+	rust=FALSE,nrust=10,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 							length(t1)==length(x),length(t2)==length(x),length(t3)==length(x),
@@ -434,8 +419,8 @@ dgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,y=x,i
 	ml_params=c(v1h,v2h,v3h,v4h,v5h,v6h)
 #	gev_p123_checkmle(ml_params,minxi,maxxi,t1,t2,t3)
 	if(debug)message(" call sub")
-	dd=dgev_p123sub(x=x,t1=t1,t2=t2,t3=t3,y=y,t01=t01,t02=t02,t03=t03,ics=ics,d1,d2,d3,d4,d5,d6,
-		extramodels,debug=debug,aderivs=aderivs)
+	dd=dgev_p123sub(x=x,t1=t1,t2=t2,t3=t3,y=y,t01=t01,t02=t02,t03=t03,ics=ics,
+		extramodels,debug=debug)
 	ru_pdf="rust not selected"
 		ml_params=dd$ml_params
 
@@ -482,9 +467,8 @@ dgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,y=x,i
 #' @inheritParams man
 #' @export
 pgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,y=x,ics=c(0,0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,d6=0.01,
-	minxi=-0.45,maxxi=0.45,extramodels=FALSE,
-	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE,aderivs=TRUE){
+	minxi=-1,maxxi=1,extramodels=FALSE,
+	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 							length(t1)==length(x),length(t2)==length(x),length(t3)==length(x),
@@ -521,8 +505,8 @@ pgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,y=x,i
 	revert2ml=calc_revert2ml(v5h,v6h,t3)
 	ml_params=c(v1h,v2h,v3h,v4h,v5h,v6h)
 #	gev_p123_checkmle(ml_params,minxi,maxxi,t1,t2,t3)
-	dd=dgev_p123sub(x=x,t1=t1,t2=t2,t3=t3,y=y,t01=t01,t02=t02,t03=t03,ics=ics,d1,d2,d3,d4,d5,d6,
-		extramodels,debug=debug,aderivs=aderivs)
+	dd=dgev_p123sub(x=x,t1=t1,t2=t2,t3=t3,y=y,t01=t01,t02=t02,t03=t03,ics=ics,
+		extramodels,debug=debug)
 	ru_cdf="rust not selected"
 		ml_params=dd$ml_params
 
@@ -564,7 +548,6 @@ pgev_p123_cp=function(x,t1,t2,t3,t01=NA,t02=NA,t03=NA,n01=NA,n02=NA,n03=NA,y=x,i
 #' @inheritParams man
 #' @export
 tgev_p123_cp=function(n,x,t1,t2,t3,ics=c(0,0,0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,d5=0.01,d6=0.01,
 	extramodels=FALSE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/152c_gev_p123_derivs.R
 \name{gev_p123_f1fa}
 \alias{gev_p123_f1fa}
-\title{The first derivative of the density}
+\title{The first derivative of the density for DMGS}
 \usage{
 gev_p123_f1fa(x, t01, t02, t03, v1, v2, v3, v4, v5, v6)
 }
@@ -31,5 +31,5 @@ gev_p123_f1fa(x, t01, t02, t03, v1, v2, v3, v4, v5, v6)
 Vector
 }
 \description{
-The first derivative of the density
+The first derivative of the density for DMGS
 }
