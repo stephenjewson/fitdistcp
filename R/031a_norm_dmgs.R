@@ -32,9 +32,8 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qnorm_dmgs_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
-	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,debug=FALSE,
-	aderivs=TRUE){
+qnorm_dmgs_cp=function(x,p=seq(0.1,0.9,0.1),
+	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,debug=FALSE){
 #
 # 1 intro
 #
@@ -83,9 +82,7 @@ qnorm_dmgs_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 # 5 lddi
 #
 		if(debug)message("  calculate ldd,lddi\n")
-		if(aderivs)	ldd=norm_ldda(x,v1hat,v2hat)
-		if(!aderivs)ldd=norm_ldd(x,v1hat,d1,v2hat,fd2)
-		if(debug)message("aderivs=",aderivs,"\n")
+		ldd=norm_ldda(x,v1hat,v2hat)
 		if(debug)message("ldd=",ldd,"\n")
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
@@ -93,20 +90,17 @@ qnorm_dmgs_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 # 6 lddd
 #
 		if(debug)message("  calculate lddd\n")
-		if(aderivs)	lddd=norm_lddda(x,v1hat,v2hat)
-		if(!aderivs)lddd=norm_lddd(x,v1hat,d1,v2hat,fd2)
+		lddd=norm_lddda(x,v1hat,v2hat)
 #
 # 7 mu1
 #
 		if(debug)message("  calculate mu1\n")
-		if(aderivs) mu1=norm_mu1fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu1=norm_dmgs_mu1f(alpha,v1hat,d1,v2hat,fd2)
+		mu1=norm_mu1fa(alpha,v1hat,v2hat)
 #
 # 8 mu2
 #
 		if(debug)message("  calculate mu2\n")
-		if(aderivs) mu2=norm_mu2fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu2=norm_dmgs_mu2f(alpha,v1hat,d1,v2hat,fd2)
+		mu2=norm_mu2fa(alpha,v1hat,v2hat)
 #
 # 9 rhp
 #
@@ -127,14 +121,14 @@ qnorm_dmgs_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # 12 waicscores
 #
-		waic=norm_dmgs_waic(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,
-			lambdad_rhp,aderivs)
+		waic=norm_dmgs_waic(waicscores,x,v1hat,v2hat,lddi,lddd,
+			lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 13 logscores
 #
-		logscores=norm_dmgs_logscores(logscores,x,d1,fd2)
+		logscores=norm_dmgs_logscores(logscores,x)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 	} # end of if(dmgs)
@@ -162,8 +156,7 @@ qnorm_dmgs_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #' @rdname norm_dmgs_cp
 #' @inheritParams man
 #' @export
-rnorm_dmgs_cp=function(n,x,d1=0.01,fd2=0.01,mlcp=TRUE,debug=FALSE,
-	aderivs=TRUE){
+rnorm_dmgs_cp=function(n,x,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))
@@ -173,7 +166,7 @@ rnorm_dmgs_cp=function(n,x,d1=0.01,fd2=0.01,mlcp=TRUE,debug=FALSE,
 	cp_deviates="mlcp not selected"
 
 	if(mlcp){
-		q=qnorm_dmgs_cp(x,runif(n),d1=d1,fd2=fd2,aderivs=aderivs)
+		q=qnorm_dmgs_cp(x,runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -188,11 +181,11 @@ rnorm_dmgs_cp=function(n,x,d1=0.01,fd2=0.01,mlcp=TRUE,debug=FALSE,
 #' @rdname norm_dmgs_cp
 #' @inheritParams man
 #' @export
-dnorm_dmgs_cp=function(x,y=x,d1=0.01,fd2=0.01,debug=FALSE,aderivs=TRUE){
+dnorm_dmgs_cp=function(x,y=x,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dnorm_dmgssub(x=x,y=y,d1,fd2,aderivs)
+	dd=dnorm_dmgssub(x=x,y=y)
 
 	list(	ml_params=dd$ml_params,
 				ml_pdf=dd$ml_pdf,
@@ -204,11 +197,11 @@ dnorm_dmgs_cp=function(x,y=x,d1=0.01,fd2=0.01,debug=FALSE,aderivs=TRUE){
 #' @rdname norm_dmgs_cp
 #' @inheritParams man
 #' @export
-pnorm_dmgs_cp=function(x,y=x,d1=0.01,fd2=0.01,debug=FALSE,aderivs=TRUE){
+pnorm_dmgs_cp=function(x,y=x,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dnorm_dmgssub(x=x,y=y,d1,fd2,aderivs)
+	dd=dnorm_dmgssub(x=x,y=y)
 
 	list(	ml_params=dd$ml_params,
 				ml_cdf=dd$ml_cdf,

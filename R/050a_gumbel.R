@@ -32,9 +32,9 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qgumbel_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
+qgumbel_cp=function(x,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -84,28 +84,24 @@ qgumbel_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 # 5 lddi
 #
 		if(debug)message("  calculate ldd,lddi")
-		if(aderivs)	ldd=gumbel_ldda(x,v1hat,v2hat)
-		if(!aderivs)ldd=gumbel_ldd(x,v1hat,d1,v2hat,fd2)
+		ldd=gumbel_ldda(x,v1hat,v2hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 6 lddd
 #
 		if(debug)message("  calculate lddd")
-		if(aderivs)	lddd=gumbel_lddda(x,v1hat,v2hat)
-		if(!aderivs)lddd=gumbel_lddd(x,v1hat,d1,v2hat,fd2)
+		lddd=gumbel_lddda(x,v1hat,v2hat)
 #
 # 7 mu1
 #
 		if(debug)message("  calculate mu1")
-		if(aderivs) mu1=gumbel_mu1fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu1=gumbel_mu1f(alpha,v1hat,d1,v2hat,fd2)
+		mu1=gumbel_mu1fa(alpha,v1hat,v2hat)
 #
 # 8 mu2
 #
 		if(debug)message("  calculate mu2")
-		if(aderivs) mu2=gumbel_mu2fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu2=gumbel_mu2f(alpha,v1hat,d1,v2hat,fd2)
+		mu2=gumbel_mu2fa(alpha,v1hat,v2hat)
 #
 # 9 rhp
 #
@@ -126,13 +122,13 @@ qgumbel_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # 12 waicscores
 #
-		waic=gumbel_waic(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,lambdad_rhp,aderivs)
+		waic=gumbel_waic(waicscores,x,v1hat,v2hat,lddi,lddd,lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 13 logscores
 #
-		logscores=gumbel_logscores(logscores,x,d1,fd2,aderivs)
+		logscores=gumbel_logscores(logscores,x)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -169,8 +165,8 @@ qgumbel_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #' @rdname gumbel_cp
 #' @inheritParams man
 #' @export
-rgumbel_cp=function(n,x,d1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rgumbel_cp=function(n,x,rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))
@@ -181,7 +177,7 @@ rgumbel_cp=function(n,x,d1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgumbel_cp(x,runif(n),d1=d1,fd2=fd2,aderivs=aderivs)
+		q=qgumbel_cp(x,runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -206,12 +202,12 @@ rgumbel_cp=function(n,x,d1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 #' @rdname gumbel_cp
 #' @inheritParams man
 #' @export
-dgumbel_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+dgumbel_cp=function(x,y=x,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dgumbelsub(x=x,y=y,d1,fd2,aderivs=aderivs)
+	dd=dgumbelsub(x=x,y=y)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=tgumbel_cp(nrust,x)$theta_samples
@@ -231,12 +227,12 @@ dgumbel_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname gumbel_cp
 #' @inheritParams man
 #' @export
-pgumbel_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+pgumbel_cp=function(x,y=x,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dgumbelsub(x=x,y=y,d1,fd2,aderivs=aderivs)
+	dd=dgumbelsub(x=x,y=y)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=tgumbel_cp(nrust,x)$theta_samples
@@ -256,7 +252,7 @@ pgumbel_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname gumbel_cp
 #' @inheritParams man
 #' @export
-tgumbel_cp=function(n,x,d1=0.01,fd2=0.01,debug=FALSE){
+tgumbel_cp=function(n,x,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))

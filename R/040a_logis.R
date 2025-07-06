@@ -32,9 +32,9 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qlogis_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
+qlogis_cp=function(x,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -81,28 +81,24 @@ qlogis_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # 5 lddi
 #
-		if(aderivs)	ldd=logis_ldda(x,v1hat,v2hat)
-		if(!aderivs)ldd=logis_ldd(x,v1hat,d1,v2hat,fd2)
+		ldd=logis_ldda(x,v1hat,v2hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 6 lddd
 #
 		if(debug)message("  calculate lddd")
-		if(aderivs)	lddd=logis_lddda(x,v1hat,v2hat)
-		if(!aderivs)lddd=logis_lddd(x,v1hat,d1,v2hat,fd2)
+		lddd=logis_lddda(x,v1hat,v2hat)
 #
 # 7 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=logis_mu1fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu1=logis_mu1f(alpha,v1hat,d1,v2hat,fd2)
+		mu1=logis_mu1fa(alpha,v1hat,v2hat)
 #
 # 8 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=logis_mu2fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu2=logis_mu2f(alpha,v1hat,d1,v2hat,fd2)
+		mu2=logis_mu2fa(alpha,v1hat,v2hat)
 #
 # 9 q rhp
 #
@@ -123,13 +119,13 @@ qlogis_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # 12 waicscores
 #
-		waic=logis_waic(waicscores,x,v1hat,d1,v2hat,fd2,lddi,lddd,lambdad_rhp,aderivs)
+		waic=logis_waic(waicscores,x,v1hat,v2hat,lddi,lddd,lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 13 logscores
 #
-		logscores=logis_logscores(logscores,x,d1,fd2,aderivs)
+		logscores=logis_logscores(logscores,x)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -166,8 +162,8 @@ qlogis_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #' @rdname logis_cp
 #' @inheritParams man
 #' @export
-rlogis_cp=function(n,x,d1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rlogis_cp=function(n,x,rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))
@@ -178,7 +174,7 @@ rlogis_cp=function(n,x,d1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qlogis_cp(x,runif(n),d1=d1,fd2=fd2,aderivs=aderivs)
+		q=qlogis_cp(x,runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -202,12 +198,12 @@ rlogis_cp=function(n,x,d1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 #' @rdname logis_cp
 #' @inheritParams man
 #' @export
-dlogis_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+dlogis_cp=function(x,y=x,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dlogis2sub(x=x,y=y,d1,fd2,aderivs=aderivs)
+	dd=dlogis2sub(x=x,y=y)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=tlogis_cp(nrust,x)$theta_samples
@@ -227,12 +223,12 @@ dlogis_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname logis_cp
 #' @inheritParams man
 #' @export
-plogis_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+plogis_cp=function(x,y=x,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dlogis2sub(x=x,y=y,d1,fd2,aderivs=aderivs)
+	dd=dlogis2sub(x=x,y=y)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=tlogis_cp(nrust,x)$theta_samples
@@ -252,7 +248,7 @@ plogis_cp=function(x,y=x,d1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname logis_cp
 #' @inheritParams man
 #' @export
-tlogis_cp=function(n,x,d1=0.01,fd2=0.01,debug=FALSE){
+tlogis_cp=function(n,x,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))

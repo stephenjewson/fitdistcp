@@ -31,9 +31,9 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qweibull_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
+qweibull_cp=function(x,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -79,29 +79,25 @@ qweibull_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
 #
 # 6 lddi
 #
-		if(aderivs)	ldd=weibull_ldda(x,v1hat,v2hat)
-		if(!aderivs)ldd=weibull_ldd(x,v1hat,fd1,v2hat,fd2)
+		ldd=weibull_ldda(x,v1hat,v2hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 7 lddd
 #
 		if(debug)message("  calculate lddd")
-		if(aderivs)	lddd=weibull_lddda(x,v1hat,v2hat)
-		if(!aderivs)lddd=weibull_lddd(x,v1hat,fd1,v2hat,fd2)
+		lddd=weibull_lddda(x,v1hat,v2hat)
 #
 # 7 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=weibull_mu1fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu1=weibull_mu1f(alpha,v1hat,fd1,v2hat,fd2)
-#
+		mu1=weibull_mu1fa(alpha,v1hat,v2hat)
+
 # 8 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=weibull_mu2fa(alpha,v1hat,v2hat)
-		if(!aderivs)mu2=weibull_mu2f(alpha,v1hat,fd1,v2hat,fd2)
-#
+		mu2=weibull_mu2fa(alpha,v1hat,v2hat)
+
 # 9 q rhp
 #
 		if(debug)message("  rhp")
@@ -122,14 +118,14 @@ qweibull_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
 #
 # 12 waicscores
 #
-		waic=weibull_waic(waicscores,x,v1hat,fd1,v2hat,fd2,lddi,lddd,
-			lambdad_rhp,aderivs)
+		waic=weibull_waic(waicscores,x,v1hat,v2hat,lddi,lddd,
+			lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 13 logscores
 #
-		logscores=weibull_logscores(logscores,x,fd1,fd2,aderivs)
+		logscores=weibull_logscores(logscores,x)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -166,8 +162,8 @@ qweibull_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,fd2=0.01,
 #' @rdname weibull_cp
 #' @inheritParams man
 #' @export
-rweibull_cp=function(n,x,fd1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rweibull_cp=function(n,x,rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),!x<0)
 	stopifnot(is.finite(x),!is.na(x),!x<0)
@@ -178,7 +174,7 @@ rweibull_cp=function(n,x,fd1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qweibull_cp(x,runif(n),fd1=fd1,fd2=fd2,aderivs=aderivs)
+		q=qweibull_cp(x,runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -203,12 +199,12 @@ rweibull_cp=function(n,x,fd1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 #' @rdname weibull_cp
 #' @inheritParams man
 #' @export
-dweibull_cp=function(x,y=x,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+dweibull_cp=function(x,y=x,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<0,!y<0)
 
-	dd=dweibullsub(x=x,y=y,fd1,fd2,aderivs=aderivs)
+	dd=dweibullsub(x=x,y=y)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=tweibull_cp(nrust,x)$theta_samples
@@ -228,12 +224,12 @@ dweibull_cp=function(x,y=x,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname weibull_cp
 #' @inheritParams man
 #' @export
-pweibull_cp=function(x,y=x,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+pweibull_cp=function(x,y=x,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<0,!y<0)
 
-	dd=dweibullsub(x=x,y=y,fd1,fd2,aderivs=aderivs)
+	dd=dweibullsub(x=x,y=y)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=tweibull_cp(nrust,x)$theta_samples
@@ -253,7 +249,7 @@ pweibull_cp=function(x,y=x,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname weibull_cp
 #' @inheritParams man
 #' @export
-tweibull_cp=function(n,x,fd1=0.01,fd2=0.01,debug=FALSE){
+tweibull_cp=function(n,x,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),!x<0)
 	stopifnot(is.finite(x),!is.na(x),!x<0)

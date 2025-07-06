@@ -12,8 +12,6 @@
 qgev_k3_cp(
   x,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  fd2 = 0.01,
   fdalpha = 0.01,
   kshape = 0,
   means = FALSE,
@@ -22,58 +20,21 @@ qgev_k3_cp(
   dmgs = TRUE,
   rust = FALSE,
   nrust = 1e+05,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-rgev_k3_cp(
-  n,
-  x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  kshape = 0,
-  rust = FALSE,
-  mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
-)
+rgev_k3_cp(n, x, kshape = 0, rust = FALSE, mlcp = TRUE, debug = FALSE)
 
-dgev_k3_cp(
-  x,
-  y = x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  kshape = 0,
-  rust = FALSE,
-  nrust = 1000,
-  debug = FALSE,
-  aderivs = TRUE
-)
+dgev_k3_cp(x, y = x, kshape = 0, rust = FALSE, nrust = 1000, debug = FALSE)
 
-pgev_k3_cp(
-  x,
-  y = x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  kshape = 0,
-  rust = FALSE,
-  nrust = 1000,
-  debug = FALSE,
-  aderivs = TRUE
-)
+pgev_k3_cp(x, y = x, kshape = 0, rust = FALSE, nrust = 1000, debug = FALSE)
 
-tgev_k3_cp(n, x, d1 = 0.01, fd2 = 0.01, kshape = 0, debug = FALSE)
+tgev_k3_cp(n, x, kshape = 0, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{fd2}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the second parameter}
 
 \item{fdalpha}{if \code{pdf=TRUE}, the fractional delta used for numerical derivatives
 with respect to probability, for calculating the pdf as a function of quantiles}
@@ -99,10 +60,6 @@ sampling calculations should be run or not (longer run time)}
 \item{nrust}{the number of posterior samples used in the RUST calculations}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 

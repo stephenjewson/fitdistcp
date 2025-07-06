@@ -4,7 +4,7 @@
 \alias{exp_waic}
 \title{Waicscores}
 \usage{
-exp_waic(waicscores, x, v1hat, fd1, aderivs)
+exp_waic(waicscores, x, v1hat)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -12,10 +12,6 @@ exp_waic(waicscores, x, v1hat, fd1, aderivs)
 \item{x}{a vector of training data values}
 
 \item{v1hat}{first parameter}
-
-\item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

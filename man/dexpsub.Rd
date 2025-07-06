@@ -4,14 +4,12 @@
 \alias{dexpsub}
 \title{Densities from MLE and RHP}
 \usage{
-dexpsub(x, y, aderivs = TRUE)
+dexpsub(x, y)
 }
 \arguments{
 \item{x}{a vector of training data values}
 
 \item{y}{a vector of values at which to calculate the density and distribution functions}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

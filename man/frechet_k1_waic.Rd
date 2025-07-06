@@ -4,19 +4,7 @@
 \alias{frechet_k1_waic}
 \title{Waic}
 \usage{
-frechet_k1_waic(
-  waicscores,
-  x,
-  v1hat,
-  fd1,
-  v2hat,
-  fd2,
-  kloc,
-  lddi,
-  lddd,
-  lambdad,
-  aderivs
-)
+frechet_k1_waic(waicscores, x, v1hat, v2hat, kloc, lddi, lddd, lambdad)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -25,11 +13,7 @@ frechet_k1_waic(
 
 \item{v1hat}{first parameter}
 
-\item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
-
-\item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{kloc}{the known location parameter}
 
@@ -38,8 +22,6 @@ frechet_k1_waic(
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

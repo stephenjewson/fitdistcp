@@ -8,15 +8,12 @@
 #' Waic
 #' @inherit manwaic return
 #' @inheritParams manf
-frechet_k1_waic=function(waicscores,x,v1hat,fd1,v2hat,fd2,kloc,lddi,lddd,
-	lambdad,aderivs){
+frechet_k1_waic=function(waicscores,x,v1hat,v2hat,kloc,lddi,lddd,
+	lambdad){
 		if(waicscores){
 
-			if(aderivs) f1f=frechet_k1_f1fa(x,v1hat,v2hat,kloc)
-			if(!aderivs)f1f=frechet_k1_f1f(x,v1hat,fd1,v2hat,fd2,kloc)
-
-			if(aderivs) f2f=frechet_k1_f2fa(x,v1hat,v2hat,kloc)
-			if(!aderivs)f2f=frechet_k1_f2f(x,v1hat,fd1,v2hat,fd2,kloc)
+			f1f=frechet_k1_f1fa(x,v1hat,v2hat,kloc)
+			f2f=frechet_k1_f2fa(x,v1hat,v2hat,kloc)
 
 			fhatx=dfrechet(x,mu=kloc,sigma=v1hat,lambda=v2hat)
 			waic=make_waic(x,fhatx,lddi,lddd,f1f,lambdad,f2f,dim=2)
@@ -46,352 +43,6 @@ frechet_loglik=function(vv,x,kloc){
 
 	return(loglik)
 }
-#' One component of the second derivative of the normalized log-likelihood
-#' @inherit manlnn return
-#' @inheritParams manf
-frechet_k1_lmn=function(x,v1,fd1,v2,fd2,kloc,mm,nn){
-	d1=fd1*v1
-	d2=fd2*v2
-	net3=matrix(0,3,2)
-	net4=matrix(0,4,2)
-	lmn=matrix(0,4)
-	dd=c(d1,d2)
-	vv=c(v1,v2)
-	vvd=matrix(0,2)
-	nx=length(x)
-# different
-	if(mm!=nn){
-		net4[,mm]=c(-1,-1,1,1)
-		net4[,nn]=c(-1,1,-1,1)
-		for (i in 1:4){
-			for (j in 1:2){
-				vvd[j]=vv[j]+net4[i,j]*dd[j]
-			}
-			lmn[i]=sum(dfrechet(x,mu=kloc,sigma=vvd[1],lambda=vvd[2],log=TRUE))/nx
-		}
-		dld=(lmn[1]-lmn[2]-lmn[3]+lmn[4])/(4*dd[mm]*dd[nn])
-# same
-	} else {
-		net3[,mm]=c(-1,0,1)
-		for (i in 1:3){
-			for (j in 1:2){
-				vvd[j]=vv[j]+net3[i,j]*dd[j]
-			}
-			lmn[i]=sum(dfrechet(x,mu=kloc,sigma=vvd[1],lambda=vvd[2],log=TRUE))/nx
-		}
-		dld=(lmn[1]-2*lmn[2]+lmn[3])/(dd[mm]*dd[mm])
-	}
-	return(dld)
-}
-#' Second derivative matrix of the normalized log-likelihood
-#' @inherit manldd return
-#' @inheritParams manf
-frechet_k1_ldd=function(x,v1,fd1,v2,fd2,kloc){
-	nx=length(x)
-	ldd=matrix(0,2,2)
-	for (i in 1:2){
-		for (j in i:2){
-			ldd[i,j]=frechet_k1_lmn(x,v1,fd1,v2,fd2,kloc,i,j)
-		}
-	}
-	for (i in 2:1){
-		for (j in 1:(i-1)){
-			ldd[i,j]=ldd[j,i]
-		}
-	}
-	return(ldd)
-}
-#' One component of the third derivative of the normalized log-likelihood
-#' @inherit manlnnn return
-#' @inheritParams manf
-frechet_k1_lmnp=function(x,v1,fd1,v2,fd2,kloc,mm,nn,rr){
-	d1=fd1*v1
-	d2=fd2*v2
-	net4=matrix(0,4,2)
-	net6=matrix(0,6,2)
-	net8=matrix(0,8,2)
-	lmn=matrix(0,8)
-	dd=c(d1,d2)
-	vv=c(v1,v2)
-	vvd=matrix(0,2)
-	nx=length(x)
-# all diff
-	if ((mm!=nn)&(nn!=rr)&(rr!=mm)){
-		net8[,mm]=c(-1,1,-1,1,-1,1,-1,1)
-		net8[,nn]=c(-1,-1,1,1,-1,-1,1,1)
-		net8[,rr]=c(-1,-1,-1,-1,1,1,1,1)
-		for (i in 1:8){
-			for (j in 1:3){
-				vvd[j]=vv[j]+net8[i,j]*dd[j]
-			}
-			lmn[i]=sum(dfrechet(x,mu=kloc,sigma=vvd[1],lambda=vvd[2],log=TRUE))/nx
-		}
-		dld1=(lmn[2]-lmn[1])/(2*dd[mm])
-		dld2=(lmn[4]-lmn[3])/(2*dd[mm])
-		dld21=(dld2-dld1)/(2*dd[nn])
-		dld3=(lmn[6]-lmn[5])/(2*dd[mm])
-		dld4=(lmn[8]-lmn[7])/(2*dd[mm])
-		dld43=(dld4-dld3)/(2*dd[nn])
-		dld=(dld43-dld21)/(2*dd[rr])
-# all 3 the same
-	} else if ((mm==nn)&(nn==rr)){
-		net4[,mm]=c(-2,-1,1,2)
-		for (i in 1:4){
-			for (j in 1:2){
-				vvd[j]=vv[j]+net4[i,j]*dd[j]
-			}
-			lmn[i]=sum(dfrechet(x,mu=kloc,sigma=vvd[1],lambda=vvd[2],log=TRUE))/nx
-		}
-		dld=(-lmn[1]+2*lmn[2]-2*lmn[3]+lmn[4])/(2*dd[mm]*dd[mm]*dd[mm])
-	} else {
-# 2 the same
-# mm is the repeated one, nn is the other one
-		if(mm==nn){m2=mm;n2=rr}
-		if(mm==rr){m2=mm;n2=nn}
-		if(nn==rr){m2=nn;n2=mm}
-		net6[,m2]=c(-1,0,1,-1,0,1)
-		net6[,n2]=c(-1,-1,-1,1,1,1)
-		for (i in 1:6){
-			for (j in 1:2){
-				vvd[j]=vv[j]+net6[i,j]*dd[j]
-			}
-			lmn[i]=sum(dfrechet(x,mu=kloc,sigma=vvd[1],lambda=vvd[2],log=TRUE))/nx
-		}
-		dld1=(lmn[3]-2*lmn[2]+lmn[1])/(dd[m2]*dd[m2])
-		dld2=(lmn[6]-2*lmn[5]+lmn[4])/(dd[m2]*dd[m2])
-		dld=(dld2-dld1)/(2*dd[n2])
-	}
-	return(dld)
-}
-#' Third derivative tensor of the normalized log-likelihood
-#' @inherit manlddd return
-#' @inheritParams manf
-frechet_k1_lddd=function(x,v1,fd1,v2,fd2,kloc){
-# calculate the unique values
-	lddd=array(0,c(2,2,2))
-	for (i in 1:2){
-		for (j in i:2){
-			for (k in j:2){
-				lddd[i,j,k]=frechet_k1_lmnp(x,v1,fd1,v2,fd2,kloc,i,j,k)
-			}
-		}
-	}
-# steves dumb algorithm for filling in the non-unique values
-	for (i in 1:2){
-		for (j in 1:2){
-			for (k in 1:2){
-				a=c(i,j,k)
-				b=sort(a)
-				lddd[a[1],a[2],a[3]]=lddd[b[1],b[2],b[3]]
-			}
-		}
-	}
-	return(lddd)
-}
-#' DMGS equation 3.3, f1 term
-#' @inherit man1f return
-#' @inheritParams manf
-frechet_k1_f1f=function(y,v1,fd1,v2,fd2,kloc){
-	d1=fd1*v1
-	d2=fd2*v2
-# v1 stuff
-	v1m1=v1-1*d1
-	v100=v1+0*d1
-	v1p1=v1+1*d1
-# v2 stuff
-	v2m1=v2-1*d2
-	v200=v2+0*d2
-	v2p1=v2+1*d2
-# v1 derivatives
-	F1m1=dfrechet(y,mu=kloc,sigma=v1m1,lambda=v200)
-	F1p1=dfrechet(y,mu=kloc,sigma=v1p1,lambda=v200)
-# v2 derivatives
-	F2m1=dfrechet(y,mu=kloc,sigma=v100,lambda=v2m1)
-	F2p1=dfrechet(y,mu=kloc,sigma=v100,lambda=v2p1)
-	f1=matrix(0,2,length(y))
-	f1[1,]=(F1p1-F1m1)/(2*d1)
-	f1[2,]=(F2p1-F2m1)/(2*d2)
-	return(f1)
-}
-#' DMGS equation 3.3, p1 term
-#' @inherit man1f return
-#' @inheritParams manf
-frechet_k1_p1f=function(y,v1,fd1,v2,fd2,kloc){
-	d1=fd1*v1
-	d2=fd2*v2
-# v1 stuff
-	v1m1=v1-1*d1
-	v100=v1+0*d1
-	v1p1=v1+1*d1
-# v2 stuff
-	v2m1=v2-1*d2
-	v200=v2+0*d2
-	v2p1=v2+1*d2
-# v1 derivatives
-	F1m1=pfrechet(y,mu=kloc,sigma=v1m1,lambda=v200)
-	F1p1=pfrechet(y,mu=kloc,sigma=v1p1,lambda=v200)
-# v2 derivatives
-	F2m1=pfrechet(y,mu=kloc,sigma=v100,lambda=v2m1)
-	F2p1=pfrechet(y,mu=kloc,sigma=v100,lambda=v2p1)
-	p1=matrix(0,2,length(y))
-	p1[1,]=(F1p1-F1m1)/(2*d1)
-	p1[2,]=(F2p1-F2m1)/(2*d2)
-	return(p1)
-}
-#' DMGS equation 3.3, mu1 term
-#' @inherit man1f return
-#' @inheritParams manf
-frechet_k1_mu1f=function(alpha,v1,fd1,v2,fd2,kloc){
-	q00=qfrechet((1-alpha),mu=kloc,sigma=v1,lambda=v2)
-	d1=fd1*v1
-	d2=fd2*v2
-# v1 stuff
-	v1m1=v1-1*d1
-	v100=v1+0*d1
-	v1p1=v1+1*d1
-# v2 stuff
-	v2m1=v2-1*d2
-	v200=v2+0*d2
-	v2p1=v2+1*d2
-# v1 derivatives
-	F1m1=pfrechet(q00,mu=kloc,sigma=v1m1,lambda=v200)
-	F1p1=pfrechet(q00,mu=kloc,sigma=v1p1,lambda=v200)
-# v2 derivatives
-	F2m1=pfrechet(q00,mu=kloc,sigma=v100,lambda=v2m1)
-	F2p1=pfrechet(q00,mu=kloc,sigma=v100,lambda=v2p1)
-	mu1=matrix(0,2,length(alpha))
-	mu1[1,]=-(F1p1-F1m1)/(2*d1)
-	mu1[2,]=-(F2p1-F2m1)/(2*d2)
-	return(mu1)
-}
-#' DMGS equation 3.3, f2 term
-#' @inherit man2f return
-#' @inheritParams manf
-frechet_k1_f2f=function(y,v1,fd1,v2,fd2,kloc){
-	d1=fd1*v1
-	d2=fd2*v2
-# v1 stuff
-	v1m2=v1-2*d1
-	v1m1=v1-1*d1
-	v100=v1+0*d1
-	v1p1=v1+1*d1
-	v1p2=v1+2*d1
-# v2 stuff
-	v2m2=v2-2*d2
-	v2m1=v2-1*d2
-	v200=v2+0*d2
-	v2p1=v2+1*d2
-	v2p2=v2+2*d2
-	F1m2=dfrechet(y,mu=kloc,sigma=v1m2,lambda=v200)
-	F1m1=dfrechet(y,mu=kloc,sigma=v1m1,lambda=v200)
-	F100=dfrechet(y,mu=kloc,sigma=v100,lambda=v200)
-	F1p1=dfrechet(y,mu=kloc,sigma=v1p1,lambda=v200)
-	F1p2=dfrechet(y,mu=kloc,sigma=v1p2,lambda=v200)
-# v2 derivative
-	F2m2=dfrechet(y,mu=kloc,sigma=v100,lambda=v2m2)
-	F2m1=dfrechet(y,mu=kloc,sigma=v100,lambda=v2m1)
-	F200=dfrechet(y,mu=kloc,sigma=v100,lambda=v200)
-	F2p1=dfrechet(y,mu=kloc,sigma=v100,lambda=v2p1)
-	F2p2=dfrechet(y,mu=kloc,sigma=v100,lambda=v2p2)
-# cross derivative
-	Fcm1m1=dfrechet(y,mu=kloc,sigma=v1m1,lambda=v2m1)
-	Fcm1p1=dfrechet(y,mu=kloc,sigma=v1m1,lambda=v2p1)
-	Fcp1m1=dfrechet(y,mu=kloc,sigma=v1p1,lambda=v2m1)
-	Fcp1p1=dfrechet(y,mu=kloc,sigma=v1p1,lambda=v2p1)
-	f2=array(0,c(2,2,length(y)))
-	f2[1,1,]=(F1p1-2*F100+F1m1)/(d1*d1)
-	f2[2,2,]=(F2p1-2*F200+F2m1)/(d2*d2)
-	f2[1,2,]=(Fcp1p1-Fcm1p1-Fcp1m1+Fcm1m1)/(4*d1*d2)
-	# copy
-	f2[2,1,]=f2[1,2,]
-	return(f2)
-}
-#' DMGS equation 3.3, p2 term
-#' @inherit man2f return
-#' @inheritParams manf
-frechet_k1_p2f=function(y,v1,fd1,v2,fd2,kloc){
-	d1=fd1*v1
-	d2=fd2*v2
-# v1 stuff
-	v1m2=v1-2*d1
-	v1m1=v1-1*d1
-	v100=v1+0*d1
-	v1p1=v1+1*d1
-	v1p2=v1+2*d1
-# v2 stuff
-	v2m2=v2-2*d2
-	v2m1=v2-1*d2
-	v200=v2+0*d2
-	v2p1=v2+1*d2
-	v2p2=v2+2*d2
-	F1m2=pfrechet(y,mu=kloc,sigma=v1m2,lambda=v200)
-	F1m1=pfrechet(y,mu=kloc,sigma=v1m1,lambda=v200)
-	F100=pfrechet(y,mu=kloc,sigma=v100,lambda=v200)
-	F1p1=pfrechet(y,mu=kloc,sigma=v1p1,lambda=v200)
-	F1p2=pfrechet(y,mu=kloc,sigma=v1p2,lambda=v200)
-# v2 derivative
-	F2m2=pfrechet(y,mu=kloc,sigma=v100,lambda=v2m2)
-	F2m1=pfrechet(y,mu=kloc,sigma=v100,lambda=v2m1)
-	F200=pfrechet(y,mu=kloc,sigma=v100,lambda=v200)
-	F2p1=pfrechet(y,mu=kloc,sigma=v100,lambda=v2p1)
-	F2p2=pfrechet(y,mu=kloc,sigma=v100,lambda=v2p2)
-# cross derivative
-	Fcm1m1=pfrechet(y,mu=kloc,sigma=v1m1,lambda=v2m1)
-	Fcm1p1=pfrechet(y,mu=kloc,sigma=v1m1,lambda=v2p1)
-	Fcp1m1=pfrechet(y,mu=kloc,sigma=v1p1,lambda=v2m1)
-	Fcp1p1=pfrechet(y,mu=kloc,sigma=v1p1,lambda=v2p1)
-	p2=array(0,c(2,2,length(y)))
-	p2[1,1,]=(F1p1-2*F100+F1m1)/(d1*d1)
-	p2[2,2,]=(F2p1-2*F200+F2m1)/(d2*d2)
-	p2[1,2,]=(Fcp1p1-Fcm1p1-Fcp1m1+Fcm1m1)/(4*d1*d2)
-	# copy
-	p2[2,1,]=p2[1,2,]
-	return(p2)
-}
-#' DMGS equation 3.3, mu2 term
-#' @inherit man2f return
-#' @inheritParams manf
-frechet_k1_mu2f=function(alpha,v1,fd1,v2,fd2,kloc){
-	q00=qfrechet((1-alpha),mu=kloc,sigma=v1,lambda=v2)
-	d1=fd1*v1
-	d2=fd2*v2
-# v1 stuff
-	v1m2=v1-2*d1
-	v1m1=v1-1*d1
-	v100=v1+0*d1
-	v1p1=v1+1*d1
-	v1p2=v1+2*d1
-# v2 stuff
-	v2m2=v2-2*d2
-	v2m1=v2-1*d2
-	v200=v2+0*d2
-	v2p1=v2+1*d2
-	v2p2=v2+2*d2
-	mu2=array(0,c(2,2,length(alpha)))
-	F1m2=pfrechet(q00,mu=kloc,sigma=v1m2,lambda=v200)
-	F1m1=pfrechet(q00,mu=kloc,sigma=v1m1,lambda=v200)
-	F100=pfrechet(q00,mu=kloc,sigma=v100,lambda=v200)
-	F1p1=pfrechet(q00,mu=kloc,sigma=v1p1,lambda=v200)
-	F1p2=pfrechet(q00,mu=kloc,sigma=v1p2,lambda=v200)
-# v2 derivative
-	F2m2=pfrechet(q00,mu=kloc,sigma=v100,lambda=v2m2)
-	F2m1=pfrechet(q00,mu=kloc,sigma=v100,lambda=v2m1)
-	F200=pfrechet(q00,mu=kloc,sigma=v100,lambda=v200)
-	F2p1=pfrechet(q00,mu=kloc,sigma=v100,lambda=v2p1)
-	F2p2=pfrechet(q00,mu=kloc,sigma=v100,lambda=v2p2)
-# cross derivative
-	Fcm1m1=pfrechet(q00,mu=kloc,sigma=v1m1,lambda=v2m1)
-	Fcm1p1=pfrechet(q00,mu=kloc,sigma=v1m1,lambda=v2p1)
-	Fcp1m1=pfrechet(q00,mu=kloc,sigma=v1p1,lambda=v2m1)
-	Fcp1p1=pfrechet(q00,mu=kloc,sigma=v1p1,lambda=v2p1)
-	mu2[1,1,]=-(F1p1-2*F100+F1m1)/(d1*d1)
-	mu2[2,2,]=-(F2p1-2*F200+F2m1)/(d2*d2)
-	mu2[1,2,]=-(Fcp1p1-Fcm1p1-Fcp1m1+Fcm1m1)/(4*d1*d2)
-	# copy
-	mu2[2,1,]=mu2[1,2,]
-	return(mu2)
-}
-
 #' MLE and RHP predictive means
 #' @inherit manmeans return
 #' @inheritParams manf
@@ -432,7 +83,7 @@ frechet_means=function(means,ml_params,lddi,lddd,lambdad_rhp,nx,dim=2,kloc){
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
 #' @inherit manlogscores return
 #' @inheritParams manf
-frechet_logscores=function(logscores,x,fd1=0.01,fd2=0.01,kloc,aderivs){
+frechet_logscores=function(logscores,x,kloc){
 
 	if(logscores){
 		nx=length(x)
@@ -440,7 +91,7 @@ frechet_logscores=function(logscores,x,fd1=0.01,fd2=0.01,kloc,aderivs){
 		rh_oos_logscore=0
 		for (i in 1:nx){
 			x1=x[-i]
-			dd=dfrechetsub(x1,x[i],kloc,fd1,fd2,aderivs)
+			dd=dfrechetsub(x1,x[i],kloc)
 
 			ml_params=dd$ml_params
 
@@ -459,7 +110,7 @@ frechet_logscores=function(logscores,x,fd1=0.01,fd2=0.01,kloc,aderivs){
 #' Densities from MLE and RHP
 #' @inherit mandsub return
 #' @inheritParams manf
-dfrechetsub=function(x,y,kloc,fd1=0.01,fd2=0.01,aderivs=TRUE){
+dfrechetsub=function(x,y,kloc){
 
 		nx=length(x)
 
@@ -473,23 +124,15 @@ dfrechetsub=function(x,y,kloc,fd1=0.01,fd2=0.01,aderivs=TRUE){
 		ml_cdf=pfrechet(y,mu=kloc,sigma=v1hat,lambda=v2hat)
 
 # rhp
-		if(aderivs)	ldd=frechet_k1_ldda(x,v1hat,v2hat,kloc)
-		if(!aderivs)ldd=frechet_k1_ldd(x,v1hat,fd1,v2hat,fd2,kloc)
+		ldd=frechet_k1_ldda(x,v1hat,v2hat,kloc)
 		lddi=solve(ldd)
-		if(aderivs)	lddd=frechet_k1_lddda(x,v1hat,v2hat,kloc)
-		if(!aderivs)lddd=frechet_k1_lddd(x,v1hat,fd1,v2hat,fd2,kloc)
+		lddd=frechet_k1_lddda(x,v1hat,v2hat,kloc)
 
-		if(aderivs) f1=frechet_k1_f1fa(y,v1hat,v2hat,kloc)
-		if(!aderivs)f1=frechet_k1_f1f(y,v1hat,fd1,v2hat,fd2,kloc)
+		f1=frechet_k1_f1fa(y,v1hat,v2hat,kloc)
+		f2=frechet_k1_f2fa(y,v1hat,v2hat,kloc)
 
-		if(aderivs) f2=frechet_k1_f2fa(y,v1hat,v2hat,kloc)
-		if(!aderivs)f2=frechet_k1_f2f(y,v1hat,fd1,v2hat,fd2,kloc)
-
-		if(aderivs) p1=frechet_k1_p1fa(y,v1hat,v2hat,kloc)
-		if(!aderivs)p1=frechet_k1_p1f(y,v1hat,fd1,v2hat,fd2,kloc)
-
-		if(aderivs) p2=frechet_k1_p2fa(y,v1hat,v2hat,kloc)
-		if(!aderivs)p2=frechet_k1_p2f(y,v1hat,fd1,v2hat,fd2,kloc)
+		p1=frechet_k1_p1fa(y,v1hat,v2hat,kloc)
+		p2=frechet_k1_p2fa(y,v1hat,v2hat,kloc)
 
 		lambdad_rhp=c(-1/v1hat,-1/v2hat)
 		df1=dmgs(lddi,lddd,f1,lambdad_rhp,f2,dim=2)

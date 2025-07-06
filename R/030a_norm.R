@@ -31,9 +31,9 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qnorm_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
+qnorm_cp=function(x,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,rust=FALSE,nrust=100000,
-	unbiasedv=FALSE,debug=FALSE,aderivs=TRUE){
+	unbiasedv=FALSE,debug=FALSE){
 #
 # 1 intro
 #
@@ -87,7 +87,7 @@ qnorm_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # test of gg code (for future implementation of mpd theory, as a test of the mpd code)
 #
-#	norm_gg(nx,v1hat,d1,v2hat,fd2)
+#	norm_gg(nx,v1hat,v2hat)
 #
 
 # 6 means (might as well always calculate)
@@ -97,7 +97,7 @@ qnorm_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #
 # 7 waicscores
 #
-	waic=norm_waic(waicscores,x,v1hat,d1,v2hat,fd2,aderivs)
+	waic=norm_waic(waicscores,x,v1hat,v2hat)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #
@@ -140,7 +140,7 @@ qnorm_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))
@@ -151,7 +151,7 @@ rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qnorm_cp(x,runif(n),aderivs=aderivs)
+		q=qnorm_cp(x,runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -176,11 +176,11 @@ rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-dnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+dnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dnormsub(x=x,y=y,aderivs=aderivs)
+	dd=dnormsub(x=x,y=y)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=tnorm_cp(nrust,x)$theta_samples
@@ -200,11 +200,11 @@ dnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-pnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+pnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dnormsub(x=x,y=y,aderivs=aderivs)
+	dd=dnormsub(x=x,y=y)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=tnorm_cp(nrust,x)$theta_samples

@@ -32,9 +32,9 @@ NULL
 #' @rdname exp_cp
 #' @inheritParams man
 #' @export
-qexp_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
+qexp_cp=function(x,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -83,7 +83,7 @@ qexp_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
 #
 # 7 waicscores
 #
-	waic=exp_waic(waicscores,x,v1hat,fd1,aderivs)
+	waic=exp_waic(waicscores,x,v1hat)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #
@@ -121,7 +121,7 @@ qexp_cp=function(x,p=seq(0.1,0.9,0.1),fd1=0.01,
 #' @rdname exp_cp
 #' @inheritParams man
 #' @export
-rexp_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rexp_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),!x<0)
 	stopifnot(is.finite(x),!is.na(x),!x<0)
@@ -132,7 +132,7 @@ rexp_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qexp_cp(x,runif(n),aderivs=aderivs)
+		q=qexp_cp(x,runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -157,11 +157,11 @@ rexp_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
 #' @rdname exp_cp
 #' @inheritParams man
 #' @export
-dexp_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+dexp_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<0,!y<0)
 
-	dd=dexpsub(x=x,y=y,aderivs=aderivs)
+	dd=dexpsub(x=x,y=y)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=texp_cp(nrust,x)$theta_samples
@@ -182,11 +182,11 @@ dexp_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
 #' @rdname exp_cp
 #' @inheritParams man
 #' @export
-pexp_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+pexp_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<0,!y<0)
 
-	dd=dexpsub(x=x,y=y,aderivs=aderivs)
+	dd=dexpsub(x=x,y=y)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=texp_cp(nrust,x)$theta_samples

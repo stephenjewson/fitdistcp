@@ -38,10 +38,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qgev_k3_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,fdalpha=0.01,
+qgev_k3_cp=function(x,p=seq(0.1,0.9,0.1),fdalpha=0.01,
 	kshape=0,means=FALSE,waicscores=FALSE,pdf=FALSE,
 	dmgs=TRUE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -102,47 +102,33 @@ qgev_k3_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,fdalpha=0.01,
 # 5 lddi
 #
 		if(debug)message("  calculate ldd,lddi")
-		if(aderivs)	ldd=gev_k3_ldda(x,v1hat,v2hat,kshape)
-		if(!aderivs)ldd=gev_k3_ldd(x,v1hat,d1,v2hat,fd2,kshape)
+		ldd=gev_k3_ldda(x,v1hat,v2hat,kshape)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 6 lddd
 #
 		if(debug)message("  calculate lddd")
-		if(aderivs)	lddd=gev_k3_lddda(x,v1hat,v2hat,kshape)
-		if(!aderivs)lddd=gev_k3_lddd(x,v1hat,d1,v2hat,fd2,kshape)
+		lddd=gev_k3_lddda(x,v1hat,v2hat,kshape)
 #
 # 7 mu1
 #
 		if(debug)message("  calculate mu1")
-		if(aderivs) mu1=gev_k3_mu1fa(alpha,v1hat,v2hat,kshape)
-		if(!aderivs)mu1=gev_k3_mu1f(alpha,v1hat,d1,v2hat,fd2,kshape)
+		mu1=gev_k3_mu1fa(alpha,v1hat,v2hat,kshape)
 
 		if(pdf){
-			if(aderivs){
-				mu1m=gev_k3_mu1fa(alpham,v1hat,v2hat,kshape)
-				mu1p=gev_k3_mu1fa(alphap,v1hat,v2hat,kshape)
-			} else {
-				mu1m=gev_k3_mu1f(alpham,v1hat,d1,v2hat,fd2,kshape)
-				mu1p=gev_k3_mu1f(alphap,v1hat,d1,v2hat,fd2,kshape)
-			}
+			mu1m=gev_k3_mu1fa(alpham,v1hat,v2hat,kshape)
+			mu1p=gev_k3_mu1fa(alphap,v1hat,v2hat,kshape)
 		}
 #
 # 8 mu2
 #
 		if(debug)message("  calculate mu2")
-		if(aderivs) mu2=gev_k3_mu2fa(alpha,v1hat,v2hat,kshape)
-		if(!aderivs)mu2=gev_k3_mu2f(alpha,v1hat,d1,v2hat,fd2,kshape)
+		mu2=gev_k3_mu2fa(alpha,v1hat,v2hat,kshape)
 
 		if(pdf){
-			if(aderivs){
-				mu2m=gev_k3_mu2fa(alpham,v1hat,v2hat,kshape)
-				mu2p=gev_k3_mu2fa(alphap,v1hat,v2hat,kshape)
-			} else {
-				mu2m=gev_k3_mu2f(alpham,v1hat,d1,v2hat,fd2,kshape)
-				mu2p=gev_k3_mu2f(alphap,v1hat,d1,v2hat,fd2,kshape)
-			}
+			mu2m=gev_k3_mu2fa(alpham,v1hat,v2hat,kshape)
+			mu2p=gev_k3_mu2fa(alphap,v1hat,v2hat,kshape)
 		}
 #
 # 9 rhp
@@ -174,8 +160,8 @@ qgev_k3_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,fdalpha=0.01,
 #
 # 12 waicscores
 #
-		waic=gev_k3_waic(waicscores,x,v1hat,d1,v2hat,fd2,kshape,lddi,lddd,
-			lambdad_rhp,aderivs)
+		waic=gev_k3_waic(waicscores,x,v1hat,v2hat,kshape,lddi,lddd,
+			lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
@@ -218,8 +204,8 @@ qgev_k3_cp=function(x,p=seq(0.1,0.9,0.1),d1=0.01,fd2=0.01,fdalpha=0.01,
 #' @rdname gev_k3_cp
 #' @inheritParams man
 #' @export
-rgev_k3_cp=function(n,x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rgev_k3_cp=function(n,x,kshape=0,rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 # this next line was creating the crazy error on install and I don't know
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
@@ -231,7 +217,7 @@ rgev_k3_cp=function(n,x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,mlcp=TRUE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgev_k3_cp(x,runif(n),d1=d1,fd2=fd2,kshape=kshape,aderivs=aderivs)
+		q=qgev_k3_cp(x,runif(n),kshape=kshape)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -257,12 +243,12 @@ rgev_k3_cp=function(n,x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,mlcp=TRUE,
 #' @rdname gev_k3_cp
 #' @inheritParams man
 #' @export
-dgev_k3_cp=function(x,y=x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+dgev_k3_cp=function(x,y=x,kshape=0,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 #	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dgev_k3sub(x=x,y=y,d1,fd2,kshape=kshape,aderivs=aderivs)
+	dd=dgev_k3sub(x=x,y=y,kshape=kshape)
 	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ru_pdf="rust not selected"
 
@@ -289,12 +275,12 @@ dgev_k3_cp=function(x,y=x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,nrust=1000,
 #' @rdname gev_k3_cp
 #' @inheritParams man
 #' @export
-pgev_k3_cp=function(x,y=x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+pgev_k3_cp=function(x,y=x,kshape=0,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 #	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
-	dd=dgev_k3sub(x=x,y=y,d1,fd2,kshape=kshape,aderivs=aderivs)
+	dd=dgev_k3sub(x=x,y=y,kshape=kshape)
 	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
 	ru_cdf="rust not selected"
 
@@ -320,7 +306,7 @@ pgev_k3_cp=function(x,y=x,d1=0.01,fd2=0.01,kshape=0,rust=FALSE,nrust=1000,
 #' @rdname gev_k3_cp
 #' @inheritParams man
 #' @export
-tgev_k3_cp=function(n,x,d1=0.01,fd2=0.01,kshape=0,debug=FALSE){
+tgev_k3_cp=function(n,x,kshape=0,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 #	stopifnot(is.finite(x),!is.na(x))

@@ -4,20 +4,14 @@
 \alias{frechet_logscores}
 \title{Log scores for MLE and RHP predictions calculated using leave-one-out}
 \usage{
-frechet_logscores(logscores, x, fd1 = 0.01, fd2 = 0.01, kloc, aderivs)
+frechet_logscores(logscores, x, kloc)
 }
 \arguments{
 \item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
 
 \item{x}{a vector of training data values}
 
-\item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
 \item{kloc}{the known location parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two scalars

@@ -255,25 +255,25 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 #
 # make predictions
 #
-	if(model=="exp")						pred0=qexp_cp(xx,p=pp,debug=debug,aderivs=aderivs)
-	if(model=="pareto_k2")			pred0=qpareto_k2_cp(xx,p=pp,kscale=params[1],debug=debug,aderivs=aderivs)
+	if(model=="exp")						pred0=qexp_cp(xx,p=pp,debug=debug)
+	if(model=="pareto_k2")			pred0=qpareto_k2_cp(xx,p=pp,kscale=params[1],debug=debug)
 	if(model=="halfnorm")				pred0=qhalfnorm_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 
 	if(model=="unif")						pred0=qunif_cp(xx,p=pp,debug=debug,aderivs=aderivs)
-	if(model=="norm")						pred0=qnorm_cp(xx,p=pp,debug=debug,aderivs=aderivs,unbiasedv=unbiasedv)
-	if(model=="norm_dmgs")			pred0=qnorm_dmgs_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
-	if(model=="lnorm")					pred0=qlnorm_cp(xx,p=pp,debug=debug,aderivs=aderivs)
-	if(model=="lnorm_dmgs")			pred0=qlnorm_dmgs_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+	if(model=="norm")						pred0=qnorm_cp(xx,p=pp,debug=debug,unbiasedv=unbiasedv)
+	if(model=="norm_dmgs")			pred0=qnorm_dmgs_cp(xx,p=pp,dmgs=dmgs,debug=debug)
+	if(model=="lnorm")					pred0=qlnorm_cp(xx,p=pp,debug=debug)
+	if(model=="lnorm_dmgs")			pred0=qlnorm_dmgs_cp(xx,p=pp,dmgs=dmgs,debug=debug)
 	if(model=="gnorm_k3")				pred0=qgnorm_k3_cp(xx,p=pp,kbeta=4,debug=debug,aderivs=aderivs)
 
-	if(model=="logis")					pred0=qlogis_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+	if(model=="logis")					pred0=qlogis_cp(xx,p=pp,dmgs=dmgs,debug=debug)
 	if(model=="lst_k3")					pred0=qlst_k3_cp(xx,p=pp,kdf=params[3],dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="cauchy")					pred0=qcauchy_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 
-	if(model=="gumbel")					pred0=qgumbel_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+	if(model=="gumbel")					pred0=qgumbel_cp(xx,p=pp,dmgs=dmgs,debug=debug)
 	if(model=="frechet_k1")			pred0=qfrechet_k1_cp(xx,p=pp,kloc=params[1],
-																dmgs=dmgs,debug=debug,aderivs=aderivs)
-	if(model=="weibull")				pred0=qweibull_cp(xx,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+																dmgs=dmgs,debug=debug)
+	if(model=="weibull")				pred0=qweibull_cp(xx,p=pp,dmgs=dmgs,debug=debug)
 	if(model=="gev_k3")					pred0=qgev_k3_cp(xx,p=pp,kshape=params[3],
 																dmgs=dmgs,debug=debug)
 

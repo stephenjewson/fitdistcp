@@ -11,40 +11,23 @@
 qnorm_dmgs_cp(
   x,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  fd2 = 0.01,
   means = FALSE,
   waicscores = FALSE,
   logscores = FALSE,
   dmgs = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-rnorm_dmgs_cp(
-  n,
-  x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
-)
+rnorm_dmgs_cp(n, x, mlcp = TRUE, debug = FALSE)
 
-dnorm_dmgs_cp(x, y = x, d1 = 0.01, fd2 = 0.01, debug = FALSE, aderivs = TRUE)
+dnorm_dmgs_cp(x, y = x, debug = FALSE)
 
-pnorm_dmgs_cp(x, y = x, d1 = 0.01, fd2 = 0.01, debug = FALSE, aderivs = TRUE)
+pnorm_dmgs_cp(x, y = x, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{fd2}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the second parameter}
 
 \item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
@@ -60,10 +43,6 @@ calculations and return leave-one-out estimates of the log-score
 should be run or not (longer run time)}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 

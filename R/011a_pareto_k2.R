@@ -41,9 +41,9 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qpareto_k2_cp=function(x,p=seq(0.1,0.9,0.1),kscale=1,fd1=0.01,
+qpareto_k2_cp=function(x,p=seq(0.1,0.9,0.1),kscale=1,
 	means=FALSE,waicscores=FALSE,logscores=FALSE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -102,7 +102,7 @@ qpareto_k2_cp=function(x,p=seq(0.1,0.9,0.1),kscale=1,fd1=0.01,
 #
 # 7 waicscores
 #
-	waic=pareto_k2_waic(waicscores,x,v1hat,fd1,kscale,aderivs)
+	waic=pareto_k2_waic(waicscores,x,v1hat,kscale)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #
@@ -139,7 +139,7 @@ qpareto_k2_cp=function(x,p=seq(0.1,0.9,0.1),kscale=1,fd1=0.01,
 #' @rdname pareto_k2_cp
 #' @inheritParams man
 #' @export
-rpareto_k2_cp=function(n,x,kscale=1,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rpareto_k2_cp=function(n,x,kscale=1,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),!x<kscale)
 	stopifnot(is.finite(x),!is.na(x),!x<kscale)
@@ -150,7 +150,7 @@ rpareto_k2_cp=function(n,x,kscale=1,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRU
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qpareto_k2_cp(x,runif(n),kscale=kscale,aderivs=aderivs)
+		q=qpareto_k2_cp(x,runif(n),kscale=kscale)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -175,11 +175,11 @@ rpareto_k2_cp=function(n,x,kscale=1,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRU
 #' @rdname pareto_k2_cp
 #' @inheritParams man
 #' @export
-dpareto_k2_cp=function(x,y=x,kscale=1,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+dpareto_k2_cp=function(x,y=x,kscale=1,rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<kscale,!y<kscale)
 
-	dd=dpareto_k2_sub(x=x,y=y,kscale=kscale,aderivs=aderivs)
+	dd=dpareto_k2_sub(x=x,y=y,kscale=kscale)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=tpareto_k2_cp(nrust,x,kscale)$theta_samples
@@ -200,12 +200,12 @@ dpareto_k2_cp=function(x,y=x,kscale=1,rust=FALSE,nrust=1000,debug=FALSE,aderivs=
 #' @rdname pareto_k2_cp
 #' @inheritParams man
 #' @export
-ppareto_k2_cp=function(x,y=x,kscale=1,rust=FALSE,nrust=1000,debug=FALSE,aderivs=TRUE){
+ppareto_k2_cp=function(x,y=x,kscale=1,rust=FALSE,nrust=1000,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),x>=kscale)
 #	stopifnot(is.finite(y),!is.na(y),y>=kscale)
 
-	dd=dpareto_k2_sub(x=x,y=y,kscale=kscale,aderivs=aderivs)
+	dd=dpareto_k2_sub(x=x,y=y,kscale=kscale)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=tpareto_k2_cp(nrust,x,kscale)$theta_samples

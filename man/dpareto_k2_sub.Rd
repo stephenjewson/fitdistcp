@@ -4,7 +4,7 @@
 \alias{dpareto_k2_sub}
 \title{Densities from MLE and RHP}
 \usage{
-dpareto_k2_sub(x, y, kscale, aderivs = TRUE)
+dpareto_k2_sub(x, y, kscale)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -12,8 +12,6 @@ dpareto_k2_sub(x, y, kscale, aderivs = TRUE)
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
 \item{kscale}{the known scale parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

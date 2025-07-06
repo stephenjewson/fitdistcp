@@ -4,7 +4,7 @@
 \alias{pareto_k2_waic}
 \title{Waic}
 \usage{
-pareto_k2_waic(waicscores, x, v1hat, fd1, kscale, aderivs)
+pareto_k2_waic(waicscores, x, v1hat, kscale)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -13,11 +13,7 @@ pareto_k2_waic(waicscores, x, v1hat, fd1, kscale, aderivs)
 
 \item{v1hat}{first parameter}
 
-\item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
 \item{kscale}{the known scale parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

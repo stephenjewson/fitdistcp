@@ -32,9 +32,9 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
+qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,
 	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -80,28 +80,24 @@ qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
 #
 # 5 lddi
 #
-		if(aderivs)	ldd=frechet_k1_ldda(x,v1hat,v2hat,kloc)
-		if(!aderivs)ldd=frechet_k1_ldd(x,v1hat,fd1,v2hat,fd2,kloc)
+		ldd=frechet_k1_ldda(x,v1hat,v2hat,kloc)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 6 lddd
 #
 	  if(debug)message("  calculate lddd")
-		if(aderivs) lddd=frechet_k1_lddda(x,v1hat,v2hat,kloc)
-		if(!aderivs)lddd=frechet_k1_lddd(x,v1hat,fd1,v2hat,fd2,kloc)
+		lddd=frechet_k1_lddda(x,v1hat,v2hat,kloc)
 #
 # 7 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=frechet_k1_mu1fa(alpha,v1hat,v2hat,kloc)
-		if(!aderivs)mu1=frechet_k1_mu1f(alpha,v1hat,fd1,v2hat,fd2,kloc)
+		mu1=frechet_k1_mu1fa(alpha,v1hat,v2hat,kloc)
 #
 # 8 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=frechet_k1_mu2fa(alpha,v1hat,v2hat,kloc)
-		if(!aderivs)mu2=frechet_k1_mu2f(alpha,v1hat,fd1,v2hat,fd2,kloc)
+		mu2=frechet_k1_mu2fa(alpha,v1hat,v2hat,kloc)
 #
 # 9 rhp
 #
@@ -122,14 +118,14 @@ qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
 #
 # 12 waicscores
 #
-		waic=frechet_k1_waic(waicscores,x,v1hat,fd1,v2hat,fd2,kloc,lddi,lddd,
-			lambdad_rhp,aderivs)
+		waic=frechet_k1_waic(waicscores,x,v1hat,v2hat,kloc,lddi,lddd,
+			lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 13 logscores
 #
-		logscores=frechet_logscores(logscores,x,fd1,fd2,kloc,aderivs)
+		logscores=frechet_logscores(logscores,x,kloc)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -166,8 +162,8 @@ qfrechet_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,fd1=0.01,fd2=0.01,
 #' @rdname frechet_k1_cp
 #' @inheritParams man
 #' @export
-rfrechet_k1_cp=function(n,x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rfrechet_k1_cp=function(n,x,kloc=0,rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),!x<kloc)
 	stopifnot(is.finite(x),!is.na(x),!x<kloc)
@@ -178,7 +174,7 @@ rfrechet_k1_cp=function(n,x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qfrechet_k1_cp(x,runif(n),kloc=kloc,fd1=fd1,fd2=fd2,aderivs=aderivs)
+		q=qfrechet_k1_cp(x,runif(n),kloc=kloc)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -204,12 +200,12 @@ rfrechet_k1_cp=function(n,x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,mlcp=TRUE,
 #' @rdname frechet_k1_cp
 #' @inheritParams man
 #' @export
-dfrechet_k1_cp=function(x,y=x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+dfrechet_k1_cp=function(x,y=x,kloc=0,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<kloc,!y<kloc)
 
-	dd=dfrechetsub(x=x,y=y,kloc=0,fd1,fd2,aderivs=aderivs)
+	dd=dfrechetsub(x=x,y=y,kloc=0)
 	ru_pdf="rust not selected"
 	if(rust){
 		th=tfrechet_k1_cp(nrust,x,kloc)$theta_samples
@@ -229,12 +225,12 @@ dfrechet_k1_cp=function(x,y=x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname frechet_k1_cp
 #' @inheritParams man
 #' @export
-pfrechet_k1_cp=function(x,y=x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
-	debug=FALSE,aderivs=TRUE){
+pfrechet_k1_cp=function(x,y=x,kloc=0,rust=FALSE,nrust=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),!x<kloc,!y<kloc)
 
-	dd=dfrechetsub(x=x,y=y,kloc=0,fd1,fd2,aderivs=aderivs)
+	dd=dfrechetsub(x=x,y=y,kloc=0)
 	ru_cdf="rust not selected"
 	if(rust){
 		th=tfrechet_k1_cp(nrust,x,kloc)$theta_samples
@@ -254,7 +250,7 @@ pfrechet_k1_cp=function(x,y=x,kloc=0,fd1=0.01,fd2=0.01,rust=FALSE,nrust=1000,
 #' @rdname frechet_k1_cp
 #' @inheritParams man
 #' @export
-tfrechet_k1_cp=function(n,x,kloc=0,fd1=0.01,fd2=0.01,debug=FALSE){
+tfrechet_k1_cp=function(n,x,kloc=0,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),!x<kloc)
 	stopifnot(is.finite(x),!is.na(x),!x<kloc)

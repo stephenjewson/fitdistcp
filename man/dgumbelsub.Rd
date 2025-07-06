@@ -4,18 +4,12 @@
 \alias{dgumbelsub}
 \title{Densities from MLE and RHP}
 \usage{
-dgumbelsub(x, y, d1 = 0.01, fd2 = 0.01, aderivs = TRUE)
+dgumbelsub(x, y)
 }
 \arguments{
 \item{x}{a vector of training data values}
 
 \item{y}{a vector of values at which to calculate the density and distribution functions}
-
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

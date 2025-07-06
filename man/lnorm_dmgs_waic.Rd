@@ -4,18 +4,7 @@
 \alias{lnorm_dmgs_waic}
 \title{Waic}
 \usage{
-lnorm_dmgs_waic(
-  waicscores,
-  x,
-  v1hat,
-  d1,
-  v2hat,
-  fd2,
-  lddi,
-  lddd,
-  lambdad,
-  aderivs
-)
+lnorm_dmgs_waic(waicscores, x, v1hat, v2hat, lddi, lddd, lambdad)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -24,19 +13,13 @@ lnorm_dmgs_waic(
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
-
-\item{fd2}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{lddi}{inverse observed information matrix}
 
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

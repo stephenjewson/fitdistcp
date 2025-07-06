@@ -12,63 +12,27 @@
 qlogis_cp(
   x,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  fd2 = 0.01,
   means = FALSE,
   waicscores = FALSE,
   logscores = FALSE,
   dmgs = TRUE,
   rust = FALSE,
   nrust = 1e+05,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-rlogis_cp(
-  n,
-  x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  rust = FALSE,
-  mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
-)
+rlogis_cp(n, x, rust = FALSE, mlcp = TRUE, debug = FALSE)
 
-dlogis_cp(
-  x,
-  y = x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  rust = FALSE,
-  nrust = 1000,
-  debug = FALSE,
-  aderivs = TRUE
-)
+dlogis_cp(x, y = x, rust = FALSE, nrust = 1000, debug = FALSE)
 
-plogis_cp(
-  x,
-  y = x,
-  d1 = 0.01,
-  fd2 = 0.01,
-  rust = FALSE,
-  nrust = 1000,
-  debug = FALSE,
-  aderivs = TRUE
-)
+plogis_cp(x, y = x, rust = FALSE, nrust = 1000, debug = FALSE)
 
-tlogis_cp(n, x, d1 = 0.01, fd2 = 0.01, debug = FALSE)
+tlogis_cp(n, x, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{fd2}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the second parameter}
 
 \item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
@@ -89,10 +53,6 @@ sampling calculations should be run or not (longer run time)}
 \item{nrust}{the number of posterior samples used in the RUST calculations}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 
