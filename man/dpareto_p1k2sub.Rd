@@ -4,7 +4,7 @@
 \alias{dpareto_p1k2sub}
 \title{Densities from MLE and RHP}
 \usage{
-dpareto_p1k2sub(x, t, y, t0, d1, d2, kscale, aderivs = TRUE, debug = FALSE)
+dpareto_p1k2sub(x, t, y, t0, kscale, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -15,13 +15,7 @@ dpareto_p1k2sub(x, t, y, t0, d1, d2, kscale, aderivs = TRUE, debug = FALSE)
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{kscale}{the known scale parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 
 \item{debug}{debug flag}
 }

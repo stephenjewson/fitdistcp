@@ -4,7 +4,7 @@
 \alias{dlogis_p1sub}
 \title{Densities from MLE and RHP}
 \usage{
-dlogis_p1sub(x, t, y, t0, d1, d2, fd3, aderivs = TRUE)
+dlogis_p1sub(x, t, y, t0)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -14,14 +14,6 @@ dlogis_p1sub(x, t, y, t0, d1, d2, fd3, aderivs = TRUE)
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
-
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

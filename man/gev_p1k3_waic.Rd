@@ -9,11 +9,8 @@ gev_p1k3_waic(
   x,
   t,
   v1hat,
-  d1,
   v2hat,
-  d2,
   v3hat,
-  fd3,
   kshape,
   lddi,
   lddd,
@@ -29,15 +26,9 @@ gev_p1k3_waic(
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
 
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v3hat}{third parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{kshape}{the known shape parameter}
 

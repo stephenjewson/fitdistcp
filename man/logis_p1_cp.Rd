@@ -15,9 +15,6 @@ qlogis_p1_cp(
   t0 = NA,
   n0 = NA,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   means = FALSE,
   waicscores = FALSE,
   logscores = FALSE,
@@ -26,8 +23,7 @@ qlogis_p1_cp(
   nrust = 1e+05,
   predictordata = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 rlogis_p1_cp(
@@ -36,13 +32,9 @@ rlogis_p1_cp(
   t,
   t0 = NA,
   n0 = NA,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   rust = FALSE,
   mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 dlogis_p1_cp(
@@ -51,14 +43,10 @@ dlogis_p1_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 plogis_p1_cp(
@@ -67,17 +55,13 @@ plogis_p1_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-tlogis_p1_cp(n, x, t, d1 = 0.01, d2 = 0.01, fd3 = 0.01, debug = FALSE)
+tlogis_p1_cp(n, x, t, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -91,15 +75,6 @@ tlogis_p1_cp(n, x, t, d1 = 0.01, d2 = 0.01, fd3 = 0.01, debug = FALSE)
 (specify either \code{t0} or \code{n0} but not both)}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
-
-\item{fd3}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the third parameter}
 
 \item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
@@ -124,10 +99,6 @@ sampling calculations should be run or not (longer run time)}
 \item{centering}{logical that indicates whether the predictor should be centered}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 

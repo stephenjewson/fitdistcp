@@ -33,10 +33,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01,
+qnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,rust=FALSE,nrust=100000,
 	centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -116,13 +116,13 @@ qnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01
 #
 # 9 waicscores
 #
-	waic=norm_p1_waic(waicscores,x,ta,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=aderivs)
+	waic=norm_p1_waic(waicscores,x,ta,v1hat,v2hat,v3hat)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #
 # 10 logscores
 #
-	logscores=norm_p1_logscores(logscores,x,t,aderivs)
+	logscores=norm_p1_logscores(logscores,x,t)
 	ml_oos_logscore=logscores$ml_oos_logscore
 	rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -166,7 +166,7 @@ qnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01
 #' @rdname norm_p1_cp
 #' @inheritParams man
 #' @export
-rnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),is.finite(t),!is.na(t))
 	stopifnot(is.finite(x),!is.na(x),is.finite(t),!is.na(t))
@@ -185,7 +185,7 @@ rnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qnorm_p1_cp(x,t,t0=t0,n0=NA,p=runif(n),aderivs=aderivs)
+		q=qnorm_p1_cp(x,t,t0=t0,n0=NA,p=runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -217,7 +217,7 @@ rnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=
 #' @inheritParams man
 #' @export
 dnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 # why is rust an option, given that we have exact solutions?
 
 	t0=maket0(t0,n0,t)
@@ -233,7 +233,7 @@ dnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
 		t0=t0-meant
 	}
 
-	dd=dnorm_p1sub(x=x,t=t,y=y,t0=t0,aderivs=aderivs)
+	dd=dnorm_p1sub(x=x,t=t,y=y,t0=t0)
 	ml_params=dd$ml_params
 
 	ru_pdf="rust not selected"
@@ -265,7 +265,7 @@ dnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
 #' @inheritParams man
 #' @export
 pnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	t0=maket0(t0,n0,t)
 
@@ -280,7 +280,7 @@ pnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
 		t0=t0-meant
 	}
 
-	dd=dnorm_p1sub(x=x,t=t,y=y,t0=t0,aderivs=aderivs)
+	dd=dnorm_p1sub(x=x,t=t,y=y,t0=t0)
 	ml_params=dd$ml_params
 
 	ru_cdf="rust not selected"

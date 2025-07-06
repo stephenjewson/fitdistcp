@@ -4,7 +4,7 @@
 \alias{dgev_p1k3sub}
 \title{Densities from MLE and RHP}
 \usage{
-dgev_p1k3sub(x, t, y, t0, d1, d2, fd3, kshape)
+dgev_p1k3sub(x, t, y, t0, kshape)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -14,12 +14,6 @@ dgev_p1k3sub(x, t, y, t0, d1, d2, fd3, kshape)
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
-
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{kshape}{the known shape parameter}
 }

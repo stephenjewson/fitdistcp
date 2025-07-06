@@ -9,16 +9,12 @@ frechet_p2k1_waic(
   x,
   t,
   v1hat,
-  d1,
   v2hat,
-  d2,
   v3hat,
-  fd3,
   kloc,
   lddi,
   lddd,
-  lambdad,
-  aderivs
+  lambdad
 )
 }
 \arguments{
@@ -30,15 +26,9 @@ frechet_p2k1_waic(
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
 
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v3hat}{third parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{kloc}{the known location parameter}
 
@@ -47,8 +37,6 @@ frechet_p2k1_waic(
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

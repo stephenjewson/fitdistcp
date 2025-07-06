@@ -39,7 +39,7 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01,
+qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	fdalpha=0.01,kshape=0,
 	means=FALSE,waicscores=FALSE,
 	pdf=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,predictordata=TRUE,
@@ -194,7 +194,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 14 waicscores
 #
-		waic=gev_p1k3_waic(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kshape=kshape,
+		waic=gev_p1k3_waic(waicscores,x,t,v1hat,v2hat,v3hat,kshape=kshape,
 			lddi,lddd,lambdad_cp)
 		waic1=waic$waic1
 		waic2=waic$waic2
@@ -247,7 +247,7 @@ qgev_p1k3_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #' @rdname gev_p1k3_cp
 #' @inheritParams man
 #' @export
-rgev_p1k3_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,fd3=0.01,
+rgev_p1k3_cp=function(n,x,t,t0=NA,n0=NA,
 	kshape=0,rust=FALSE,mlcp=TRUE,centering=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),is.finite(t),!is.na(t),
@@ -272,7 +272,7 @@ rgev_p1k3_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,fd3=0.01,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qgev_p1k3_cp(x,t,t0=t0,n0=NA,p=runif(n),d1,d2,fd3,kshape=kshape,
+		q=qgev_p1k3_cp(x,t,t0=t0,n0=NA,p=runif(n),kshape=kshape,
 			centering=centering)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
@@ -305,7 +305,7 @@ rgev_p1k3_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,fd3=0.01,
 #' @rdname gev_p1k3_cp
 #' @inheritParams man
 #' @export
-dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
+dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,
 	kshape=0,rust=FALSE,nrust=1000,centering=TRUE,
 	debug=FALSE){
 
@@ -322,7 +322,7 @@ dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
     t0=t0-meant
   }
 
-	dd=dgev_p1k3sub(x=x,t=t,y=y,t0=t0,d1,d2,fd3,kshape=kshape)
+	dd=dgev_p1k3sub(x=x,t=t,y=y,t0=t0,kshape=kshape)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
 	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
@@ -354,7 +354,7 @@ dgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 #' @rdname gev_p1k3_cp
 #' @inheritParams man
 #' @export
-pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
+pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,
 	kshape=0,rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
@@ -371,7 +371,7 @@ pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
     t0=t0-meant
   }
 
-	dd=dgev_p1k3sub(x=x,t=t,y=y,t0=t0,d1,d2,fd3,kshape=kshape)
+	dd=dgev_p1k3sub(x=x,t=t,y=y,t0=t0,kshape=kshape)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
 	if(kshape<=(-1)){revert2ml=TRUE}else{revert2ml=FALSE}
@@ -404,7 +404,7 @@ pgev_p1k3_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 #' @rdname gev_p1k3_cp
 #' @inheritParams man
 #' @export
-tgev_p1k3_cp=function(n,x,t,d1=0.01,d2=0.01,fd3=0.01,kshape=0,debug=FALSE){
+tgev_p1k3_cp=function(n,x,t,kshape=0,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),is.finite(t),!is.na(t),
 #						is.finite(kshape),!is.na(kshape))

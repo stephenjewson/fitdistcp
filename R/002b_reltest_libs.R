@@ -277,27 +277,27 @@ reltest_predict=function(model,xx,tt,tt1,tt2,tt3,n0,n10,n20,n30,pp,params,dmgs=T
 	if(model=="gev_k3")					pred0=qgev_k3_cp(xx,p=pp,kshape=params[3],
 																dmgs=dmgs,debug=debug)
 
-	if(model=="exp_p1")					pred0=qexp_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,aderivs=aderivs)
+	if(model=="exp_p1")					pred0=qexp_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs)
 	if(model=="pareto_p1k2")		pred0=qpareto_p1k2_cp(xx,tt,n0=n0,p=pp,
-																kscale=params[1],dmgs=dmgs,debug=debug,aderivs=aderivs)
+																kscale=params[1],dmgs=dmgs,debug=debug)
 
-	if(model=="norm_p1")				pred0=qnorm_p1_cp(xx,tt,n0=n0,p=pp,debug=debug,aderivs=aderivs)
-	if(model=="lnorm_p1")				pred0=qlnorm_p1_cp(xx,tt,n0=n0,p=pp,debug=debug,aderivs=aderivs)
+	if(model=="norm_p1")				pred0=qnorm_p1_cp(xx,tt,n0=n0,p=pp,debug=debug)
+	if(model=="lnorm_p1")				pred0=qlnorm_p1_cp(xx,tt,n0=n0,p=pp,debug=debug)
 
-	if(model=="logis_p1")				pred0=qlogis_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+	if(model=="logis_p1")				pred0=qlogis_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug)
 	if(model=="lst_p1k3")				pred0=qlst_p1k3_cp(xx,tt,n0=n0,p=pp,kdf=params[4],
 																dmgs=dmgs,debug=debug,aderivs=aderivs)
 	if(model=="cauchy_p1")			pred0=qcauchy_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
 
-	if(model=="gumbel_p1")			pred0=qgumbel_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+	if(model=="gumbel_p1")			pred0=qgumbel_p1_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug)
 	if(model=="frechet_p2k1")		pred0=qfrechet_p2k1_cp(xx,tt,n0=n0,p=pp,
-																kloc=params[1],dmgs=dmgs,debug=debug,aderivs=aderivs)
-	if(model=="weibull_p2")			pred0=qweibull_p2_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug,aderivs=aderivs)
+																kloc=params[1],dmgs=dmgs,debug=debug)
+	if(model=="weibull_p2")			pred0=qweibull_p2_cp(xx,tt,n0=n0,p=pp,dmgs=dmgs,debug=debug)
 
 	if(model=="gev_p1k3")				pred0=qgev_p1k3_cp(xx,p=pp,kshape=params[4],
 																dmgs=dmgs,debug=debug)
 #	if(model=="norm_p12")				pred0=qnorm_p12_cp(xx,tt1,tt2,n10=n0,n20=n0,p=pp,
-#																dmgs=dmgs,debug=debug,aderivs=aderivs)
+#																dmgs=dmgs,debug=debug)
 #	if(model=="lst_p12k3")			pred0=qlst_p12k3_cp(xx,tt1,tt2,n10=n0,n20=n0,p=pp,
 #																dmgs=dmgs,kdf=params[5],debug=debug,aderivs=aderivs)
 

@@ -33,10 +33,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qexp_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,
+qexp_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,
 	dmgs=TRUE,rust=FALSE,nrust=100000,predictordata=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -110,28 +110,24 @@ qexp_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,
 # 7 lddi
 #
 		if(debug)message("calc ldd")
-		if(aderivs)	ldd=exp_p1_ldda(x,t,v1hat,v2hat)
-		if(!aderivs)ldd=exp_p1_ldd(x,t,v1hat,d1,v2hat,d2)
+		ldd=exp_p1_ldda(x,t,v1hat,v2hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 8 lddd
 #
 		if(debug)message("calculate lddd")
-		if(aderivs) lddd=exp_p1_lddda(x,t,v1hat,v2hat)
-		if(!aderivs)lddd=exp_p1_lddd(x,t,v1hat,d1,v2hat,d2)
+		lddd=exp_p1_lddda(x,t,v1hat,v2hat)
 #
 # 9 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=exp_p1_mu1fa(alpha,t0,v1hat,v2hat)
-		if(!aderivs)mu1=exp_p1_mu1f(alpha,t0,v1hat,d1,v2hat,d2)
+		mu1=exp_p1_mu1fa(alpha,t0,v1hat,v2hat)
 #
 # 10 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=exp_p1_mu2fa(alpha,t0,v1hat,v2hat)
-		if(!aderivs)mu2=exp_p1_mu2f(alpha,t0,v1hat,d1,v2hat,d2)
+		mu2=exp_p1_mu2fa(alpha,t0,v1hat,v2hat)
 #
 # 11 rhp
 #
@@ -153,13 +149,13 @@ qexp_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,
 #
 # 14 waicscores
 #
-		waic=exp_p1_waic(waicscores,x,t,v1hat,d1,v2hat,d2,lddi,lddd,lambdad_rhp,aderivs)
+		waic=exp_p1_waic(waicscores,x,t,v1hat,v2hat,lddi,lddd,lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 15 logscores
 #
-		logscores=exp_p1_logscores(logscores,x,t,d1,d2,aderivs)
+		logscores=exp_p1_logscores(logscores,x,t)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -207,8 +203,8 @@ qexp_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,
 #' @rdname exp_p1_cp
 #' @inheritParams man
 #' @export
-rexp_p1_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rexp_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),length(t)==length(x),!x<0)
@@ -232,7 +228,7 @@ rexp_p1_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,rust=FALSE,mlcp=TRUE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qexp_p1_cp(x,t,t0=t0,n0=NA,p=runif(n),d1=d1,d2=d2,aderivs=aderivs)
+		q=qexp_p1_cp(x,t,t0=t0,n0=NA,p=runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -263,11 +259,9 @@ rexp_p1_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,rust=FALSE,mlcp=TRUE,
 }
 #' @rdname  exp_p1_cp
 #' @inheritParams 	man
-#' @param d1				the fractional delta used in the numerical derivatives with respect to the location parameter
-#' @param d2				the fractional delta used in the numerical derivatives with respect to the slope parameter
 #' @export
-dexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,rust=FALSE,nrust=1000,
-	centering=TRUE,debug=FALSE,aderivs=TRUE){
+dexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,
+	centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),is.finite(t),!is.na(t),!x<0,!y<0)
 
@@ -282,7 +276,7 @@ dexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,rust=FALSE,nrust=1000,
     t0=t0-meant
   }
 
-	dd=dexp_p1sub(x=x,t=t,y=y,t0=t0,d1,d2,aderivs=aderivs)
+	dd=dexp_p1sub(x=x,t=t,y=y,t0=t0)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -311,8 +305,8 @@ dexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,rust=FALSE,nrust=1000,
 #' @rdname  exp_p1_cp
 #' @inheritParams 	man
 #' @export
-pexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,rust=FALSE,nrust=1000,
-	centering=TRUE,debug=FALSE,aderivs=TRUE){
+pexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,
+	centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),is.finite(t),!is.na(t),!x<0,!y<0)
 
@@ -327,7 +321,7 @@ pexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,rust=FALSE,nrust=1000,
     t0=t0-meant
   }
 
-	dd=dexp_p1sub(x=x,t=t,y=y,t0=t0,d1,d2,aderivs=aderivs)
+	dd=dexp_p1sub(x=x,t=t,y=y,t0=t0)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -355,7 +349,7 @@ pexp_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,rust=FALSE,nrust=1000,
 #' @rdname exp_p1_cp
 #' @inheritParams man
 #' @export
-texp_p1_cp=function(n,x,t,d1=0.01,d2=0.01,debug=FALSE){
+texp_p1_cp=function(n,x,t,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),length(t)==length(x),!x<0)

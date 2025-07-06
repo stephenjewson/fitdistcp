@@ -15,8 +15,6 @@ qpareto_p1k2_cp(
   t0 = NA,
   n0 = NA,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  d2 = 0.01,
   kscale = 1,
   means = FALSE,
   waicscores = FALSE,
@@ -26,8 +24,7 @@ qpareto_p1k2_cp(
   nrust = 1e+05,
   predictordata = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 rpareto_p1k2_cp(
@@ -36,14 +33,11 @@ rpareto_p1k2_cp(
   t,
   t0 = NA,
   n0 = NA,
-  d1 = 0.01,
-  d2 = 0.01,
   kscale = 1,
   rust = FALSE,
   mlcp = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 dpareto_p1k2_cp(
@@ -52,14 +46,11 @@ dpareto_p1k2_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
   kscale = 1,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 ppareto_p1k2_cp(
@@ -68,17 +59,14 @@ ppareto_p1k2_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
   kscale = 1,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-tpareto_p1k2_cp(n, x, t, d1 = 0.01, d2 = 0.01, kscale = 1, debug = FALSE)
+tpareto_p1k2_cp(n, x, t, kscale = 1, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -92,12 +80,6 @@ tpareto_p1k2_cp(n, x, t, d1 = 0.01, d2 = 0.01, kscale = 1, debug = FALSE)
 (specify either \code{t0} or \code{n0} but not both)}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
 
 \item{kscale}{the known scale parameter}
 
@@ -124,10 +106,6 @@ sampling calculations should be run or not (longer run time)}
 \item{centering}{logical that indicates whether the predictor should be centered}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 

@@ -15,8 +15,6 @@ qexp_p1_cp(
   t0 = NA,
   n0 = NA,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  d2 = 0.01,
   means = FALSE,
   waicscores = FALSE,
   logscores = FALSE,
@@ -25,23 +23,10 @@ qexp_p1_cp(
   nrust = 1e+05,
   predictordata = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-rexp_p1_cp(
-  n,
-  x,
-  t,
-  t0 = NA,
-  n0 = NA,
-  d1 = 0.01,
-  d2 = 0.01,
-  rust = FALSE,
-  mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
-)
+rexp_p1_cp(n, x, t, t0 = NA, n0 = NA, rust = FALSE, mlcp = TRUE, debug = FALSE)
 
 dexp_p1_cp(
   x,
@@ -49,13 +34,10 @@ dexp_p1_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 pexp_p1_cp(
@@ -64,16 +46,13 @@ pexp_p1_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
   rust = FALSE,
   nrust = 1000,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
-texp_p1_cp(n, x, t, d1 = 0.01, d2 = 0.01, debug = FALSE)
+texp_p1_cp(n, x, t, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -87,10 +66,6 @@ texp_p1_cp(n, x, t, d1 = 0.01, d2 = 0.01, debug = FALSE)
 (specify either \code{t0} or \code{n0} but not both)}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{the fractional delta used in the numerical derivatives with respect to the location parameter}
-
-\item{d2}{the fractional delta used in the numerical derivatives with respect to the slope parameter}
 
 \item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
@@ -115,10 +90,6 @@ sampling calculations should be run or not (longer run time)}
 \item{centering}{logical that indicates whether the predictor should be centered}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 

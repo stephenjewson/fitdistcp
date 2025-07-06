@@ -1,7 +1,7 @@
 #' Waic
 #' @inherit manwaic return
 #' @inheritParams manf
-gev_p1k3_waic=function(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,kshape,
+gev_p1k3_waic=function(waicscores,x,t,v1hat,v2hat,v3hat,kshape,
 	lddi,lddd,lambdad){
 		if(waicscores){
 			f1f=gev_p1k3_f1fw(x,t,v1hat,v2hat,v3hat,kshape=kshape)
@@ -129,7 +129,7 @@ gev_p1k3_means=function(means,t0,ml_params,kshape,nx){
 #' Densities from MLE and RHP
 #' @inherit mandsub return
 #' @inheritParams	manf
-dgev_p1k3sub=function(x,t,y,t0,d1,d2,fd3,kshape){
+dgev_p1k3sub=function(x,t,y,t0,kshape){
 
 		nx=length(x)
 

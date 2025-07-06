@@ -4,7 +4,7 @@
 \alias{dlnorm_p1sub}
 \title{Densities from MLE and RHP}
 \usage{
-dlnorm_p1sub(x, t, y, t0, debug = FALSE, aderivs = TRUE)
+dlnorm_p1sub(x, t, y, t0, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -16,8 +16,6 @@ dlnorm_p1sub(x, t, y, t0, debug = FALSE, aderivs = TRUE)
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
 \item{debug}{debug flag}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

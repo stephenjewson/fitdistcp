@@ -15,9 +15,6 @@ qgev_p1k3_cp(
   t0 = NA,
   n0 = NA,
   p = seq(0.1, 0.9, 0.1),
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   fdalpha = 0.01,
   kshape = 0,
   means = FALSE,
@@ -37,9 +34,6 @@ rgev_p1k3_cp(
   t,
   t0 = NA,
   n0 = NA,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   kshape = 0,
   rust = FALSE,
   mlcp = TRUE,
@@ -53,9 +47,6 @@ dgev_p1k3_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   kshape = 0,
   rust = FALSE,
   nrust = 1000,
@@ -69,9 +60,6 @@ pgev_p1k3_cp(
   t0 = NA,
   n0 = NA,
   y = x,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
   kshape = 0,
   rust = FALSE,
   nrust = 1000,
@@ -79,16 +67,7 @@ pgev_p1k3_cp(
   debug = FALSE
 )
 
-tgev_p1k3_cp(
-  n,
-  x,
-  t,
-  d1 = 0.01,
-  d2 = 0.01,
-  fd3 = 0.01,
-  kshape = 0,
-  debug = FALSE
-)
+tgev_p1k3_cp(n, x, t, kshape = 0, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -102,15 +81,6 @@ tgev_p1k3_cp(
 (specify either \code{t0} or \code{n0} but not both)}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
-
-\item{fd3}{if \code{aderivs=FALSE}, the fractional delta used for numerical derivatives
-with respect to the third parameter}
 
 \item{fdalpha}{if \code{pdf=TRUE}, the fractional delta used for numerical derivatives
 with respect to probability, for calculating the pdf as a function of quantiles}

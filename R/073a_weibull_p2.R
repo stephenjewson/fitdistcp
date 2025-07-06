@@ -34,10 +34,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qweibull_p2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),fd1=0.01,d2=0.01,d3=0.01,
+qweibull_p2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,
 	dmgs=TRUE,rust=FALSE,nrust=100000,predictordata=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -104,28 +104,24 @@ qweibull_p2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),fd1=0.01,d2=0.01,d3=0
 # 7 lddi
 #
 		if(debug)message("calc ldd")
-		if(aderivs) ldd=weibull_p2_ldda(x,t,v1hat,v2hat,v3hat)
-		if(!aderivs)ldd=weibull_p2_ldd(x,t,v1hat,fd1,v2hat,d2,v3hat,d3)
+		ldd=weibull_p2_ldda(x,t,v1hat,v2hat,v3hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 8 lddd
 #
 		if(debug)message("calculate lddd")
-		if(aderivs) lddd=weibull_p2_lddda(x,t,v1hat,v2hat,v3hat)
-		if(!aderivs)lddd=weibull_p2_lddd(x,t,v1hat,fd1,v2hat,d2,v3hat,d3)
+		lddd=weibull_p2_lddda(x,t,v1hat,v2hat,v3hat)
 #
 # 9 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=weibull_p2_mu1fa(alpha,t0,v1hat,v2hat,v3hat)
-		if(!aderivs)mu1=weibull_p2_mu1f(alpha,t0,v1hat,fd1,v2hat,d2,v3hat,d3)
+		mu1=weibull_p2_mu1fa(alpha,t0,v1hat,v2hat,v3hat)
 #
 # 10 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=weibull_p2_mu2fa(alpha,t0,v1hat,v2hat,v3hat)
-		if(!aderivs)mu2=weibull_p2_mu2f(alpha,t0,v1hat,fd1,v2hat,d2,v3hat,d3)
+		mu2=weibull_p2_mu2fa(alpha,t0,v1hat,v2hat,v3hat)
 #
 # 11 rhp
 #
@@ -147,14 +143,14 @@ qweibull_p2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),fd1=0.01,d2=0.01,d3=0
 #
 # 14 waicscores
 #
-		waic=weibull_p2_waic(waicscores,x,t,v1hat,fd1,v2hat,d2,v3hat,d3,
-			lddi,lddd,lambdad_rhp,aderivs)
+		waic=weibull_p2_waic(waicscores,x,t,v1hat,v2hat,v3hat,
+			lddi,lddd,lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 15 logscores
 #
-		logscores=weibull_p2_logscores(logscores,x,t,fd1,d2,d3,aderivs)
+		logscores=weibull_p2_logscores(logscores,x,t)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -200,8 +196,8 @@ qweibull_p2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),fd1=0.01,d2=0.01,d3=0
 #' @rdname weibull_p2_cp
 #' @inheritParams man
 #' @export
-rweibull_p2_cp=function(n,x,t,t0=NA,n0=NA,fd1=0.01,d2=0.01,d3=0.01,rust=FALSE,
-	mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rweibull_p2_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,
+	mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),!x<0)
@@ -223,7 +219,7 @@ rweibull_p2_cp=function(n,x,t,t0=NA,n0=NA,fd1=0.01,d2=0.01,d3=0.01,rust=FALSE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qweibull_p2_cp(x=x,t=t,t0=t0,n0=NA,p=runif(n),fd1,d2,d3,aderivs=aderivs)
+		q=qweibull_p2_cp(x=x,t=t,t0=t0,n0=NA,p=runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -255,8 +251,8 @@ rweibull_p2_cp=function(n,x,t,t0=NA,n0=NA,fd1=0.01,d2=0.01,d3=0.01,rust=FALSE,
 #' @rdname weibull_p2_cp
 #' @inheritParams 	man
 #' @export
-dweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,fd1=0.01,d2=0.01,d3=0.01,
-	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE,aderivs=TRUE){
+dweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,
+	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 		is.finite(t),!is.na(t),!x<0,!y<0)
@@ -271,7 +267,7 @@ dweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,fd1=0.01,d2=0.01,d3=0.01,
     t0=t0-meant
   }
 
-	dd=dweibull_p2sub(x=x,t=t,y=y,t0=t0,fd1,d2,d3,aderivs=aderivs)
+	dd=dweibull_p2sub(x=x,t=t,y=y,t0=t0)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -300,8 +296,8 @@ dweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,fd1=0.01,d2=0.01,d3=0.01,
 #' @rdname weibull_p2_cp
 #' @inheritParams 	man
 #' @export
-pweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,fd1=0.01,d2=0.01,d3=0.01,
-	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE,aderivs=TRUE){
+pweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,
+	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 		is.finite(t),!is.na(t),!x<0,!y<0)
@@ -316,7 +312,7 @@ pweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,fd1=0.01,d2=0.01,d3=0.01,
     t0=t0-meant
   }
 
-	dd=dweibull_p2sub(x=x,t=t,y=y,t0=t0,fd1,d2,d3,aderivs=aderivs)
+	dd=dweibull_p2sub(x=x,t=t,y=y,t0=t0)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -343,7 +339,7 @@ pweibull_p2_cp=function(x,t,t0=NA,n0=NA,y=x,fd1=0.01,d2=0.01,d3=0.01,
 #' @rdname weibull_p2_cp
 #' @inheritParams man
 #' @export
-tweibull_p2_cp=function(n,x,t,fd1=0.01,d2=0.01,d3=0.01,debug=FALSE){
+tweibull_p2_cp=function(n,x,t,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),!x<0)

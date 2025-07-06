@@ -32,10 +32,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01,
+qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
 	predictordata=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -111,28 +111,24 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 # 7 lddi
 #
 		if(debug)message("calc ldd")
-		if(aderivs) ldd=logis_p1_ldda(x,t,v1hat,v2hat,v3hat)
-		if(!aderivs)ldd=logis_p1_ldd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
+		ldd=logis_p1_ldda(x,t,v1hat,v2hat,v3hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 8 lddd
 #
 		if(debug)message("calculate lddd")
-		if(aderivs) lddd=logis_p1_lddda(x,t,v1hat,v2hat,v3hat)
-		if(!aderivs)lddd=logis_p1_lddd(x,t,v1hat,d1,v2hat,d2,v3hat,fd3)
+		lddd=logis_p1_lddda(x,t,v1hat,v2hat,v3hat)
 #
 # 9 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=logis_p1_mu1fa(alpha,t0,v1hat,v2hat,v3hat)
-		if(!aderivs)mu1=logis_p1_mu1f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3)
+		mu1=logis_p1_mu1fa(alpha,t0,v1hat,v2hat,v3hat)
 #
 # 10 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=logis_p1_mu2fa(alpha,t0,v1hat,v2hat,v3hat)
-		if(!aderivs)mu2=logis_p1_mu2f(alpha,t0,v1hat,d1,v2hat,d2,v3hat,fd3)
+		mu2=logis_p1_mu2fa(alpha,t0,v1hat,v2hat,v3hat)
 #
 # 11 rhp
 #
@@ -153,14 +149,14 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #
 # 14 waicscores
 #
-		waic=logis_p1_waic(waicscores,x,t,v1hat,d1,v2hat,d2,v3hat,fd3,
-			lddi,lddd,lambdad_rhp,aderivs)
+		waic=logis_p1_waic(waicscores,x,t,v1hat,v2hat,v3hat,
+			lddi,lddd,lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 15 logscores
 #
-		logscores=logis_p1_logscores(logscores,x,t,d1,d2,fd3,aderivs)
+		logscores=logis_p1_logscores(logscores,x,t)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -207,8 +203,8 @@ qlogis_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #' @rdname logis_p1_cp
 #' @inheritParams man
 #' @export
-rlogis_p1_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,fd3=0.01,rust=FALSE,
-	mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rlogis_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,
+	mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),is.finite(t),!is.na(t))
 	stopifnot(is.finite(x),!is.na(x),is.finite(t),!is.na(t))
@@ -228,7 +224,7 @@ rlogis_p1_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,fd3=0.01,rust=FALSE,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qlogis_p1_cp(x,t,t0=t0,n0=NA,p=runif(n),d1,d2,fd3,aderivs=aderivs)
+		q=qlogis_p1_cp(x,t,t0=t0,n0=NA,p=runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -260,8 +256,8 @@ rlogis_p1_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,fd3=0.01,rust=FALSE,
 #' @rdname logis_p1_cp
 #' @inheritParams man
 #' @export
-dlogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
-	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE,aderivs=TRUE){
+dlogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,
+	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),is.finite(t),!is.na(t))
 
@@ -275,7 +271,7 @@ dlogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
     t0=t0-meant
   }
 
-	dd=dlogis_p1sub(x=x,t=t,y=y,t0=t0,d1,d2,fd3,aderivs=aderivs)
+	dd=dlogis_p1sub(x=x,t=t,y=y,t0=t0)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -302,8 +298,8 @@ dlogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 #' @rdname logis_p1_cp
 #' @inheritParams man
 #' @export
-plogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
-	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE,aderivs=TRUE){
+plogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,
+	rust=FALSE,nrust=1000,centering=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),is.finite(t),!is.na(t))
 
@@ -318,7 +314,7 @@ plogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
     t0=t0-meant
   }
 
-	dd=dlogis_p1sub(x=x,t=t,y=y,t0=t0,d1,d2,fd3,aderivs=aderivs)
+	dd=dlogis_p1sub(x=x,t=t,y=y,t0=t0)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -345,7 +341,7 @@ plogis_p1_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,fd3=0.01,
 #' @rdname logis_p1_cp
 #' @inheritParams man
 #' @export
-tlogis_p1_cp=function(n,x,t,d1=0.01,d2=0.01,fd3=0.01,debug=FALSE){
+tlogis_p1_cp=function(n,x,t,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),is.finite(t),!is.na(t))
 	stopifnot(is.finite(x),!is.na(x),is.finite(t),!is.na(t))

@@ -34,10 +34,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.01,
+qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,rust=FALSE,nrust=100000,
 	centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -113,7 +113,7 @@ qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 # 9 waicscores
 #
 # x is log-normal, y is normal
-	waic=lnorm_p1_waic(waicscores,x,ta,v1hat,d1,v2hat,d2,v3hat,fd3,aderivs=aderivs)
+	waic=lnorm_p1_waic(waicscores,x,ta,v1hat,v2hat,v3hat)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #
@@ -166,7 +166,7 @@ qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,fd3=0.0
 #' @rdname lnorm_p1_cp
 #' @inheritParams man
 #' @export
-rlnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs=TRUE){
+rlnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),!x<0)
@@ -188,7 +188,7 @@ rlnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qlnorm_p1_cp(x,t,t0=t0,n0=NA,p=runif(n),aderivs=aderivs)
+		q=qlnorm_p1_cp(x,t,t0=t0,n0=NA,p=runif(n))
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -221,7 +221,7 @@ rlnorm_p1_cp=function(n,x,t,t0=NA,n0=NA,rust=FALSE,mlcp=TRUE,debug=FALSE,aderivs
 #' @inheritParams man
 #' @export
 dlnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 		is.finite(t),!is.na(t),!x<0,!y<0)
@@ -237,7 +237,7 @@ dlnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
     t0=t0-meant
   }
 
-	dd=dlnorm_p1sub(x=x,t=t,y=y,t0=t0,debug=debug,aderivs=aderivs)
+	dd=dlnorm_p1sub(x=x,t=t,y=y,t0=t0,debug=debug)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -267,7 +267,7 @@ dlnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
 #' @inheritParams man
 #' @export
 plnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 		is.finite(t),!is.na(t),!x<0,!y<0)
@@ -282,7 +282,7 @@ plnorm_p1_cp=function(x,t,t0=NA,n0=NA,y=x,rust=FALSE,nrust=1000,centering=TRUE,
     t=t-meant
     t0=t0-meant
   }
-	dd=dlnorm_p1sub(x=x,t=t,y=y,t0=t0,debug=debug,aderivs=aderivs)
+	dd=dlnorm_p1sub(x=x,t=t,y=y,t0=t0,debug=debug)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){

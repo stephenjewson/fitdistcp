@@ -42,10 +42,10 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,kscale=1,
+qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),kscale=1,
 	means=FALSE,waicscores=FALSE,logscores=FALSE,dmgs=TRUE,rust=FALSE,nrust=100000,
 	predictordata=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 #
 # 1 intro
 #
@@ -120,8 +120,7 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 # 7 lddi
 #
 		if(debug)message("calc ldd")
-		if(aderivs) ldd=pareto_p1k2_ldda(x,t,v1hat,v2hat,kscale)
-		if(!aderivs)ldd=pareto_p1k2_ldd(x,t,v1hat,d1,v2hat,d2,kscale)
+		ldd=pareto_p1k2_ldda(x,t,v1hat,v2hat,kscale)
 		if(debug)message("ldd=",ldd)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
@@ -129,20 +128,17 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 # 8 lddd
 #
 		if(debug)message("calculate lddd")
-		if(aderivs) lddd=pareto_p1k2_lddda(x,t,v1hat,v2hat,kscale)
-		if(!aderivs)lddd=pareto_p1k2_lddd(x,t,v1hat,d1,v2hat,d2,kscale)
+		lddd=pareto_p1k2_lddda(x,t,v1hat,v2hat,kscale)
 #
 # 9 mu1
 #
 		if(debug)message("calculate mu1")
-		if(aderivs) mu1=pareto_p1k2_mu1fa(alpha,t0,v1hat,v2hat,kscale)
-		if(!aderivs)mu1=pareto_p1k2_mu1f(alpha,t0,v1hat,d1,v2hat,d2,kscale)
+		mu1=pareto_p1k2_mu1fa(alpha,t0,v1hat,v2hat,kscale)
 #
 # 10 mu2
 #
 		if(debug)message("calculate mu2")
-		if(aderivs) mu2=pareto_p1k2_mu2fa(alpha,t0,v1hat,v2hat,kscale)
-		if(!aderivs)mu2=pareto_p1k2_mu2f(alpha,t0,v1hat,d1,v2hat,d2,kscale)
+		mu2=pareto_p1k2_mu2fa(alpha,t0,v1hat,v2hat,kscale)
 #
 # 11 rhp
 #
@@ -164,15 +160,15 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #
 # 14 waicscores
 #
-		waic=pareto_p1k2_waic(waicscores,x,t,v1hat,d1,v2hat,d2,kscale,lddi,lddd,
-			lambdad_rhp,aderivs)
+		waic=pareto_p1k2_waic(waicscores,x,t,v1hat,v2hat,kscale,lddi,lddd,
+			lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 15 logscores
 #
 		if(debug)message("calc logscores")
-		logscores=pareto_p1k2_logscores(logscores,x,t,d1,d2,kscale,aderivs,debug)
+		logscores=pareto_p1k2_logscores(logscores,x,t,kscale,debug)
 		ml_oos_logscore=logscores$ml_oos_logscore
 		rh_oos_logscore=logscores$rh_oos_logscore
 #
@@ -220,9 +216,9 @@ qpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),d1=0.01,d2=0.01,ksca
 #' @rdname pareto_p1k2_cp
 #' @inheritParams man
 #' @export
-rpareto_p1k2_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,
+rpareto_p1k2_cp=function(n,x,t,t0=NA,n0=NA,
 	kscale=1,rust=FALSE,mlcp=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),!x<kscale)
@@ -246,8 +242,8 @@ rpareto_p1k2_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qpareto_p1k2_cp(x,t,t0=t0,n0=NA,p=runif(n),d1,d2,kscale=kscale,
-			centering=centering,aderivs=aderivs)
+		q=qpareto_p1k2_cp(x,t,t0=t0,n0=NA,p=runif(n),kscale=kscale,
+			centering=centering)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -280,9 +276,9 @@ rpareto_p1k2_cp=function(n,x,t,t0=NA,n0=NA,d1=0.01,d2=0.01,
 #' @rdname pareto_p1k2_cp
 #' @inheritParams man
 #' @export
-dpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,
+dpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,
 	kscale=1,rust=FALSE,nrust=1000,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),
 		is.finite(y),!is.na(y),is.finite(t),!is.na(t),!x<kscale,!y<kscale)
@@ -297,7 +293,7 @@ dpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,
     t0=t0-meant
   }
 
-	dd=dpareto_p1k2sub(x=x,t=t,y=y,t0=t0,d1,d2,kscale=kscale,aderivs=aderivs)
+	dd=dpareto_p1k2sub(x=x,t=t,y=y,t0=t0,kscale=kscale)
 	ru_pdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -324,9 +320,9 @@ dpareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,
 #' @rdname pareto_p1k2_cp
 #' @inheritParams man
 #' @export
-ppareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,kscale=1,
+ppareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,kscale=1,
 				rust=FALSE,nrust=1000,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 		is.finite(t),!is.na(t),!x<kscale,!y<kscale)
@@ -341,7 +337,7 @@ ppareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,kscale=1,
     t0=t0-meant
   }
 
-	dd=dpareto_p1k2sub(x=x,t=t,y=y,t0=t0,d1,d2,kscale=kscale,aderivs=aderivs)
+	dd=dpareto_p1k2sub(x=x,t=t,y=y,t0=t0,kscale=kscale)
 	ru_cdf="rust not selected"
 	ml_params=dd$ml_params
 	if(rust){
@@ -368,7 +364,7 @@ ppareto_p1k2_cp=function(x,t,t0=NA,n0=NA,y=x,d1=0.01,d2=0.01,kscale=1,
 #' @rdname pareto_p1k2_cp
 #' @inheritParams man
 #' @export
-tpareto_p1k2_cp=function(n,x,t,d1=0.01,d2=0.01,kscale=1,debug=FALSE){
+tpareto_p1k2_cp=function(n,x,t,kscale=1,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #		is.finite(t),!is.na(t),!x<kscale)

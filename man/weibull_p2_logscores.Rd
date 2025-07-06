@@ -4,7 +4,7 @@
 \alias{weibull_p2_logscores}
 \title{Log scores for MLE and RHP predictions calculated using leave-one-out}
 \usage{
-weibull_p2_logscores(logscores, x, t, fd1, d2, d3, aderivs)
+weibull_p2_logscores(logscores, x, t)
 }
 \arguments{
 \item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
@@ -12,14 +12,6 @@ weibull_p2_logscores(logscores, x, t, fd1, d2, d3, aderivs)
 \item{x}{a vector of training data values}
 
 \item{t}{a vector or matrix of predictors}
-
-\item{fd1}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two scalars

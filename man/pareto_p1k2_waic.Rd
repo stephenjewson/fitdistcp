@@ -4,20 +4,7 @@
 \alias{pareto_p1k2_waic}
 \title{Waic}
 \usage{
-pareto_p1k2_waic(
-  waicscores,
-  x,
-  t,
-  v1hat,
-  d1,
-  v2hat,
-  d2,
-  kscale,
-  lddi,
-  lddd,
-  lambdad,
-  aderivs
-)
+pareto_p1k2_waic(waicscores, x, t, v1hat, v2hat, kscale, lddi, lddd, lambdad)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -28,11 +15,7 @@ pareto_p1k2_waic(
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{kscale}{the known scale parameter}
 
@@ -41,8 +24,6 @@ pareto_p1k2_waic(
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

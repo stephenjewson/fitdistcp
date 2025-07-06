@@ -4,21 +4,7 @@
 \alias{logis_p1_waic}
 \title{Waic}
 \usage{
-logis_p1_waic(
-  waicscores,
-  x,
-  t,
-  v1hat,
-  d1,
-  v2hat,
-  d2,
-  v3hat,
-  fd3,
-  lddi,
-  lddd,
-  lambdad,
-  aderivs = TRUE
-)
+logis_p1_waic(waicscores, x, t, v1hat, v2hat, v3hat, lddi, lddd, lambdad)
 }
 \arguments{
 \item{waicscores}{logical that indicates whether to return estimates for the waic1 and waic2 scores (longer runtime)}
@@ -29,23 +15,15 @@ logis_p1_waic(
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
 
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v3hat}{third parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
 
 \item{lddi}{inverse observed information matrix}
 
 \item{lddd}{third derivative of log-likelihood}
 
 \item{lambdad}{derivative of the log prior}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two numeric values.

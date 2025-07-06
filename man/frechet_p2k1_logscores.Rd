@@ -4,7 +4,7 @@
 \alias{frechet_p2k1_logscores}
 \title{Log scores for MLE and RHP predictions calculated using leave-one-out}
 \usage{
-frechet_p2k1_logscores(logscores, x, t, d1, d2, fd3, kloc, aderivs = TRUE)
+frechet_p2k1_logscores(logscores, x, t, kloc)
 }
 \arguments{
 \item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
@@ -13,15 +13,7 @@ frechet_p2k1_logscores(logscores, x, t, d1, d2, fd3, kloc, aderivs = TRUE)
 
 \item{t}{a vector or matrix of predictors}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
 \item{kloc}{the known location parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 Two scalars

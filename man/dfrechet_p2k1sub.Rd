@@ -4,7 +4,7 @@
 \alias{dfrechet_p2k1sub}
 \title{Densities from MLE and RHP}
 \usage{
-dfrechet_p2k1sub(x, t, y, t0, d1, d2, fd3, kloc, aderivs = TRUE)
+dfrechet_p2k1sub(x, t, y, t0, kloc)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -15,15 +15,7 @@ dfrechet_p2k1sub(x, t, y, t0, d1, d2, fd3, kloc, aderivs = TRUE)
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{fd3}{the fractional delta used in the numerical derivatives with respect to the parameter}
-
 \item{kloc}{the known location parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

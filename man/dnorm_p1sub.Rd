@@ -4,7 +4,7 @@
 \alias{dnorm_p1sub}
 \title{Densities from MLE and RHP}
 \usage{
-dnorm_p1sub(x, t, y, t0, aderivs = TRUE)
+dnorm_p1sub(x, t, y, t0)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -14,8 +14,6 @@ dnorm_p1sub(x, t, y, t0, aderivs = TRUE)
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors
