@@ -214,6 +214,8 @@ cp_sds[ 7]=Inf
 means_df=data.frame(models,ml_means,cp_means,ml_sds,cp_sds)
 colnames(means_df)=c(	"models","ml_means","cp_means","ml_sds","cp_sds")
 
-return(list(modelselection_df=modelselection_df,means_df=means_df))
+return(list(mleparams_df=mleparams_df,
+	modelselection_df=modelselection_df,
+	means_df=means_df))
 
 }

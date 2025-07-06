@@ -202,6 +202,7 @@ qgpd_k1_cp=function(x,p=seq(0.1,0.9,0.1),kloc=0,ics=c(0,0),
 #
 		means=gpd_k1_means(means,ml_params,lddi,
 											lambdad_rh_flat,nx,dim=2,kloc)
+		ml_mean=means$ml_mean
 		rh_flat_mean	=means$rh_flat_mean
 #
 # 19 waicscores
