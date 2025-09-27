@@ -1,7 +1,7 @@
 #' rgev for gev_p1 but with maxlik xi within bounds
 #' @return Vector
 #' @inheritParams manf
-rgev_p1_minmax=function(nx,mu,sigma,xi,tt,minxi=-0.45,maxxi=0.45,centering=TRUE){
+rgev_p1_minmax=function(nx,mu=0,sigma=1,xi=0,tt,minxi=-0.45,maxxi=0.45,centering=TRUE){
 	xihat=-9999
   if(centering)tt=tt-mean(tt)
 	while((xihat<minxi)||(xihat>maxxi)){ #0.46 also works...0.47 doesn't

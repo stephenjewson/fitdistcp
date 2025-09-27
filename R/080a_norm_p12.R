@@ -334,7 +334,7 @@ dnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 	}
 
 	if(boot){
-		th=tnorm_p12_cp("boot",nrust,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
+		th=tnorm_p12_cp("boot",nboot,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
 		bs_pdf=numeric(length(y))
 		for (ir in 1:nboot){
 			mu=th[ir,1]+t10*th[ir,2]
@@ -411,7 +411,7 @@ pnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 	}
 
 	if(boot){
-		th=tnorm_p12_cp("boot",nrust,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
+		th=tnorm_p12_cp("boot",nboot,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
 		bs_cdf=numeric(length(y))
 		for (ir in 1:nboot){
 			mu=th[ir,1]+t10*th[ir,2]

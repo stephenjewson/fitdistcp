@@ -49,6 +49,20 @@ norm_unbiasedv_params=function(x){
 	params[2]=sd(x)
 	return(params)
 }
+#' Bootstrap
+#' @inheritParams manf
+bnorm=function(x,n){
+
+	sim_vals=matrix(0,n,2)
+	base=c(1:length(x))
+	for (i in 1:n){
+		bx=sample(x,replace=TRUE)
+		sim_vals[i,]=norm_ml_params(bx)
+	}
+
+	return(list(sim_vals=sim_vals))
+
+}
 #' Log scores for MLE and RHP predictions calculated using leave-one-out
 #' @inherit manlogscores return
 #' @inheritParams manf

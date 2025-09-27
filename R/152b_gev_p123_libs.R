@@ -12,7 +12,7 @@ calc_revert2ml=function(v5h,v6h,t3){
 #' rgev for gev_p123 but with maxlik xi within bounds
 #' @return Vector
 #' @inheritParams manf
-rgev_p123_minmax=function(nx,mu,sigma,xi,t1,t2,t3,minxi=-0.45,maxxi=0.45,centering=TRUE){
+rgev_p123_minmax=function(nx,mu=0,sigma=1,xi=0,t1,t2,t3,minxi=-0.45,maxxi=0.45,centering=TRUE){
 	minxi1=-10
 	maxxi1=10
   if(centering){

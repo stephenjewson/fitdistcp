@@ -1,7 +1,7 @@
 #' rgev but with maxlik xi guaranteed within bounds
 #' @return Vector
 #' @inheritParams manf
-rgev_minmax=function(nx,mu,sigma,xi,minxi=-1,maxxi=1){
+rgev_minmax=function(nx,mu=0,sigma=1,xi=0,minxi=-1,maxxi=1){
 	xihat=-9999
 	while((xihat<minxi)||(xihat>maxxi)){
 		xx=extraDistr::rgev(nx,mu=mu,sigma=sigma,xi=xi)
@@ -85,6 +85,22 @@ gev_checkmle=function(ml_params,minxi=-1,maxxi=1){
 	if(is.na(v3hat))stop()
 	if(v3hat<minxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter <",minxi,"***\n");stop()}
 	if(v3hat>maxxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
+}
+#' Bootstrap
+#' @inheritParams manf
+bgev=function(x,n){
+
+	sim_vals=matrix(0,n,3)
+	ics=c(0,0,0)
+	for (i in 1:n){
+		bx=sample(x,replace=TRUE)
+		ics=gev_setics(bx,ics)
+		opt1=optim(ics,gev_loglik,x=bx,control=list(fnscale=-1))
+		sim_vals[i,]=opt1$par[]
+	}
+
+	return(list(sim_vals=sim_vals))
+
 }
 #' Analytical Expressions for Predictive Means
 #' RHP mean based on the expectation of DMGS equation 2.1

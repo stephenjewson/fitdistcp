@@ -5,7 +5,7 @@
 #' rgev for gev_p12 but with maxlik xi within bounds
 #' @return Vector
 #' @inheritParams manf
-rgev_p12_minmax=function(nx,mu,sigma,xi,t1,t2,minxi=-0.45,maxxi=0.45,centering=TRUE){
+rgev_p12_minmax=function(nx,mu=0,sigma=1,xi=0,t1,t2,minxi=-0.45,maxxi=0.45,centering=TRUE){
 	xihat=-9999
   if(centering){
   	t1=t1-mean(t1)

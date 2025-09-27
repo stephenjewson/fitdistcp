@@ -176,62 +176,101 @@ rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE){
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-dnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE){
+dnorm_cp=function(x,y=x,
+	rust=FALSE,nrust=1000,
+	boot=FALSE,nboot=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
 	dd=dnormsub(x=x,y=y)
 	ru_pdf="rust not selected"
+	bs_pdf="boot not selected"
+
 	if(rust){
-		th=tnorm_cp(nrust,x)$theta_samples
+		th=tnorm_cp("rust",nrust,x)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_pdf=ru_pdf+dnorm(y,mean=th[ir,1],sd=th[ir,2])
 		}
 		ru_pdf=ru_pdf/nrust
 	}
+
+	if(boot){
+		th=tnorm_cp("boot",nboot,x)$theta_samples
+		bs_pdf=numeric(length(y))
+		for (ir in 1:nboot){
+			bs_pdf=bs_pdf+dnorm(y,mean=th[ir,1],sd=th[ir,2])
+		}
+		bs_pdf=bs_pdf/nboot
+	}
+
 	op=list(	ml_params=dd$ml_params,
 					ml_pdf=dd$ml_pdf,
 					cp_pdf=dd$rh_pdf,
 					ru_pdf=ru_pdf,
+					bs_pdf=bs_pdf,
 					cp_method=analytic_cpmethod())
 	return(op)
 }
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-pnorm_cp=function(x,y=x,rust=FALSE,nrust=1000,debug=FALSE){
+pnorm_cp=function(x,y=x,
+	rust=FALSE,nrust=1000,
+	boot=FALSE,nboot=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y))
 
 	dd=dnormsub(x=x,y=y)
 	ru_cdf="rust not selected"
+	bs_cdf="rust not selected"
+
 	if(rust){
-		th=tnorm_cp(nrust,x)$theta_samples
+		th=tnorm_cp("rust",nrust,x)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_cdf=ru_cdf+pnorm(y,mean=th[ir,1],sd=th[ir,2])
 		}
 		ru_cdf=ru_cdf/nrust
 	}
-	op=list(	ml_params=dd$ml_params,
+
+	if(boot){
+		th=tnorm_cp("boot",nboot,x)$theta_samples
+		bs_cdf=numeric(length(y))
+		for (ir in 1:nboot){
+			bs_cdf=bs_cdf+pnorm(y,mean=th[ir,1],sd=th[ir,2])
+		}
+		bs_cdf=bs_cdf/nboot
+	}
+
+		op=list(	ml_params=dd$ml_params,
 					ml_cdf=dd$ml_cdf,
 					cp_cdf=dd$rh_cdf,
 					ru_cdf=ru_cdf,
+					bs_cdf=bs_cdf,
 					cp_method=analytic_cpmethod())
 	return(op)
 }
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-tnorm_cp=function(n,x,debug=FALSE){
+tnorm_cp=function(method,n,x,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))
 
-	t=ru(norm_logf,x=x,n=n,d=2,init=c(mean(x),sd(x)))
+	if(method=="rust"){
+		th=ru(norm_logf,x=x,n=n,d=2,init=c(mean(x),sd(x)))
+	} else if (method=="boot"){
+		th=bnorm(x=x,n=n)
+	} else{
+		message("tnorm method not valid so stopping.\n")
+		stop()
+	}
 
-	list(theta_samples=t$sim_vals)
+	list(theta_samples=th$sim_vals)
 
 }
 

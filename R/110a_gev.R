@@ -282,7 +282,9 @@ rgev_cp=function(n,x,ics=c(0,0,0),
 dgev_cp=function(x,y=x,ics=c(0,0,0),
 	minxi=-1,maxxi=1,
 	extramodels=FALSE,
-	rust=FALSE,nrust=1000,debug=FALSE){
+	rust=FALSE,nrust=1000,
+	boot=FALSE,nboot=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),length(ics)==3)
 
@@ -296,9 +298,10 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 #	gev_checkmle(ml_params,minxi,maxxi)
 	dd=dgevsub(x=x,y=y,ics=ics,minxi,maxxi)
 	ru_pdf="rust not selected"
+	bs_pdf="boot not selected"
 
 	if(rust&&(!revert2ml)){
-		th=tgev_cp(nrust,x)$theta_samples
+		th=tgev_cp("rust",nrust,x)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_pdf=ru_pdf+dgev(y,mu=th[ir,1],sigma=th[ir,2],xi=th[ir,3])
@@ -308,11 +311,21 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 		ru_pdf=dd$ml_pdf
 	}
 
-	op=list(
+	if(boot){
+		th=tgev_cp("boot",nrust,x)$theta_samples
+		bs_pdf=numeric(length(y))
+		for (ir in 1:nrust){
+			bs_pdf=bs_pdf+dgev(y,mu=th[ir,1],sigma=th[ir,2],xi=th[ir,3])
+		}
+		bs_pdf=bs_pdf/nboot
+	}
+
+		op=list(
 					ml_params=dd$ml_params,
 					ml_pdf=dd$ml_pdf,
 					revert2ml=revert2ml,
 					ru_pdf=ru_pdf,
+					bs_pdf=bs_pdf,
 					cp_method=nopdfcdfmsg())
 	return(op)
 }
@@ -322,7 +335,9 @@ dgev_cp=function(x,y=x,ics=c(0,0,0),
 pgev_cp=function(x,y=x,ics=c(0,0,0),
 	minxi=-1,maxxi=1,
 	extramodels=FALSE,
-	rust=FALSE,nrust=1000,debug=FALSE){
+	rust=FALSE,nrust=1000,
+	boot=FALSE,nboot=1000,
+	debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),length(ics)==3)
 
@@ -336,9 +351,10 @@ pgev_cp=function(x,y=x,ics=c(0,0,0),
 #	gev_checkmle(ml_params,minxi,maxxi)
 	dd=dgevsub(x=x,y=y,ics=ics,minxi,maxxi)
 	ru_cdf="rust not selected"
+	bs_cdf="rust not selected"
 
 	if(rust&&(!revert2ml)){
-		th=tgev_cp(nrust,x)$theta_samples
+		th=tgev_cp("rust",nrust,x)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
 			ru_cdf=ru_cdf+pgev(y,mu=th[ir,1],sigma=th[ir,2],xi=th[ir,3])
@@ -348,24 +364,43 @@ pgev_cp=function(x,y=x,ics=c(0,0,0),
 		ru_pdf=dd$ml_pdf
 	}
 
+
+	if(boot){
+		th=tgev_cp("boot",nrust,x)$theta_samples
+		bs_cdf=numeric(length(y))
+		for (ir in 1:nrust){
+			bs_cdf=bs_cdf+pgev(y,mu=th[ir,1],sigma=th[ir,2],xi=th[ir,3])
+		}
+		bs_cdf=bs_cdf/nboot
+	}
+
+
 	op=list(
 					ml_params=dd$ml_params,
 					ml_cdf=dd$ml_cdf,
 					revert2ml=revert2ml,
 					ru_cdf=ru_cdf,
+					bs_cdf=bs_cdf,
 					cp_method=nopdfcdfmsg())
 	return(op)
 }
 #' @rdname gev_cp
 #' @inheritParams man
 #' @export
-tgev_cp=function(n,x,ics=c(0,0,0),extramodels=FALSE,debug=FALSE){
+tgev_cp=function(method,n,x,ics=c(0,0,0),extramodels=FALSE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),length(ics)==3)
 
-	ics=gev_setics(x,ics)
-	t=ru(gev_logf,x=x,n=n,d=3,init=ics)
+	if(method=="rust"){
+		ics=gev_setics(x,ics)
+		th=ru(gev_logf,x=x,n=n,d=3,init=ics)
+	} else if (method=="boot"){
+		th=bgev(x=x,n=n)
+	} else{
+		message("tgev method not valid so stopping.\n")
+		stop()
+	}
 
-	list(theta_samples=t$sim_vals)
+	list(theta_samples=th$sim_vals)
 
 }
