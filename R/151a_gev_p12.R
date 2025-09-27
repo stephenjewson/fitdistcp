@@ -489,7 +489,7 @@ pgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,y=x,ics=c(0,0,0,0,0),
 		for (ir in 1:nrust){
 			mu=th[ir,1]+t01*th[ir,2]
 			sigma=exp(th[ir,3]+t02*th[ir,4])
-			ru_cdf=ru_cdf+pgev(y,mu=mu,sigma=exp(sigma),xi=th[ir,5])
+			ru_cdf=ru_cdf+pgev(y,mu=mu,sigma=sigma,xi=th[ir,5])
 		}
 		ru_cdf=ru_cdf/nrust
 	} else {
