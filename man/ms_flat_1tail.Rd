@@ -4,10 +4,27 @@
 \alias{ms_flat_1tail}
 \title{Illustration of Model Selection Among 10 One Tail Distributions from the \code{fitdistcp} Package}
 \usage{
-ms_flat_1tail(x)
+ms_flat_1tail(
+  x,
+  index = 1,
+  nyears = 10,
+  plottype = "empirical",
+  plottingposition = "Weibull",
+  quiet = FALSE
+)
 }
 \arguments{
 \item{x}{data vector}
+
+\item{index}{which data point to use for plotting positions}
+
+\item{nyears}{number of years for frequency calculations}
+
+\item{plottype}{What to plot? Possible values are 'both', 'empirical', 'cp'}
+
+\item{plottingposition}{Weibull or Hazen}
+
+\item{quiet}{logical for whether to print screen messages}
 }
 \value{
 Plots QQ plots to the screen, for each of the models,

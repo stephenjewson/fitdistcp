@@ -6,9 +6,9 @@
 \usage{
 rgev_p12_minmax(
   nx,
-  mu,
-  sigma,
-  xi,
+  mu = 0,
+  sigma = 1,
+  xi = 0,
   t1,
   t2,
   minxi = -0.45,

@@ -6,6 +6,10 @@
 #' @param x 								a vector of training data values
 #' @param xx 								a vector of training data values
 #' @param t 								a vector or matrix of predictors
+#' @param nt 								the number of columns in \code{t}
+#' @param ta								a vector of predictors for the mean (first column)
+#' @param tb								a vector of predictors for the mean (second column)
+#' @param tc								a vector of predictors for the mean (third column)
 #' @param t1 								a vector of predictors for the mean
 #' @param t2 								a vector of predictors for the sd
 #' @param t3 								a vector of predictors for the shape
@@ -16,6 +20,9 @@
 #' @param tt2d 							a matrix of predictors (nx by 2)
 #' @param tt3d 							a matrix of predictors (nx by 3)
 #' @param t0 								a single value of the predictor (specify either \code{t0} or \code{n0} but not both)
+#' @param t0a								a single value of the predictor, for the first column of the predictor	(specify either \code{t0a} or \code{n0a} but not both)
+#' @param t0b								a single value of the predictor, for the second column of the predictor (specify either \code{t0b} or \code{n0b} but not both)
+#' @param t0c								a single value of the predictor, for the third column of the predictor	(specify either \code{t0c} or \code{n0c} but not both)
 #' @param t01 							a single value of the predictor (specify either \code{t01} or \code{n01} but not both)
 #' @param t02 							a single value of the predictor (specify either \code{t02} or \code{n02} but not both)
 #' @param t03 							a single value of the predictor (specify either \code{t03} or \code{n03} but not both)
@@ -29,14 +36,15 @@
 #' @param n									number of random samples required
 #' @param y									a vector of values at which to calculate the density and distribution functions
 #' @param ics								initial conditions for the maximum likelihood search
-#' @param ta								predictor residuals
-#' @param ta0								predictor residual at the point being predicted
+#' @param tresid						predictor residuals
+#' @param tresid0						predictor residual at the point being predicted
 #' @param muhat0						muhat at the point being predicted
 #' @param kscale						the known scale parameter
 #' @param kloc 							the known location parameter
 #' @param kshape						the known shape parameter
 #' @param kdf								the known degrees of freedom parameter
 #' @param	kbeta							the known beta parameter
+#' @param vhat							vector of all parameters
 #' @param v1								first parameter
 #' @param v1hat							first parameter
 #' @param v1h								first parameter
@@ -124,11 +132,14 @@
 #' @return No return value
 #' @name manf
 #' @export
-manf=function(dim,vv,ml_params,nx,nxx,x,xx,t,t1,t2,t3,tt,tt1,tt2,tt3,tt2d,tt3d,
-	t0,t01,t02,t03,
+manf=function(dim,vv,ml_params,nx,nxx,x,xx,
+	t,nt,ta,tb,tc,t1,t2,t3,tt,tt1,tt2,tt3,tt2d,tt3d,
+	t0,t0a,t0b,t0c,
+	t01,t02,t03,
 	t10,t20,t30,
 	n0,n10,n20,p,n,y,ics,
-	ta,ta0,muhat0,
+	tresid,tresid0,muhat0,
+	vhat,
 	v1,v1hat,v1h,d1,fd1,v2,v2hat,v2h,d2,fd2,v3,v3hat,v3h,d3,fd3,
 	v4,v4hat,v4h,d4,fd4,v5,v5hat,v5h,d5,v6,v6hat,v6h,d6,minxi,maxxi,ximin,ximax,fdalpha,
 	kscale,kloc,kshape,kdf,kbeta,alpha,

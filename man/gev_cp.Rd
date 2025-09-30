@@ -34,6 +34,7 @@ rgev_cp(
   ics = c(0, 0, 0),
   minxi = -1,
   maxxi = 1,
+  method = "rust",
   extramodels = FALSE,
   rust = FALSE,
   mlcp = TRUE,
@@ -49,6 +50,8 @@ dgev_cp(
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
+  boot = FALSE,
+  nboot = 1000,
   debug = FALSE
 )
 
@@ -61,10 +64,12 @@ pgev_cp(
   extramodels = FALSE,
   rust = FALSE,
   nrust = 1000,
+  boot = FALSE,
+  nboot = 1000,
   debug = FALSE
 )
 
-tgev_cp(n, x, ics = c(0, 0, 0), extramodels = FALSE, debug = FALSE)
+tgev_cp(method, n, x, ics = c(0, 0, 0), extramodels = FALSE, debug = FALSE)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -110,11 +115,19 @@ sampling calculations should be run or not (longer run time)}
 
 \item{n}{the number of random samples required}
 
+\item{method}{character string that indicates whether to use
+rust \code{method=rust} or bootstrap \code{method=boot}}
+
 \item{mlcp}{logical that indicates whether maxlik and parameter
 uncertainty calculations should be performed (turn off to speed up RUST)}
 
 \item{y}{a vector of values at which to calculate the density and
 distribution functions}
+
+\item{boot}{logical that indicates whether bootstrap-based posterior
+sampling calculations should be run or not (longer run time)}
+
+\item{nboot}{the number of posterior samples used in the bootstrap calculations}
 }
 \value{
 \code{q****} returns a list containing at least the following:

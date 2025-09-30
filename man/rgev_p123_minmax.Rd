@@ -6,9 +6,9 @@
 \usage{
 rgev_p123_minmax(
   nx,
-  mu,
-  sigma,
-  xi,
+  mu = 0,
+  sigma = 1,
+  xi = 0,
   t1,
   t2,
   t3,

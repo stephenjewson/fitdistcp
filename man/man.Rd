@@ -57,12 +57,15 @@ man(
   mlcp,
   predictordata,
   centering,
+  method,
   nonnegslopesonly,
   rnonnegslopesonly,
   prior,
   debug,
   rust,
   nrust,
+  boot,
+  nboot,
   pwm,
   unbiasedv,
   aderivs
@@ -212,6 +215,9 @@ uncertainty calculations should be performed (turn off to speed up RUST)}
 
 \item{centering}{logical that indicates whether the predictor should be centered}
 
+\item{method}{character string that indicates whether to use
+rust \code{method=rust} or bootstrap \code{method=boot}}
+
 \item{nonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
 
 \item{rnonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
@@ -224,6 +230,11 @@ uncertainty calculations should be performed (turn off to speed up RUST)}
 sampling calculations should be run or not (longer run time)}
 
 \item{nrust}{the number of posterior samples used in the RUST calculations}
+
+\item{boot}{logical that indicates whether bootstrap-based posterior
+sampling calculations should be run or not (longer run time)}
+
+\item{nboot}{the number of posterior samples used in the bootstrap calculations}
 
 \item{pwm}{logical for whether to include PWM results (longer runtime)}
 

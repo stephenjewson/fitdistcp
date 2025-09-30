@@ -7,7 +7,7 @@ lnorm_p1_waic=function(waicscores,x,t,v1hat,v2hat,v3hat){
 # but in this case they haven't been calculated
 # so I need to calculate them here
 # for which I need t, in addition to t0
-# confused about whether I should pass in t,t0 or ta, ta0 though
+# confused about whether I should pass in t,t0 or tresid, tresid0 though
 	if(waicscores){
 		f1f=lnorm_p1_f1fw(x,t,v1hat,v2hat,v3hat)
 		f2f=lnorm_p1_f2fw(x,t,v1hat,v2hat,v3hat)
@@ -140,8 +140,8 @@ dlnorm_p1sub=function(x,t,y,t0,debug=FALSE){
 		nx=length(x)
 
 		meant=mean(t)
-		ta=t-mean(t)
-		ta0=t0-meant
+		tresid=t-mean(t)
+		tresid0=t0-meant
 
 		z=log(x)
 		logy=log(y)
@@ -157,10 +157,10 @@ dlnorm_p1sub=function(x,t,y,t0,debug=FALSE){
 		ml_cdf=plnorm(y,meanlog=muhat0,sdlog=v3hat)
 
 # rhp
-		rh_pdf=dnorm_p1_formula(logy,ta,ta0,nx,muhat0,v3hat)/y #using the formula from norm_p1
+		rh_pdf=dnorm_p1_formula(logy,tresid,tresid0,nx,muhat0,v3hat)/y #using the formula from norm_p1
 		rh_pdf=pmax(rh_pdf,0)
 
-		rh_cdf=pnorm_p1_formula(logy,ta,ta0,nx,muhat0,v3hat) #using the formula from norm_p1
+		rh_cdf=pnorm_p1_formula(logy,tresid,tresid0,nx,muhat0,v3hat) #using the formula from norm_p1
 		rh_cdf=pmin(pmax(rh_cdf,0),1)
 
 # return

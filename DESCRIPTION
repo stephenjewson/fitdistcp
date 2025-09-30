@@ -9,7 +9,7 @@ Authors@R:
            email = "stephen.jewson@gmail.com",
            comment = c(ORCID = "0000-0002-6011-6262"))
 Maintainer: Stephen Jewson <stephen.jewson@gmail.com>
-Imports: stats, mev, extraDistr, gnorm, fdrtool, pracma, rust, actuar, fExtremes
+Imports: stats, mev, extraDistr, gnorm, fdrtool, pracma, rust, actuar, fExtremes, pcds
 Depends: R (>= 3.5.0)
 Description: Generates predictive distributions based on calibrating priors
     for various commonly used statistical models, including models with 

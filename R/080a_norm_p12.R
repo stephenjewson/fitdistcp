@@ -3,16 +3,13 @@
 #' @inherit man description author references seealso
 #' @inheritParams man
 #'
-#' @inheritSection man Default Return Values
 #' @inheritSection man Optional Return Values
-#' @inheritSection man Optional Return Values (EVD models only)
-#' @inheritSection man Optional Return Values (non-RHP models only)
-# #' @inheritSection man Details (homogeneous models)
-#' @inheritSection man Details (non-homogeneous models)
+#' @inheritSection man Details (homogeneous models)
+# #' @inheritSection man Details (non-homogeneous models)
 # #' @inheritSection man Details (analytic integration)
 #' @inheritSection man Details (DMGS integration)
 #'
-#' @example examples/example_80_norm_p12_cp.R
+#' @example man/examples/example_080_norm_p12.R
 #'
 #' @name Normal_p12_cp
 NULL
@@ -172,7 +169,7 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 #
 		ru_quantiles="rust not selected"
 		if(rust){
-			rustsim=rnorm_p12_cp(nrust,x,t1=t1,t2=t2,t10=t10,t20=t20,n10=NA,n20=NA,rust=TRUE,mlpu=FALSE)
+			rustsim=rnorm_p12_cp(nrust,x,t1=t1,t2=t2,t10=t10,t20=t20,n10=NA,n20=NA,rust=TRUE,mlcp=FALSE)
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
 	} #end of if(dmgs)
@@ -215,7 +212,7 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 #' @inheritParams man
 #' @export
 rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,rust=FALSE,mlpu=TRUE,
+	d1=0.01,d2=0.01,d3=0.01,d4=0.01,rust=FALSE,mlcp=TRUE,
 	debug=FALSE,aderivs=TRUE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
@@ -243,12 +240,12 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 	t10=t10-meant1
 	t20=t20-meant2
 
-	ml_params="mlpu not selected"
-	ml_deviates="mlpu not selected"
-	cp_deviates="mlpu not selected"
+	ml_params="mlcp not selected"
+	ml_deviates="mlcp not selected"
+	cp_deviates="mlcp not selected"
 	ru_deviates="rust not selected"
 
-	if(mlpu){
+	if(mlcp){
 		q=qnorm_p12_cp(x,t1=t1,t2=t2,t10=t10,t20=t20,n10=NA,n20=NA,
 			p=runif(n),ics=ics,d1=d1,d2=d2,d3=d3,d4=d4,aderivs=aderivs)
 		ml_params=q$ml_params
@@ -270,7 +267,7 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 #
 # decentering
 #
-	if(mlpu){
+	if(mlcp){
 		ml_params[1]=ml_params[1]-ml_params[2]*meant1
 		ml_params[3]=ml_params[3]-ml_params[4]*meant2
 	}

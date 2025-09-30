@@ -4,7 +4,7 @@
 \alias{rgev_minmax}
 \title{rgev but with maxlik xi guaranteed within bounds}
 \usage{
-rgev_minmax(nx, mu, sigma, xi, minxi = -1, maxxi = 1)
+rgev_minmax(nx, mu = 0, sigma = 1, xi = 0, minxi = -1, maxxi = 1)
 }
 \arguments{
 \item{nx}{length of training data}

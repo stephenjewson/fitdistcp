@@ -14,10 +14,11 @@
 #' For the Pareto, the data may be further shifted so that the minimum value is slightly greater than 1.
 #'
 #' @param x 								data vector
-#' @param returnlevel 			a value of x at which to calculate the return period
-#' @param f0 								the frequency to calculate the return period
+#' @param index							which data point to use for plotting positions
+#' @param nyears						number of years for frequency calculations
 #' @param plottype					What to plot? Possible values are 'both', 'empirical', 'cp'
 #' @param plottingposition	Weibull or Hazen
+#' @param quiet							logical for whether to print screen messages
 #'
 #' @details
 #' The 10 models are:

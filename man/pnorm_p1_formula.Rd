@@ -4,14 +4,14 @@
 \alias{pnorm_p1_formula}
 \title{Linear regression formula, densities}
 \usage{
-pnorm_p1_formula(y, ta, ta0, nx, muhat0, v3hat)
+pnorm_p1_formula(y, tresid, tresid0, nx, muhat0, v3hat)
 }
 \arguments{
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
-\item{ta}{predictor residuals}
+\item{tresid}{predictor residuals}
 
-\item{ta0}{predictor residual at the point being predicted}
+\item{tresid0}{predictor residual at the point being predicted}
 
 \item{nx}{length of training data}
 

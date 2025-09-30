@@ -221,17 +221,17 @@ makemuhat0=function(t0,n0,t,mle_params){
 #' @param t 					predictor
 #'
 #' @return Scalar
-maketa0=function(t0,n0,t){
+maketresid0=function(t0,n0,t){
 
-	ta=t-mean(t)
+	tresid=t-mean(t)
 
 	if(is.na(t0)){
-		ta0=ta[n0]
+		tresid0=tresid[n0]
 	} else {
-		ta0=t0-mean(t)
+		tresid0=t0-mean(t)
 	}
 
-	return(ta0)
+	return(tresid0)
 }
 #' Make Standard Errors from lddi
 #' @param nx					length of training data

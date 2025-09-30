@@ -6,9 +6,9 @@
 \usage{
 rgev_p1_minmax(
   nx,
-  mu,
-  sigma,
-  xi,
+  mu = 0,
+  sigma = 1,
+  xi = 0,
   tt,
   minxi = -0.45,
   maxxi = 0.45,

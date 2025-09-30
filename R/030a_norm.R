@@ -111,7 +111,7 @@ qnorm_cp=function(x,p=seq(0.1,0.9,0.1),
 #
 	ru_quantiles="rust not selected"
 	if(rust){
-		rustsim=rnorm_cp(nrust,x,rust=TRUE,mlcp=FALSE)
+		rustsim=rnorm_cp(nrust,x,method="rust",rust=TRUE,mlcp=FALSE)
 		ru_quantiles=makeq(rustsim$ru_deviates,p)
 	}
 
@@ -140,7 +140,7 @@ qnorm_cp=function(x,p=seq(0.1,0.9,0.1),
 #' @rdname norm_cp
 #' @inheritParams man
 #' @export
-rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE){
+rnorm_cp=function(n,x,method="rust",rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x))
 	stopifnot(is.finite(x),!is.na(x))
@@ -158,7 +158,7 @@ rnorm_cp=function(n,x,rust=FALSE,mlcp=TRUE,debug=FALSE){
 	}
 
 	if(rust){
-		th=tnorm_cp(n,x)$theta_samples
+		th=tnorm_cp(method=method,n,x)$theta_samples
 		ru_deviates=numeric(0)
 		for (i in 1:n){
 			ru_deviates[i]=rnorm(1,mean=th[i,1],sd=th[i,2])

@@ -13,6 +13,10 @@ manf(
   x,
   xx,
   t,
+  nt,
+  ta,
+  tb,
+  tc,
   t1,
   t2,
   t3,
@@ -23,6 +27,9 @@ manf(
   tt2d,
   tt3d,
   t0,
+  t0a,
+  t0b,
+  t0c,
   t01,
   t02,
   t03,
@@ -36,9 +43,10 @@ manf(
   n,
   y,
   ics,
-  ta,
-  ta0,
+  tresid,
+  tresid0,
   muhat0,
+  vhat,
   v1,
   v1hat,
   v1h,
@@ -146,6 +154,14 @@ manf(
 
 \item{t}{a vector or matrix of predictors}
 
+\item{nt}{the number of columns in \code{t}}
+
+\item{ta}{a vector of predictors for the mean (first column)}
+
+\item{tb}{a vector of predictors for the mean (second column)}
+
+\item{tc}{a vector of predictors for the mean (third column)}
+
 \item{t1}{a vector of predictors for the mean}
 
 \item{t2}{a vector of predictors for the sd}
@@ -165,6 +181,12 @@ manf(
 \item{tt3d}{a matrix of predictors (nx by 3)}
 
 \item{t0}{a single value of the predictor (specify either \code{t0} or \code{n0} but not both)}
+
+\item{t0a}{a single value of the predictor, for the first column of the predictor    (specify either \code{t0a} or \code{n0a} but not both)}
+
+\item{t0b}{a single value of the predictor, for the second column of the predictor (specify either \code{t0b} or \code{n0b} but not both)}
+
+\item{t0c}{a single value of the predictor, for the third column of the predictor    (specify either \code{t0c} or \code{n0c} but not both)}
 
 \item{t01}{a single value of the predictor (specify either \code{t01} or \code{n01} but not both)}
 
@@ -192,11 +214,13 @@ manf(
 
 \item{ics}{initial conditions for the maximum likelihood search}
 
-\item{ta}{predictor residuals}
+\item{tresid}{predictor residuals}
 
-\item{ta0}{predictor residual at the point being predicted}
+\item{tresid0}{predictor residual at the point being predicted}
 
 \item{muhat0}{muhat at the point being predicted}
+
+\item{vhat}{vector of all parameters}
 
 \item{v1}{first parameter}
 

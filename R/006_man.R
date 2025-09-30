@@ -129,6 +129,8 @@
 #' uncertainty calculations should be performed (turn off to speed up RUST)
 #' @param predictordata		 	logical that indicates whether predictordata should be calculated
 #' @param centering					logical that indicates whether the predictor should be centered
+#' @param method						character string that indicates whether to use
+#' rust \code{method=rust} or bootstrap \code{method=boot}
 #' @param nonnegslopesonly	logical that indicates whether to disallow non-negative slopes
 #' @param rnonnegslopesonly	logical that indicates whether to disallow non-negative slopes
 #' @param	prior							logical indicating which prior to use
@@ -136,6 +138,9 @@
 #' @param rust							logical that indicates whether RUST-based posterior
 #' sampling calculations should be run or not (longer run time)
 #' @param nrust							the number of posterior samples used in the RUST calculations
+#' @param boot							logical that indicates whether bootstrap-based posterior
+#' sampling calculations should be run or not (longer run time)
+#' @param nboot							the number of posterior samples used in the bootstrap calculations
 #' @param pwm								logical for whether to include PWM results (longer runtime)
 #' @param unbiasedv					logical for whether to include unbiased variance results in norm
 #' @param aderivs						(for code testing only) logical for whether to use
@@ -492,5 +497,5 @@ man=function(x,t,t1,t2,t3,t0,t01,t02,t03,t10,t20,n0,n01,n02,n03,n10,n20,p,n,y,ic
 	kloc,kscale,kshape,kdf,
 	kbeta,d1,fd1,d2,fd2,d3,fd3,d4,fd4,d5,fd5,d6,fd6,fdalpha,minxi,maxxi,dlogpi,
 	means,waicscores,logscores,extramodels,pdf,customprior,dmgs,mlcp,
-	predictordata,centering,nonnegslopesonly,rnonnegslopesonly,
-	prior,debug,rust,nrust,pwm,unbiasedv,aderivs){}
+	predictordata,centering,method,nonnegslopesonly,rnonnegslopesonly,
+	prior,debug,rust,nrust,boot,nboot,pwm,unbiasedv,aderivs){}

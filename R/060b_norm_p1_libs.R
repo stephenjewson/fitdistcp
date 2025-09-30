@@ -1,9 +1,9 @@
 #' Linear regression formula, densities
 #' @inherit manvector return
 #' @inheritParams manf
-pnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
-	top=ta0*ta0
-	sx=sum(ta*ta)
+pnorm_p1_formula=function(y,tresid,tresid0,nx,muhat0,v3hat){
+	top=tresid0*tresid0
+	sx=sum(tresid*tresid)
 
 # convert maxlik sg to sum^2/(n-2), which is used in the standard formula
 # noting that maxlik is equivalent to using 1/(n-1)
@@ -17,9 +17,9 @@ pnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
 #' Linear regression formula, densities
 #' @inherit manvector return
 #' @inheritParams manf
-dnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
-	top=ta0*ta0
-	sx=sum(ta*ta)
+dnorm_p1_formula=function(y,tresid,tresid0,nx,muhat0,v3hat){
+	top=tresid0*tresid0
+	sx=sum(tresid*tresid)
 
 # convert maxlik sg to sum^2/(n-2), which is used in the standard formula
 	sg1=v3hat*sqrt((nx-1)/(nx-2))
@@ -32,9 +32,9 @@ dnorm_p1_formula=function(y,ta,ta0,nx,muhat0,v3hat){
 #' Linear regression formula, quantiles
 #' @inherit manvector return
 #' @inheritParams manf
-qnorm_p1_formula=function(alpha,ta,ta0,nx,muhat0,v3hat){
-	top=ta0*ta0
-	sx=sum(ta*ta)
+qnorm_p1_formula=function(alpha,tresid,tresid0,nx,muhat0,v3hat){
+	top=tresid0*tresid0
+	sx=sum(tresid*tresid)
 
 # convert maxlik sg to sum^2/(n-2), which is used in the standard formula
 	sg1=v3hat*sqrt((nx-1)/(nx-2))
@@ -179,8 +179,8 @@ dnorm_p1sub=function(x,t,y,t0){
 		nx=length(x)
 
 		meant=mean(t)
-		ta=t-meant
-		ta0=t0-meant
+		tresid=t-meant
+		tresid0=t0-meant
 # we have to centre this here again because this is used in a cross-validation loop
 # note that t0 should never be centred
 
@@ -194,10 +194,10 @@ dnorm_p1sub=function(x,t,y,t0){
 		ml_cdf=pnorm(y,mean=muhat0,sd=v3hat)
 # rhp
 
-		rh_pdf=dnorm_p1_formula(y,ta,ta0,nx,muhat0,v3hat)
+		rh_pdf=dnorm_p1_formula(y,tresid,tresid0,nx,muhat0,v3hat)
 		rh_pdf=pmax(rh_pdf,0)
 
-		rh_cdf=pnorm_p1_formula(y,ta,ta0,nx,muhat0,v3hat)
+		rh_cdf=pnorm_p1_formula(y,tresid,tresid0,nx,muhat0,v3hat)
 		rh_cdf=pmin(pmax(rh_cdf,0),1)
 
 # return

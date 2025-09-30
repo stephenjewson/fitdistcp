@@ -4,14 +4,14 @@
 \alias{qnorm_p1_formula}
 \title{Linear regression formula, quantiles}
 \usage{
-qnorm_p1_formula(alpha, ta, ta0, nx, muhat0, v3hat)
+qnorm_p1_formula(alpha, tresid, tresid0, nx, muhat0, v3hat)
 }
 \arguments{
 \item{alpha}{a vector of values of alpha (one minus probability)}
 
-\item{ta}{predictor residuals}
+\item{tresid}{predictor residuals}
 
-\item{ta0}{predictor residual at the point being predicted}
+\item{tresid0}{predictor residual at the point being predicted}
 
 \item{nx}{length of training data}
 

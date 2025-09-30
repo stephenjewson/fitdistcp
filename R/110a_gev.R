@@ -199,7 +199,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #
 		ru_quantiles="rust not selected"
 		if(rust){
-			rustsim=rgev_cp(nrust,x,rust=TRUE,mlcp=FALSE)
+			rustsim=rgev_cp(nrust,x,method="rust",rust=TRUE,mlcp=FALSE)
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
 #end of if(dmgs)
@@ -242,6 +242,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 #' @export
 rgev_cp=function(n,x,ics=c(0,0,0),
 	minxi=-1,maxxi=1,
+	method="rust",
 	extramodels=FALSE,rust=FALSE,mlcp=TRUE,debug=FALSE){
 
 	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),length(ics)==3)
@@ -261,7 +262,7 @@ rgev_cp=function(n,x,ics=c(0,0,0),
 	}
 
 	if(rust){
-		th=tgev_cp(n,x)$theta_samples
+		th=tgev_cp(method=method,n,x)$theta_samples
 		ru_deviates=numeric(0)
 		for (i in 1:n){
 			ru_deviates[i]=rgev(1,mu=th[i,1],sigma=th[i,2],xi=th[i,3])

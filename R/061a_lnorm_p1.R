@@ -54,9 +54,9 @@ qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
     t=t-meant
     t0=t0-meant
   }
-	ta=t-mean(t) #whether or not we center, the equations use this ta
+	tresid=t-mean(t) #whether or not we center, the equations use this tresid
 	t0=maket0(t0,n0,t)
-	ta0=maketa0(t0,n0,t)
+	tresid0=maketresid0(t0,n0,t)
 #
 # 3 ml estimates
 #
@@ -89,7 +89,7 @@ qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	lddi="only relevant for DMGS models, not analytic models"
 	expinfmat=matrix(0,3,3)
 	expinfmat[1,1]=nx/(v3hat*v3hat)
-	expinfmat[2,2]=sum(ta*ta)/(v3hat*v3hat)
+	expinfmat[2,2]=sum(tresid*tresid)/(v3hat*v3hat)
 	expinfmat[3,3]=2*nx/(v3hat*v3hat)
 	expinfmat[1,2]=0
 	expinfmat[2,1]=0
@@ -103,7 +103,7 @@ qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 #
 # 7 rhp quantiles at n0
 #
-	rh_quantiles=exp(qnorm_p1_formula(alpha,ta,ta0,nx,muhatz0,v3hat))
+	rh_quantiles=exp(qnorm_p1_formula(alpha,tresid,tresid0,nx,muhatz0,v3hat))
 #
 # 8 means (might as well always calculate)
 #
@@ -113,7 +113,7 @@ qlnorm_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 # 9 waicscores
 #
 # x is log-normal, y is normal
-	waic=lnorm_p1_waic(waicscores,x,ta,v1hat,v2hat,v3hat)
+	waic=lnorm_p1_waic(waicscores,x,tresid,v1hat,v2hat,v3hat)
 	waic1=waic$waic1
 	waic2=waic$waic2
 #
