@@ -145,7 +145,7 @@ qgev_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),ics=c(0,0,0,0),
 #
 # 8 ldd
 #
-		ldd=gev_p1_ldda(x,t,v1hat,v2hat,v3hat,v4hat)
+		ldd=gev_p1a_ldda(x,t,v1hat,v2hat,v3hat,v4hat)
 		if(debug)message(" ldd=",ldd)
 		if(debug)message(" det(ldd)=",det(ldd))
 		lddi=solve(ldd)
@@ -155,26 +155,26 @@ qgev_p1_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),ics=c(0,0,0,0),
 # 10 calculate lddd
 #
 		if(debug)message(" lddd")
-		lddd=gev_p1_lddda(x,t,v1hat,v2hat,v3hat,v4hat)
+		lddd=gev_p1a_lddda(x,t,v1hat,v2hat,v3hat,v4hat)
 #
 # 11 mu1
 #
 		if(debug)message(" calculate mu1")
-		mu1=gev_p1_mu1fa(alpha,t0,v1hat,v2hat,v3hat,v4hat)
+		mu1=gev_p1a_mu1fa(alpha,t0,v1hat,v2hat,v3hat,v4hat)
 
 		if(pdf){
-			mu1m=gev_p1_mu1fa(alpham,t0,v1hat,v2hat,v3hat,v4hat)
-			mu1p=gev_p1_mu1fa(alphap,t0,v1hat,v2hat,v3hat,v4hat)
+			mu1m=gev_p1a_mu1fa(alpham,t0,v1hat,v2hat,v3hat,v4hat)
+			mu1p=gev_p1a_mu1fa(alphap,t0,v1hat,v2hat,v3hat,v4hat)
 		}
 #
 # 12 mu2
 #
 		if(debug)message(" calculate mu2")
-		mu2=gev_p1_mu2fa(alpha,t0,v1hat,v2hat,v3hat,v4hat)
+		mu2=gev_p1a_mu2fa(alpha,t0,v1hat,v2hat,v3hat,v4hat)
 
 		if(pdf){
-			mu2m=gev_p1_mu2fa(alpham,t0,v1hat,v2hat,v3hat,v4hat)
-			mu2p=gev_p1_mu2fa(alphap,t0,v1hat,v2hat,v3hat,v4hat)
+			mu2m=gev_p1a_mu2fa(alpham,t0,v1hat,v2hat,v3hat,v4hat)
+			mu2p=gev_p1a_mu2fa(alphap,t0,v1hat,v2hat,v3hat,v4hat)
 		}
 #
 # 15 model 4: rh_Flat with flat prior on shape (needs to use 4d version of Bayesian code)

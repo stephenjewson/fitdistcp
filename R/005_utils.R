@@ -1,3 +1,56 @@
+#' Fix the whole R problem with vectors and matrices
+#' @inheritParams manf
+#'
+#' @return Vector
+ifvectorthenmatrix=function(t){
+
+		if(is.vector(t))t=matrix(t)
+
+	return(t)
+}
+#' Find the number of predictors in the predictor
+#' @inheritParams manf
+#'
+#' @return Vector
+findnt=function(t){
+
+		if(is.vector(t))nt=1
+
+		if(is.matrix(t)){
+			nt=dim(t)[2]
+		}
+
+		if(nt>3){
+			message("Max. number of columns in the predictor is 3.\n")
+			stop()
+		}
+
+	return(nt)
+}
+#' Calculate the location parameter when there are predictors (single t)
+#' @inheritParams manf
+#'
+#' @return Vector
+makebetat0=function(nt,params,t0){
+		add=0
+		for (i in 1:nt){
+			add=add+params[i+1]*t0[i]
+		}
+		betat0=add
+	return(betat0)
+}
+#' Calculate the location parameter when there are predictors (multiple t)
+#' @inheritParams manf
+#'
+#' @return Vector
+makebetatm=function(nt,params,t){
+		add=0
+		for (i in 1:nt){
+			add=add+params[i+1]*t[,i]
+		}
+		betat=add
+	return(betat)
+}
 #' Deal with situations in which the user wants d or p outside the GEV range
 #' @inheritParams manf
 #'

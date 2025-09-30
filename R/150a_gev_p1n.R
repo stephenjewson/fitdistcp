@@ -46,7 +46,6 @@ NULL
 #' @inheritParams man
 #' @export
 #'
-
 qgev_p1n_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	fdalpha=0.01,
 	minxi=-1,maxxi=1,
@@ -64,8 +63,8 @@ qgev_p1n_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 #
 # 1 intro
 #
-	t=matrix(t)
-	nt=dimension(t)
+	t=ifvectorthenmatrix(t)
+	nt=findnt(t)
 	alpha=1-p
 	nx=length(x)
 	nalpha=length(alpha)
@@ -118,11 +117,8 @@ qgev_p1n_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 	if(debug)message(" ml_quantiles")
 	ml_quantiles=qgev_p1n((1-alpha),t0,params=vhat)
 	if(vhat[3+nt]<0){
-		add=0
-		for (i in 1:nt){
-			add=add+vhat[i+1]*t0[i]
-		}
-		ml_max=(vhat[1]+add)-vhat[nt+2]/vhat[nt+3]
+		mu=vhat[1]+makebetat0(nt,vhat,t0)
+		ml_max=mu-vhat[nt+2]/vhat[nt+3]
 	} else {
 		ml_max=Inf
 	}
@@ -260,18 +256,8 @@ qgev_p1n_cp=function(x,t,t0=NA,n0=NA,p=seq(0.1,0.9,0.1),
 # 21 decentering
 #
   if(centering){
-  		add=0
-  		for (i in 1:nt){
-  			add=add-ml_params[i+1]*meant[i]
-  		}
-	    ml_params[1]=ml_params[1]+add
-	   if(predictordata){
-	   	add=0
-	   	for (i in 1:nt){
-		   	add=add-ml_params[i+1]*meant[i]
-	   	}
-	   	predictedparameter=predictedparameter+add
-	   }
+	    ml_params[1]=ml_params[1]-makebetat0(nt,ml_params,meant)
+	   if(predictordata)predictedparameter=predictedparameter-makebetat0(nt,ml_params,meant)
   }
 
 	list(	ml_params=ml_params,
@@ -307,8 +293,8 @@ rgev_p1n_cp=function(n,x,t,t0=NA,n0=NA,
 #						length(ics)==5)
 	stopifnot(is.finite(x),!is.na(x),is.finite(t),!is.na(t))
 
-	t=matrix(t)
-	nt=dimension(t)
+	t=ifvectorthenmatrix(t)
+	nt=findnt(t)
 
 	for (i in 1:nt){
 		t0[i]=maket0(t0=t0[i],n0=n0[i],t=t[,i])
@@ -341,11 +327,7 @@ rgev_p1n_cp=function(n,x,t,t0=NA,n0=NA,
 		th=tgev_p1n_cp(n,x,t)$theta_samples
 		ru_deviates=numeric(0)
 		for (i in 1:n){
-			add=0
-			for (j in 1:nt){
-				add=add+t0[j]*th[i,(j+1)]
-			}
-			mu=th[i,1]+add
+			mu=th[i,1]+makebetat0(nt,th[i,],t0)
 			ru_deviates[i]=rgev(1,mu=mu,sigma=th[i,(nt+2)],xi=th[i,(nt+3)])
 		}
 	}
@@ -353,13 +335,7 @@ rgev_p1n_cp=function(n,x,t,t0=NA,n0=NA,
 #
 # decentering
 #
-  if(mlcp){
-  	add=0
-  	for (i in 1:nt){
-  		add=add-ml_params[i+1]*meant[i]
-  	}
-  	ml_params[1]=ml_params[1]+add
-  }
+  if(mlcp)ml_params[1]=ml_params[1]-makebetat0(nt,ml_params,meant)
 
 	op=list(ml_params=ml_params,
 			 ml_deviates=ml_deviates,
@@ -380,8 +356,8 @@ dgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 						is.finite(t),!is.na(t))
 
-	t=matrix(t)
-	nt=dimension(t)
+	t=ifvectorthenmatrix(t)
+	nt=findnt(t)
 
 	for (i in 1:nt){
 		t0[i]=maket0(t0[i],n0[i],t[,i])
@@ -413,16 +389,11 @@ dgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 		th=tgev_p1n_cp(nrust,x,t)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
-			add=0
-			for (i in 1:nt){
-				add=add+t0[i]*th[ir,(i+1)]
-			}
-			mu=th[ir,1]+add
+			mu=th[ir,1]+makebetat0(nt,th[ir,],t0)
 			sigma=th[ir,(nt+2)]
 			xi=th[ir,(nt+3)]
 			dpdf=extraDistr::dgev(y,mu=mu,sigma=sigma,xi=sigma)
 			ru_pdf=ru_pdf+dpdf
-#			cat("ir,sigma=",ir,sigma,"\n")
 #			if(is.na(mean(ru_pdf)))stop()
 		}
 		ru_pdf=ru_pdf/nrust
@@ -432,13 +403,7 @@ dgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 #
 # decentering
 #
- if(centering){
-	add=0
- 	for (i in 1:nt){
- 		add=add-ml_params[i+1]*meant[i]
-	}
- 	ml_params[1]=ml_params[1]+add
- }
+	 if(centering)ml_params[1]=ml_params[1]-makebetat0(nt,ml_params,meant)
 
 		op=list(
 					ml_params=ml_params,
@@ -460,8 +425,8 @@ pgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 						is.finite(t),!is.na(t))
 
-	t=matrix(t)
-	nt=dimension(t)
+	t=ifvectorthenmatrix(t)
+	nt=findnt(t)
 
 	for (i in 1:nt){
 		t0[i]=maket0(t0[i],n0[i],t[,i])
@@ -492,14 +457,9 @@ pgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 		th=tgev_p1n_cp(nrust,x,t)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
-			add=0
-			for(i in 1:nt){
-				add=add+t0[i]*th[ir,(i+1)]
-			}
-			mu=th[ir,1]+add
+			mu=th[ir,1]+makebetat0(nt,th[ir,],t0)
 			sigma=th[ir,(nt+2)]
 			ru_cdf=ru_cdf+pgev(y,mu=mu,sigma=sigma,xi=th[ir,(nt+3)])
-#			cat("ir,sigma=",ir,sigma,"\n")
 		}
 		ru_cdf=ru_cdf/nrust
 	} else {
@@ -508,15 +468,9 @@ pgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 #
 # decentering
 #
- if(centering){
- 	add=0
- 	for (i in 1:nt){
- 		add=add-ml_params[i+1]*meant[i]
- 	}
- 	ml_params[1]=ml_params[1]+add
- }
+	 if(centering)ml_params[1]=ml_params[1]-makebetat0(nt,ml_params,meant)
 
-	op=list(
+		op=list(
 					ml_params=ml_params,
 					ml_cdf=dd$ml_cdf,
 					revert2ml=revert2ml,
@@ -534,8 +488,8 @@ tgev_p1n_cp=function(n,x,t,
 #						length(ics)==5)
 	stopifnot(is.finite(x),!is.na(x),is.finite(t),!is.na(t))
 
-	t=matrix(t)
-	nt=dimension(t)
+	t=ifvectorthenmatrix(t)
+	nt=findnt(t)
 #
 # centering
 #
@@ -547,24 +501,14 @@ tgev_p1n_cp=function(n,x,t,
 
 	ics=gev_p1n_setics(x,t)
 #	ics=c(ics) #this converts the matrix to a vector (but now it's a vector anyway)
-#	cat("x=",x,"\n")
-#	cat("t=",t,"\n")
-#	cat("n=",n,"\n")
-#	cat("ics=",ics,"\n")
-#	cat("dim(x)=",dim(x),"\n")
-#	cat("dim(t)=",dim(t),"\n")
-#	cat("dim(ics)=",dim(ics),"\n")
-#	th=ru(gev_p1n_logf,x=x,t=t,n=n,d=(nt+3),init=ics)
-	th=ru(gev_p1n_logf,x=x,t=t,n=n,d=4,init=ics)
+	th=ru(gev_p1n_logf,x=x,t=t,n=n,d=(nt+3),init=ics)
   theta_samples=th$sim_vals
 #
 # decentering
 #
-  add=0
-  for (i in 1:nt){
-  	add=add-theta_samples[,(i+1)]*meant[i]
-  }
-  theta_samples[,1]=theta_samples[,1]+add
+  for (i in 1:n){
+	  theta_samples[i,1]=theta_samples[i,1]-makebetat0(nt,theta_samples[i,],meant)
+	}
 
 	list(theta_samples=theta_samples)
 

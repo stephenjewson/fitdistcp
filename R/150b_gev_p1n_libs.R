@@ -3,8 +3,8 @@
 #' @inheritParams manf
 rgev_p1n_minmax=function(nx,mu=0,sigma=1,xi=0,tt,minxi=-0.45,maxxi=0.45,centering=TRUE){
 	xihat=-9999
-	tt=matrix(tt)
-	nt=dimension(tt)
+	tt=ifvectorthenmatrix(tt)
+	nt=findnt(tt)
   if(centering){
 		for (i in 1:nt){
 	  	tt[,i]=tt[,i]-mean(tt[,i])
@@ -13,9 +13,6 @@ rgev_p1n_minmax=function(nx,mu=0,sigma=1,xi=0,tt,minxi=-0.45,maxxi=0.45,centerin
 	while((xihat<minxi)||(xihat>maxxi)){ #0.46 also works...0.47 doesn't
 		xx=extraDistr::rgev(nx,mu=mu,sigma=sigma,xi=xi)
 		ics=gev_p1n_setics(xx,tt)
-#	cat("ics=",ics,"\n")
-#	cat("x=",xx,"\n")
-#	cat("t=",tt,"\n")
 #	stop()
 		opt1=optim(ics,gev_p1n_loglik,x=xx,t=tt,control=list(fnscale=-1))
 		xihat=opt1$par[nt+3]
@@ -28,8 +25,7 @@ rgev_p1n_minmax=function(nx,mu=0,sigma=1,xi=0,tt,minxi=-0.45,maxxi=0.45,centerin
 gev_p1n_waic=function(waicscores,x,t0,vhat,
 	lddi,lddd,lambdad){
 
-		t0=matrix(t0)
-		nt=dimension(t0)
+		nt=findnt(t0)
 		if(waicscores){
 
 			if(nt==1)f1f=gev_p1a_f1fw(x,t0[1],							vhat[1],vhat[2],vhat[3],vhat[4])
@@ -59,23 +55,16 @@ gev_p1n_predictordata=function(predictordata,x,t,t0,params){
 #
 # calculate the probabilities of the data using the fitted model
 #
-		t=matrix(t)
-		nt=dimension(t)
-		add=0
-		add0=0
-		for (i in 1:nt){
-			add	=add	+params[i+1]*t[,i]
-			add0=add0	+params[i+1]*t0[i]
-		}
+		nt=findnt(t)
 		a=params[1]
 		sc=params[nt+2]
 		sh=params[nt+3]
-		mu=a+add
+		mu=a+makebetatm(nt,params,t)
 		px=extraDistr::pgev(x,mu=mu,sigma=sc,xi=sh)
 #
 # calculate the quantiles for those probabilities at t0
 #
-		mu0=a+add0
+		mu0=a+makebetat0(nt,params,t0)
 		qx=extraDistr::qgev(px,mu=mu0,sigma=sc,xi=sh)
 	} else{
 		predictedparameter="predictordata not selected"
@@ -88,7 +77,7 @@ gev_p1n_predictordata=function(predictordata,x,t,t0,params){
 #' @inheritParams manf
 gev_p1n_logf=function(params,x,t){
 #	t=matrix(t)
-	nt=dimension(t)
+	nt=findnt(t)
 #	a=params[1]
 #	b=params[2]
 #	sc=params[3]
@@ -103,11 +92,7 @@ gev_p1n_logf=function(params,x,t){
 #	sc=pmax(params[nt+2],sqrt(.Machine$double.eps))
 	sc=max(params[nt+2],sqrt(.Machine$double.eps))
 	sh=params[nt+3]
-	add=0
-	for (i in 1:nt){
-		add=add+params[1+i]*t[,i]
-	}
-	mu=a+add
+	mu=a+makebetatm(nt,params,t)
 	logf=sum(extraDistr::dgev(x,mu=mu,sigma=sc,xi=sh,log=TRUE))-log(sc)
 	return(logf)
 }
@@ -116,18 +101,13 @@ gev_p1n_logf=function(params,x,t){
 #' @inheritParams manf
 gev_p1n_setics=function(x,t){
 	nx=length(x)
-	t=matrix(t)
-	nt=dimension(t)
+	nt=findnt(t)
 #	if((ics[1]==0)&&(ics[2]==0)&&(ics[3]==0)&&(ics[4]==0)&&(ics[4]==0)){
 		lm=lm(x~t)
 		ics=numeric(nt+3)
 		ics[1:(nt+1)]=lm$coefficients[1:(nt+1)]
 #		xhat=ics[1]+ics[2]*t[,1]+ics[3]*t[,2]
-		add=0
-		for (i in 1:nt){
-			add=add+ics[i+1]*t[,i]
-		}
-		xhat=ics[1]+add
+		xhat=ics[1]+makebetatm(nt,ics,t)
 		ics[2+nt]=sqrt((sum((x-xhat)^2))/nx)
 		ics[3+nt]=0
 #	}
@@ -138,13 +118,9 @@ gev_p1n_setics=function(x,t){
 #' @inheritParams manf
 gev_p1n_loglik=function(vv,x,t){
 	n=length(x)
-	t=matrix(t)
-	nt=dimension(t)
-	add=0
-	for(i in 1:nt){
-		add=add+vv[i+1]*t[,i]
-	}
-	mu=vv[1]+add
+	t=ifvectorthenmatrix(t)
+	nt=findnt(t)
+	mu=vv[1]+makebetatm(nt,vv,t)
 	loglik=sum(extraDistr::dgev(x,mu=mu,sigma=max(vv[nt+2],.Machine$double.eps),xi=vv[nt+3],log=TRUE))
 	return(loglik)
 }
@@ -170,14 +146,8 @@ gev_p1n_checkmle=function(ml_params,minxi=-1,maxxi=1){
 #' @inheritParams manf
 qgev_p1n=function(p,t0,params){
 
-	t0=matrix(t0)
-	nt=dimension(t0)
-	add=0
-	for (i in 1:nt){
-		add=add+params[i+1]*t0[i]
-	}
-
-	mu=params[1]+add
+	nt=findnt(t0)
+	mu=params[1]+makebetat0(nt,params,t0)
 	return(extraDistr::qgev(p,mu=mu,sigma=params[nt+2],xi=params[nt+3]))
 
 }
@@ -186,13 +156,8 @@ qgev_p1n=function(p,t0,params){
 #' @inheritParams manf
 dgev_p1n=function(x,t0,params,log=FALSE){
 
-	t0=matrix(t0)
-	nt=dimension(t0)
-	add=0
-	for (i in 1:nt){
-		add=add+params[i+1]*t0[i]
-	}
-	mu=params[1]+add
+	nt=findnt(t0)
+	mu=params[1]+makebetat0(nt,params,t0)
 	return(extraDistr::dgev(x,mu=mu,sigma=params[nt+2],xi=params[nt+3],log=log))
 
 }
@@ -201,13 +166,8 @@ dgev_p1n=function(x,t0,params,log=FALSE){
 #' @inheritParams manf
 pgev_p1n=function(y,t0,params){
 
-	t0=matrix(t0)
-	nt=dimension(t0)
-	add=0
-	for (i in 1:nt){
-		add=add+params[i+1]*t0[i]
-	}
-	mu=params[1]+add
+	nt=findnt(t0)
+	mu=params[1]+makebetat0(nt,params,t0)
 	return(extraDistr::pgev(y,mu=mu,sigma=params[nt+2],xi=params[nt+3]))
 
 }
@@ -218,10 +178,7 @@ pgev_p1n=function(y,t0,params){
 gev_p1n_means=function(means,t0,ml_params,lddi,lddd,
 									lambdad_rh_flat,nx,dim=(nt+3)){
 
-	cat("ml_params=",ml_params,"\n")
-	cat("t0=",t0,"\n")
-	t0=matrix(t0)
-	nt=dimension(t0)
+	nt=findnt(t0)
 	if(means){
 # intro
 		eulerconstant=0.57721566490153286060651209008240243104215933593992
@@ -239,11 +196,7 @@ gev_p1n_means=function(means,t0,ml_params,lddi,lddd,
 # xi=0 case
 
 # mle
-			add=0
-			for (i in 1:nt){
-				add=add+ml_params[i+1]*t0[i]
-			}
-			ml_mean=ml_params[1]+add+sigma*eulerconstant
+			ml_mean=ml_params[1]+makebetat0(nt,ml_params,t0)+sigma*eulerconstant
 # calculate first derivative array for bayesian xi=0 cases
 			meand1[1,1]=1
 			for (i in 1:nt){
@@ -260,11 +213,7 @@ gev_p1n_means=function(means,t0,ml_params,lddi,lddd,
 			g1=g0*digamma(1-xi)
 			g2=(trigamma(1-xi)*g0*g0+g1*g1)/g0
 # mle
-			add=0
-			for (i in 1:nt){
-				add=add+ml_params[i+1]*t0[i]
-			}
-			ml_mean=ml_params[1]+add+sigma*(g0-1)/xi
+			ml_mean=ml_params[1]+makebetat0(nt,ml_params,t0)+sigma*(g0-1)/xi
 # calculate first derivative array for bayesian xi!=0 cases
 			meand1[1,1]=1
 			for (i in 1:nt){
@@ -295,8 +244,7 @@ gev_p1n_means=function(means,t0,ml_params,lddi,lddd,
 #' @inheritParams manf
 dgev_p1nsub=function(x,t,y,t0,ics,minxi,maxxi,extramodels=FALSE){
 
-		t=matrix(t)
-		nt=dimension(t)
+		nt=findnt(t)
 		nx=length(x)
 
 		ics=gev_p1n_setics(x,t)
