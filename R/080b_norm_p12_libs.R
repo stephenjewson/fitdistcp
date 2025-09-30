@@ -131,7 +131,7 @@ pnorm_p12=function(y,t10,t20,ymn,slope,sigma1,sigma2){
 }
 #' Bootstrap
 #' @inheritParams manf
-bnorm_p12=function(x,t1,t2,n){
+norm_p12_boot=function(x,t1,t2,n){
 
 	sim_vals=matrix(0,n,4)
 	ics=c(0,0,0,0)

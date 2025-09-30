@@ -461,7 +461,7 @@ tnorm_p12_cp=function(method,n,x,t1,t2,nonnegslopesonly=FALSE,ics=c(0,0,0,0),
 	if(method=="rust"){
 		th=ru(norm_p12_logf,x=x,t1=t1,t2=t2,nonnegslopesonly=nonnegslopesonly,n=n,d=4,init=c(0,0,0,0))
 	} else if (method=="boot"){
-		th=bnorm_p12(x=x,t1=t1,t2=t2,n=n)
+		th=norm_p12_boot(x=x,t1=t1,t2=t2,n=n)
 	} else{
 		message("tnorm_p12 method not valid so stopping.\n")
 		stop()

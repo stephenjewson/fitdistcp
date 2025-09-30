@@ -34,5 +34,3 @@ importFrom("mev","gev.infomat","gpd.infomat")
 importFrom("rust","ru")
 
 importFrom("fExtremes","gevFit")
-
-importFrom("pcds","dimension")

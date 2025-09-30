@@ -51,7 +51,7 @@ norm_unbiasedv_params=function(x){
 }
 #' Bootstrap
 #' @inheritParams manf
-bnorm=function(x,n){
+norm_boot=function(x,n){
 
 	sim_vals=matrix(0,n,2)
 	base=c(1:length(x))

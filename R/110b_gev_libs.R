@@ -88,7 +88,7 @@ gev_checkmle=function(ml_params,minxi=-1,maxxi=1){
 }
 #' Bootstrap
 #' @inheritParams manf
-bgev=function(x,n){
+gev_boot=function(x,n){
 
 	sim_vals=matrix(0,n,3)
 	ics=c(0,0,0)

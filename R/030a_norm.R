@@ -264,7 +264,7 @@ tnorm_cp=function(method,n,x,debug=FALSE){
 	if(method=="rust"){
 		th=ru(norm_logf,x=x,n=n,d=2,init=c(mean(x),sd(x)))
 	} else if (method=="boot"){
-		th=bnorm(x=x,n=n)
+		th=norm_boot(x=x,n=n)
 	} else{
 		message("tnorm method not valid so stopping.\n")
 		stop()

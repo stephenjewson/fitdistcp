@@ -396,7 +396,7 @@ tgev_cp=function(method,n,x,ics=c(0,0,0),extramodels=FALSE,debug=FALSE){
 		ics=gev_setics(x,ics)
 		th=ru(gev_logf,x=x,n=n,d=3,init=ics)
 	} else if (method=="boot"){
-		th=bgev(x=x,n=n)
+		th=gev_boot(x=x,n=n)
 	} else{
 		message("tgev method not valid so stopping.\n")
 		stop()
