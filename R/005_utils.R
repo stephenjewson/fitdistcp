@@ -1,4 +1,4 @@
-#' Fix the whole R problem with vectors and matrices
+#' If a variable is a vector, convert it to a matrix
 #' @inheritParams manf
 #'
 #' @return Vector
@@ -27,7 +27,7 @@ findnt=function(t){
 
 	return(nt)
 }
-#' Calculate the location parameter when there are predictors (single t)
+#' Calculate the location parameter when there are predictors (single time point)
 #' @inheritParams manf
 #'
 #' @return Vector
@@ -39,7 +39,7 @@ makebetat0=function(nt,params,t0){
 		betat0=add
 	return(betat0)
 }
-#' Calculate the location parameter when there are predictors (multiple t)
+#' Calculate the location parameter when there are predictors (multiple time points)
 #' @inheritParams manf
 #'
 #' @return Vector
