@@ -110,7 +110,6 @@ qgev_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=
 	ml_params=c(v1hat,v2hat,v3hat,v4hat,v5hat)
 #	gev_p12_checkmle(ml_params,minxi,maxxi)
 	if(debug)message(" ml_params=",v1hat,",",v2hat,",",v3hat,",",v4hat,",",v5hat)
-	message(" ml_params=",v1hat,",",v2hat,",",v3hat,",",v4hat,",",v5hat)
 	if((abs(v5hat)>=1)){revert2ml=TRUE}else{revert2ml=FALSE}
 # I'm having some numerical problems with ldd in reliability testing...only in gev_p12...for nx=10 and xi=0.4
 # maybe limiting v5hat to +1 in this way will help
