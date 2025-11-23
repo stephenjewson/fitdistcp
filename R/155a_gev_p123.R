@@ -35,10 +35,11 @@
 #' \deqn{\pi(a_1,b_1,a_2,b_2,a_3,b_3) \propto 1}
 #' as given in Jewson et al. (2025).
 #'
-#' The code will stop with an error if the
+#' The code will switch to maximum likelihood prediction if the
 #' input data gives a maximum likelihood
 #' value for the shape parameter that lies outside the range \code{(minxi,maxxi)},
 #' since outside this range there may be numerical problems.
+#' If this happens, it is reported in the \code{revert2ml} flag.
 #' Such values seldom occur
 #' in real observed data for maxima.
 #'

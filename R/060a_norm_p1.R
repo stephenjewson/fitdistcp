@@ -14,15 +14,15 @@
 #'
 #' @section Details of the Model:
 #' The normal distribution with a predictor has probability density function
-#' \deqn{f(x;a,b,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu(a,b))^2/(2\sigma^2)}}
+#' \deqn{f(x;\alpha,\beta,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu(\alpha,\beta))^2/(2\sigma^2)}}
 #' where
 #' \eqn{x} is the random variable,
-#' \eqn{\mu=a+bt} is the location parameter, modelled as a function
-#' of parameters \eqn{a,b} and predictor \eqn{t},
+#' \eqn{\mu=\alpha+\beta t} is the location parameter, modelled as a function
+#' of parameters \eqn{\alpha,\beta} and predictor \eqn{t},
 #' and \eqn{\sigma>0} is the scale parameter.
 #'
 #' The calibrating prior is given by the right Haar prior, which is
-#' \deqn{\pi(a,b,\sigma) \propto \frac{1}{\sigma}}
+#' \deqn{\pi(\alpha,\beta,\sigma) \propto \frac{1}{\sigma}}
 #' as given in Jewson et al. (2025).
 #'
 #' @example man/examples/example_060_norm_p1.R

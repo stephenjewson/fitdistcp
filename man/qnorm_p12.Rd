@@ -4,14 +4,14 @@
 \alias{qnorm_p12}
 \title{Normal-with-p12: Quantile function}
 \usage{
-qnorm_p12(p, t10, t20, ymn, slope, sigma1, sigma2)
+qnorm_p12(p, t01, t02, ymn, slope, sigma1, sigma2)
 }
 \arguments{
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
 
-\item{t10}{a single value of the predictor for the mean (specify either \code{t10} or \code{n10} but not both)}
+\item{t01}{a single value of the predictor (specify either \code{t01} or \code{n01} but not both)}
 
-\item{t20}{a single value of the predictor for the sd (specify either \code{t20} or \code{n20} but not both)}
+\item{t02}{a single value of the predictor (specify either \code{t02} or \code{n02} but not both)}
 
 \item{ymn}{the location parameter of the function of the predictor}
 

@@ -4,17 +4,7 @@
 \alias{norm_p12_logscores}
 \title{Log scores for 5 predictions calculated using leave-one-out}
 \usage{
-norm_p12_logscores(
-  logscores,
-  x,
-  t1,
-  t2,
-  ics,
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01
-)
+norm_p12_logscores(logscores, x, t1, t2, ics)
 }
 \arguments{
 \item{logscores}{logical that indicates whether to return leave-one-out estimates estimates of the log-score (much longer runtime)}
@@ -26,14 +16,6 @@ norm_p12_logscores(
 \item{t2}{a vector of predictors for the sd}
 
 \item{ics}{initial conditions for the maximum likelihood search}
-
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 }
 \value{
 Two scalars

@@ -1,4 +1,4 @@
-#' Normal Distribution with Predictors on Mean and SD, with Parameter Uncertainty
+#' Normal Distribution with Predictors on both Mean and Standard Deviation, with Parameter Uncertainty
 #'
 #' @inherit man description author references seealso return
 #' @inheritParams man
@@ -8,6 +8,36 @@
 # #' @inheritSection man Details (non-homogeneous models)
 # #' @inheritSection man Details (analytic integration)
 #' @inheritSection man Details (DMGS integration)
+#'
+#' @section Details of the Model:
+#' The normal distribution with predictors on both parameters has probability density function
+#' \deqn{f(x;\alpha,\beta,\gamma,\delta)
+#' =\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu(\alpha,\beta))^2/(2\sigma(\gamma,\delta)^2)}}
+#' where
+#' \eqn{x} is the random variable,
+#' \eqn{\mu=\alpha+\beta t_1} is the location parameter, modelled as a function
+#' of parameters \eqn{\alpha,\beta} and predictor \eqn{t_1},
+#' where \eqn{t_1} is typically the ensemble mean,
+#' and \eqn{\sigma=\exp(\gamma+\delta \log (t_2))} is the scale parameter,
+#' modelled as a function of parameters \eqn{\gamma,\delta} and predictor \eqn{t_2},
+#' where \eqn{t_2} is typically the ensemble spread.
+#'
+#' The calibrating prior is given by the right Haar prior, which is
+#' \deqn{\pi(\alpha,\beta,\gamma,\delta) \propto \frac{1}{\sigma}}
+#' as given in the Jewson et al. (2025) reference given below.
+#'
+#' @references
+#'
+#' If you use this package, we would be grateful if you would cite the following reference,
+#' which introduces this model.
+#'
+#'\itemize{
+#' \item Jewson S., Olivetti L., Messori G., Northop P., Sweeting T. (2025):
+#' An Objective Bayesian Method for Including Parameter Uncertainty
+#' in Ensemble Model Output Statistics;
+#' QJRMS (Quarterly Journal of the Royal Meteorological Society).
+#' }
+
 #'
 #' @example man/examples/example_080_norm_p12.R
 #'

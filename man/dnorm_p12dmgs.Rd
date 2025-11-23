@@ -4,20 +4,7 @@
 \alias{dnorm_p12dmgs}
 \title{Densities for 5 predictions}
 \usage{
-dnorm_p12dmgs(
-  x,
-  t1,
-  t2,
-  y,
-  t10,
-  t20,
-  ics,
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  aderivs = TRUE
-)
+dnorm_p12dmgs(x, t1, t2, y, t01, t02, ics)
 }
 \arguments{
 \item{x}{a vector of training data values}
@@ -28,21 +15,11 @@ dnorm_p12dmgs(
 
 \item{y}{a vector of values at which to calculate the density and distribution functions}
 
-\item{t10}{a single value of the predictor for the mean (specify either \code{t10} or \code{n10} but not both)}
+\item{t01}{a single value of the predictor (specify either \code{t01} or \code{n01} but not both)}
 
-\item{t20}{a single value of the predictor for the sd (specify either \code{t20} or \code{n20} but not both)}
+\item{t02}{a single value of the predictor (specify either \code{t02} or \code{n02} but not both)}
 
 \item{ics}{initial conditions for the maximum likelihood search}
-
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
-
-\item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
 \value{
 A vector of parameter estimates, two pdf vectors, two cdf vectors

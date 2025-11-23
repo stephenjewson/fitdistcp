@@ -1,6 +1,6 @@
 #' Norm_p12 example data
 #' @returns A list containing data to run an example
-#' @params  iseed The random seed
+#' @param  iseed The random seed
 norm_p12_exampledata=function(iseed){
 	set.seed(iseed)
 	nx=100

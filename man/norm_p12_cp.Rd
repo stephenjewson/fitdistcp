@@ -7,23 +7,18 @@
 \alias{dnorm_p12_cp}
 \alias{pnorm_p12_cp}
 \alias{tnorm_p12_cp}
-\title{Normal Distribution with Predictors on Mean and SD, with Parameter Uncertainty}
+\title{Normal Distribution with Predictors on both Mean and Standard Deviation, with Parameter Uncertainty}
 \usage{
 qnorm_p12_cp(
   x,
   t1,
   t2,
-  t10 = NA,
-  t20 = NA,
-  n10 = NA,
-  n20 = NA,
+  t01 = NA,
+  t02 = NA,
+  n01 = NA,
+  n02 = NA,
   p = seq(0.1, 0.9, 0.1),
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
-  fdalpha = 0.01,
   means = FALSE,
   waicscores = FALSE,
   logscores = FALSE,
@@ -33,8 +28,7 @@ qnorm_p12_cp(
   extramodels = FALSE,
   predictordata = TRUE,
   centering = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 rnorm_p12_cp(
@@ -42,67 +36,52 @@ rnorm_p12_cp(
   x,
   t1,
   t2,
-  n10 = NA,
-  n20 = NA,
-  t10 = NA,
-  t20 = NA,
+  n01 = NA,
+  n02 = NA,
+  t01 = NA,
+  t02 = NA,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
   rust = FALSE,
   mlcp = TRUE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 dnorm_p12_cp(
   x,
   t1,
   t2,
-  t10 = NA,
-  t20 = NA,
-  n10 = NA,
-  n20 = NA,
+  t01 = NA,
+  t02 = NA,
+  n01 = NA,
+  n02 = NA,
   y = x,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
   rust = FALSE,
   nrust = 1000,
   boot = FALSE,
   nboot = 10,
   centering = TRUE,
   rnonnegslopesonly = FALSE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 pnorm_p12_cp(
   x,
   t1,
   t2,
-  t10 = NA,
-  t20 = NA,
-  n10 = NA,
-  n20 = NA,
+  t01 = NA,
+  t02 = NA,
+  n01 = NA,
+  n02 = NA,
   y = x,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
   rust = FALSE,
   nrust = 1000,
   boot = FALSE,
   nboot = 10,
   centering = TRUE,
   rnonnegslopesonly = FALSE,
-  debug = FALSE,
-  aderivs = TRUE
+  debug = FALSE
 )
 
 tnorm_p12_cp(
@@ -113,10 +92,6 @@ tnorm_p12_cp(
   t2,
   nonnegslopesonly = FALSE,
   ics = c(0, 0, 0, 0),
-  d1 = 0.01,
-  d2 = 0.01,
-  d3 = 0.01,
-  d4 = 0.01,
   debug = FALSE
 )
 }
@@ -129,36 +104,21 @@ such that \code{length(t1)=length(x)}}
 \item{t2}{a vector of predictors for the sd,
 such that \code{length(t2)=length(x)}}
 
-\item{t10}{a single value of the predictor for the mean
-(specify either \code{t10} or \code{n10} but not both)}
+\item{t01}{a single value of the predictor
+(specify either \code{t01} or \code{n01} but not both)}
 
-\item{t20}{a single value of the predictor for the sd
-(specify either \code{t20} or \code{n20} but not both)}
+\item{t02}{a single value of the predictor
+(specify either \code{t02} or \code{n02} but not both)}
 
-\item{n10}{an index for the predictor for the mean
-(specify either \code{t10} or \code{n10} but not both)}
+\item{n01}{an index for the predictor
+(specify either \code{t01} or \code{n01} but not both)}
 
-\item{n20}{an index for the predictor for the sd
-(specify either \code{t20} or \code{n20} but not both)}
+\item{n02}{an index for the predictor
+(specify either \code{t02} or \code{n02} but not both)}
 
 \item{p}{a vector of probabilities at which to generate predictive quantiles}
 
 \item{ics}{initial conditions for the maximum likelihood search}
-
-\item{d1}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the first parameter}
-
-\item{d2}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the second parameter}
-
-\item{d3}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the third parameter}
-
-\item{d4}{if \code{aderivs=FALSE}, the delta used for numerical derivatives
-with respect to the fourth parameter}
-
-\item{fdalpha}{if \code{pdf=TRUE}, the fractional delta used for numerical derivatives
-with respect to probability, for calculating the pdf as a function of quantiles}
 
 \item{means}{logical that indicates whether to run additional
 calculations and return analytical estimates for the distribution means (longer runtime)}
@@ -186,10 +146,6 @@ calculations and add three additional prediction models (longer runtime)}
 \item{centering}{logical that indicates whether the predictor should be centered}
 
 \item{debug}{logical for turning on debug messages}
-
-\item{aderivs}{(for code testing only) logical for whether to use
-analytic derivatives (instead of numerical). By default almost all models now
-use analytical derivatives.}
 
 \item{n}{the number of random samples required}
 
@@ -301,6 +257,25 @@ Optionally, a third set of results is returned that integrates the prediction
 integral by sampling the parameter posterior
 distribution using the RUST rejection sampling algorithm.
 }
+\section{Details of the Model}{
+
+The normal distribution with predictors on both parameters has probability density function
+\deqn{f(x;\alpha,\beta,\gamma,\delta)
+=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu(\alpha,\beta))^2/(2\sigma(\gamma,\delta)^2)}}
+where
+\eqn{x} is the random variable,
+\eqn{\mu=\alpha+\beta t_1} is the location parameter, modelled as a function
+of parameters \eqn{\alpha,\beta} and predictor \eqn{t_1},
+where \eqn{t_1} is typically the ensemble mean,
+and \eqn{\sigma=\exp(\gamma+\delta \log (t_2))} is the scale parameter,
+modelled as a function of parameters \eqn{\gamma,\delta} and predictor \eqn{t_2},
+where \eqn{t_2} is typically the ensemble spread.
+
+The calibrating prior is given by the right Haar prior, which is
+\deqn{\pi(\alpha,\beta,\gamma,\delta) \propto \frac{1}{\sigma}}
+as given in the Jewson et al. (2025) reference given below.
+}
+
 \section{Optional Return Values}{
 
 
@@ -411,7 +386,7 @@ x=fitdistcp::d060norm_p1_example_data_v1_x
 tt=fitdistcp::d060norm_p1_example_data_v1_t
 p=c(1:9)/10
 n0=10
-q=qnorm_p12_cp(x,t1=tt,t2=tt,n10=n0,n20=n0,p=p,rust=TRUE,nrust=1000)
+q=qnorm_p12_cp(x,t1=tt,t2=tt,n01=n0,n02=n0,p=p,rust=TRUE,nrust=1000)
 xmin=min(q$ml_quantiles,q$cp_quantiles);
 xmax=max(q$ml_quantiles,q$cp_quantiles);
 plot(q$ml_quantiles,p,xlab="quantile estimates",xlim=c(xmin,xmax),
@@ -422,18 +397,18 @@ points(q$ru_quantiles,p,col="blue")
 }
 \references{
 If you use this package, we would be grateful if you would cite the following reference,
-which gives the various calibrating priors, and tests them for reliability:
+which introduces this model.
 
 \itemize{
-\item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
-Assessments of Extreme Weather Risk using Calibrating Priors;
-ASCMO Advances in Statistical Climatology, Meteorology and Oceanography),
-\url{https://ascmo.copernicus.org/articles/11/1/2025/}.
+\item Jewson S., Olivetti L., Messori G., Northop P., Sweeting T. (2025):
+An Objective Bayesian Method for Including Parameter Uncertainty
+in Ensemble Model Output Statistics;
+QJRMS (Quarterly Journal of the Royal Meteorological Society).
 }
 }
 \seealso{
 An introduction to \code{fitdistcp}, with more examples,
-is given \href{http://www.fitdistcp.info/index.html}{on this webpage}.
+is given \href{https://www.fitdistcp.info/index.html}{on this webpage}.
 
 The \code{fitdistcp} package currently includes the following models (in alphabetical order):
 \itemize{
@@ -448,6 +423,7 @@ The \code{fitdistcp} package currently includes the following models (in alphabe
 \item Generalized normal (\code{gnorm}),
 \item GEV (\code{gev}),
 \item GEV with linear predictor on the location (\code{gev_p1}),
+\item GEV with 1-3 linear predictors on the location (\code{gev_p1n}),
 \item GEV with linear predictor on the location and log-linear prediction on the scale
 (\code{gev_p12}),
 \item GEV with linear predictor on the location, log-linear prediction on the scale,
@@ -468,7 +444,8 @@ and known DoF (\code{lst_p1k3}),
 \item Log-normal (\code{lnorm}),
 \item Log-normal with linear predictor on the location (\code{lnorm_p1}),
 \item Normal (\code{norm}),
-\item Normal with linear predictor on the mean (\code{norm_p1}),
+\item Normal with predictor on the mean (\code{norm_p1}),
+\item Normal with predictors on the mean and sd (\code{norm_p12}),
 \item Pareto with known scale (\code{pareto_k2}),
 \item Pareto with log-linear predictor on the shape and known scale (\code{pareto_p1k2}),
 \item Uniform (\code{unif}),

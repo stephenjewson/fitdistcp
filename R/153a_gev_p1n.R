@@ -1,7 +1,12 @@
-#' Generalized Extreme Value Distribution with a Predictor, Predictions Based on a Calibrating Prior
+#' Generalized Extreme Value Distribution with Multiple Predictors on the Location, Predictions Based on a Calibrating Prior
 #'
 #' @inherit man description author references seealso return
 #' @inheritParams man
+#' @param t 	predictors, which can be a vector, or a matrix with 1, 2 or 3 columns
+#' @param t0  a single value for each predictor, as 1, 2 or 3 scalars
+#' (specify \code{t0} or \code{n0} but not both)
+#' @param n0  an index for the each predictor, as 1, 2 or 3 integers
+#' (specify \code{t0} or \code{n0} but not both)
 #'
 #' @inheritSection man Optional Return Values
 #' @inheritSection man Optional Return Values (EVT models only)
@@ -13,28 +18,30 @@
 #' @inheritSection man Details (RUST)
 #'
 #' @section Details of the Model:
-#' The GEV distribution with a 2d predictor has distribution function
-#' \deqn{F(x;a,b_1,b_2,\sigma,\xi)=\exp{(-t(x;\mu(a,b_1,b_2),\sigma,\xi))}}
+#' 1, 2 or 3 predictors on the location parameter are supported. For instance,
+#' the GEV distribution with 2 predictors has distribution function
+#' \deqn{F(x;\alpha,\beta_1,\beta_2,\sigma,\xi)=\exp{(-t(x;\mu(\alpha,\beta_1,\beta_2),\sigma,\xi))}}
 #' where
-#' \deqn{t(x;\mu(a,b_1,b_2),\sigma,\xi) =
+#' \deqn{t(x;\mu(\alpha,\beta_1,\beta_2),\sigma,\xi) =
 #'    \begin{cases}
-#'      {\left[1+\xi\left(\frac{x-\mu(a,b_1,b_2)}{\sigma}\right)\right]}^{-1/\xi} & \text{if $\xi \ne 0$}\\
-#'      \exp{\left(-\frac{x-\mu(a,b_1,b_2)}{\sigma}\right)} & \text{if $\xi=0$}
+#'      {\left[1+\xi\left(\frac{x-\mu(\alpha,\beta_1,\beta_2)}{\sigma}\right)\right]}^{-1/\xi} & \text{if $\xi \ne 0$}\\
+#'      \exp{\left(-\frac{x-\mu(\alpha,\beta_1,\beta_2)}{\sigma}\right)} & \text{if $\xi=0$}
 #'    \end{cases}}
 #' where
 #' \eqn{x} is the random variable,
-#' \eqn{\mu=a+b_1t_1+b_2t_2} is the location parameter,
-#' modelled as a function of parameters \eqn{a,b_1,b_2} and predictor \eqn{t_1,t_2},
+#' \eqn{\mu=\alpha+\beta_1t_1+\beta_2t_2} is the location parameter,
+#' modelled as a function of parameters \eqn{\alpha,\beta_1,\beta_2} and predictor \eqn{t_1,t_2},
 #' and \eqn{\sigma>0,\xi} are the scale and shape parameters.
 #'
 #' The calibrating prior we use is given by
-#' \deqn{\pi(a,b_1,b_2,\sigma,\xi) \propto \frac{1}{\sigma}}
+#' \deqn{\pi(\alpha,\beta_1,\beta_2,\sigma,\xi) \propto \frac{1}{\sigma}}
 #' as given in Jewson et al. (2025).
 #'
-#' The code will stop with an error if the
+#' The code will switch to maximum likelihood prediction if the
 #' input data gives a maximum likelihood
 #' value for the shape parameter that lies outside the range \code{(minxi,maxxi)},
 #' since outside this range there may be numerical problems.
+#' If this happens, it is reported in the \code{revert2ml} flag.
 #' Such values seldom occur
 #' in real observed data for maxima.
 #'

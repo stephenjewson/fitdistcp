@@ -3,9 +3,7 @@
 \docType{data}
 \name{d100gamma_example_data_v1}
 \alias{d100gamma_example_data_v1}
-\title{This is data to be included in my package
-(Now adding the word value{} to avoid triggering CRAN tests)}
+\title{This is data to be included in my package}
 \description{
 This is data to be included in my package
-(Now adding the word value{} to avoid triggering CRAN tests)
 }

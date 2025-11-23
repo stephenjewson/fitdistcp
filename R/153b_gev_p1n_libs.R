@@ -1,6 +1,6 @@
 #' GEV_p1n n=1 example data
 #' @returns A list containing data to run an example
-#' @params  iseed The random seed
+#' @param  iseed The random seed
 gev_p1n_n1_exampledata=function(iseed){
 	set.seed(iseed)
 	nx		=100
@@ -16,7 +16,7 @@ gev_p1n_n1_exampledata=function(iseed){
 }
 #' GEV_p1n n=2 example data
 #' @returns A list containing data to run an example
-#' @params  iseed The random seed
+#' @param  iseed The random seed
 gev_p1n_n2_exampledata=function(iseed){
 	set.seed(iseed)
 	nx=100

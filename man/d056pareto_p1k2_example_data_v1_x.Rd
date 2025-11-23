@@ -3,9 +3,7 @@
 \docType{data}
 \name{d056pareto_p1k2_example_data_v1_x}
 \alias{d056pareto_p1k2_example_data_v1_x}
-\title{This is data to be included in my package
-(Now adding the word value{} to avoid triggering CRAN tests)}
+\title{This is data to be included in my package}
 \description{
 This is data to be included in my package
-(Now adding the word value{} to avoid triggering CRAN tests)
 }

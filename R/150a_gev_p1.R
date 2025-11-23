@@ -1,4 +1,4 @@
-#' Generalized Extreme Value Distribution with a Predictor, Predictions Based on a Calibrating Prior
+#' Generalized Extreme Value Distribution with a Single Predictor on the Location, Predictions Based on a Calibrating Prior
 #'
 #' @inherit man description author references seealso return
 #' @inheritParams man
@@ -31,10 +31,11 @@
 #' \deqn{\pi(a,b,\sigma,\xi) \propto \frac{1}{\sigma}}
 #' as given in Jewson et al. (2025).
 #'
-#' The code will stop with an error if the
+#' The code will switch to maximum likelihood prediction if the
 #' input data gives a maximum likelihood
 #' value for the shape parameter that lies outside the range \code{(minxi,maxxi)},
 #' since outside this range there may be numerical problems.
+#' If this happens, it is reported in the \code{revert2ml} flag.
 #' Such values seldom occur
 #' in real observed data for maxima.
 #'

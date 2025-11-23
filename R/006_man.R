@@ -375,7 +375,7 @@
 #' for generating exactly reliable predictions.
 #' The \code{cp} outputs are generated using a prior that has been shown
 #' in tests to give reasonable reliability.
-#' See Jewson et al. (2024) for discussion of the prior and test results.
+#' See Jewson et al. (2025a) for discussion of the prior and test results.
 #' For non-homogeneous models, reliability is generally poor for small sample sizes (<20),
 #' but is still much better than maximum likelihood.
 #' For small sample sizes, it is advisable to check the level of reliability
@@ -428,7 +428,7 @@
 #' which gives the various calibrating priors, and tests them for reliability:
 #'
 #'\itemize{
-#' \item Jewson S., Sweeting T. and Jewson L. (2024): Reducing Reliability Bias in
+#' \item Jewson S., Sweeting T. and Jewson L. (2025): Reducing Reliability Bias in
 #' Assessments of Extreme Weather Risk using Calibrating Priors;
 #' ASCMO Advances in Statistical Climatology, Meteorology and Oceanography),
 #' [https://ascmo.copernicus.org/articles/11/1/2025/](https://ascmo.copernicus.org/articles/11/1/2025/).
@@ -437,7 +437,7 @@
 #' @seealso
 #'
 #' An introduction to \code{fitdistcp}, with more examples,
-#' is given [on this webpage](http://www.fitdistcp.info/index.html).
+#' is given [on this webpage](https://www.fitdistcp.info/index.html).
 #'
 #' The \code{fitdistcp} package currently includes the following models (in alphabetical order):
 #' \itemize{
@@ -452,6 +452,7 @@
 #' \item Generalized normal (\code{gnorm}),
 #' \item GEV (\code{gev}),
 #' \item GEV with linear predictor on the location (\code{gev_p1}),
+#' \item GEV with 1-3 linear predictors on the location (\code{gev_p1n}),
 #' \item GEV with linear predictor on the location and log-linear prediction on the scale
 #' (\code{gev_p12}),
 #' \item GEV with linear predictor on the location, log-linear prediction on the scale,
@@ -472,7 +473,8 @@
 #' \item Log-normal (\code{lnorm}),
 #' \item Log-normal with linear predictor on the location (\code{lnorm_p1}),
 #' \item Normal (\code{norm}),
-#' \item Normal with linear predictor on the mean (\code{norm_p1}),
+#' \item Normal with predictor on the mean (\code{norm_p1}),
+#' \item Normal with predictors on the mean and sd (\code{norm_p12}),
 #' \item Pareto with known scale (\code{pareto_k2}),
 #' \item Pareto with log-linear predictor on the shape and known scale (\code{pareto_p1k2}),
 #' \item Uniform (\code{unif}),

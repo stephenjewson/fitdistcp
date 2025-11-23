@@ -10,13 +10,9 @@ norm_p12_waic(
   t1,
   t2,
   v1hat,
-  d1,
   v2hat,
-  d2,
   v3hat,
-  d3,
   v4hat,
-  d4,
   lddi,
   lddd,
   lambdad
@@ -33,19 +29,11 @@ norm_p12_waic(
 
 \item{v1hat}{first parameter}
 
-\item{d1}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v2hat}{second parameter}
-
-\item{d2}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{v3hat}{third parameter}
 
-\item{d3}{the delta used in the numerical derivatives with respect to the parameter}
-
 \item{v4hat}{fourth parameter}
-
-\item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 
 \item{lddi}{inverse observed information matrix}
 
