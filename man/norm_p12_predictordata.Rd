@@ -21,6 +21,9 @@ norm_p12_predictordata(predictordata, x, t1, t2, t10, t20, params)
 
 \item{params}{model parameters for calculating logf}
 }
+\value{
+Two vectors
+}
 \description{
 Predicted Parameter and Generalized Residuals
 }

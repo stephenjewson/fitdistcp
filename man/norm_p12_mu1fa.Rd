@@ -4,14 +4,14 @@
 \alias{norm_p12_mu1fa}
 \title{Minus the first derivative of the cdf, at alpha}
 \usage{
-norm_p12_mu1fa(alpha, t1, t2, v1, v2, v3, v4)
+norm_p12_mu1fa(alpha, t01, t02, v1, v2, v3, v4)
 }
 \arguments{
 \item{alpha}{a vector of values of alpha (one minus probability)}
 
-\item{t1}{a vector of predictors for the mean}
+\item{t01}{a single value of the predictor (specify either \code{t01} or \code{n01} but not both)}
 
-\item{t2}{a vector of predictors for the sd}
+\item{t02}{a single value of the predictor (specify either \code{t02} or \code{n02} but not both)}
 
 \item{v1}{first parameter}
 
@@ -20,6 +20,9 @@ norm_p12_mu1fa(alpha, t1, t2, v1, v2, v3, v4)
 \item{v3}{third parameter}
 
 \item{v4}{fourth parameter}
+}
+\value{
+Vector
 }
 \description{
 Minus the first derivative of the cdf, at alpha

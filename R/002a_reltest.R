@@ -185,7 +185,6 @@ reltest=function(model="exp",ntrials=1000,nrepeats=3,nx=20,params=NA,
 #
 # make random training and testing data
 #
-			cat("model=",model,"\n")
 			xx=reltest_simulate(model,nx,tt,tt1,tt2,tt3,params,minxi=minxi,maxxi=maxxi)
 #
 # make predictions

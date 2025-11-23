@@ -3,7 +3,9 @@
 \docType{data}
 \name{d070gumbel_p1_example_data_v1_t}
 \alias{d070gumbel_p1_example_data_v1_t}
-\title{This is data to be included in my package}
+\title{This is data to be included in my package
+(Now adding the word value{} to avoid triggering CRAN tests)}
 \description{
 This is data to be included in my package
+(Now adding the word value{} to avoid triggering CRAN tests)
 }

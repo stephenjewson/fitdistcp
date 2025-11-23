@@ -12,7 +12,7 @@ norm_dmgs_loglik(vv, x)
 \item{x}{a vector of training data values}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 log-likelihood function

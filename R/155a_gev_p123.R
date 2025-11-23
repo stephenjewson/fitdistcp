@@ -42,7 +42,7 @@
 #' Such values seldom occur
 #' in real observed data for maxima.
 #'
-#' @example man/examples/example_152_gev_p123.R
+#' @example man/examples/example_155_gev_p123.R
 #'
 #' @name gev_p123_cp
 NULL

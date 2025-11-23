@@ -1,6 +1,6 @@
 #' Normal Distribution with Predictors on Mean and SD, with Parameter Uncertainty
 #'
-#' @inherit man description author references seealso
+#' @inherit man description author references seealso return
 #' @inheritParams man
 #'
 #' @inheritSection man Optional Return Values
@@ -11,20 +11,19 @@
 #'
 #' @example man/examples/example_080_norm_p12.R
 #'
-#' @name Normal_p12_cp
+#' @name norm_p12_cp
 NULL
-#' @rdname Normal_p12_cp
+#' @rdname norm_p12_cp
 #' @inheritParams man
 #' @export
 #'
 # Centering the input data for x and t1 is often critical
 #
-qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics=c(0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,fdalpha=0.01,
+qnorm_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,p=seq(0.1,0.9,0.1),ics=c(0,0,0,0),
 	means=FALSE,waicscores=FALSE,logscores=FALSE,
 	dmgs=TRUE,rust=FALSE,nrust=100000,
 	extramodels=FALSE,predictordata=TRUE,centering=TRUE,
-	debug=FALSE,aderivs=TRUE){
+	debug=FALSE){
 
 	stopifnot(	is.finite(x),!is.na(x),is.finite(p),!is.na(p),p>0,p<1,
 							is.finite(t1),!is.na(t1),
@@ -34,12 +33,11 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 # 1 intro
 #
 	alpha=1-p
-#	cat("alpha1=",alpha,"\n")
 	nx=length(x)
 	nalpha=length(alpha)
-	t10=maket0(t0=t10,n0=n10,t=t1)
-	t20=maket0(t0=t20,n0=n20,t=t2)
-	if(debug)cat("t10,t20=",t10,t20,"\n")
+	t01=maket0(t0=t01,n0=n01,t=t1)
+	t02=maket0(t0=t02,n0=n02,t=t2)
+	if(debug)message("t01,t02=",t01,t02)
 #
 # 2 centering
 #
@@ -48,13 +46,13 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 		meant2=mean(t2)
 		t1=t1-meant1
 		t2=t2-meant2
-		t10=t10-meant1
-		t20=t20-meant2
+		t01=t01-meant1
+		t02=t02-meant2
 	}
 #
 # 3 ml param estimate
 #
-	if(debug)cat("  maxlik\n")
+	if(debug)message("  maxlik")
 	ics=norm_p12_setics(x,t1,t2,ics)
 	opt1=optim(ics,norm_p12_loglik,x=x,t1=t1,t2=t2,control=list(fnscale=-1))
 	v1hat=opt1$par[1]
@@ -63,29 +61,29 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 	v4hat=opt1$par[4]
 	ml_params=c(v1hat,v2hat,v3hat,v4hat)
 	muhat=ml_params[1]+ml_params[2]*t1
-	muhat0=makemuhat0(t10,n10,t1,ml_params)
+	muhat0=makemuhat0(t01,n01,t1,ml_params)
 	sghat=exp(ml_params[3]+ml_params[4]*t2)
 	residuals=x-muhat
 	norm_p12_checkmle(ml_params)
-	if(debug)cat("  ml_params=",ml_params,"\n")
+	if(debug)message("  ml_params=",ml_params)
 #
 # 4 predictordata
 #
-	prd=norm_p12_predictordata(predictordata,x,t1,t2,t10,t20,ml_params)
+	prd=norm_p12_predictordata(predictordata,x,t1,t2,t01,t02,ml_params)
 	predictedparameter=prd$predictedparameter
 	adjustedx=prd$adjustedx
 #
 # 5 aic
 #
-	if(debug)cat("3\n")
+	if(debug)message("3")
 	ml_value=opt1$val
 	maic=make_maic(ml_value,nparams=4)
 #
 # 6 calc ml quantiles and density
 #
-	if(debug)cat("4\n")
-	ml_quantiles=qnorm_p12((1-alpha),t10,t20,ymn=v1hat,slope=v2hat,sigma1=v3hat,sigma2=v4hat)
-	fhat=dnorm_p12(ml_quantiles,t10,t20,ymn=v1hat,slope=v2hat,sigma1=v3hat,sigma2=v4hat,log=FALSE)
+	if(debug)message("4")
+	ml_quantiles=qnorm_p12((1-alpha),t01,t02,ymn=v1hat,slope=v2hat,sigma1=v3hat,sigma2=v4hat)
+	fhat=dnorm_p12(ml_quantiles,t01,t02,ymn=v1hat,slope=v2hat,sigma1=v3hat,sigma2=v4hat,log=FALSE)
 #
 # 7 ldd (two versions)
 #
@@ -108,28 +106,24 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 #
 # 8 calculate ldd
 #
-		if(aderivs) ldd=norm_p12_ldda(x,t1,t2,v1hat,v2hat,v3hat,v4hat)
-		if(!aderivs)ldd=norm_p12_ldd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4)
+		ldd=norm_p12_ldda(x,t1,t2,v1hat,v2hat,v3hat,v4hat)
 		lddi=solve(ldd)
 		standard_errors=make_se(nx,lddi)
 #
 # 9 calculate lddd
 #
-		if(debug)cat("  lddd\n")
-		if(aderivs) lddd=norm_p12_lddda(x,t1,t2,v1hat,v2hat,v3hat,v4hat)
-		if(!aderivs)lddd=norm_p12_lddd(x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4)
+		if(debug)message("  lddd")
+		lddd=norm_p12_lddda(x,t1,t2,v1hat,v2hat,v3hat,v4hat)
 #
 # 10 mu1
 #
-		if(debug)cat("calculate mu1\n")
-		if(aderivs) mu1=norm_p12_mu1fa(alpha,t10,t20,v1hat,v2hat,v3hat,v4hat)
-		if(!aderivs)mu1=norm_p12_mu1f(alpha,t10,t20,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4)
+		if(debug)message("calculate mu1")
+		mu1=norm_p12_mu1fa(alpha,t01,t02,v1hat,v2hat,v3hat,v4hat)
 #
 # 11 mu2
 #
-		if(debug)cat("calculate mu2\n")
-		if(aderivs) mu2=norm_p12_mu2fa(alpha,t10,t20,v1hat,v2hat,v3hat,v4hat)
-		if(!aderivs)mu2=norm_p12_mu2f(alpha,t10,t20,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4)
+		if(debug)message("calculate mu2")
+		mu2=norm_p12_mu2fa(alpha,t01,t02,v1hat,v2hat,v3hat,v4hat)
 #
 # 12 model 4: pu
 #
@@ -155,13 +149,13 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 #
 # 15 waicscores
 #
-		waic=norm_p12_waic(waicscores,x,t1,t2,v1hat,d1,v2hat,d2,v3hat,d3,v4hat,d4,lddi,lddd,lambdad_rhp)
+		waic=norm_p12_waic(waicscores,x,t1,t2,v1hat,v2hat,v3hat,v4hat,lddi,lddd,lambdad_rhp)
 		waic1=waic$waic1
 		waic2=waic$waic2
 #
 # 16 logscores
 #
-		logscores=norm_p12_logscores(logscores,x,t1,t2,ics,d1,d2,d3,d4)
+		logscores=norm_p12_logscores(logscores,x,t1,t2,ics)
 		ml_oos_logscore				=logscores$ml_oos_logscore
 		cp_oos_logscore		=logscores$cp_oos_logscore
 #
@@ -169,7 +163,7 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 #
 		ru_quantiles="rust not selected"
 		if(rust){
-			rustsim=rnorm_p12_cp(nrust,x,t1=t1,t2=t2,t10=t10,t20=t20,n10=NA,n20=NA,rust=TRUE,mlcp=FALSE)
+			rustsim=rnorm_p12_cp(nrust,x,t1=t1,t2=t2,t01=t01,t02=t02,n01=NA,n02=NA,rust=TRUE,mlcp=FALSE)
 			ru_quantiles=makeq(rustsim$ru_deviates,p)
 		}
 	} #end of if(dmgs)
@@ -208,12 +202,12 @@ qnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,p=seq(0.1,0.9,0.1),ics
 				cp_method=rhp_dmgs_cpmethod())
 
 }
-#' @rdname Normal_p12_cp
+#' @rdname norm_p12_cp
 #' @inheritParams man
 #' @export
-rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,rust=FALSE,mlcp=TRUE,
-	debug=FALSE,aderivs=TRUE){
+rnorm_p12_cp=function(n,x,t1,t2,n01=NA,n02=NA,t01=NA,t02=NA,ics=c(0,0,0,0),
+	rust=FALSE,mlcp=TRUE,
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #						is.finite(t1),!is.na(t1),
@@ -225,10 +219,10 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 						is.finite(t2),!is.na(t2),
 						length(ics)==4)
 
-	if(debug)cat("t10,n10=",t10,n10,"\n")
-	if(debug)cat("t20,n20=",t20,n20,"\n")
-	t10=maket0(t0=t10,n0=n10,t=t1)
-	t20=maket0(t0=t20,n0=n20,t=t2)
+	if(debug)message("t01,n01=",t01,n01)
+	if(debug)message("t02,n02=",t02,n02)
+	t01=maket0(t0=t01,n0=n01,t=t1)
+	t02=maket0(t0=t02,n0=n02,t=t2)
 
 #
 # 2 centering
@@ -237,8 +231,8 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 	meant2=mean(t2)
 	t1=t1-meant1
 	t2=t2-meant2
-	t10=t10-meant1
-	t20=t20-meant2
+	t01=t01-meant1
+	t02=t02-meant2
 
 	ml_params="mlcp not selected"
 	ml_deviates="mlcp not selected"
@@ -246,8 +240,8 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 	ru_deviates="rust not selected"
 
 	if(mlcp){
-		q=qnorm_p12_cp(x,t1=t1,t2=t2,t10=t10,t20=t20,n10=NA,n20=NA,
-			p=runif(n),ics=ics,d1=d1,d2=d2,d3=d3,d4=d4,aderivs=aderivs)
+		q=qnorm_p12_cp(x,t1=t1,t2=t2,t01=t01,t02=t02,n01=NA,n02=NA,
+			p=runif(n),ics=ics)
 		ml_params=q$ml_params
 		ml_deviates=q$ml_quantiles
 		cp_deviates=q$cp_quantiles
@@ -258,8 +252,8 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 		th=tnorm_p12_cp("rust",n,x,t1,t2)$theta_samples
 		ru_deviates=numeric(0)
 		for (i in 1:n){
-			mu=th[i,1]+t10*th[i,2]
-			sd=exp(th[i,3]+t20*th[i,4])
+			mu=th[i,1]+t01*th[i,2]
+			sd=exp(th[i,3]+t02*th[i,4])
 			ru_deviates[i]=rnorm(1,mean=mu,sd=sd)
 		}
 	}
@@ -281,24 +275,24 @@ rnorm_p12_cp=function(n,x,t1,t2,n10=NA,n20=NA,t10=NA,t20=NA,ics=c(0,0,0,0),
 	return(op)
 
 }
-#' @rdname Normal_p12_cp
+#' @rdname norm_p12_cp
 #' @inheritParams man
 #' @export
-dnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
-	y=x,ics=c(0,0,0,0),d1=0.01,d2=0.01,d3=0.01,d4=0.01,
+dnorm_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,
+	y=x,ics=c(0,0,0,0),
 	rust=FALSE,nrust=1000,
 	boot=FALSE,nboot=10,
-	centering=TRUE,rnonnegslopesonly=FALSE,debug=FALSE,aderivs=TRUE){
+	centering=TRUE,rnonnegslopesonly=FALSE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 						is.finite(t1),is.finite(t2),
 						!is.na(t1),!is.na(t2),
 						length(ics)==4)
 
-	if(debug)cat("inside dnorm_p12_cp\n")
+	if(debug)message("inside dnorm_p12_cp")
 
-	t10=maket0(t0=t10,n0=n10,t=t1)
-	t20=maket0(t0=t20,n0=n20,t=t2)
+	t01=maket0(t0=t01,n0=n01,t=t1)
+	t02=maket0(t0=t02,n0=n02,t=t2)
 
 #
 # centering
@@ -308,12 +302,11 @@ dnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 		meant2=mean(t2)
 		t1=t1-meant1
 		t2=t2-meant2
-		t10=t10-meant1
-		t20=t20-meant2
+		t01=t01-meant1
+		t02=t02-meant2
 	}
 
-	dd=dnorm_p12dmgs(x=x,t1=t1,t2=t2,y=y,t10=t10,t20=t20,ics=ics,d1,d2,d3,d4,
-		aderivs=aderivs)
+	dd=dnorm_p12dmgs(x=x,t1=t1,t2=t2,y=y,t01=t01,t02=t02,ics=ics)
 	ru_pdf="rust not selected"
 	bs_pdf="boot not selected"
 	ml_params=dd$ml_params
@@ -323,8 +316,8 @@ dnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 		th=tnorm_p12_cp("rust",nrust,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
-			mu=th[ir,1]+t10*th[ir,2]
-			sg=exp(th[ir,3]+t20*th[ir,4])
+			mu=th[ir,1]+t01*th[ir,2]
+			sg=exp(th[ir,3]+t02*th[ir,4])
 			ru_pdf=ru_pdf+dnorm(y,mean=mu,sd=sg)
 		}
 		ru_pdf=ru_pdf/nrust
@@ -334,8 +327,8 @@ dnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 		th=tnorm_p12_cp("boot",nboot,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
 		bs_pdf=numeric(length(y))
 		for (ir in 1:nboot){
-			mu=th[ir,1]+t10*th[ir,2]
-			sg=exp(th[ir,3]+t20*th[ir,4])
+			mu=th[ir,1]+t01*th[ir,2]
+			sg=exp(th[ir,3]+t02*th[ir,4])
 			bs_pdf=bs_pdf+dnorm(y,mean=mu,sd=sg)
 		}
 		bs_pdf=bs_pdf/nboot
@@ -361,22 +354,22 @@ dnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 	return(op)
 
 }
-#' @rdname Normal_p12_cp
+#' @rdname norm_p12_cp
 #' @inheritParams man
 #' @export
-pnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
-	y=x,ics=c(0,0,0,0),d1=0.01,d2=0.01,d3=0.01,d4=0.01,
+pnorm_p12_cp=function(x,t1,t2,t01=NA,t02=NA,n01=NA,n02=NA,
+	y=x,ics=c(0,0,0,0),
 	rust=FALSE,nrust=1000,
 	boot=FALSE,nboot=10,
-	centering=TRUE,rnonnegslopesonly=FALSE,debug=FALSE,aderivs=TRUE){
+	centering=TRUE,rnonnegslopesonly=FALSE,debug=FALSE){
 
 	stopifnot(is.finite(x),!is.na(x),is.finite(y),!is.na(y),
 						is.finite(t1),is.finite(t2),
 						!is.na(t1),!is.na(t2),
 						length(ics)==4)
 
-	t10=maket0(t0=t10,n0=n10,t=t1)
-	t20=maket0(t0=t20,n0=n20,t=t2)
+	t01=maket0(t0=t01,n0=n01,t=t1)
+	t02=maket0(t0=t02,n0=n02,t=t2)
 
 #
 # centering
@@ -386,12 +379,11 @@ pnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 		meant2=mean(t2)
 		t1=t1-meant1
 		t2=t2-meant2
-		t10=t10-meant1
-		t20=t20-meant2
+		t01=t01-meant1
+		t02=t02-meant2
 	}
 
-	dd=dnorm_p12dmgs(x=x,t1=t1,t2=t2,y=y,t10=t10,t20=t20,ics=ics,d1,d2,d3,d4,
-		aderivs=aderivs)
+	dd=dnorm_p12dmgs(x=x,t1=t1,t2=t2,y=y,t01=t01,t02=t02,ics=ics)
 	ru_cdf="rust not selected"
 	bs_cdf="boot not selected"
 	ml_params=dd$ml_params
@@ -400,8 +392,8 @@ pnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 		th=tnorm_p12_cp("rust",nrust,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
-			mu=th[ir,1]+t10*th[ir,2]
-			sg=exp(th[ir,3]+t20*th[ir,4])
+			mu=th[ir,1]+t01*th[ir,2]
+			sg=exp(th[ir,3]+t02*th[ir,4])
 			ru_cdf=ru_cdf+pnorm(y,mean=mu,sd=sg)
 		}
 		ru_cdf=ru_cdf/nrust
@@ -411,8 +403,8 @@ pnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 		th=tnorm_p12_cp("boot",nboot,x,t1,t2,nonnegslopesonly=rnonnegslopesonly)$theta_samples
 		bs_cdf=numeric(length(y))
 		for (ir in 1:nboot){
-			mu=th[ir,1]+t10*th[ir,2]
-			sg=exp(th[ir,3]+t20*th[ir,4])
+			mu=th[ir,1]+t01*th[ir,2]
+			sg=exp(th[ir,3]+t02*th[ir,4])
 			bs_cdf=bs_cdf+pnorm(y,mean=mu,sd=sg)
 		}
 		bs_cdf=bs_cdf/nboot
@@ -434,11 +426,11 @@ pnorm_p12_cp=function(x,t1,t2,t10=NA,t20=NA,n10=NA,n20=NA,
 					cp_method=rhp_dmgs_cpmethod())
 	return(op)
 }
-#' @rdname Normal_p12_cp
+#' @rdname norm_p12_cp
 #' @inheritParams man
 #' @export
 tnorm_p12_cp=function(method,n,x,t1,t2,nonnegslopesonly=FALSE,ics=c(0,0,0,0),
-	d1=0.01,d2=0.01,d3=0.01,d4=0.01,debug=FALSE){
+	debug=FALSE){
 
 #	stopifnot(is.finite(n),!is.na(n),is.finite(x),!is.na(x),
 #						is.finite(t1),!is.na(t1),
@@ -463,7 +455,7 @@ tnorm_p12_cp=function(method,n,x,t1,t2,nonnegslopesonly=FALSE,ics=c(0,0,0,0),
 	} else if (method=="boot"){
 		th=norm_p12_boot(x=x,t1=t1,t2=t2,n=n)
 	} else{
-		message("tnorm_p12 method not valid so stopping.\n")
+		message("tnorm_p12 method not valid so stopping.")
 		stop()
 	}
 	theta_samples=th$sim_vals

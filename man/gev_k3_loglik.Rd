@@ -14,7 +14,7 @@ gev_k3_loglik(vv, x, kshape)
 \item{kshape}{the known shape parameter}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 log-likelihood function

@@ -14,7 +14,7 @@ gnorm_k3_loglik(vv, x, kbeta)
 \item{kbeta}{the known beta parameter}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 log-likelihood function

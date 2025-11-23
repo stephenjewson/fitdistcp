@@ -29,6 +29,9 @@ norm_p12_f1f(y, t10, t20, v1, d1, v2, d2, v3, d3, v4, d4)
 
 \item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Vector
+}
 \description{
 DMGS equation 2.1, f1 term
 }

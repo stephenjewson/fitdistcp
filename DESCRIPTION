@@ -1,7 +1,7 @@
 Package: fitdistcp
 Type: Package
 Title: Distribution Fitting with Calibrating Priors for Commonly Used Distributions
-Version: 0.1.1
+Version: 0.2.1
 Authors@R: 
   person(given = "Stephen",
            family = "Jewson",

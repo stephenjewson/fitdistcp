@@ -24,7 +24,7 @@ manlogf=function()
 
 #' Return message for loglik
 #'
-#' @return Scalar value.
+#' @return Scalar
 manloglik=function()
 {}
 
@@ -81,3 +81,16 @@ manlogscores=function()
 #' @return A vector of parameter estimates, two pdf vectors, two cdf vectors
 mandsub=function()
 {}
+
+#' Return message for boot
+#'
+#' @return A list containing a matrix of simulated parameter values
+manboot=function()
+{}
+
+#' Return message for checkmle
+#'
+#' @return No return value (just a message to the screen).
+mancheckmle=function()
+{}
+

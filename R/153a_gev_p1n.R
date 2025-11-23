@@ -38,7 +38,7 @@
 #' Such values seldom occur
 #' in real observed data for maxima.
 #'
-#' @example man/examples/example_150_gev_p1.R
+#' @example man/examples/example_153_gev_p1n.R
 #'
 #' @name gev_p1n_cp
 NULL
@@ -327,8 +327,10 @@ rgev_p1n_cp=function(n,x,t,t0=NA,n0=NA,
 		th=tgev_p1n_cp(n,x,t)$theta_samples
 		ru_deviates=numeric(0)
 		for (i in 1:n){
-			mu=th[i,1]+makebetat0(nt,th[i,],t0)
-			ru_deviates[i]=rgev(1,mu=mu,sigma=th[i,(nt+2)],xi=th[i,(nt+3)])
+			mu		=th[i,1]+makebetat0(nt,th[i,],t0)
+			sigma	=th[i,(nt+2)]
+			xi		=th[i,(nt+3)]
+			ru_deviates[i]=rgev(1,mu=mu,sigma=sigma,xi=xi)
 		}
 	}
 
@@ -389,10 +391,10 @@ dgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 		th=tgev_p1n_cp(nrust,x,t)$theta_samples
 		ru_pdf=numeric(length(y))
 		for (ir in 1:nrust){
-			mu=th[ir,1]+makebetat0(nt,th[ir,],t0)
-			sigma=th[ir,(nt+2)]
-			xi=th[ir,(nt+3)]
-			dpdf=extraDistr::dgev(y,mu=mu,sigma=sigma,xi=sigma)
+			mu		=th[ir,1]+makebetat0(nt,th[ir,],t0)
+			sigma	=th[ir,(nt+2)]
+			xi		=th[ir,(nt+3)]
+			dpdf=extraDistr::dgev(y,mu=mu,sigma=sigma,xi=xi)
 			ru_pdf=ru_pdf+dpdf
 #			if(is.na(mean(ru_pdf)))stop()
 		}
@@ -457,13 +459,14 @@ pgev_p1n_cp=function(x,t,t0=NA,n0=NA,y=x,
 		th=tgev_p1n_cp(nrust,x,t)$theta_samples
 		ru_cdf=numeric(length(y))
 		for (ir in 1:nrust){
-			mu=th[ir,1]+makebetat0(nt,th[ir,],t0)
-			sigma=th[ir,(nt+2)]
-			ru_cdf=ru_cdf+pgev(y,mu=mu,sigma=sigma,xi=th[ir,(nt+3)])
+			mu		=th[ir,1]+makebetat0(nt,th[ir,],t0)
+			sigma	=th[ir,(nt+2)]
+			xi		=th[ir,(nt+3)]
+			ru_cdf=ru_cdf+pgev(y,mu=mu,sigma=sigma,xi=xi)
 		}
 		ru_cdf=ru_cdf/nrust
 	} else {
-		ru_pdf=dd$ml_pdf
+		ru_cdf=dd$ml_cdf
 	}
 #
 # decentering

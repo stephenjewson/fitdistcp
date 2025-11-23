@@ -21,6 +21,9 @@ qnorm_p12(p, t10, t20, ymn, slope, sigma1, sigma2)
 
 \item{sigma2}{second coefficient for the sigma parameter of the distribution}
 }
+\value{
+Vector
+}
 \description{
 Normal-with-p12: Quantile function
 }

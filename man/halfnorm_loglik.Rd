@@ -12,7 +12,7 @@ halfnorm_loglik(vv, x)
 \item{x}{a vector of training data values}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 Log-likelihood function

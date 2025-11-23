@@ -58,7 +58,7 @@ gpd_k1_loglik=function(vv,x,kloc){
 	return(loglik)
 }
 #' Check MLE
-#' @return No return value (just a message to the screen).
+#' @inherit mancheckmle return
 #' @inheritParams manf
 gpd_k1_checkmle=function(ml_params,kloc,minxi=-1,maxxi=2){
 # currently not used, because instead I revert2ml

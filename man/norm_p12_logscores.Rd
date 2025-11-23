@@ -35,6 +35,9 @@ norm_p12_logscores(
 
 \item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Two scalars
+}
 \description{
 Log scores for 5 predictions calculated using leave-one-out
 }

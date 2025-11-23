@@ -161,7 +161,7 @@ gev_p123_loglik=function(vv,x,t1,t2,t3){
 	return(loglik)
 }
 #' Check MLE
-#' @return No return value (just a message to the screen).
+#' @inherit mancheckmle return
 #' @inheritParams manf
 gev_p123_checkmle=function(ml_params,minxi=-1,maxxi=1,t1,t2,t3){
 # currently not used, because instead I revert2ml

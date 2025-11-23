@@ -14,7 +14,7 @@ ifvectorthenmatrix=function(t){
 #' @return Vector
 findnt=function(t){
 
-		if(is.vector(t))nt=1
+		if(is.vector(t))nt=length(t)
 
 		if(is.matrix(t)){
 			nt=dim(t)[2]

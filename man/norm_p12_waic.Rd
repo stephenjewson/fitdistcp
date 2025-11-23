@@ -53,6 +53,9 @@ norm_p12_waic(
 
 \item{lambdad}{derivative of the log prior}
 }
+\value{
+Two numeric values.
+}
 \description{
 Waic
 }

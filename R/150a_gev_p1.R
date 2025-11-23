@@ -444,14 +444,6 @@ tgev_p1_cp=function(n,x,t,ics=c(0,0,0,0),
   t=t-meant
 
 	ics=gev_p1_setics(x,t,ics)
-#	cat("x=",x,"\n")
-#	cat("t=",t,"\n")
-#	cat("n=",n,"\n")
-#	cat("ics=",ics,"\n")
-#	cat("dim(x)=",dim(x),"\n")
-#	cat("dim(t)=",dim(t),"\n")
-#	cat("dim(ics)=",dim(ics),"\n")
-#	th=ru(gev_p1n_logf,x=x,t=t,n=n,d=4,init=ics)
 	th=ru(gev_p1_logf,x=x,t=t,n=n,d=4,init=c(0,0,1,0))
   theta_samples=th$sim_vals
 #

@@ -23,6 +23,9 @@ dnorm_p12(x, t10, t20, ymn, slope, sigma1, sigma2, log = FALSE)
 
 \item{log}{logical for the density evaluation}
 }
+\value{
+Vector
+}
 \description{
 Normal-with-p12: Density function
 }

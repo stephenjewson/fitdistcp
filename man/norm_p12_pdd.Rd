@@ -23,6 +23,9 @@ norm_p12_pdd(x, t1, t2, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative of the cdf
 Created by Stephen Jewson

@@ -15,6 +15,9 @@ norm_p12_setics(x, t1, t2, ics)
 
 \item{ics}{initial conditions for the maximum likelihood search}
 }
+\value{
+Vector
+}
 \description{
 Set initial conditions
 }

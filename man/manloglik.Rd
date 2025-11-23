@@ -7,7 +7,7 @@
 manloglik()
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 Return message for loglik

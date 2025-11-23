@@ -29,6 +29,9 @@ norm_p12_ldd(x, t1, t2, v1, d1, v2, d2, v3, d3, v4, d4)
 
 \item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+Matrix
+}
 \description{
 Second derivative matrix of the normalized log-likelihood
 }

@@ -44,6 +44,9 @@ dnorm_p12dmgs(
 
 \item{aderivs}{logical for whether to use analytic derivatives (instead of numerical)}
 }
+\value{
+A vector of parameter estimates, two pdf vectors, two cdf vectors
+}
 \description{
 Densities for 5 predictions
 }

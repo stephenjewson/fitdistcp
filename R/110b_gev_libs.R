@@ -73,7 +73,7 @@ gev_loglik=function(vv,x){
 	return(loglik)
 }
 #' Check MLE
-#' @return No return value (just a message to the screen).
+#' @inherit mancheckmle return
 #' @inheritParams manf
 gev_checkmle=function(ml_params,minxi=-1,maxxi=1){
 # currently not used, because instead I revert2ml
@@ -87,6 +87,7 @@ gev_checkmle=function(ml_params,minxi=-1,maxxi=1){
 	if(v3hat>maxxi){warning("\n***v3hat=",v3hat,"=> execution halted because maxlik shape parameter >",maxxi,"***\n");stop()}
 }
 #' Bootstrap
+#' @inherit manboot return
 #' @inheritParams manf
 gev_boot=function(x,n){
 

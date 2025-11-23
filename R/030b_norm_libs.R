@@ -50,6 +50,7 @@ norm_unbiasedv_params=function(x){
 	return(params)
 }
 #' Bootstrap
+#' @inherit manboot return
 #' @inheritParams manf
 norm_boot=function(x,n){
 

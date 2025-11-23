@@ -18,7 +18,7 @@ gev_p123_loglik(vv, x, t1, t2, t3)
 \item{t3}{a vector of predictors for the shape}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 observed log-likelihood function

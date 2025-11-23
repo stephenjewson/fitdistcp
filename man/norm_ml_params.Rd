@@ -10,7 +10,7 @@ norm_ml_params(x)
 \item{x}{a vector of training data values}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 Maximum likelihood estimator

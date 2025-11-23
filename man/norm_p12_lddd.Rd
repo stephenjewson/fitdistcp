@@ -29,6 +29,9 @@ norm_p12_lddd(x, t1, t2, v1, d1, v2, d2, v3, d3, v4, d4)
 
 \item{d4}{the delta used in the numerical derivatives with respect to the parameter}
 }
+\value{
+3d Array
+}
 \description{
 Third derivative tensor of the normalized log-likelihood, with fixed shape parameter
 }

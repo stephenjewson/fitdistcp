@@ -16,7 +16,7 @@ gev_p1k3_loglik(vv, x, t, kshape)
 \item{kshape}{the known shape parameter}
 }
 \value{
-Scalar value.
+Scalar
 }
 \description{
 GEV-with-known-shape-with-p1  observed log-likelihood function

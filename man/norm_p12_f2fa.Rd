@@ -2,16 +2,16 @@
 % Please edit documentation in R/080c_norm_p12_derivs.R
 \name{norm_p12_f2fa}
 \alias{norm_p12_f2fa}
-\title{The second derivative of the density}
+\title{The second derivative of the density for DMGS}
 \usage{
-norm_p12_f2fa(x, t1, t2, v1, v2, v3, v4)
+norm_p12_f2fa(x, t01, t02, v1, v2, v3, v4)
 }
 \arguments{
 \item{x}{a vector of training data values}
 
-\item{t1}{a vector of predictors for the mean}
+\item{t01}{a single value of the predictor (specify either \code{t01} or \code{n01} but not both)}
 
-\item{t2}{a vector of predictors for the sd}
+\item{t02}{a single value of the predictor (specify either \code{t02} or \code{n02} but not both)}
 
 \item{v1}{first parameter}
 
@@ -21,6 +21,9 @@ norm_p12_f2fa(x, t1, t2, v1, v2, v3, v4)
 
 \item{v4}{fourth parameter}
 }
+\value{
+Matrix
+}
 \description{
-The second derivative of the density
+The second derivative of the density for DMGS
 }

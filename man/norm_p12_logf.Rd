@@ -17,6 +17,9 @@ norm_p12_logf(params, x, t1, t2, nonnegslopesonly = FALSE)
 
 \item{nonnegslopesonly}{logical that indicates whether to disallow non-negative slopes}
 }
+\value{
+Scalar value.
+}
 \description{
 Logf for RUST
 }

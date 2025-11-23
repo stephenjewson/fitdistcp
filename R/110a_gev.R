@@ -73,7 +73,7 @@ qgev_cp=function(x,p=seq(0.1,0.9,0.1),ics=c(0,0,0),
 	v3hat=opt1$par[3]
 	ml_params=c(v1hat,v2hat,v3hat)
 #	gev_checkmle(ml_params,minxi,maxxi)
-	if(debug)message("	v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat,"")
+	if(debug)message("	v1hat,v2hat,v3hat=",v1hat,v2hat,v3hat)
 	pw_params="pwm not selected"
 	if(pwm)pw_params=gev_pwm_params(x)
 	if(abs(v3hat)>=1){revert2ml=TRUE}else{revert2ml=FALSE}

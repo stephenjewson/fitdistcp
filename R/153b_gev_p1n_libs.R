@@ -1,3 +1,41 @@
+#' GEV_p1n n=1 example data
+#' @returns A list containing data to run an example
+#' @params  iseed The random seed
+gev_p1n_n1_exampledata=function(iseed){
+	set.seed(iseed)
+	nx		=100
+	t			=c(1:nx)/nx
+#	t=t-mean(t)
+	n0		=nx
+	t0		=t[nx]
+	params=c(0,1,1,0.1)
+	x			=rgev_p1n_minmax(nx,mu=params[1]+params[2]*t,sigma=params[3],xi=params[4],t,minxi=-0.45,maxxi=0.45)
+	y			=params[1]+params[2]*t #shouldn't be sorted because the x are ordered
+#	x=x-mean(x)
+	return(list(nx=nx,x=x,t=t,n0=n0,t0=t0,params=params,y=y))
+}
+#' GEV_p1n n=2 example data
+#' @returns A list containing data to run an example
+#' @params  iseed The random seed
+gev_p1n_n2_exampledata=function(iseed){
+	set.seed(iseed)
+	nx=100
+	t=matrix(0,nx,2)
+	t[,1]=c(1:nx)/nx
+	t[,2]=sample(t[,1])
+#	t[,1]=t[,1]-mean(t[,1])
+#	t[,2]=t[,2]-mean(t[,2])
+	n0=c(nx,nx)
+	t0=t[nx,]
+#	params=c(0,1,1,0.01,0.1)
+	params=c(0,1,0,1,0.1)
+	x=rgev_p1n_minmax(nx,
+		mu=params[1]+params[2]*t[,1]+params[3]*t[,2],
+		sigma=params[4],xi=params[5],t,minxi=-0.45,maxxi=0.45)
+#	x=x-mean(x)
+	y=params[1]+params[2]*t[,1]+params[3]*t[,2] #shouldn't be sorted because the x are ordered
+	return(list(nx=nx,x=x,t=t,n0=n0,t0=t0,params=params,y=y))
+}
 #' rgev for gev_p1n but with maxlik xi within bounds
 #' @return Vector
 #' @inheritParams manf
@@ -88,12 +126,11 @@ gev_p1n_logf=function(params,x,t){
 #	}else{
 #		logf=-Inf
 #	}
-	a=params[1]
 #	sc=pmax(params[nt+2],sqrt(.Machine$double.eps))
-	sc=max(params[nt+2],sqrt(.Machine$double.eps))
-	sh=params[nt+3]
-	mu=a+makebetatm(nt,params,t)
-	logf=sum(extraDistr::dgev(x,mu=mu,sigma=sc,xi=sh,log=TRUE))-log(sc)
+	mu=params[1]+makebetatm(nt,params,t)
+	sigma=max(params[nt+2],sqrt(.Machine$double.eps))
+	xi=params[nt+3]
+	logf=sum(extraDistr::dgev(x,mu=mu,sigma=sigma,xi=xi,log=TRUE))-log(sigma)
 	return(logf)
 }
 #' Set initial conditions
@@ -106,10 +143,9 @@ gev_p1n_setics=function(x,t){
 		lm=lm(x~t)
 		ics=numeric(nt+3)
 		ics[1:(nt+1)]=lm$coefficients[1:(nt+1)]
-#		xhat=ics[1]+ics[2]*t[,1]+ics[3]*t[,2]
 		xhat=ics[1]+makebetatm(nt,ics,t)
 		ics[2+nt]=sqrt((sum((x-xhat)^2))/nx)
-		ics[3+nt]=0
+		ics[3+nt]=0 #set xi to 0
 #	}
 	return(ics)
 }
@@ -125,7 +161,7 @@ gev_p1n_loglik=function(vv,x,t){
 	return(loglik)
 }
 #' Check MLE
-#' @return No return value (just a message to the screen).
+#' @inherit mancheckmle return
 #' @inheritParams manf
 gev_p1n_checkmle=function(ml_params,minxi=-1,maxxi=1){
 # currently not used, because instead I revert2ml
@@ -148,7 +184,9 @@ qgev_p1n=function(p,t0,params){
 
 	nt=findnt(t0)
 	mu=params[1]+makebetat0(nt,params,t0)
-	return(extraDistr::qgev(p,mu=mu,sigma=params[nt+2],xi=params[nt+3]))
+	sigma=params[nt+2]
+	xi=params[nt+3]
+	return(extraDistr::qgev(p,mu=mu,sigma=sigma,xi=xi))
 
 }
 #' GEVD-with-p1: Density function

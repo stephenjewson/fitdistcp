@@ -9,6 +9,9 @@ norm_p12_checkmle(ml_params)
 \arguments{
 \item{ml_params}{parameters}
 }
+\value{
+No return value (just a message to the screen).
+}
 \description{
 Check MLE
 }

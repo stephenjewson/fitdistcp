@@ -15,6 +15,9 @@ norm_p12_loglik(vv, x, t1, t2)
 
 \item{t2}{a vector of predictors for the sd}
 }
+\value{
+Scalar
+}
 \description{
 observed log-likelihood function
 }

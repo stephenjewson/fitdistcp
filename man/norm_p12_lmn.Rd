@@ -33,6 +33,9 @@ norm_p12_lmn(x, t1, t2, v1, d1, v2, d2, v3, d3, v4, d4, mm, nn)
 
 \item{nn}{an index for which derivative to calculate}
 }
+\value{
+Scalar
+}
 \description{
 One component of the second derivative of the normalized log-likelihood
 }
